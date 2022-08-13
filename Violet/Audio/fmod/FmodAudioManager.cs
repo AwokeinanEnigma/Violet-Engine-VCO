@@ -89,7 +89,7 @@ namespace Violet.Audio.fmod
             int num = (int)this.system.update();
         }
 
-        public override VioletSound Use(string filename, AudioType type, [CallerLineNumber] int i = 0, [CallerMemberName] string member = "")
+        public override VioletSound Use(string filename, AudioType type)
         {
             int hashCode = filename.GetHashCode();
             FmodSound fmodSound;

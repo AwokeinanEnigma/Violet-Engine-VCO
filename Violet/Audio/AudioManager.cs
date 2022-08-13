@@ -153,7 +153,7 @@ namespace Violet.Audio
 
         public abstract void SetSpeakerMode(AudioMode mode);
 
-        public abstract VioletSound Use(string filename, AudioType type, [CallerLineNumber] int i = 0, [CallerMemberName] string member = "");
+        public abstract VioletSound Use(string filename, AudioType type);
 
         public abstract void Unuse(VioletSound sound);
 

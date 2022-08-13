@@ -18,7 +18,7 @@ namespace Violet.Audio.Stub
         {
         }
 
-        public override VioletSound Use(string filename, AudioType type, [CallerLineNumber] int i = 0, [CallerMemberName] string member = "")
+        public override VioletSound Use(string filename, AudioType type)
         {
             return new StubSound(type, 0U, 0U, 0, 0f, 0f);
         }

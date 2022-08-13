@@ -200,7 +200,7 @@ namespace SunsetRhapsody.GUI
 			this.cursor = new IndexedColorGraphic(cursorGraphic, "right", this.texts[0].Position, depth);
 			this.upArrow = new IndexedColorGraphic(cursorGraphic, "up", position + new Vector2f(width, 0f), depth);
 			this.downArrow = new IndexedColorGraphic(cursorGraphic, "down", position + new Vector2f(width, lineHeight * (float)displayCount + 1f), depth);
-			RectangleShape rectangleShape = new RectangleShape(new Vector2f(this.width, (float)Fonts.Main.WHeight * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f) - ScrollingList.SELECT_RECT_SIZE_OFFSET);
+			RectangleShape rectangleShape = new RectangleShape(new Vector2f(this.width, 11* 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f) - ScrollingList.SELECT_RECT_SIZE_OFFSET);
 			rectangleShape.FillColor = UIColors.HighlightColor;
 			this.selectRectangle = new ShapeGraphic(rectangleShape, this.texts[0].Position + ScrollingList.SELECT_RECT_OFFSET, VectorMath.ZERO_VECTOR, rectangleShape.Size, this.depth - 1);
 			this.selectRectangle.Visible = this.showSelectRect;
@@ -318,7 +318,7 @@ namespace SunsetRhapsody.GUI
 		private void UpdateCursor()
 		{
 			this.cursor.Visible = (this.focused && this.showCursor);
-			this.cursor.Position = new Vector2f(this.position.X - 1f, this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + (float)Fonts.Main.WHeight - this.cursor.Size.Y / 2f);
+			this.cursor.Position = new Vector2f(this.position.X - 1f, this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + 11 - this.cursor.Size.Y / 2f);
             Console.WriteLine($"LineWeight is '{lineHeight}' & selectedindexfloat is '{this.selectedIndex - this.topIndex}' & WHeight is {(float)Fonts.Main.WHeight}");
 			Console.WriteLine($"Visible is '{cursor.Visible}' & position is '{cursor.Position}' & depth is {cursor.Depth}");
 			for (int i = 0; i < this.texts.Length; i++)
