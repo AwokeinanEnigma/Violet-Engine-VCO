@@ -5,122 +5,123 @@ using Violet.Utility;
 
 namespace Violet.GUI
 {
-    public class WindowBox : Renderable
-    {
-        public override Vector2f Position
-        {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-                this.ConfigureTransform();
-            }
-        }
+	public class WindowBox : Renderable
+	{
+		public override Vector2f Position
+		{
+			get
+			{
+				return this.position;
+			}
+			set
+			{
+				this.position = value;
+				this.ConfigureTransform();
+			}
+		}
 
-        public override Vector2f Origin
-        {
-            get
-            {
-                return this.origin;
-            }
-            set
-            {
-                this.origin = value;
-                this.ConfigureQuads();
-            }
-        }
+		public override Vector2f Origin
+		{
+			get
+			{
+				return this.origin;
+			}
+			set
+			{
+				this.origin = value;
+				this.ConfigureQuads();
+			}
+		}
 
-        public override Vector2f Size
-        {
-            get
-            {
-                return this.size;
-            }
-            set
-            {
-                this.size = value;
-                this.ConfigureQuads();
-            }
-        }
+		public override Vector2f Size
+		{
+			get
+			{
+				return this.size;
+			}
+			set
+			{
+				this.size = value;
+				this.ConfigureQuads();
+			}
+		}
 
-        public WindowBox.Style FrameStyle
-        {
-            get
-            {
-                return this.style;
-            }
-            set
-            {
-                this.SetStyle(value);
-            }
-        }
+		public WindowBox.Style FrameStyle
+		{
+			get
+			{
+				return this.style;
+			}
+			set
+			{
+				this.SetStyle(value);
+			}
+		}
 
-        public uint Palette
-        {
-            get
-            {
-                return this.palette;
-            }
-            set
-            {
-                this.palette = value;
-            }
-        }
+		public uint Palette
+		{
+			get
+			{
+				return this.palette;
+			}
+			set
+			{
+				this.palette = value;
+			}
+		}
 
-        public WindowBox(WindowBox.Style style, uint palette, Vector2f position, Vector2f size, int depth)
-        {
-            this.style = style;
-            this.palette = palette;
-            this.position = position;
-            this.size = size;
-            this.depth = depth;
-            this.SetStyle(this.style);
-        }
+		public WindowBox(WindowBox.Style style, uint palette, Vector2f position, Vector2f size, int depth)
+		{
+			this.style = style;
+			this.palette = palette;
+			this.position = position;
+			this.size = size;
+			this.depth = depth;
+			this.SetStyle(this.style);
+		}
 
-        private void SetStyle(WindowBox.Style newStyle)
-        {
-            this.style = newStyle;
-            string resource;
-            switch (this.style)
-            {
-                case WindowBox.Style.Classic:
-                    resource = "Resources/Graphics/window2.dat";
-                    this.beamRepeat = false;
-                    goto IL_4D;
-                case WindowBox.Style.Telepathy:
-                    resource = "Resources/Graphics/window3.dat";
-                    this.beamRepeat = true;
-                    goto IL_4D;
-            }
-            resource = "Resources/Graphics/window1.dat";
-            this.beamRepeat = false;
-        IL_4D:
-            this.frame = new IndexedColorGraphic(resource, "center", this.position, this.depth);
-            this.frame.CurrentPalette = this.palette;
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
-            this.shader.SetParameter("image", this.frame.Texture.Image);
-            this.shader.SetParameter("palette", ((IndexedTexture)this.frame.Texture).Palette);
-            this.shader.SetParameter("palIndex", ((IndexedTexture)this.frame.Texture).CurrentPaletteFloat);
-            this.shader.SetParameter("palSize", ((IndexedTexture)this.frame.Texture).PaletteSize);
-            this.shader.SetParameter("blend", Color.White);
-            this.shader.SetParameter("blendMode", 1f);
-            this.states = new RenderStates(BlendMode.Alpha, this.transform, this.frame.Texture.Image, this.shader);
-            this.verts = new VertexArray(PrimitiveType.Quads);
-            this.ConfigureQuads();
-            this.ConfigureTransform();
-        }
+		private void SetStyle(WindowBox.Style newStyle)
+		{
+			this.style = newStyle;
+			string resource;
+			switch (this.style)
+			{
+				case WindowBox.Style.Classic:
+					resource = "Resources/Graphics/window2.dat";
+					this.beamRepeat = false;
+					goto IL_4D;
+				case WindowBox.Style.Telepathy:
+					resource = "Resources/Graphics/window3.dat";
+					this.beamRepeat = true;
+					goto IL_4D;
+			}
+			resource = "Resources/Graphics/window1.dat";
+			this.beamRepeat = false;
+		IL_4D:
+			this.frame = new IndexedColorGraphic(resource, "center", this.position, this.depth);
+			this.frame.CurrentPalette = this.palette;
+			((IndexedTexture)this.frame.Texture).CurrentPalette = this.palette;
+			this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+			this.shader.SetParameter("image", this.frame.Texture.Image);
+			this.shader.SetParameter("palette", ((IndexedTexture)this.frame.Texture).Palette);
+			this.shader.SetParameter("palIndex", ((IndexedTexture)this.frame.Texture).CurrentPaletteFloat);
+			this.shader.SetParameter("palSize", ((IndexedTexture)this.frame.Texture).PaletteSize);
+			this.shader.SetParameter("blend", Color.White);
+			this.shader.SetParameter("blendMode", 1f);
+			this.states = new RenderStates(BlendMode.Alpha, this.transform, this.frame.Texture.Image, this.shader);
+			this.verts = new VertexArray(PrimitiveType.Quads);
+			this.ConfigureQuads();
+			this.ConfigureTransform();
+		}
 
-        private void ConfigureTransform()
-        {
-            this.transform = new Transform(1f, 0f, this.position.X, 0f, 1f, this.position.Y, 0f, 0f, 1f);
-            this.states.Transform = this.transform;
-        }
+		private void ConfigureTransform()
+		{
+			this.transform = new Transform(1f, 0f, this.position.X, 0f, 1f, this.position.Y, 0f, 0f, 1f);
+			this.states.Transform = this.transform;
+		}
 
-        private void ConfigureQuads()
-        {
+		private void ConfigureQuads()
+		{
 			SpriteDefinition spriteDefinition = this.frame.GetSpriteDefinition("topleft");
 			SpriteDefinition spriteDefinition2 = this.frame.GetSpriteDefinition("topright");
 			SpriteDefinition spriteDefinition3 = this.frame.GetSpriteDefinition("bottomleft");
@@ -272,41 +273,41 @@ namespace Violet.GUI
 			}
 		}
 
-        public override void Draw(RenderTarget target)
-        {
-            target.Draw(this.verts, this.states);
-        }
+		public override void Draw(RenderTarget target)
+		{
+			target.Draw(this.verts, this.states);
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (!this.disposed && disposing)
-            {
-                this.frame.Dispose();
-            }
-            this.disposed = true;
-        }
+		protected override void Dispose(bool disposing)
+		{
+			if (!this.disposed && disposing)
+			{
+				this.frame.Dispose();
+			}
+			this.disposed = true;
+		}
 
-        private bool beamRepeat;
+		private bool beamRepeat;
 
-        private uint palette;
+		private uint palette;
 
-        private WindowBox.Style style;
+		private WindowBox.Style style;
 
-        private IndexedColorGraphic frame;
+		private IndexedColorGraphic frame;
 
-        private RenderStates states;
+		private RenderStates states;
 
-        private Transform transform;
+		private Transform transform;
 
-        private VertexArray verts;
+		private VertexArray verts;
 
-        private Shader shader;
+		private Shader shader;
 
-        public enum Style
-        {
-            Normal,
-            Classic,
-            Telepathy
-        }
-    }
+		public enum Style
+		{
+			Normal,
+			Classic,
+			Telepathy
+		}
+	}
 }

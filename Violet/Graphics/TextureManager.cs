@@ -2,6 +2,8 @@
 using SFML.Graphics;
 using SFML.System;
 using System.Collections.Generic;
+using System.IO;
+using Violet.Utility;
 
 namespace Violet.Graphics
 {
@@ -31,7 +33,7 @@ namespace Violet.Graphics
         /// </summary>
         /// <param name="root">The NBTCompound to load an IndexedTexture from</param>
         /// <returns></returns>
-		private IndexedTexture LoadFromNbtTag(NbtCompound root)
+        private IndexedTexture LoadFromNbtTag(NbtCompound root)
         {
             NbtTag nbtTag = root.Get("pal");
             IEnumerable<NbtTag> enumerable = (nbtTag is NbtList) ? ((NbtList)nbtTag) : ((NbtCompound)nbtTag).Tags;
@@ -84,13 +86,14 @@ namespace Violet.Graphics
                         {
                             spriteDefinition = spriteDefinition2;
                         }
-                        int hashCode = text.GetHashCode();
-                        dictionary.Add(hashCode, spriteDefinition2);
+                        int key = Hash.Get(text);
+                        dictionary.Add(key, spriteDefinition2);
                     }
                 }
             }
             return new IndexedTexture(intValue, list.ToArray(), byteArrayValue, dictionary, spriteDefinition);
         }
+
 
         /// <summary>
         /// Returns an IndexTexture by name
@@ -99,21 +102,26 @@ namespace Violet.Graphics
         /// <returns></returns>
         public IndexedTexture Use(string spriteFile)
         {
-            int hashCode = spriteFile.GetHashCode();
+            int num = Hash.Get(spriteFile);
             IndexedTexture indexedTexture;
-            if (!this.textures.ContainsKey(hashCode))
+            if (!this.textures.ContainsKey(num))
             {
+                if (!File.Exists(spriteFile))
+                {
+                    string message = string.Format("The sprite file \"{0}\" does not exist.", spriteFile);
+                    throw new FileNotFoundException(message, spriteFile);
+                }
                 NbtFile nbtFile = new NbtFile(spriteFile);
                 indexedTexture = this.LoadFromNbtTag(nbtFile.RootTag);
-                this.instances.Add(hashCode, 1);
-                this.textures.Add(hashCode, indexedTexture);
+                this.instances.Add(num, 1);
+                this.textures.Add(num, indexedTexture);
             }
             else
             {
-                indexedTexture = (IndexedTexture)this.textures[hashCode];
+                indexedTexture = (IndexedTexture)this.textures[num];
                 Dictionary<int, int> dictionary;
                 int key;
-                (dictionary = this.instances)[key = hashCode] = dictionary[key] + 1;
+                (dictionary = this.instances)[key = num] = dictionary[key] + 1;
             }
             return indexedTexture;
         }
@@ -125,33 +133,38 @@ namespace Violet.Graphics
         /// <returns></returns>
         public IndexedTexture[] UseMultipart(string file)
         {
-            NbtFile nbtFile = new NbtFile(file);
-            NbtCompound rootTag = nbtFile.RootTag;
-            int value = rootTag.Get<NbtInt>("f").Value;
-            IndexedTexture[] array = new IndexedTexture[value];
-            for (int i = 0; i < value; i++)
+            if (File.Exists(file))
             {
-                string text = string.Format("{0}-{1}", file, i);
-                int hashCode = text.GetHashCode();
-                IndexedTexture indexedTexture;
-                if (!this.textures.ContainsKey(hashCode))
+                NbtFile nbtFile = new NbtFile(file);
+                NbtCompound rootTag = nbtFile.RootTag;
+                int value = rootTag.Get<NbtInt>("f").Value;
+                IndexedTexture[] array = new IndexedTexture[value];
+                for (int i = 0; i < value; i++)
                 {
-                    string tagName = string.Format("img{0}", i);
-                    NbtCompound root = rootTag.Get<NbtCompound>(tagName);
-                    indexedTexture = this.LoadFromNbtTag(root);
-                    this.instances.Add(hashCode, 1);
-                    this.textures.Add(hashCode, indexedTexture);
+                    string input = string.Format("{0}-{1}", file, i);
+                    int num = Hash.Get(input);
+                    IndexedTexture indexedTexture;
+                    if (!this.textures.ContainsKey(num))
+                    {
+                        string tagName = string.Format("img{0}", i);
+                        NbtCompound root = rootTag.Get<NbtCompound>(tagName);
+                        indexedTexture = this.LoadFromNbtTag(root);
+                        this.instances.Add(num, 1);
+                        this.textures.Add(num, indexedTexture);
+                    }
+                    else
+                    {
+                        indexedTexture = (IndexedTexture)this.textures[num];
+                        Dictionary<int, int> dictionary;
+                        int key;
+                        (dictionary = this.instances)[key = num] = dictionary[key] + 1;
+                    }
+                    array[i] = indexedTexture;
                 }
-                else
-                {
-                    indexedTexture = (IndexedTexture)this.textures[hashCode];
-                    Dictionary<int, int> dictionary;
-                    int key;
-                    (dictionary = this.instances)[key = hashCode] = dictionary[key] + 1;
-                }
-                array[i] = indexedTexture;
+                return array;
             }
-            return array;
+            string message = string.Format("The multipart sprite file \"{0}\" does not exist.", file);
+            throw new FileNotFoundException(message, file);
         }
 
         public FullColorTexture UseUnprocessed(string file)

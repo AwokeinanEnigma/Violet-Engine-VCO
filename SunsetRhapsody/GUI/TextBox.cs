@@ -46,7 +46,12 @@ namespace SunsetRhapsody.GUI
 			this.bottomLetterbox.Visible = false;
 			this.pipeline.Add(this.bottomLetterbox);
 			this.typewriterBox = new TypewriterBox(pipeline, new Vector2f(vector2f.X + TextBox.TEXT_POSITION.X, vector2f.Y + TextBox.TEXT_POSITION.Y), TextBox.TEXT_SIZE, 2147450880, Button.A, true, new TextBlock(new List<TextLine>()));
-			this.window = new WindowBox(FlagManager.Instance[4] ? WindowBox.Style.Telepathy : Settings.WindowStyle, Settings.WindowFlavor, new Vector2f(vector2f.X + TextBox.BOX_POSITION.X, vector2f.Y + TextBox.BOX_POSITION.Y), TextBox.BOX_SIZE, 2147450879);
+			this.window = new WindowBox(FlagManager.Instance[4] ? WindowBox.Style.Telepathy : Settings.WindowStyle,
+				Settings.WindowFlavor, 
+                new Vector2f(vector2f.X + TextBox.BOX_POSITION.X,
+                    vector2f.Y + TextBox.BOX_POSITION.Y), 
+                TextBox.BOX_SIZE, 
+                2147450879);
 			this.window.Visible = false;
 			this.pipeline.Add(this.window);
 			this.advanceArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880);
