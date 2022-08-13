@@ -6,6 +6,16 @@ namespace Violet.GUI
 {
     public class FontData : IDisposable
     {
+        private const uint W_CODE_POINT = 41;
+        private bool disposed;
+        private Font font;
+        private int xComp;
+        private int yComp;
+        private int lineHeight;
+        private int wHeight;
+        private uint fontSize;
+        private float alphaThreshold;
+
         public Font Font
         {
             get
@@ -66,9 +76,9 @@ namespace Violet.GUI
         {
             this.font = new Font(EmbeddedResources.GetStream("Violet.Resources.openSansPX.ttf"));
             this.fontSize = 16U;
-            this.wHeight = font.GetGlyph(41U, fontSize, false).Bounds.Height;
-            this.lineHeight = (int)(wHeight * 1.2f);
-            this.alphaThreshold = 0f;
+            this.wHeight = (int)this.font.GetGlyph(41U, this.fontSize, false).Bounds.Height;
+            this.lineHeight = (int)((double)this.wHeight * 1.20000004768372);
+            this.alphaThreshold = 0.0f;
         }
 
         public FontData(Font font, uint fontSize, int lineHeight, int xComp, int yComp)
@@ -78,7 +88,7 @@ namespace Violet.GUI
             this.lineHeight = lineHeight;
             this.xComp = xComp;
             this.yComp = yComp;
-            this.wHeight = this.font.GetGlyph(41U, this.fontSize, false).Bounds.Height;
+            this.wHeight = (int)this.font.GetGlyph(41U, this.fontSize, false).Bounds.Height;
             this.alphaThreshold = 0.8f;
         }
 
@@ -90,34 +100,14 @@ namespace Violet.GUI
         protected virtual void Dispose(bool disposing)
         {
             if (!this.disposed && disposing)
-            {
                 this.font.Dispose();
-            }
             this.disposed = true;
         }
 
         public void Dispose()
         {
             this.Dispose(true);
-            GC.SuppressFinalize(this);
+            GC.SuppressFinalize((object)this);
         }
-
-        private const uint W_CODE_POINT = 41U;
-
-        private bool disposed;
-
-        private Font font;
-
-        private int xComp;
-
-        private int yComp;
-
-        private int lineHeight;
-
-        private int wHeight;
-
-        private uint fontSize;
-
-        private float alphaThreshold;
     }
 }
