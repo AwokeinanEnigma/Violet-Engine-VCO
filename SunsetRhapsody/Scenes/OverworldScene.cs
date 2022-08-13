@@ -662,11 +662,11 @@ namespace SunsetRhapsody.Scenes
 
                 battleEnemies = null;
             }
-			if (FlagManager.Instance[3])
+			/*if (FlagManager.Instance[3])
 			{
 				this.HandleCheckAction(true);
 				FlagManager.Instance[3] = false;
-			}
+			}*/
 			Engine.ClearColor = this.backColor;
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 			this.footstepPlayer.Resume();

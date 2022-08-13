@@ -31,8 +31,8 @@ namespace Violet.Graphics
             this.renderablesToRemove = new Stack<Renderable>();
             this.uids = new Dictionary<Renderable, int>();
             this.depthCompare = new RenderPipeline.RenderableComparer(this);
-            this.viewRect = default(FloatRect);
-            this.rendRect = default(FloatRect);
+            this.viewRect = new FloatRect();
+            this.rendRect = new FloatRect();
         }
         /// <summary>
         /// Adds a renderable object to the stack of objects to render
@@ -80,20 +80,20 @@ namespace Violet.Graphics
         {
             while (this.renderablesToAdd.Count > 0)
             {
-                Renderable renderable = this.renderablesToAdd.Pop();
-                this.renderables.Add(renderable);
-                this.uids.Add(renderable, this.rendCount);
+                Renderable key = this.renderablesToAdd.Pop();
+                this.renderables.Add(key);
+                this.uids.Add(key, this.rendCount);
                 this.needToSort = true;
-                this.rendCount++;
+                ++this.rendCount;
             }
         }
         private void DoRemovals()
         {
             while (this.renderablesToRemove.Count > 0)
             {
-                Renderable renderable = this.renderablesToRemove.Pop();
-                this.renderables.Remove(renderable);
-                this.uids.Remove(renderable);
+                Renderable key = this.renderablesToRemove.Pop();
+                this.renderables.Remove(key);
+                this.uids.Remove(key);
             }
         }
         public void Each(Action<Renderable> forEachFunc)
@@ -134,7 +134,7 @@ namespace Violet.Graphics
             this.DoRemovals();
             if (this.needToSort)
             {
-                this.renderables.Sort(this.depthCompare);
+                this.renderables.Sort((IComparer<Renderable>)this.depthCompare);
                 this.needToSort = false;
             }
             View view = this.target.GetView();
@@ -143,9 +143,9 @@ namespace Violet.Graphics
             this.viewRect.Width = view.Size.X;
             this.viewRect.Height = view.Size.Y;
             int count = this.renderables.Count;
-            for (int i = 0; i < count; i++)
+            for (int index = 0; index < count; ++index)
             {
-                Renderable renderable = this.renderables[i];
+                Renderable renderable = this.renderables[index];
                 if (renderable.Visible)
                 {
                     this.rendRect.Left = renderable.Position.X - renderable.Origin.X;
@@ -153,9 +153,7 @@ namespace Violet.Graphics
                     this.rendRect.Width = renderable.Size.X;
                     this.rendRect.Height = renderable.Size.Y;
                     if (this.rendRect.Intersects(this.viewRect))
-                    {
                         renderable.Draw(this.target);
-                    }
                 }
             }
         }
@@ -171,19 +169,17 @@ namespace Violet.Graphics
         private FloatRect rendRect;
         private class RenderableComparer : IComparer<Renderable>
         {
+            private RenderPipeline pipeline;
+
             public RenderableComparer(RenderPipeline pipeline)
             {
                 this.pipeline = pipeline;
             }
+
             public int Compare(Renderable x, Renderable y)
             {
-                if (x.Depth != y.Depth)
-                {
-                    return x.Depth - y.Depth;
-                }
-                return this.pipeline.uids[y] - this.pipeline.uids[x];
+                return x.Depth != y.Depth ? x.Depth - y.Depth : this.pipeline.uids[y] - this.pipeline.uids[x];
             }
-            private RenderPipeline pipeline;
         }
     }
 }

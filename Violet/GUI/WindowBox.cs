@@ -112,6 +112,7 @@ namespace Violet.GUI
 			this.verts = new VertexArray(PrimitiveType.Quads);
 			this.ConfigureQuads();
 			this.ConfigureTransform();
+			//foreach (var thing in frame.defini)
 		}
 
 		private void ConfigureTransform()

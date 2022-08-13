@@ -3,7 +3,6 @@
 using SFML.Graphics;
 using SFML.System;
 using SunsetRhapsody.Data;
-using SunsetRhapsody.GUI;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Utility;
@@ -23,7 +22,6 @@ namespace SunsetRhapsody.GUI
 				this.Select(value);
 			}
 		}
-
 		public string SelectedItem
 		{
 			get
@@ -31,7 +29,6 @@ namespace SunsetRhapsody.GUI
 				return this.items[this.selectedIndex];
 			}
 		}
-
 		public bool Enabled
 		{
 			get
@@ -43,7 +40,6 @@ namespace SunsetRhapsody.GUI
 				this.enabled = value;
 			}
 		}
-
 		public bool ShowArrows
 		{
 			get
@@ -55,7 +51,6 @@ namespace SunsetRhapsody.GUI
 				this.showArrows = value;
 			}
 		}
-
 		public bool ShowSelectionRectangle
 		{
 			get
@@ -68,7 +63,6 @@ namespace SunsetRhapsody.GUI
 				this.UpdateCursor();
 			}
 		}
-
 		public bool UseHighlightTextColor
 		{
 			get
@@ -81,7 +75,6 @@ namespace SunsetRhapsody.GUI
 				this.UpdateCursor();
 			}
 		}
-
 		public bool ShowCursor
 		{
 			get
@@ -94,7 +87,6 @@ namespace SunsetRhapsody.GUI
 				this.UpdateCursor();
 			}
 		}
-
 		public bool Focused
 		{
 			get
@@ -108,7 +100,6 @@ namespace SunsetRhapsody.GUI
 				this.UpdateScrollers();
 			}
 		}
-
 		public int Count
 		{
 			get
@@ -116,7 +107,6 @@ namespace SunsetRhapsody.GUI
 				return this.items.Length;
 			}
 		}
-
 		public override Vector2f Position
 		{
 			get
@@ -135,7 +125,6 @@ namespace SunsetRhapsody.GUI
 				this.downArrow.Position = this.position + new Vector2f(this.width, this.lineHeight * (float)this.displayCount + 1f);
 			}
 		}
-
 		public ScrollingList(Vector2f position, int depth, string[] items, int displayCount, float lineHeight, float width, string cursorGraphic)
 		{
 			if (items == null)
@@ -180,7 +169,6 @@ namespace SunsetRhapsody.GUI
 			this.UpdateCursor();
 			this.UpdateScrollers();
 		}
-
 		private void SetVisibility(bool visible)
 		{
 			for (int i = 0; i < this.texts.Length; i++)
@@ -192,21 +180,18 @@ namespace SunsetRhapsody.GUI
 			this.upArrow.Visible = visible;
 			this.selectRectangle.Visible = (visible && this.showSelectRect);
 		}
-
 		public void Hide()
 		{
 			this.enabledOnHide = this.enabled;
 			this.enabled = false;
 			this.SetVisibility(false);
 		}
-
 		public void Show()
 		{
 			this.enabled = this.enabledOnHide;
 			this.SetVisibility(true);
 			this.UpdateScrollers();
 		}
-
 		public bool SelectPrevious()
 		{
 			if (this.enabled && this.selectedIndex - 1 >= 0)
@@ -223,7 +208,6 @@ namespace SunsetRhapsody.GUI
 			}
 			return false;
 		}
-
 		public bool SelectNext()
 		{
 			if (this.enabled && this.selectedIndex + 1 < this.items.Length)
@@ -240,7 +224,6 @@ namespace SunsetRhapsody.GUI
 			}
 			return false;
 		}
-
 		private void Select(int i)
 		{
 			this.selectedIndex = Math.Min(this.items.Length - 1, Math.Max(0, i));
@@ -249,7 +232,6 @@ namespace SunsetRhapsody.GUI
 			this.UpdateScrollers();
 			this.UpdateCursor();
 		}
-
 		public void ChangeItem(int index, string newValue)
 		{
 			if (index >= 0 && index < this.items.Length)
@@ -260,7 +242,6 @@ namespace SunsetRhapsody.GUI
 			}
 			throw new ArgumentException("Item index out of range.");
 		}
-
 		private void UpdateDisplayTexts()
 		{
 			for (int i = 0; i < this.displayCount; i++)
@@ -277,7 +258,6 @@ namespace SunsetRhapsody.GUI
 				}
 			}
 		}
-
 		private void UpdateCursor()
 		{
 			this.cursor.Visible = (this.focused && this.showCursor);
@@ -295,7 +275,6 @@ namespace SunsetRhapsody.GUI
 				this.texts[this.selectedIndex - this.topIndex].Color = Color.Black;
 			}
 		}
-
 		private void UpdateScrollers()
 		{
 			bool visible = this.upArrow.Visible;
@@ -311,7 +290,6 @@ namespace SunsetRhapsody.GUI
 				this.downArrow.Frame = this.upArrow.Frame;
 			}
 		}
-
 		public override void Draw(RenderTarget target)
 		{
 			if (this.selectRectangle.Visible && this.showSelectRect)
@@ -338,7 +316,6 @@ namespace SunsetRhapsody.GUI
 				this.upArrow.Draw(target);
 			}
 		}
-
 		protected override void Dispose(bool disposing)
 		{
 			if (!this.disposed && disposing)
@@ -353,53 +330,29 @@ namespace SunsetRhapsody.GUI
 			}
 			this.disposed = true;
 		}
-
 		private const int CURSOR_MARGIN = 1;
-
 		private static readonly Vector2f SELECT_RECT_OFFSET = new Vector2f(-2f, 0f);
-
 		private static readonly Vector2f SELECT_RECT_SIZE_OFFSET = new Vector2f(-2f, 0f);
-
 		private static readonly Color FOCUSED_TEXT_COLOR = Color.White;
-
 		private static readonly Color UNFOCUSED_TEXT_COLOR = new Color(128, 140, 138);
-
 		private string[] items;
-
 		private int displayCount;
-
 		private int selectedIndex;
-
 		private int topIndex;
-
 		private float lineHeight;
-
 		private float width;
-
 		private TextRegion[] texts;
-
 		private IndexedColorGraphic cursor;
-
 		private IndexedColorGraphic upArrow;
-
 		private IndexedColorGraphic downArrow;
-
 		private ShapeGraphic selectRectangle;
-
 		private bool enabled;
-
 		private bool enabledOnHide;
-
 		private bool showArrows;
-
 		private bool showSelectRect = true;
-
 		private bool showCursor = true;
-
 		private bool useHighlightTextColor = true;
-
 		private bool focused = true;
-
 		private int cursorOffset;
 	}
 }

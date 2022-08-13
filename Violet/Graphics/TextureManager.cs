@@ -86,7 +86,8 @@ namespace Violet.Graphics
                         {
                             spriteDefinition = spriteDefinition2;
                         }
-                        int key = Hash.Get(text);
+
+                        int key = text.GetHashCode();
                         dictionary.Add(key, spriteDefinition2);
                     }
                 }

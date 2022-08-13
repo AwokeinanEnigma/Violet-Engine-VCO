@@ -93,9 +93,6 @@ namespace Violet.Graphics
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
-            {
-            }
             this.disposed = true;
         }
 

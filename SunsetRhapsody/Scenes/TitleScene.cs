@@ -48,9 +48,11 @@ namespace SunsetRhapsody.Scenes
 					"Quit"
 				};
 			}
-			this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
-			this.optionList.ShowSelectionRectangle = false;
-			this.optionList.UseHighlightTextColor = false;
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
+            this.optionList.ShowSelectionRectangle = false;
+            this.optionList.UseHighlightTextColor = false;
+            this.optionList.ShowArrows = true;
+            this.optionList.ShowCursor = true;
 			this.pipeline.Add(this.optionList);
 			this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS + "title.dat", "title", new Vector2f(160f, 44f), 100);
 			Version version = Assembly.GetEntryAssembly().GetName().Version;
@@ -87,7 +89,13 @@ namespace SunsetRhapsody.Scenes
 			}
 		}
 
-		private void ButtonPressed(InputManager sender, Button b)
+        public override void Draw()
+        {
+            base.Draw();
+            //optionList.Draw();
+        }
+
+        private void ButtonPressed(InputManager sender, Button b)
 		{
 			if (b > Button.Start)
 			{
