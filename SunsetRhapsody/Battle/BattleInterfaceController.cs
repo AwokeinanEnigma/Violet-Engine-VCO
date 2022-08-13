@@ -123,13 +123,15 @@ namespace SunsetRhapsody.Battle
 			this.pipeline = pipeline;
 			this.actorManager = actorManager;
 			this.combatantController = combatantController;
-			this.topLetterbox = new RectangleShape(new Vector2f(320f, 14f));
+			this.topLetterbox = new RectangleShape(new Vector2f(320f, 35f));
 			this.topLetterbox.FillColor = Color.Black;
-			this.topLetterbox.Position = new Vector2f(0f, -14f);
+            this.topLetterbox.Rotation = 5.5f;
+			this.topLetterbox.Position = new Vector2f(0f, 14f);
 			this.topLetterboxY = this.topLetterbox.Position.Y;
 			this.topLetterboxTargetY = (float)(letterboxing ? 0 : -14);
 			this.bottomLetterbox = new RectangleShape(new Vector2f(320f, 35f));
 			this.bottomLetterbox.FillColor = Color.Black;
+            this.bottomLetterbox.Rotation = 5.5f;
 			this.bottomLetterbox.Position = new Vector2f(0f, 180f);
 			this.bottomLetterboxY = this.bottomLetterbox.Position.Y;
 			this.bottomLetterboxTargetY = (float)(180L + (letterboxing ? -35L : 0L));
