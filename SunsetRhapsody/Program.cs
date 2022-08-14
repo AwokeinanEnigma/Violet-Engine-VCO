@@ -6,6 +6,8 @@ using Violet.Scenes;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.Data.Enemies;
 using SunsetRhapsody.Scenes;
+using SunsetRhapsody.Scenes.Transitions;
+using Violet.Scenes.Transitions;
 
 namespace SunsetRhapsody
 {
@@ -30,6 +32,11 @@ namespace SunsetRhapsody
             }
             catch (Exception value)
             {
+                SceneManager.Instance.AbortTransition();
+                SceneManager.Instance.Clear();
+                SceneManager.Instance.Transition = new IrisTransition(0.2f);
+                SceneManager.Instance.Push(new ErrorScene(value));
+
                 StreamWriter streamWriter = new StreamWriter("error.log", true);
                 streamWriter.WriteLine("At {0}:", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff"));
                 streamWriter.WriteLine(value);

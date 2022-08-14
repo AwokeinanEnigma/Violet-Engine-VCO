@@ -318,7 +318,7 @@ namespace SunsetRhapsody.GUI
 		private void UpdateCursor()
 		{
 			this.cursor.Visible = (this.focused && this.showCursor);
-			this.cursor.Position = new Vector2f(this.position.X - 1f, this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + 11 - this.cursor.Size.Y / 2f);
+			this.cursor.Position = new Vector2f(this.position.X - 1f, (this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + 11 - this.cursor.Size.Y / 2f) + -1);
             Console.WriteLine($"LineWeight is '{lineHeight}' & selectedindexfloat is '{this.selectedIndex - this.topIndex}' & WHeight is {(float)Fonts.Main.WHeight}");
 			Console.WriteLine($"Visible is '{cursor.Visible}' & position is '{cursor.Position}' & depth is {cursor.Depth}");
 			for (int i = 0; i < this.texts.Length; i++)

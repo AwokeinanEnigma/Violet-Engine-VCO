@@ -116,10 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FMOD">
-      <HintPath>..\..\Mother4\lib\FMOD.dll</HintPath>
+      <HintPath>..\SunsetRhapsody\RequiredLibaries\FMOD.dll</HintPath>
     </Reference>
     <Reference Include="fNbt">
-      <HintPath>..\..\Mother4\lib\fNbt.dll</HintPath>
+      <HintPath>..\SunsetRhapsody\RequiredLibaries\fNbt.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-graphics-2, Version=2.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

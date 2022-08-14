@@ -8,7 +8,7 @@ using Violet.Input;
 
 namespace Violet.Scenes
 {
-    internal class ErrorScene : Scene
+    public class ErrorScene : Scene
     {
         public ErrorScene(Exception ex)
         {

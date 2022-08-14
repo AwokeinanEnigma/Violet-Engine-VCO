@@ -56,19 +56,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FMOD">
-      <HintPath>..\..\Mother4\lib\FMOD.dll</HintPath>
+      <HintPath>RequiredLibaries\FMOD.dll</HintPath>
     </Reference>
     <Reference Include="fNbt">
-      <HintPath>..\..\Mother4\lib\fNbt.dll</HintPath>
+      <HintPath>RequiredLibaries\fNbt.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-graphics-2">
-      <HintPath>..\..\Mother4\lib\sfmlnet-graphics-2.dll</HintPath>
+      <HintPath>RequiredLibaries\sfmlnet-graphics-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-system-2">
-      <HintPath>..\..\Mother4\lib\sfmlnet-system-2.dll</HintPath>
+      <HintPath>RequiredLibaries\sfmlnet-system-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-window-2">
-      <HintPath>..\..\Mother4\lib\sfmlnet-window-2.dll</HintPath>
+      <HintPath>RequiredLibaries\sfmlnet-window-2.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <HintPath>D:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\System.dll</HintPath>
@@ -77,8 +77,9 @@
       <HintPath>D:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\System.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Violet">
-      <HintPath>..\Violet\bin\Debug\Violet.dll</HintPath>
+    <Reference Include="Violet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Violet\bin\Release\Violet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

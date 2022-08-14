@@ -454,11 +454,11 @@ namespace Violet
 			}
 			catch (Exception ex)
 			{
-				SceneManager.Instance.AbortTransition();
-				SceneManager.Instance.Clear();
-				SceneManager.Instance.Transition = new InstantTransition();
-				SceneManager.Instance.Push(new ErrorScene(ex));
-			}
+                SceneManager.Instance.AbortTransition();
+                SceneManager.Instance.Clear();
+                SceneManager.Instance.Transition = new InstantTransition();
+                SceneManager.Instance.Push(new ErrorScene(ex));
+            }
             ViewManager.Instance.UseDefault();
             if (debugDisplay)
             {

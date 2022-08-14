@@ -900,7 +900,7 @@ namespace SunsetRhapsody.Scenes
 			{
 				this.iris.Draw(this.pipeline.Target);
 			}
-			if (this.collisionManager != null)
+			if (this.collisionManager != null && Engine.debugDisplay)
 			{
 				this.collisionManager.Draw(this.pipeline.Target);
 			}
