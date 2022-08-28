@@ -5,11 +5,21 @@ namespace Violet.Utility
 {
     public static class VectorMath
     {
+        /// <summary>
+        /// Converts a direction to a vector
+        /// </summary>
+        /// <param name="direction">The direction to convert into a vector</param>
+        /// <returns></returns>
         public static Vector2f DirectionToVector(int direction)
         {
             return VectorMath.DIR_TO_VECTOR[direction % VectorMath.DIR_TO_VECTOR.Length];
         }
 
+        /// <summary>
+        /// Converts a vector a direction.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         public static int VectorToDirection(Vector2f v)
         {
             double num = Math.Atan2(-v.Y, v.X) + 0.39269908169872414;
@@ -26,6 +36,11 @@ namespace Violet.Utility
             return (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
         }
 
+        /// <summary>
+        /// Normalizes a vector.
+        /// </summary>
+        /// <param name="v">The vector to normalize</param>
+        /// <returns></returns>
         public static Vector2f Normalize(Vector2f v)
         {
             float num = VectorMath.Magnitude(v);

@@ -178,7 +178,7 @@ namespace SunsetRhapsody.Actors.NPCs
 			}
 			if (this.changed)
 			{
-				Console.WriteLine("active");
+				//Console.WriteLine("active");
 				this.animator.UpdateSubsprite(this.GetAnimationContext());
 				this.npcGraphic.Position = VectorMath.Truncate(this.position);
 				this.npcGraphic.Depth = (int)this.position.Y;

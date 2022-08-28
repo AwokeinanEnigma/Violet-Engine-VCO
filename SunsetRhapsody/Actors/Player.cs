@@ -438,7 +438,7 @@ namespace SunsetRhapsody.Actors
 						return;
 					}
 
-                    if (collisionObjects[i] is NPC)
+                    if (collisionObjects[i] is NPC && ( (collisionObjects[i] as NPC).MovementLocked = false))
                     {
                         if (!collisionManager.PlaceFree(this, position))
                         {

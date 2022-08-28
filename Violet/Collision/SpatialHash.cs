@@ -2,6 +2,7 @@
 using SFML.System;
 using System;
 using System.Collections.Generic;
+using Violet.Maps;
 
 namespace Violet.Collision
 {
@@ -356,6 +357,7 @@ namespace Violet.Collision
                     {
                         if (collidable != null && collidable.DebugVerts != null)
                         {
+
                             states.Transform = Transform.Identity;
                             states.Transform.Translate(collidable.Position);
                             target.Draw(collidable.DebugVerts, states);
