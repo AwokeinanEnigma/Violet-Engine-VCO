@@ -147,6 +147,12 @@ namespace SunsetRhapsody.Scenes
 								break;
 							}
 						case Button.Seven:
+							PartyManager.Instance.Clear();
+							PartyManager.Instance.Add(CharacterType.Travis);
+							PartyManager.Instance.Add(CharacterType.Zack);
+							//PartyManager.Instance.Add(CharacterType.Floyd);
+							BattleScene scene = new BattleScene(new EnemyData[1] { EnemyFile.Instance.GetEnemyData("Hermit Can") }, true);
+							SceneManager.Instance.Push(scene);
 							break;
 						default:
 							return;

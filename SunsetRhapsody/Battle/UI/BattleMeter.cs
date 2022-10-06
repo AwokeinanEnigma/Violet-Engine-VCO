@@ -25,7 +25,7 @@ namespace SunsetRhapsody.Battle.UI
 		{
 			this.targetFill = initialFill;
 			this.fill = this.targetFill;
-			this.meter = new IndexedColorGraphic(Paths.GRAPHICS + "battleui.dat", "meter", default(Vector2f), depth);
+			this.meter = new IndexedColorGraphic(Paths.GRAPHICS + "battleui2.dat", "meter2", default(Vector2f), depth);
 			this.meter.CurrentPalette = Settings.WindowFlavor;
 			this.initialTextureRect = this.meter.TextureRect;
 			this.hOffset = this.initialTextureRect.Height - (int)((float)this.initialTextureRect.Height * this.fill);
@@ -33,6 +33,7 @@ namespace SunsetRhapsody.Battle.UI
 			this.meter.Position = new Vector2f(position.X, position.Y + (float)this.hOffset);
 			this.meter.TextureRect = new IntRect(this.initialTextureRect.Left, this.initialTextureRect.Top + this.hOffset, this.initialTextureRect.Width, this.initialTextureRect.Height - this.hOffset);
 			pipeline.Add(this.meter);
+			//meter.Visible = false;
 			this.fillMaxThreshold = 1f - 1f / (float)this.initialTextureRect.Height / 2f;
 		}
 

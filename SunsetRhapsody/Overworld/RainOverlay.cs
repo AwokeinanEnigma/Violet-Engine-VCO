@@ -5,6 +5,7 @@ using Violet.Utility;
 using SunsetRhapsody.Data;
 using SFML.Graphics;
 using SFML.System;
+using SunsetRhapsody.Scenes;
 
 namespace SunsetRhapsody.Overworld
 {
@@ -34,11 +35,13 @@ namespace SunsetRhapsody.Overworld
 				bool flag = this.drops[i].Update();
 				if (flag)
 				{
-					this.splashes[i].Position = VectorMath.Truncate(this.drops[i].Position);
-					this.splashes[i].Depth = (int)this.drops[i].Position.Y;
-					this.splashes[i].Frame = 0f;
-					this.splashes[i].Visible = true;
-					this.splashes[i].OnAnimationComplete += this.OnAnimationComplete;
+					IndexedColorGraphic splash = this.splashes[i];
+				//	Console.WriteLine(OverworldScene.instance.MapGroups[0].(splash.Position));
+					splash.Position = VectorMath.Truncate(this.drops[i].Position);
+					splash.Depth = (int)this.drops[i].Position.Y;
+					splash.Frame = 0f;
+					splash.Visible = true;
+					splash.OnAnimationComplete += this.OnAnimationComplete;
 				}
 			}
 		}
@@ -79,17 +82,11 @@ namespace SunsetRhapsody.Overworld
 			"splash3"
 		};
 
-		// Token: 0x040007BA RID: 1978
 		private RainOverlay.Droplet[] drops;
-
-		// Token: 0x040007BB RID: 1979
 		private IndexedColorGraphic[] splashes;
 
-		// Token: 0x02000103 RID: 259
 		private struct Droplet
 		{
-			// Token: 0x170000FB RID: 251
-			// (get) Token: 0x060005FC RID: 1532 RVA: 0x0002361B File Offset: 0x0002181B
 			public Vector2f Position
 			{
 				get
@@ -111,7 +108,6 @@ namespace SunsetRhapsody.Overworld
 				this.endY = Math.Min(ViewManager.Instance.Viewrect.Top + 180f, this.position.Y + (float)Engine.Random.Next(180));
 			}
 
-			// Token: 0x060005FE RID: 1534 RVA: 0x0002370C File Offset: 0x0002190C
 			private void ResetPosition()
 			{
 				this.position = new Vector2f(ViewManager.Instance.Viewrect.Left + (float)Engine.Random.Next(320), ViewManager.Instance.Viewrect.Top - (float)Engine.Random.Next(180));
@@ -119,14 +115,12 @@ namespace SunsetRhapsody.Overworld
 				this.UpdateVertices();
 			}
 
-			// Token: 0x060005FF RID: 1535 RVA: 0x00023781 File Offset: 0x00021981
 			private void UpdateVertices()
 			{
 				this.verts[0].Position = this.position;
 				this.verts[1].Position = this.position - RainOverlay.Droplet.DROP_SIZE;
 			}
 
-			// Token: 0x06000600 RID: 1536 RVA: 0x000237BC File Offset: 0x000219BC
 			public bool Update()
 			{
 				bool result = false;

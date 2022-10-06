@@ -151,7 +151,7 @@ namespace SunsetRhapsody.Battle.Actions
 						targets = selectionState.Targets,
 						data = new object[]
 						{
-							CharacterNames.GetName((this.sender as PlayerCombatant).Character) + " is guarding.",
+							CharacterNames.GetName((this.sender as PlayerCombatant).Character) + " braces for impact!",
 							false
 						}
 					});

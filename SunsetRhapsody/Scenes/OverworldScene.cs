@@ -98,6 +98,7 @@ namespace SunsetRhapsody.Scenes
 			if (this.initialized && this.mapGroups.Count > 0)
 			{
 				this.mapGroups[0].Tileset.CurrentPalette = (uint)tilesetPalette;
+				
 			}
 		}
 
@@ -227,7 +228,9 @@ namespace SunsetRhapsody.Scenes
 
             if (!executor.Running)
             {
-
+				if (b == Button.F6) {
+					rainOverlay = new RainOverlay();
+				}
 
                 if (b == Button.A)
                 {
@@ -984,6 +987,12 @@ namespace SunsetRhapsody.Scenes
 		private IList<ParallaxBackground> parallaxes;
 
 		private BattleBackgroundRenderable testBack;
+
+		public IList<TileGroup> MapGroups
+		{ get { 
+				return mapGroups; 
+			} 
+		}
 
 		private IList<TileGroup> mapGroups;
 

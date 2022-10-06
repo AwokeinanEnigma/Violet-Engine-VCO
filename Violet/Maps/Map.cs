@@ -34,6 +34,7 @@ namespace Violet.Maps
             {
                 arg = this.Head.Tilesets[0].Name;
             }
+
             string resource = string.Format("{0}{1}.dat", graphicDirectory, arg);
             IList<TileGroup> list = new List<TileGroup>(this.Groups.Count);
             long ticks = DateTime.Now.Ticks;
@@ -321,6 +322,8 @@ namespace Violet.Maps
             public int Width;
 
             public int Height;
+
+            public bool Rainaway;
         }
 
         public struct TileAnimation

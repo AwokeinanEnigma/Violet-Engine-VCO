@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.GUI;
@@ -339,7 +340,7 @@ namespace Violet
             image3.SaveToFile(text);
             Console.WriteLine("Screenshot saved as \"{0}\"", text);
         }
-
+         
         public static unsafe void TakeScreenshot()
         {
             SFML.Graphics.Image image = frameBuffer.Texture.CopyToImage();
@@ -353,6 +354,7 @@ namespace Violet
                     ptr[i + 2] = pixels[i];
                     ptr[i + 3] = pixels[i + 3];
                 }
+
                 IntPtr scan = new IntPtr(ptr);
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
                 Clipboard.SetImage(image2);

@@ -72,7 +72,7 @@ namespace SunsetRhapsody.GUI
 			this.states = new RenderStates(BlendMode.Alpha);
 			this.visible = false;
 			this.depth = depth;
-			this.lineHeight = lineHeight;
+			this.lineHeight = lineHeight + 2;
 			this.psiTypes = new List<TextRegion>(4);
 			this.activePsiList = new List<TextRegion>();
 			this.activeAlphaList = new List<TextRegion>();
@@ -82,12 +82,15 @@ namespace SunsetRhapsody.GUI
 			this.windowPosition = new Vector2f(40f, 0f);
 			this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, this.windowPosition, new Vector2f(240f, 3f * lineHeight + 16f), 32766);
 			this.selectorFillColor = UIColors.HighlightColor;
-			RectangleShape rectangleShape = new RectangleShape(new Vector2f(48f, lineHeight - 2f));
+
+			RectangleShape rectangleShape = new RectangleShape(new Vector2f(48f, lineHeight  ));
 			rectangleShape.FillColor = this.selectorFillColor;
 			this.selectorBox = new ShapeGraphic(rectangleShape, default(Vector2f), default(Vector2f), rectangleShape.Size, 32767);
 			RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(2f, 3f * lineHeight - 2f));
 			rectangleShape2.FillColor = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 70);
-			this.separator = new ShapeGraphic(rectangleShape2, new Vector2f(102.399994f, lineHeight - 6f), default(Vector2f), rectangleShape2.Size, 32767);
+
+
+			this.separator = new ShapeGraphic(rectangleShape2, new Vector2f(102.399994f, lineHeight - 8f), default(Vector2f), rectangleShape2.Size, 32767);
 			this.cursor = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", default(Vector2f), 32767);
 			this.states = new RenderStates(BlendMode.Alpha);
 		}

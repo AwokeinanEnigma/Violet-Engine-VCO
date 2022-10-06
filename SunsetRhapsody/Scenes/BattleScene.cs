@@ -161,6 +161,7 @@ namespace SunsetRhapsody.Scenes
 
 		private void ButtonPressed(InputManager sender, Button b)
 		{
+			
 			Combatant combatant = null;
 			switch (b)
 			{

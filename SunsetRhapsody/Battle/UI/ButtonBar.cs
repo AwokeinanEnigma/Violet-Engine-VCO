@@ -209,7 +209,7 @@ namespace SunsetRhapsody.Battle.UI
 
 		private const int BUTTON_HEIGHT = 24;
 
-		private static readonly string GRAPHIC_FILE = Paths.GRAPHICS + "battleui.dat";
+		private static readonly string GRAPHIC_FILE = Paths.GRAPHICS + "battleui2.dat";
 
 		private int[] buttonYs;
 

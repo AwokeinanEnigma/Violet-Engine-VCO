@@ -458,11 +458,13 @@ namespace Violet.Maps
             {
                 if (nbtTag2 is NbtCompound)
                 {
+                    // grab tiles
                     NbtCompound nbtCompound = (NbtCompound)nbtTag2;
                     int num1 = nbtCompound.Get<NbtInt>("depth").Value;
                     int num2 = nbtCompound.Get<NbtInt>("x").Value;
                     int num3 = nbtCompound.Get<NbtInt>("y").Value;
                     int num4 = nbtCompound.Get<NbtInt>("w").Value;
+
                     byte[] src = nbtCompound.Get<NbtByteArray>("tiles").Value;
                     ushort[] dst = new ushort[src.Length / 2];
                     Buffer.BlockCopy(src, 0, dst, 0, src.Length);

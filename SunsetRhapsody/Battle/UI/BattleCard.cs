@@ -9,6 +9,7 @@ using SunsetRhapsody.GUI;
 using SunsetRhapsody.Psi;
 using SFML.Graphics;
 using SFML.System;
+using Violet.Audio;
 
 namespace SunsetRhapsody.Battle.UI
 {
@@ -55,34 +56,34 @@ namespace SunsetRhapsody.Battle.UI
             },
             {
                 BattleCard.GlowType.Shield,
-                new BattleCard.GlowSettings(new Color(206, 226, 234), ColorBlendMode.Add)
+                new BattleCard.GlowSettings(new Color(206, 226, 234), ColorBlendMode.Multiply)
             },
             {
                 BattleCard.GlowType.Counter,
-                new BattleCard.GlowSettings(new Color(byte.MaxValue, 249, 119), ColorBlendMode.Add)
+                new BattleCard.GlowSettings(new Color(byte.MaxValue, 249, 119), ColorBlendMode.Multiply)
             },
             {
                 BattleCard.GlowType.PsiSheild,
-                new BattleCard.GlowSettings(new Color(120, 232, 252), ColorBlendMode.Add)
+                new BattleCard.GlowSettings(new Color(120, 232, 252), ColorBlendMode.Multiply)
             },
             {
                 BattleCard.GlowType.PsiCounter,
-                new BattleCard.GlowSettings(new Color(219, 121, 251), ColorBlendMode.Add)
+                new BattleCard.GlowSettings(new Color(219, 121, 251), ColorBlendMode.Multiply)
             },
             {
                 BattleCard.GlowType.Eraser,
-                new BattleCard.GlowSettings(new Color(247, 136, 136), ColorBlendMode.Add)
+                new BattleCard.GlowSettings(new Color(247, 136, 136), ColorBlendMode.Multiply)
             }
         };
 		public void SetGlow(BattleCard.GlowType type)
         {
-            this.glowType = type;
-            BattleCard.GlowSettings glowSettings = BattleCard.GLOW_COLORS[this.glowType];
-            this.glowColor = ColorHelper.Blend(glowSettings.Color, Color.Black, 0.75f);
-            this.glowSpeed = 0.05f + (float)(Engine.Random.Next(20) - 10) / 1000f;
-            this.glowDelta = 0f;
-            this.card.ColorBlendMode = glowSettings.BlendMode;
-        }
+			this.glowType = type;
+			BattleCard.GlowSettings glowSettings = BattleCard.GLOW_COLORS[this.glowType];
+			this.glowColor = ColorHelper.Blend(glowSettings.Color, Color.Black, 0.75f);
+			this.glowSpeed = 0.05f + (float)(Engine.Random.Next(20) - 10) / 1000f;
+			this.glowDelta = 0f;
+			this.card.ColorBlendMode = glowSettings.BlendMode;
+		}
         private BattleCard.GlowType glowType;
         // Token: 0x040006BC RID: 1724
         private Color glowColor;
@@ -129,41 +130,82 @@ namespace SunsetRhapsody.Battle.UI
             {
                 this.glowDelta += this.glowSpeed;
                 float amount = (float)Math.Sin((double)this.glowDelta) / 2f + 0.5f;
-                this.card.Color = ColorHelper.Blend(Color.Black, this.glowColor, amount);
+                this.card.Color = ColorHelper.Blend(Color.Blue, this.glowColor, amount);
+				//Console.WriteLine($"color is {card.Color}");
             }
         }
 		public void Death()
 		{
             this.card.Visible = false;
             deadCard.Visible = true;
+			
+			this.hitsparks = new Graphic[16];
+			for (int j = 0; j < this.hitsparks.Length; j++)
+			{
+				this.hitsparks[j] = new IndexedColorGraphic(Paths.GRAPHICS + "hitsparks.dat", "combohitspark", new Vector2f(-320f, -180f), 2003);
+				this.hitsparks[j].Visible = false;
+				pipeline.Add(this.hitsparks[j]);
+			}
+		}
 
-        }
-
-        public CardBar index;
-
-        public BattleCard(RenderPipeline pipeline, Vector2f position, int depth, string name, int hp, int maxHp, int pp, int maxPp, float meterFill, CharacterType type, CardBar index)
+		public void Pop()
 		{
+			
+			Vector2f vector2f = (this.card.Position - this.card.Origin + new Vector2f((float)this.card.TextureRect.Width / 2f, (float)this.card.TextureRect.Height / 6f)) - (new Vector2f((float)this.card.TextureRect.Width * 0.6f, 2f)) / 2f + new Vector2f((float)((int)(Engine.Random.NextDouble() * (double)(new Vector2f((float)this.card.TextureRect.Width * 0.6f, 2f)).X)), (float)((int)(Engine.Random.NextDouble() * (double)(new Vector2f((float)this.card.TextureRect.Width * 0.6f, 2f)).Y)));
+
+			// this.enemyGraphic.Position - this.enemyGraphic.Origin + new Vector2f((float)this.enemyGraphic.TextureRect.Width / 2f, (float)this.enemyGraphic.TextureRect.Height / 6f);
+			Vector2f vector2f2 = new Vector2f(vector2f.X, this.card.Position.Y - this.card.Origin.Y + (float)((int)(Engine.Random.NextDouble() * (double)this.card.TextureRect.Height)));
+
+			this.hitsparks[this.hitsparkIndex].Position = vector2f2;
+			this.hitsparks[this.hitsparkIndex].Visible = true;
+			this.hitsparks[this.hitsparkIndex].Frame = 0f;
+			this.hitsparks[this.hitsparkIndex].OnAnimationComplete += this.HitsparkAnimationComplete;
+			this.hitsparkIndex = (this.hitsparkIndex + 1) % this.hitsparks.Length;
+			Console.WriteLine(vector2f2);
+
+			//uhohsound.Play();
+		}
+		public int hitsparkIndex;
+		private void HitsparkAnimationComplete(AnimatedRenderable graphic)
+		{
+			graphic.Visible = false;
+		}
+
+		private Graphic[] hitsparks;
+
+		public CardBar index;
+
+		public RenderPipeline pipeline;
+		private VioletSound uhohsound;
+
+		public BattleCard(RenderPipeline pipeline, Vector2f position, int depth, string name, int hp, int maxHp, int pp, int maxPp, float meterFill, CharacterType type, CardBar index)
+		{
+			this.pipeline = pipeline;
+
+
 			this.position = position;
             this.index = index;
-            this.card = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "card", position, depth);
+            this.card = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "altcard", position, depth);
             this.deadCard = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "carddead", position, depth);
 			this.card.CurrentPalette = Settings.WindowFlavor;
 			this.hpLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "hp", position + BattleCard.HPLABEL_POSITION, depth + 2);
 			this.hpLabel.CurrentPalette = Settings.WindowFlavor;
 			this.ppLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "pp", position + BattleCard.PPLABEL_POSITION, depth + 2);
 			this.ppLabel.CurrentPalette = Settings.WindowFlavor;
-			this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, name);
+			this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, /* "tom"); */ name);
 			this.nameTag.Color = Color.Black;
 			this.nametagX = (int)((float)(this.card.TextureRect.Width / 2) - this.nameTag.Size.X / 2f);
-			this.nameTag.Position = position + new Vector2f((float)this.nametagX, 6f) + BattleCard.NAME_POSITION;
+			this.nameTag.Position = position + new Vector2f((float)this.nametagX, 4f) + BattleCard.NAME_POSITION;
+			this.uhohsound = AudioManager.Instance.Use(Paths.SFXBATTLE + "smaaash.wav", AudioType.Sound);
 
 
-            pipeline.Add(this.card);
+			pipeline.Add(this.card);
             pipeline.Add(this.deadCard);
 			pipeline.Add(this.hpLabel);
 			pipeline.Add(this.ppLabel);
 			pipeline.Add(this.nameTag);
 
+			clock = new Clock();
             cType = type;
 
 			deadCard.Visible = false;
@@ -179,9 +221,11 @@ namespace SunsetRhapsody.Battle.UI
 
             }
 			this.springMode = BattleCard.SpringMode.Normal;
+			
+			//Death();
 		}
 
-        public CharacterType cType;
+		public CharacterType cType;
 
 		~BattleCard()
 		{
@@ -325,6 +369,8 @@ namespace SunsetRhapsody.Battle.UI
             }
         }
 
+		public Clock clock;
+
         public void Update()
 		{
             this.UpdateGlow(); 
@@ -332,8 +378,16 @@ namespace SunsetRhapsody.Battle.UI
 			this.UpdatePosition();
 			this.MoveGraphics(this.position + this.offset);
 			this.odoHP.Update();
+			
+			//int a = TimerManager.Instance.StartTimer(2);
 
-            if (odoPP != null)
+			if (clock.ElapsedTime.AsSeconds() > 0.3f && deadCard.Visible) {
+				Console.WriteLine("hello!");
+				Pop();
+				clock.Restart();
+			}
+
+			if (odoPP != null)
             {
                 this.odoPP.Update();
             }
@@ -341,7 +395,9 @@ namespace SunsetRhapsody.Battle.UI
             this.meter.Update();
 		}
 
-		public void Dispose()
+        
+
+        public void Dispose()
 		{
 			this.Dispose(true);
 			GC.SuppressFinalize(this);
@@ -374,17 +430,22 @@ namespace SunsetRhapsody.Battle.UI
 
 		private static readonly string BATTLEUI_DAT = Paths.GRAPHICS + "battleui2.dat";
 
-		private static readonly Vector2f HPLABEL_POSITION = new Vector2f(10f, 23f);
 
-		private static readonly Vector2f PPLABEL_POSITION = new Vector2f(10f, 34f);
+		// these determine where the odometer and the label for the PP bar is.
+		// keep the y the same.
+		private static readonly Vector2f PPLABEL_POSITION = new Vector2f(10f, 43f);
+		private static readonly Vector2f PPODO_POSITION = new Vector2f(28f, 43f);
 
-		private static readonly Vector2f HPODO_POSITION = new Vector2f(28f, 22f);
+		// these determine where the odometer and the label for the HP bar is.
+		// keep the y the same.
+		private static readonly Vector2f HPODO_POSITION = new Vector2f(28f, 29f);
+		private static readonly Vector2f HPLABEL_POSITION = new Vector2f(10f, 29f);
 
-		private static readonly Vector2f PPODO_POSITION = new Vector2f(28f, 33f);
 
-		private static readonly Vector2f METER_OFFSET = new Vector2f(1f, 1f);
 
-		private static readonly Vector2f NAME_POSITION = new Vector2f(0f, 2f);
+		private static readonly Vector2f METER_OFFSET = new Vector2f(-0, 0f);
+
+		private static readonly Vector2f NAME_POSITION = new Vector2f(0f, 9f);
 
 		private bool disposed;
 

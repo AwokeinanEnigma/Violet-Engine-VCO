@@ -123,13 +123,13 @@ namespace SunsetRhapsody.Battle
 			this.pipeline = pipeline;
 			this.actorManager = actorManager;
 			this.combatantController = combatantController;
-			this.topLetterbox = new RectangleShape(new Vector2f(320f, 35f));
+			this.topLetterbox = new RectangleShape(new Vector2f(350f, 35f));
 			this.topLetterbox.FillColor = Color.Black;
             this.topLetterbox.Rotation = 5.5f;
-			this.topLetterbox.Position = new Vector2f(0f, 14f);
+			this.topLetterbox.Position = new Vector2f(4f, 14f);
 			this.topLetterboxY = this.topLetterbox.Position.Y;
-			this.topLetterboxTargetY = (float)(letterboxing ? 0 : -14);
-			this.bottomLetterbox = new RectangleShape(new Vector2f(320f, 35f));
+			this.topLetterboxTargetY = (float)(letterboxing ? -35L : -54);
+			this.bottomLetterbox = new RectangleShape(new Vector2f(350f, 35f));
 			this.bottomLetterbox.FillColor = Color.Black;
             this.bottomLetterbox.Rotation = 5.5f;
 			this.bottomLetterbox.Position = new Vector2f(0f, 180f);
@@ -407,13 +407,13 @@ namespace SunsetRhapsody.Battle
                 {
                     this.TalkifyPlayer(sender as PlayerCombatant);
                     this.SetCardSpring(sender.ID, BattleCard.SpringMode.BounceUp, new Vector2f(0f, 8f), new Vector2f(0f, 0.1f), new Vector2f(0f, 1f));
-                    return;
+					return;
                 }
                 switch (statusEffect)
                 {
                     case StatusEffect.Shield:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.Shield);
-                        return;
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.Shield);
+						return;
                     case StatusEffect.PsiShield:
                         this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiSheild);
                         return;
@@ -927,6 +927,7 @@ namespace SunsetRhapsody.Battle
 
 		private void ButtonPressed(InputManager sender, Button b)
 		{
+			
 			if (this.state != BattleInterfaceController.State.Waiting)
 			{
 				if (b == Button.A)
@@ -936,6 +937,38 @@ namespace SunsetRhapsody.Battle
 				if (b == Button.B)
 				{
 					this.cancelBeep.Play();
+				}
+				if (b == Button.One)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.Counter);
+					Console.WriteLine($"counter");
+
+				}
+				if (b == Button.Two)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.Eraser);
+					Console.WriteLine($"eraser");
+				}
+
+				if (b == Button.Three)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.PsiCounter);
+					Console.WriteLine($"PsiCounter");
+				}
+				if (b == Button.Five)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.PsiSheild);
+					Console.WriteLine($"PsiCounter");
+				}
+				if (b == Button.Five)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.Shield);
+					Console.WriteLine($"Shield");
+				}
+				if (b == Button.Five)
+				{
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.None);
+					Console.WriteLine($"none");
 				}
 			}
 			switch (this.state)
@@ -1354,7 +1387,7 @@ namespace SunsetRhapsody.Battle
 
 		public void SetLetterboxing(float letterboxing)
 		{
-			this.topLetterboxTargetY = (float)(-(float)((int)(14f * (1f - letterboxing))));
+			this.topLetterboxTargetY = (float)(-(float)((int)(400)));
 			this.bottomLetterboxTargetY = (float)(180L - (long)((int)(35f * letterboxing)));
 		}
 
@@ -1393,7 +1426,10 @@ namespace SunsetRhapsody.Battle
 			PlayerCombatant playerCombatant = (PlayerCombatant)this.combatantController[id];
             this.cardBar.SetHP(playerCombatant.PartyIndex, hp);
 			this.cardBar.SetPP(playerCombatant.PartyIndex, pp);
-			this.cardBar.SetMeter(playerCombatant.PartyIndex, meter);
+			
+			this.cardBar.SetMeter(playerCombatant.PartyIndex, 0.87f);
+			//this.cardBar.SetMeter(playerCombatant.PartyIndex, meter);
+
 
             if (playerCombatant.Stats.HP <= 0)
             {
@@ -1402,7 +1438,7 @@ namespace SunsetRhapsody.Battle
 				foreach (var bg in background.Layers)
                 {
                     LayerParams param = bg.Parameters;
-                    param.Speed += (float)(param.Speed * 0.3);
+                    param.Speed += (float)(param.Speed * 0.1);
                     bg.UpdateParameters(param);
 
 				}

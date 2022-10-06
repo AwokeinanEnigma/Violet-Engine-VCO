@@ -59,6 +59,7 @@ namespace SunsetRhapsody.Battle.EnemyAI
 							possibleTargets.Add(playerCombatant);
 						}
 					}
+					
 				}
 			}
 
