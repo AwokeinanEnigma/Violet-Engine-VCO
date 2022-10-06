@@ -400,10 +400,10 @@ namespace SunsetRhapsody.GUI
 		private const int CURSOR_MARGIN = 1;
 
 		// Token: 0x040002B6 RID: 694
-		private static readonly Vector2f SELECT_RECT_OFFSET = new Vector2f(-2f, 0f);
+		public static readonly Vector2f SELECT_RECT_OFFSET = new Vector2f(-2f, 0f);
 
 		// Token: 0x040002B7 RID: 695
-		private static readonly Vector2f SELECT_RECT_SIZE_OFFSET = new Vector2f(-2f, 0f);
+		public static readonly Vector2f SELECT_RECT_SIZE_OFFSET = new Vector2f(-2f, 0f);
 
 		// Token: 0x040002B8 RID: 696
 		private static readonly Color FOCUSED_TEXT_COLOR = Color.White;

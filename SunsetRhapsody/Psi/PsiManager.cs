@@ -30,9 +30,13 @@ namespace SunsetRhapsody.Psi
 			this.assistive = this.InitializePsiList<AssistivePsi>();
 			this.other = this.InitializePsiList<OtherPsi>();
 			this.LoadOffensePsi(rootTag.Get<NbtCompound>("offense"));
+			Console.WriteLine("it loaded??");
 			this.LoadDefensePsi(rootTag.Get<NbtCompound>("defense"));
+			Console.WriteLine("it loaded??");
 			this.LoadAssistPsi(rootTag.Get<NbtCompound>("assist"));
+			Console.WriteLine("it loaded??");
 			this.LoadOtherPsi(rootTag.Get<NbtCompound>("other"));
+			Console.WriteLine("it loaded??");
 		}
 
 		private Dictionary<CharacterType, List<T>> InitializePsiList<T>() where T : IPsi
@@ -88,33 +92,33 @@ namespace SunsetRhapsody.Psi
 		{
 			if (offenseTag != null)
 			{
+
+				Console.WriteLine("huh1");
+				OffensePsi psi = new OffensePsi(new SOMETHING.Debug());
+				OffensePsi psi1 = new OffensePsi(new SOMETHING.Beam());
+				OffensePsi psi2 = new OffensePsi(new SOMETHING.Fire());
+				OffensePsi psi3 = new OffensePsi(new SOMETHING.Freeze());
+				Console.WriteLine($"Offensive8 PSI: {psi.aux.QualifiedName} " + Environment.NewLine);
+				this.AddPsiToCharacters<OffensePsi>(this.offensive, psi, new List<string>() { "meryl", "travis", "leo" });
+				this.AddPsiToCharacters<OffensePsi>(this.offensive, psi1, new List<string>() { "meryl", "travis", "leo" });
+				this.AddPsiToCharacters<OffensePsi>(this.offensive, psi2, new List<string>() { "meryl", "travis", "leo" });
+				this.AddPsiToCharacters<OffensePsi>(this.offensive, psi3, new List<string>() { "meryl", "travis", "leo" });
+				/*
 				using (IEnumerator<NbtTag> enumerator = offenseTag.GetEnumerator())
 				{
 					while (enumerator.MoveNext())
 					{
+						/*
 						NbtTag nbtTag = enumerator.Current;
 						NbtCompound nbtCompound = (NbtCompound)nbtTag;
 						string stringValue = nbtCompound.Get<NbtString>("key").StringValue;
 						NbtIntArray[] source = nbtCompound.Get<NbtList>("effect").ToArray<NbtIntArray>();
 						int[][] effect = (from s in source
 						select s.Value).ToArray<int[]>();
-						
-						OffensePsi psi = new OffensePsi
-						{
-							PP = this.LoadPPAttribute(nbtCompound),
-							Levels = this.LoadLevelsAttribute(nbtCompound),
-							Special = this.LoadSpecialAttribute(nbtCompound),
-							Target = this.LoadTargetAttribute(nbtCompound),
-							Effect = effect,
-							Key = stringValue,
-							Name = StringFile.Instance.Get(stringValue).Value,
-							Animation = this.LoadAnimationAttribute(nbtCompound)
-						};
-						Console.WriteLine($"Offensive8 PSI: {psi.Name} " + Environment.NewLine);
-						this.AddPsiToCharacters<OffensePsi>(this.offensive, psi, this.LoadUsersAttribute(nbtCompound));
+
 					}
 					return;
-				}
+				}*/
 			}
 			Console.WriteLine("Could not load OffensePsi. Is the offense tag present?");
 		}
@@ -123,26 +127,9 @@ namespace SunsetRhapsody.Psi
 		{
 			if (defenseTag != null)
 			{
-				using (IEnumerator<NbtTag> enumerator = defenseTag.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						NbtTag nbtTag = enumerator.Current;
-						NbtCompound nbtCompound = (NbtCompound)nbtTag;
-						string stringValue = nbtCompound.Get<NbtString>("key").StringValue;
-						DefensivePsi psi = new DefensivePsi
-						{	
-							PP = this.LoadPPAttribute(nbtCompound),
-							Levels = this.LoadLevelsAttribute(nbtCompound),
-							Key = stringValue,
-							Name = StringFile.Instance.Get(stringValue).Value,
-							Animation = this.LoadAnimationAttribute(nbtCompound)
-						};
-						Console.WriteLine($"Defense PSI: {psi.Name} " + Environment.NewLine);
-						this.AddPsiToCharacters<DefensivePsi>(this.defensive, psi, this.LoadUsersAttribute(nbtCompound));
-					}
-					return;
-				}
+				Console.WriteLine("huh1");
+				OffensePsi psi = new OffensePsi(new SOMETHING.Debug());
+				Console.WriteLine($"Offensive8 PSI: {psi.aux.QualifiedName} " + Environment.NewLine);
 			}
 			Console.WriteLine("Could not load DefensePsi. Is the defense tag present?");
 		}
@@ -151,26 +138,9 @@ namespace SunsetRhapsody.Psi
 		{
 			if (assistTag != null)
 			{
-				using (IEnumerator<NbtTag> enumerator = assistTag.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						NbtTag nbtTag = enumerator.Current;
-						NbtCompound nbtCompound = (NbtCompound)nbtTag;
-						string stringValue = nbtCompound.Get<NbtString>("key").StringValue;
-						AssistivePsi psi = new AssistivePsi
-						{
-							PP = this.LoadPPAttribute(nbtCompound),
-							Levels = this.LoadLevelsAttribute(nbtCompound),
-							Key = stringValue,
-							Name = StringFile.Instance.Get(stringValue).Value,
-							Animation = this.LoadAnimationAttribute(nbtCompound)
-						};
-						Console.WriteLine($"Assist PSI: {psi.Name} " + Environment.NewLine);
-						this.AddPsiToCharacters<AssistivePsi>(this.assistive, psi, this.LoadUsersAttribute(nbtCompound));
-					}
-					return;
-				}
+				Console.WriteLine("huh1");
+				OffensePsi psi = new OffensePsi(new SOMETHING.Debug());
+				Console.WriteLine($"Offensive8 PSI: {psi.aux.QualifiedName} " + Environment.NewLine);
 			}
 			Console.WriteLine("Could not load AssistPsi. Is the assist tag present?");
 		}
@@ -179,26 +149,9 @@ namespace SunsetRhapsody.Psi
 		{
 			if (otherTag != null)
 			{
-				using (IEnumerator<NbtTag> enumerator = otherTag.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						NbtTag nbtTag = enumerator.Current;
-						NbtCompound nbtCompound = (NbtCompound)nbtTag;
-						string stringValue = nbtCompound.Get<NbtString>("key").StringValue;
-						OtherPsi psi = new OtherPsi
-						{
-							PP = this.LoadPPAttribute(nbtCompound),
-							Levels = this.LoadLevelsAttribute(nbtCompound),
-							Key = stringValue,
-							Name = StringFile.Instance.Get(stringValue).Value,
-							Animation = this.LoadAnimationAttribute(nbtCompound)
-						};
-						Console.WriteLine($"Other PSI: {psi.Name} " + Environment.NewLine);
-						this.AddPsiToCharacters<OtherPsi>(this.other, psi, this.LoadUsersAttribute(nbtCompound));
-					}
-					return;
-				}
+				Console.WriteLine("huh1");
+				OffensePsi psi = new OffensePsi(new SOMETHING.Debug());
+				Console.WriteLine($"Offensive8 PSI: {psi.aux.QualifiedName} " + Environment.NewLine);
 			}
 			Console.WriteLine("Could not load OtherPsi. Is the other tag present?");
 		}
@@ -267,7 +220,7 @@ namespace SunsetRhapsody.Psi
 						continue;
 					}
 				}
-				Console.WriteLine("Tried to add psi {0} to invalid character {1}", psi.Name, text);
+				Console.WriteLine("Tried to add psi {0} to invalid character {1}", psi.aux.QualifiedName, text);
 			}
 		}
 

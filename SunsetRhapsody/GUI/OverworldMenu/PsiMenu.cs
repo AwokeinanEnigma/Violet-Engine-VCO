@@ -274,10 +274,10 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 				}
 				for (int k = 0; k < array2.Length; k++)
 				{
-					array2[k] = this.psiItemList[k].Name;
+					array2[k] = this.psiItemList[k].aux.QualifiedName;
 					for (int l = 0; l < array3.Length; l++)
 					{
-						if (l < this.psiItemList[k].Levels.Length && this.psiItemList[k].Levels[l] <= stats.Level)
+						if (l < this.psiItemList[k].aux.Symbols.Length && this.psiItemList[k].aux.Symbols[l] <= stats.Level)
 						{
 							Console.Write(PsiMenu.PSI_LEVEL_STRINGS[l]);
 							array3[l][k] = PsiMenu.PSI_LEVEL_STRINGS[l];

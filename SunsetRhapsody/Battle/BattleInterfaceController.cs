@@ -23,12 +23,13 @@ using SFML.System;
 using SunsetRhapsody.Actors;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Background;
+using SunsetRhapsody.SOMETHING;
 
 namespace SunsetRhapsody.Battle
 {
 	internal class BattleInterfaceController : IDisposable
-    {
-        public BattleBackground background;
+	{
+		public BattleBackground background;
 
 		public bool AllowUndo
 		{
@@ -112,7 +113,7 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-        public BattleController controller;
+		public BattleController controller;
 
 		public event BattleInterfaceController.InteractionCompletionHandler OnInteractionComplete;
 
@@ -125,30 +126,30 @@ namespace SunsetRhapsody.Battle
 			this.combatantController = combatantController;
 			this.topLetterbox = new RectangleShape(new Vector2f(350f, 35f));
 			this.topLetterbox.FillColor = Color.Black;
-            this.topLetterbox.Rotation = 5.5f;
+			this.topLetterbox.Rotation = 5.5f;
 			this.topLetterbox.Position = new Vector2f(4f, 14f);
 			this.topLetterboxY = this.topLetterbox.Position.Y;
 			this.topLetterboxTargetY = (float)(letterboxing ? -35L : -54);
 			this.bottomLetterbox = new RectangleShape(new Vector2f(350f, 35f));
 			this.bottomLetterbox.FillColor = Color.Black;
-            this.bottomLetterbox.Rotation = 5.5f;
+			this.bottomLetterbox.Rotation = 5.5f;
 			this.bottomLetterbox.Position = new Vector2f(0f, 180f);
 			this.bottomLetterboxY = this.bottomLetterbox.Position.Y;
 			this.bottomLetterboxTargetY = (float)(180L + (letterboxing ? -35L : 0L));
 			this.buttonBar = new ButtonBar(pipeline);
 			actorManager.Add(this.buttonBar);
-			
-            Combatant[] factionCombatants = combatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
+
+			Combatant[] factionCombatants = combatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
 			CharacterType[] array = new CharacterType[factionCombatants.Length];
 			for (int i = 0; i < factionCombatants.Length; i++)
 			{
 				array[i] = ((PlayerCombatant)factionCombatants[i]).Character;
 			}
-		
-            this.cardBar = new CardBar(pipeline, array, this);
+
+			this.cardBar = new CardBar(pipeline, array, this);
 			actorManager.Add(this.cardBar);
-            this.psiMenu = new SectionedPsiBox(this.pipeline, 1, 14f);          
-            //this.pipeline.Add(this.psiMenu);
+			this.psiMenu = new SectionedPsiBox(this.pipeline, 1, 14f);
+			//this.pipeline.Add(this.psiMenu);
 			this.selectionMarkers = new Dictionary<Graphic, Graphic>();
 			for (int j = 0; j < array.Length; j++)
 			{
@@ -211,14 +212,14 @@ namespace SunsetRhapsody.Battle
 			this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "preEnemyAttack.wav", AudioType.Sound);
 
 			this.prePsiSound = AudioManager.Instance.Use(Paths.SFXBATTLEPSI + "prePsi.wav", AudioType.Sound);
-			
-            this.talkSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "floydTalk.wav", AudioType.Sound);
+
+			this.talkSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "floydTalk.wav", AudioType.Sound);
 			this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "enemyDeath.wav", AudioType.Sound);
 			this.smashSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "smaaash.wav", AudioType.Sound);
 			this.comboHitA = AudioManager.Instance.Use(Paths.SFXBATTLE + "hitA.wav", AudioType.Sound);
 			this.comboHitB = AudioManager.Instance.Use(Paths.SFXBATTLE + "hitB.wav", AudioType.Sound);
 			this.comboSuccess = AudioManager.Instance.Use(Paths.SFXBATTLE + "Combo16.wav", AudioType.Sound);
-            Console.WriteLine("combo");
+			Console.WriteLine("combo");
 
 			this.comboSoundMap = new Dictionary<CharacterType, List<VioletSound>>();
 			for (int k = 0; k < array.Length; k++)
@@ -257,43 +258,43 @@ namespace SunsetRhapsody.Battle
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 
 
-        }
+		}
 
-        public void KillCharacter(BattleCard card)
+		public void KillCharacter(BattleCard card)
 		{
 
 
 			Combatant[] combat = combatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
-            foreach (PlayerCombatant playa in combat)
+			foreach (PlayerCombatant playa in combat)
 			{
 				Console.WriteLine($"type: {playa.Character} card: {card.cType}");
 
 				if (playa.Character == card.cType)
-                {
-                    Console.WriteLine("kill");
-                    
+				{
+					Console.WriteLine("kill");
+
 					controller.AddAction(new PlayerDeathAction(new ActionParams()
-                        {
+					{
 						targets = new Combatant[1]
-                        {
-                            playa
+						{
+							playa
 						},
 						data = null,
 						priority = int.MaxValue,
 						sender = playa,
-						controller =  controller,
-                        }
-                    )
-                    );
+						controller = controller,
+					}
+					)
+					);
 
 
 
 					playa.AddStatusEffect(StatusEffect.Unconscious, 500);
-                }
-            }
-        }
+				}
+			}
+		}
 
-        ~BattleInterfaceController()
+		~BattleInterfaceController()
 		{
 			this.Dispose(false);
 		}
@@ -302,48 +303,48 @@ namespace SunsetRhapsody.Battle
 		{
 			switch (trigger.Type)
 			{
-			case 0:
-				this.youWon = new YouWon(this.pipeline);
-				return;
-			case 1:
-			{
-				CharacterType character;
-				bool flag = Enum.TryParse<CharacterType>(trigger.Data[0], true, out character);
-				if (flag)
-				{
-					this.jingler.Play(character);
+				case 0:
+					this.youWon = new YouWon(this.pipeline);
 					return;
-				}
-				break;
-			}
-			case 2:
-			{
-				int i = 0;
-				int hp = 0;
-				int.TryParse(trigger.Data[0], out i);
-				int.TryParse(trigger.Data[1], out hp);
-				StatSet statChange = new StatSet
-				{
-					HP = hp
-				};
-				this.combatantController[i].AlterStats(statChange);
-				return;
-			}
-			case 3:
-			{
-				int i2 = 0;
-				int pp = 0;
-				int.TryParse(trigger.Data[0], out i2);
-				int.TryParse(trigger.Data[1], out pp);
-				StatSet statChange2 = new StatSet
-				{
-					PP = pp
-				};
-				this.combatantController[i2].AlterStats(statChange2);
-				break;
-			}
-			default:
-				return;
+				case 1:
+					{
+						CharacterType character;
+						bool flag = Enum.TryParse<CharacterType>(trigger.Data[0], true, out character);
+						if (flag)
+						{
+							this.jingler.Play(character);
+							return;
+						}
+						break;
+					}
+				case 2:
+					{
+						int i = 0;
+						int hp = 0;
+						int.TryParse(trigger.Data[0], out i);
+						int.TryParse(trigger.Data[1], out hp);
+						StatSet statChange = new StatSet
+						{
+							HP = hp
+						};
+						this.combatantController[i].AlterStats(statChange);
+						return;
+					}
+				case 3:
+					{
+						int i2 = 0;
+						int pp = 0;
+						int.TryParse(trigger.Data[0], out i2);
+						int.TryParse(trigger.Data[1], out pp);
+						StatSet statChange2 = new StatSet
+						{
+							PP = pp
+						};
+						this.combatantController[i2].AlterStats(statChange2);
+						break;
+					}
+				default:
+					return;
 			}
 		}
 
@@ -393,150 +394,150 @@ namespace SunsetRhapsody.Battle
 			PlayerCombatant playerCombatant = (PlayerCombatant)sender;
 
 
-            this.UpdatePlayerCard(playerCombatant.ID, playerCombatant.Stats.HP, playerCombatant.Stats.PP, playerCombatant.Stats.Meter);
+			this.UpdatePlayerCard(playerCombatant.ID, playerCombatant.Stats.HP, playerCombatant.Stats.PP, playerCombatant.Stats.Meter);
 		}
 
-        public int talkerID;
-        public PlayerCombatant talker;
+		public int talkerID;
+		public PlayerCombatant talker;
 
 		private void OnPlayerStatusEffectChange(Combatant sender, StatusEffect statusEffect, bool added)
 		{
-            if (added)
-            {
-                if (statusEffect == StatusEffect.Talking)
-                {
-                    this.TalkifyPlayer(sender as PlayerCombatant);
-                    this.SetCardSpring(sender.ID, BattleCard.SpringMode.BounceUp, new Vector2f(0f, 8f), new Vector2f(0f, 0.1f), new Vector2f(0f, 1f));
+			if (added)
+			{
+				if (statusEffect == StatusEffect.Talking)
+				{
+					this.TalkifyPlayer(sender as PlayerCombatant);
+					this.SetCardSpring(sender.ID, BattleCard.SpringMode.BounceUp, new Vector2f(0f, 8f), new Vector2f(0f, 0.1f), new Vector2f(0f, 1f));
 					return;
-                }
-                switch (statusEffect)
-                {
-                    case StatusEffect.Shield:
+				}
+				switch (statusEffect)
+				{
+					case StatusEffect.Shield:
 						this.SetCardGlow(sender.ID, BattleCard.GlowType.Shield);
 						return;
-                    case StatusEffect.PsiShield:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiSheild);
-                        return;
-                    case StatusEffect.Counter:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.Counter);
-                        return;
-                    case StatusEffect.PsiCounter:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiCounter);
-                        return;
-                    case StatusEffect.Eraser:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.Eraser);
-                        return;
-                    default:
-                        return;
-                }
-            }
-            else
-            {
-                if (statusEffect == StatusEffect.Talking)
-                {
-                    this.RemoveTalker(this.cardBar.GetCardGraphic(sender.ID));
-                    this.SetCardSpring(sender.ID, BattleCard.SpringMode.Normal, new Vector2f(0f, 0f), new Vector2f(0f, 0f), new Vector2f(0f, 0f));
-                    return;
-                }
-                switch (statusEffect)
-                {
-                    case StatusEffect.Shield:
-                    case StatusEffect.PsiShield:
-                    case StatusEffect.Counter:
-                    case StatusEffect.PsiCounter:
-                    case StatusEffect.Eraser:
-                        this.SetCardGlow(sender.ID, BattleCard.GlowType.None);
-                        return;
-                    default:
-                        return;
-                }
-            }
-        }
+					case StatusEffect.PsiShield:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiSheild);
+						return;
+					case StatusEffect.Counter:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.Counter);
+						return;
+					case StatusEffect.PsiCounter:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiCounter);
+						return;
+					case StatusEffect.Eraser:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.Eraser);
+						return;
+					default:
+						return;
+				}
+			}
+			else
+			{
+				if (statusEffect == StatusEffect.Talking)
+				{
+					this.RemoveTalker(this.cardBar.GetCardGraphic(sender.ID));
+					this.SetCardSpring(sender.ID, BattleCard.SpringMode.Normal, new Vector2f(0f, 0f), new Vector2f(0f, 0f), new Vector2f(0f, 0f));
+					return;
+				}
+				switch (statusEffect)
+				{
+					case StatusEffect.Shield:
+					case StatusEffect.PsiShield:
+					case StatusEffect.Counter:
+					case StatusEffect.PsiCounter:
+					case StatusEffect.Eraser:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.None);
+						return;
+					default:
+						return;
+				}
+			}
+		}
 
 		private void OnEnemyStatusEffectChange(Combatant sender, StatusEffect statusEffect, bool added)
 		{
-            if (added)
-            {
-                if (statusEffect != StatusEffect.Talking)
-                {
-                    return;
-                }
-                this.TalkifyEnemy(sender as EnemyCombatant);
-                return;
-            }
-            else
-            {
-                if (statusEffect != StatusEffect.Talking)
-                {
-                    return;
-                }
-                this.RemoveTalker(this.enemyGraphics[sender.ID]);
-                return;
-            }
+			if (added)
+			{
+				if (statusEffect != StatusEffect.Talking)
+				{
+					return;
+				}
+				this.TalkifyEnemy(sender as EnemyCombatant);
+				return;
+			}
+			else
+			{
+				if (statusEffect != StatusEffect.Talking)
+				{
+					return;
+				}
+				this.RemoveTalker(this.enemyGraphics[sender.ID]);
+				return;
+			}
 		}
 
 		public PsiAnimator AddPsiAnimation(PsiElementList animation, Combatant sender, Combatant[] targets)
 		{
-            Graphic senderGraphic = null;
-            if (sender.Faction == BattleFaction.EnemyTeam)
-            {
-                senderGraphic = this.enemyGraphics[sender.ID];
-            }
-            else if (sender.Faction == BattleFaction.PlayerTeam)
-            {
-                senderGraphic = this.cardBar.GetCardGraphic(sender.ID);
-            }
-            int[] array = new int[targets.Length];
-            Graphic[] array2 = new Graphic[targets.Length];
-            for (int i = 0; i < targets.Length; i++)
-            {
-                if (targets[i].Faction == BattleFaction.EnemyTeam)
-                {
-                    array2[i] = this.enemyGraphics[targets[i].ID];
-                    array[i] = -1;
-                }
-                else if (targets[i].Faction == BattleFaction.PlayerTeam)
-                {
-                    array2[i] = this.cardBar.GetCardGraphic(targets[i].ID);
-                    array[i] = targets[i].ID;
-                }
-            }
-            PsiAnimator psiAnimator = new PsiAnimator(this.pipeline, this.graphicModifiers, animation, senderGraphic, array2, this.cardBar, array);
-            this.psiAnimators.Add(psiAnimator);
-            return psiAnimator;
+			Graphic senderGraphic = null;
+			if (sender.Faction == BattleFaction.EnemyTeam)
+			{
+				senderGraphic = this.enemyGraphics[sender.ID];
+			}
+			else if (sender.Faction == BattleFaction.PlayerTeam)
+			{
+				senderGraphic = this.cardBar.GetCardGraphic(sender.ID);
+			}
+			int[] array = new int[targets.Length];
+			Graphic[] array2 = new Graphic[targets.Length];
+			for (int i = 0; i < targets.Length; i++)
+			{
+				if (targets[i].Faction == BattleFaction.EnemyTeam)
+				{
+					array2[i] = this.enemyGraphics[targets[i].ID];
+					array[i] = -1;
+				}
+				else if (targets[i].Faction == BattleFaction.PlayerTeam)
+				{
+					array2[i] = this.cardBar.GetCardGraphic(targets[i].ID);
+					array[i] = targets[i].ID;
+				}
+			}
+			PsiAnimator psiAnimator = new PsiAnimator(this.pipeline, this.graphicModifiers, animation, senderGraphic, array2, this.cardBar, array);
+			this.psiAnimators.Add(psiAnimator);
+			return psiAnimator;
 		}
 
 		public DamageNumber AddDamageNumber(Combatant combatant, int number)
 		{
-            Vector2f offset = default(Vector2f);
-            Vector2f position;
-            if (combatant.Faction == BattleFaction.PlayerTeam)
-            {
-                Graphic cardGraphic = this.cardBar.GetCardGraphic(combatant.ID);
-                position = new Vector2f((float)((int)cardGraphic.Position.X), (float)((int)cardGraphic.Position.Y)) + new Vector2f((float)((int)(cardGraphic.Size.X / 2f)), 2f);
-                offset.Y = -10f;
-            }
-            else if (combatant.Faction == BattleFaction.EnemyTeam)
-            {
-                Graphic graphic = this.enemyGraphics[combatant.ID];
-                position = new Vector2f((float)((int)graphic.Position.X), (float)((int)graphic.Position.Y));
-                offset.Y = (float)((int)(-graphic.Size.Y / 3f));
-            }
-            else
-            {
-                position = new Vector2f(-320f, -180f);
-            }
-            DamageNumber damageNumber = new DamageNumber(this.pipeline, position, offset, 30, number);
-            damageNumber.SetVisibility(true);
-            this.damageNumbers.Add(damageNumber);
-            damageNumber.Start();
-            return damageNumber;
+			Vector2f offset = default(Vector2f);
+			Vector2f position;
+			if (combatant.Faction == BattleFaction.PlayerTeam)
+			{
+				Graphic cardGraphic = this.cardBar.GetCardGraphic(combatant.ID);
+				position = new Vector2f((float)((int)cardGraphic.Position.X), (float)((int)cardGraphic.Position.Y)) + new Vector2f((float)((int)(cardGraphic.Size.X / 2f)), 2f);
+				offset.Y = -10f;
+			}
+			else if (combatant.Faction == BattleFaction.EnemyTeam)
+			{
+				Graphic graphic = this.enemyGraphics[combatant.ID];
+				position = new Vector2f((float)((int)graphic.Position.X), (float)((int)graphic.Position.Y));
+				offset.Y = (float)((int)(-graphic.Size.Y / 3f));
+			}
+			else
+			{
+				position = new Vector2f(-320f, -180f);
+			}
+			DamageNumber damageNumber = new DamageNumber(this.pipeline, position, offset, 30, number);
+			damageNumber.SetVisibility(true);
+			this.damageNumbers.Add(damageNumber);
+			damageNumber.Start();
+			return damageNumber;
 		}
 
 		public void StartComboCircle(EnemyCombatant enemy, PlayerCombatant player)
 		{
-            Graphic graphic = this.enemyGraphics[enemy.ID];
-            this.comboCircle.Setup(graphic, player);
+			Graphic graphic = this.enemyGraphics[enemy.ID];
+			this.comboCircle.Setup(graphic, player);
 		}
 
 		public void StopComboCircle(bool explode)
@@ -608,67 +609,67 @@ namespace SunsetRhapsody.Battle
 			this.graphicModifiers.Add(new GraphicBouncer(this.enemyGraphics[combatant.ID], GraphicBouncer.SpringMode.BounceUp, new Vector2f(0f, 4f), new Vector2f(0f, 0.1f), new Vector2f(0f, 1f)));
 		}
 
-		 public void RemoveTalker(Graphic graphic)
+		public void RemoveTalker(Graphic graphic)
 		{
 			foreach (IGraphicModifier graphicModifier in this.graphicModifiers)
 			{
 				if (graphicModifier is GraphicTalker && graphicModifier.Graphic == graphic)
 				{
-                    (graphicModifier as GraphicTalker).Dispose();
+					(graphicModifier as GraphicTalker).Dispose();
 				}
 
-                if (graphicModifier is GraphicBouncer && graphicModifier.Graphic == graphic)
-                {
-                    (graphicModifier as GraphicBouncer).Dispose();
-                }
+				if (graphicModifier is GraphicBouncer && graphicModifier.Graphic == graphic)
+				{
+					(graphicModifier as GraphicBouncer).Dispose();
+				}
 			}
 			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicTalker && x.Graphic == graphic);
-           this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicBouncer && x.Graphic == graphic);
+			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicBouncer && x.Graphic == graphic);
 		}
 
 		public void RemoveTalkers()
 		{
 			foreach (IGraphicModifier graphicModifier in this.graphicModifiers)
 			{
-                if (graphicModifier is GraphicTalker)
-                {
-                    (graphicModifier as GraphicTalker).Dispose();
-                }
-                if (graphicModifier is GraphicBouncer )
-                {
-                    (graphicModifier as GraphicBouncer).Dispose();
-                }
+				if (graphicModifier is GraphicTalker)
+				{
+					(graphicModifier as GraphicTalker).Dispose();
+				}
+				if (graphicModifier is GraphicBouncer)
+				{
+					(graphicModifier as GraphicBouncer).Dispose();
+				}
 			}
 			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicTalker);
-            this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicBouncer);
+			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicBouncer);
 		}
 		public void AddShieldAnimation(Combatant combatant)
-        {
-            Graphic graphic = null;
-            if (combatant is PlayerCombatant)
-            {
-                graphic = this.cardBar.GetCardGraphic(combatant.ID);
-            }
-            else if (combatant is EnemyCombatant)
-            {
-                graphic = this.enemyGraphics[combatant.ID];
-            }
-            if (graphic != null)
-            {
-                this.graphicModifiers.Add(new GraphicShielder(this.pipeline, graphic));
-            }
-        }
-        private void SetSelectionMarkerVisibility(Graphic graphic, bool visible)
-        {
-            Graphic graphic2 = this.selectionMarkers[graphic];
-            if (visible)
-            {
-                graphic2.Position = VectorMath.Truncate(graphic.Position - graphic.Origin + new Vector2f(graphic.Size.X / 2f, 4f));
-                graphic2.Depth = 32767;
-                this.pipeline.Update(graphic2);
-            }
-            graphic2.Visible = visible;
-        }
+		{
+			Graphic graphic = null;
+			if (combatant is PlayerCombatant)
+			{
+				graphic = this.cardBar.GetCardGraphic(combatant.ID);
+			}
+			else if (combatant is EnemyCombatant)
+			{
+				graphic = this.enemyGraphics[combatant.ID];
+			}
+			if (graphic != null)
+			{
+				this.graphicModifiers.Add(new GraphicShielder(this.pipeline, graphic));
+			}
+		}
+		private void SetSelectionMarkerVisibility(Graphic graphic, bool visible)
+		{
+			Graphic graphic2 = this.selectionMarkers[graphic];
+			if (visible)
+			{
+				graphic2.Position = VectorMath.Truncate(graphic.Position - graphic.Origin + new Vector2f(graphic.Size.X / 2f, 4f));
+				graphic2.Depth = 32767;
+				this.pipeline.Update(graphic2);
+			}
+			graphic2.Visible = visible;
+		}
 		private void ResetTargetingSelection()
 		{
 			using (Dictionary<int, IndexedColorGraphic>.Enumerator enumerator = this.enemyGraphics.GetEnumerator())
@@ -676,7 +677,7 @@ namespace SunsetRhapsody.Battle
 				while (enumerator.MoveNext())
 				{
 					KeyValuePair<int, IndexedColorGraphic> kvp = enumerator.Current;
-                    this.graphicModifiers.RemoveAll((Predicate<IGraphicModifier>)(x => x.Graphic == kvp.Value && x is GraphicFader));
+					this.graphicModifiers.RemoveAll((Predicate<IGraphicModifier>)(x => x.Graphic == kvp.Value && x is GraphicFader));
 					if (this.selectionState.TargetingMode == TargetingMode.Enemy)
 					{
 						KeyValuePair<int, IndexedColorGraphic> kvp18 = kvp;
@@ -829,94 +830,94 @@ namespace SunsetRhapsody.Battle
 			}
 			switch (this.state)
 			{
-			case BattleInterfaceController.State.Waiting:
-			case BattleInterfaceController.State.PsiAttackSelection:
-			case BattleInterfaceController.State.SpecialSelection:
-			case BattleInterfaceController.State.ItemSelection:
-				break;
-			case BattleInterfaceController.State.TopLevelSelection:
-				if (flag)
-				{
-					this.buttonBar.SelectLeft();
-					return;
-				}
-				if (flag2)
-				{
-					this.buttonBar.SelectRight();
-					return;
-				}
-				break;
-			case BattleInterfaceController.State.PsiTypeSelection:
-				if (flag3)
-				{
-					this.psiMenu.SelectUp();
-					return;
-				}
-				if (flag4)
-				{
-					this.psiMenu.SelectDown();
-					return;
-				}
-				if (flag)
-				{
-					this.psiMenu.SelectLeft();
-					return;
-				}
-				if (flag2)
-				{
-					this.psiMenu.SelectRight();
-					return;
-				}
-				break;
-			case BattleInterfaceController.State.EnemySelection:
-				if (flag)
-				{
-                    this.enemySelectIndex--;
-                    if (this.enemySelectIndex < 0)
-                    {
-                        this.enemySelectIndex = this.enemyIDs.Count - 1;
-                    }
-                    this.selectedTargetId = this.enemyIDs[this.enemySelectIndex];
-                    this.ResetTargetingSelection();
-                    return;
+				case BattleInterfaceController.State.Waiting:
+				case BattleInterfaceController.State.PsiAttackSelection:
+				case BattleInterfaceController.State.SpecialSelection:
+				case BattleInterfaceController.State.ItemSelection:
+					break;
+				case BattleInterfaceController.State.TopLevelSelection:
+					if (flag)
+					{
+						this.buttonBar.SelectLeft();
+						return;
 					}
-				if (flag2)
-				{
-                    this.enemySelectIndex++;
-                    if (this.enemySelectIndex >= this.enemyIDs.Count)
-                    {
-                        this.enemySelectIndex = 0;
-                    }
-                    this.selectedTargetId = this.enemyIDs[this.enemySelectIndex];
-                    this.ResetTargetingSelection();
-                    return;
+					if (flag2)
+					{
+						this.buttonBar.SelectRight();
+						return;
 					}
-				break;
-            case BattleInterfaceController.State.AllySelection:
-                if (flag)
-                {
-                    this.partySelectIndex--;
-                    if (this.partySelectIndex < 0)
-                    {
-                        this.partySelectIndex = this.partyIDs.Count - 1;
-                    }
-                    this.selectedTargetId = this.partyIDs[this.partySelectIndex];
-                    this.ResetTargetingSelection();
-                    return;
-                }
-                if (flag2)
-                {
-                    this.partySelectIndex++;
-                    if (this.partySelectIndex >= this.partyIDs.Count)
-                    {
-                        this.partySelectIndex = 0;
-                    }
-                    this.selectedTargetId = this.partyIDs[this.partySelectIndex];
-                    this.ResetTargetingSelection();
-                }
-                break;
+					break;
+				case BattleInterfaceController.State.PsiTypeSelection:
+					if (flag3)
+					{
+						this.psiMenu.SelectUp();
+						return;
+					}
+					if (flag4)
+					{
+						this.psiMenu.SelectDown();
+						return;
+					}
+					if (flag)
+					{
+						this.psiMenu.SelectLeft();
+						return;
+					}
+					if (flag2)
+					{
+						this.psiMenu.SelectRight();
+						return;
+					}
+					break;
+				case BattleInterfaceController.State.EnemySelection:
+					if (flag)
+					{
+						this.enemySelectIndex--;
+						if (this.enemySelectIndex < 0)
+						{
+							this.enemySelectIndex = this.enemyIDs.Count - 1;
+						}
+						this.selectedTargetId = this.enemyIDs[this.enemySelectIndex];
+						this.ResetTargetingSelection();
+						return;
+					}
+					if (flag2)
+					{
+						this.enemySelectIndex++;
+						if (this.enemySelectIndex >= this.enemyIDs.Count)
+						{
+							this.enemySelectIndex = 0;
+						}
+						this.selectedTargetId = this.enemyIDs[this.enemySelectIndex];
+						this.ResetTargetingSelection();
+						return;
+					}
+					break;
+				case BattleInterfaceController.State.AllySelection:
+					if (flag)
+					{
+						this.partySelectIndex--;
+						if (this.partySelectIndex < 0)
+						{
+							this.partySelectIndex = this.partyIDs.Count - 1;
+						}
+						this.selectedTargetId = this.partyIDs[this.partySelectIndex];
+						this.ResetTargetingSelection();
+						return;
+					}
+					if (flag2)
+					{
+						this.partySelectIndex++;
+						if (this.partySelectIndex >= this.partyIDs.Count)
+						{
+							this.partySelectIndex = 0;
+						}
+						this.selectedTargetId = this.partyIDs[this.partySelectIndex];
+						this.ResetTargetingSelection();
+					}
+					break;
 				default:
-				return;
+					return;
 			}
 		}
 
@@ -927,7 +928,7 @@ namespace SunsetRhapsody.Battle
 
 		private void ButtonPressed(InputManager sender, Button b)
 		{
-			
+
 			if (this.state != BattleInterfaceController.State.Waiting)
 			{
 				if (b == Button.A)
@@ -973,29 +974,29 @@ namespace SunsetRhapsody.Battle
 			}
 			switch (this.state)
 			{
-			case BattleInterfaceController.State.Waiting:
-				break;
-			case BattleInterfaceController.State.TopLevelSelection:
-				this.TopLevelSelection(b);
-				return;
-			case BattleInterfaceController.State.PsiTypeSelection:
-				this.PsiTypeSelection(b);
-				return;
-			case BattleInterfaceController.State.PsiAttackSelection:
-				this.PsiAttackSelection(b);
-				return;
-			case BattleInterfaceController.State.SpecialSelection:
-				this.SpecialSelection(b);
-				return;
-			case BattleInterfaceController.State.ItemSelection:
-				this.ItemSelection(b);
-				return;
-            case BattleInterfaceController.State.EnemySelection:
-            case BattleInterfaceController.State.AllySelection:
-                this.TargetSelection(b);
-                break;
-            default:
-                return;
+				case BattleInterfaceController.State.Waiting:
+					break;
+				case BattleInterfaceController.State.TopLevelSelection:
+					this.TopLevelSelection(b);
+					return;
+				case BattleInterfaceController.State.PsiTypeSelection:
+					this.PsiTypeSelection(b);
+					return;
+				case BattleInterfaceController.State.PsiAttackSelection:
+					this.PsiAttackSelection(b);
+					return;
+				case BattleInterfaceController.State.SpecialSelection:
+					this.SpecialSelection(b);
+					return;
+				case BattleInterfaceController.State.ItemSelection:
+					this.ItemSelection(b);
+					return;
+				case BattleInterfaceController.State.EnemySelection:
+				case BattleInterfaceController.State.AllySelection:
+					this.TargetSelection(b);
+					break;
+				default:
+					return;
 			}
 		}
 
@@ -1004,105 +1005,106 @@ namespace SunsetRhapsody.Battle
 			return (PlayerCombatant)this.combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[this.cardBar.SelectedIndex];
 		}
 
-        private void StartTargetSelection()
-        {
-            if (this.selectionState.TargetingMode == TargetingMode.None)
-            {
-                this.CompleteTargetSelection(this.buttonBar.SelectedAction);
-                return;
-            }
-            if (this.selectionState.TargetingMode == TargetingMode.Enemy)
-            {
-                this.state = BattleInterfaceController.State.EnemySelection;
-                this.selectedTargetId = this.enemyIDs[this.enemySelectIndex % this.enemyIDs.Count];
-            }
-            else if (this.selectionState.TargetingMode == TargetingMode.AllEnemies)
-            {
-                this.state = BattleInterfaceController.State.EnemySelection;
-                this.selectedTargetId = -1;
-            }
-            else if (this.selectionState.TargetingMode == TargetingMode.PartyMember)
-            {
-                this.state = BattleInterfaceController.State.AllySelection;
-                this.selectedTargetId = this.partyIDs[this.partySelectIndex % this.partyIDs.Count];
-            }
-            else if (this.selectionState.TargetingMode == TargetingMode.AllPartyMembers)
-            {
-                this.state = BattleInterfaceController.State.AllySelection;
-                this.selectedTargetId = -1;
-            }
-            this.buttonBar.Hide();
-            this.ResetTargetingSelection();
-        }
+		private void StartTargetSelection()
+		{
+			if (this.selectionState.TargetingMode == TargetingMode.None)
+			{
+				this.CompleteTargetSelection(this.buttonBar.SelectedAction);
+				return;
+			}
+			if (this.selectionState.TargetingMode == TargetingMode.Enemy)
+			{
+				this.state = BattleInterfaceController.State.EnemySelection;
+				this.selectedTargetId = this.enemyIDs[this.enemySelectIndex % this.enemyIDs.Count];
+			}
+			else if (this.selectionState.TargetingMode == TargetingMode.AllEnemies)
+			{
+				this.state = BattleInterfaceController.State.EnemySelection;
+				this.selectedTargetId = -1;
+			}
+			else if (this.selectionState.TargetingMode == TargetingMode.PartyMember)
+			{
+				this.state = BattleInterfaceController.State.AllySelection;
+				this.selectedTargetId = this.partyIDs[this.partySelectIndex % this.partyIDs.Count];
+			}
+			else if (this.selectionState.TargetingMode == TargetingMode.AllPartyMembers)
+			{
+				this.state = BattleInterfaceController.State.AllySelection;
+				this.selectedTargetId = -1;
+			}
+			this.buttonBar.Hide();
+			this.ResetTargetingSelection();
+		}
 
-		public void HidePSI() { 
-		//	this.psiMenu
+		public void HidePSI()
+		{
+			//	this.psiMenu
 		}
 
 		private void TopLevelSelection(Button b)
 		{
 			switch (b)
 			{
-			case Button.A:
-				switch (this.buttonBar.SelectedAction)
-				{
-                    case ButtonBar.Action.Bash:
-                        this.selectionState.TargetingMode = TargetingMode.Enemy;
-                        this.StartTargetSelection();
+				case Button.A:
+					switch (this.buttonBar.SelectedAction)
+					{
+						case ButtonBar.Action.Bash:
+							this.selectionState.TargetingMode = TargetingMode.Enemy;
+							this.StartTargetSelection();
 							return;
 						case ButtonBar.Action.Psi:
 							{
-                                Console.Write("psi selected");
-                                PlayerCombatant playerCombatant = this.CurrentPlayerCombatant();
-                                //if (playerCombatant.GetStatusEffects().ToList().Contains())
-                                this.psiMenu.Reset();
-                                this.psiMenu.MaxLevel = this.CurrentPlayerCombatant().Stats.Level;
-                                Console.WriteLine($"Current Character: { playerCombatant.Character}");
-                                this.psiMenu.OffensePsiItems = PsiManager.Instance.GetCharacterOffensePsi(playerCombatant.Character);
-                                foreach (var psi in psiMenu.OffensePsiItems)
-                                {
-                                    Console.WriteLine(psi.Name);
-                                }
-                                this.psiMenu.DefensePsiItems = PsiManager.Instance.GetCharacterDefensePsi(playerCombatant.Character);
-                                this.psiMenu.AssistPsiItems = PsiManager.Instance.GetCharacterAssistPsi(playerCombatant.Character);
-                                this.psiMenu.OtherPsiItems = PsiManager.Instance.GetCharacterOtherPsi(playerCombatant.Character);
-                                this.state = BattleInterfaceController.State.PsiTypeSelection;
-                                this.buttonBar.Hide();
-                                this.psiMenu.Show();
+								Console.Write("psi selected");
+								PlayerCombatant playerCombatant = this.CurrentPlayerCombatant();
+								//if (playerCombatant.GetStatusEffects().ToList().Contains())
+								this.psiMenu.Reset();
+								this.psiMenu.MaxLevel = 3; // this.CurrentPlayerCombatant().Stats.Level;
+								Console.WriteLine($"Current Character: { playerCombatant.Character}");
+								this.psiMenu.OffensePsiItems = PsiManager.Instance.GetCharacterOffensePsi(playerCombatant.Character);
+								foreach (var psi in psiMenu.OffensePsiItems)
+								{
+									Console.WriteLine(psi.aux.QualifiedName);
+								}
+								this.psiMenu.DefensePsiItems = PsiManager.Instance.GetCharacterDefensePsi(playerCombatant.Character);
+								this.psiMenu.AssistPsiItems = PsiManager.Instance.GetCharacterAssistPsi(playerCombatant.Character);
+								this.psiMenu.OtherPsiItems = PsiManager.Instance.GetCharacterOtherPsi(playerCombatant.Character);
+								this.state = BattleInterfaceController.State.PsiTypeSelection;
+								this.buttonBar.Hide();
+								this.psiMenu.Show();
 								return;
-				}
-                    case ButtonBar.Action.Items:
-                        this.state = BattleInterfaceController.State.ItemSelection;
-                        this.buttonBar.Hide();
-                        return;
-                    case ButtonBar.Action.Talk:
-                        this.selectionState.TargetingMode = TargetingMode.Enemy;
-                        this.state = BattleInterfaceController.State.EnemySelection;
-                        this.buttonBar.Hide();
-                        this.selectedTargetId = this.enemyIDs[this.enemySelectIndex % this.enemyIDs.Count];
-                        this.ResetTargetingSelection();
-                        return;
-                    case ButtonBar.Action.Guard:
-                        this.CompleteMenuGuard();
-                        return;
-                    case ButtonBar.Action.Run:
-                        this.buttonBar.Hide();
-                        this.RunAttempted = true;
-                        this.CompleteMenuRun();
-                        this.state = BattleInterfaceController.State.Waiting;
-                        return;
-                    default:
-                        throw new NotImplementedException("Tried to use unimplemented button action.");
-                }
-                break;
+							}
+						case ButtonBar.Action.Items:
+							this.state = BattleInterfaceController.State.ItemSelection;
+							this.buttonBar.Hide();
+							return;
+						case ButtonBar.Action.Talk:
+							this.selectionState.TargetingMode = TargetingMode.Enemy;
+							this.state = BattleInterfaceController.State.EnemySelection;
+							this.buttonBar.Hide();
+							this.selectedTargetId = this.enemyIDs[this.enemySelectIndex % this.enemyIDs.Count];
+							this.ResetTargetingSelection();
+							return;
+						case ButtonBar.Action.Guard:
+							this.CompleteMenuGuard();
+							return;
+						case ButtonBar.Action.Run:
+							this.buttonBar.Hide();
+							this.RunAttempted = true;
+							this.CompleteMenuRun();
+							this.state = BattleInterfaceController.State.Waiting;
+							return;
+						default:
+							throw new NotImplementedException("Tried to use unimplemented button action.");
+					}
+					break;
 				case Button.B:
-				if (this.isUndoAllowed)
-				{
-					this.CompleteMenuUndo();
-				}
-				return;
-			default:
-				return;
+					if (this.isUndoAllowed)
+					{
+						this.CompleteMenuUndo();
+					}
+					return;
+				default:
+					return;
 			}
 		}
 
@@ -1110,53 +1112,55 @@ namespace SunsetRhapsody.Battle
 		{
 			switch (b)
 			{
-			case Button.A:
-			{
-				if (this.psiMenu.InTypeSelection())
-				{
-					this.psiMenu.SelectRight();
-					return;
-				}
-				PsiType psiType = this.psiMenu.SelectedPsiType();
+				case Button.A:
+					{
+						if (this.psiMenu.InTypeSelection())
+						{
+							this.psiMenu.SelectRight();
+							return;
+						}
+						PsiType psiType = this.psiMenu.SelectedPsiType();
 						Console.WriteLine(psiType);
-				int num = this.psiMenu.SelectedLevel();
-				IPsi psi;
-				switch (psiType)
-				{
-				case PsiType.Offense:
-					psi = this.psiMenu.SelectOffensePsi();
-					break;
-				case PsiType.Defense:
-					psi = this.psiMenu.SelectDefensePsi();
-					break;
-				case PsiType.Assist:
-					psi = this.psiMenu.SelectAssistPsi();
-					break;	
-				case PsiType.Other:
-					psi = this.psiMenu.SelectOtherPsi();
-					break;
-				default:
-					throw new InvalidOperationException();
-				}
-				if (psi.PP[num] > this.CurrentPlayerCombatant().Stats.PP)
-				{
-					this.ShowMessage("Not enough PP!!", false);
+						int num = this.psiMenu.SelectedLevel();
+						IPsi psi;
+						switch (psiType)
+						{
+							case PsiType.Offense:
+								psi = this.psiMenu.SelectOffensePsi();
+								break;
+							case PsiType.Defense:
+								psi = this.psiMenu.SelectDefensePsi();
+								break;
+							case PsiType.Assist:
+								psi = this.psiMenu.SelectAssistPsi();
+								break;
+							case PsiType.Other:
+								psi = this.psiMenu.SelectOtherPsi()	;
+								break;
+							default:
+								throw new InvalidOperationException();
+						}
+						AUXBase aux = psi.aux;
+						if (!aux.GetAvailiability(CurrentPlayerCombatant(), this))
+						{
+							aux.ShowUnavaliableMessage(CurrentPlayerCombatant(), this);
+							return;
+						}
+						this.psiMenu.Hide();
+						this.selectionState.TargetingMode = aux.TargetMode;
+						this.StartTargetSelection();
+						this.selectionState.Psi = aux;
+						selectionState.Wrapper = psi;
+						this.selectionState.PsiLevel = num;
+						return;
+					}
+				case Button.B:
+					this.psiMenu.Hide();
+					this.state = BattleInterfaceController.State.TopLevelSelection;
+					this.buttonBar.Show();
 					return;
-				}
-				this.psiMenu.Hide();
-                this.selectionState.TargetingMode = TargetingMode.PartyMember;
-                this.StartTargetSelection(); 
-                this.selectionState.Psi = psi;
-				this.selectionState.PsiLevel = num;
-				return;
-			}
-			case Button.B:
-				this.psiMenu.Hide();
-				this.state = BattleInterfaceController.State.TopLevelSelection;
-				this.buttonBar.Show();
-				return;
-			default:
-				return;
+				default:
+					return;
 			}
 		}
 
@@ -1164,14 +1168,14 @@ namespace SunsetRhapsody.Battle
 		{
 			switch (b)
 			{
-			case Button.A:
-				break;
-			case Button.B:
-				this.psiMenu.Show();
-				this.state = BattleInterfaceController.State.TopLevelSelection;
-				break;
-			default:
-				return;
+				case Button.A:
+					break;
+				case Button.B:
+					this.psiMenu.Show();
+					this.state = BattleInterfaceController.State.TopLevelSelection;
+					break;
+				default:
+					return;
 			}
 		}
 
@@ -1179,14 +1183,14 @@ namespace SunsetRhapsody.Battle
 		{
 			switch (b)
 			{
-			case Button.A:
-				break;
-			case Button.B:
-				this.state = BattleInterfaceController.State.TopLevelSelection;
-				this.buttonBar.Show();
-				break;
-			default:
-				return;
+				case Button.A:
+					break;
+				case Button.B:
+					this.state = BattleInterfaceController.State.TopLevelSelection;
+					this.buttonBar.Show();
+					break;
+				default:
+					return;
 			}
 		}
 
@@ -1194,35 +1198,35 @@ namespace SunsetRhapsody.Battle
 		{
 			switch (b)
 			{
-			case Button.A:
-				break;
-			case Button.B:
-				this.state = BattleInterfaceController.State.TopLevelSelection;
-				this.buttonBar.Show();
-				break;
-			default:
-				return;
+				case Button.A:
+					break;
+				case Button.B:
+					this.state = BattleInterfaceController.State.TopLevelSelection;
+					this.buttonBar.Show();
+					break;
+				default:
+					return;
 			}
 		}
 
-        private void TargetSelection(Button b)
-        {
-            switch (b)
-            {
-                case Button.A:
-                    this.CompleteTargetSelection(this.buttonBar.SelectedAction);
-                    return;
-                case Button.B:
-                    this.selectedTargetId = -1;
-                    this.selectionState.TargetingMode = TargetingMode.None;
-                    this.ResetTargetingSelection();
-                    this.state = BattleInterfaceController.State.TopLevelSelection;
-                    this.ShowButtonBar();
-                    return;
-                default:
-                    return;
-            }
-        }
+		private void TargetSelection(Button b)
+		{
+			switch (b)
+			{
+				case Button.A:
+					this.CompleteTargetSelection(this.buttonBar.SelectedAction);
+					return;
+				case Button.B:
+					this.selectedTargetId = -1;
+					this.selectionState.TargetingMode = TargetingMode.None;
+					this.ResetTargetingSelection();
+					this.state = BattleInterfaceController.State.TopLevelSelection;
+					this.ShowButtonBar();
+					return;
+				default:
+					return;
+			}
+		}
 
 		private void CompleteMenuUndo()
 		{
@@ -1230,98 +1234,98 @@ namespace SunsetRhapsody.Battle
 			{
 				this.selectionState.Type = SelectionState.SelectionType.Undo;
 				this.OnInteractionComplete(this.selectionState);
-            }
-        }
+			}
+		}
 
-        private void CompleteTargetSelection(ButtonBar.Action buttonAction)
-        {
-            if (this.OnInteractionComplete != null)
-            {
-                switch (buttonAction)
-                {
-                    case ButtonBar.Action.Bash:
-                        this.selectionState.Type = SelectionState.SelectionType.Bash;
-                        break;
-                    case ButtonBar.Action.Psi:
-                        this.selectionState.Type = SelectionState.SelectionType.PSI;
-                        break;
-                    case ButtonBar.Action.Talk:
-                        this.selectionState.Type = SelectionState.SelectionType.Talk;
-                        break;
-                }
-                switch (this.selectionState.TargetingMode)
-                {
-                    case TargetingMode.PartyMember:
-                    case TargetingMode.Enemy:
-                        this.selectionState.Targets = new Combatant[]
-                        {
-                            this.combatantController[this.selectedTargetId]
-                        };
-                        break;
-                    case TargetingMode.AllPartyMembers:
-                        this.selectionState.Targets = this.combatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
-                        break;
-                    case TargetingMode.AllEnemies:
-                        this.selectionState.Targets = this.combatantController.GetFactionCombatants(BattleFaction.EnemyTeam);
-                        break;
-                }
-                this.selectionState.AttackIndex = 0;
-                this.selectionState.ItemIndex = -1;
-                this.state = BattleInterfaceController.State.Waiting;
-                if (this.OnInteractionComplete != null)
-                {
-                    this.OnInteractionComplete(this.selectionState);
-                }
-            }
-            this.selectedTargetId = -1;
-            this.selectionState.TargetingMode = TargetingMode.None;
-            this.ResetTargetingSelection();
-        }
+		private void CompleteTargetSelection(ButtonBar.Action buttonAction)
+		{
+			if (this.OnInteractionComplete != null)
+			{
+				switch (buttonAction)
+				{
+					case ButtonBar.Action.Bash:
+						this.selectionState.Type = SelectionState.SelectionType.Bash;
+						break;
+					case ButtonBar.Action.Psi:
+						this.selectionState.Type = SelectionState.SelectionType.PSI;
+						break;
+					case ButtonBar.Action.Talk:
+						this.selectionState.Type = SelectionState.SelectionType.Talk;
+						break;
+				}
+				switch (this.selectionState.TargetingMode)
+				{
+					case TargetingMode.PartyMember:
+					case TargetingMode.Enemy:
+						this.selectionState.Targets = new Combatant[]
+						{
+							this.combatantController[this.selectedTargetId]
+						};
+						break;
+					case TargetingMode.AllPartyMembers:
+						this.selectionState.Targets = this.combatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
+						break;
+					case TargetingMode.AllEnemies:
+						this.selectionState.Targets = this.combatantController.GetFactionCombatants(BattleFaction.EnemyTeam);
+						break;
+				}
+				this.selectionState.AttackIndex = 0;
+				this.selectionState.ItemIndex = -1;
+				this.state = BattleInterfaceController.State.Waiting;
+				if (this.OnInteractionComplete != null)
+				{
+					this.OnInteractionComplete(this.selectionState);
+				}
+			}
+			this.selectedTargetId = -1;
+			this.selectionState.TargetingMode = TargetingMode.None;
+			this.ResetTargetingSelection();
+		}
 
 
-        private void CompleteMenuGuard()
-        {
-            if (this.OnInteractionComplete != null)
-            {
-                this.selectionState.Type = SelectionState.SelectionType.Guard;
-                this.selectionState.Targets = null;
-                this.selectionState.AttackIndex = -1;
-                this.selectionState.ItemIndex = -1;
-                this.state = BattleInterfaceController.State.Waiting;
-                this.OnInteractionComplete(this.selectionState);
-            }
-        }
+		private void CompleteMenuGuard()
+		{
+			if (this.OnInteractionComplete != null)
+			{
+				this.selectionState.Type = SelectionState.SelectionType.Guard;
+				this.selectionState.Targets = null;
+				this.selectionState.AttackIndex = -1;
+				this.selectionState.ItemIndex = -1;
+				this.state = BattleInterfaceController.State.Waiting;
+				this.OnInteractionComplete(this.selectionState);
+			}
+		}
 
-        // Token: 0x0600046B RID: 1131 RVA: 0x0001D458 File Offset: 0x0001B658
-        private void CompleteMenuRun()
-        {
-            if (this.OnInteractionComplete != null)
-            {
-                this.selectionState.Type = SelectionState.SelectionType.Run;
-                this.selectionState.Targets = null;
-                this.selectionState.AttackIndex = -1;
-                this.selectionState.ItemIndex = -1;
-                this.state = BattleInterfaceController.State.Waiting;
-                this.OnInteractionComplete(this.selectionState);
-            }
-        }
+		// Token: 0x0600046B RID: 1131 RVA: 0x0001D458 File Offset: 0x0001B658
+		private void CompleteMenuRun()
+		{
+			if (this.OnInteractionComplete != null)
+			{
+				this.selectionState.Type = SelectionState.SelectionType.Run;
+				this.selectionState.Targets = null;
+				this.selectionState.AttackIndex = -1;
+				this.selectionState.ItemIndex = -1;
+				this.state = BattleInterfaceController.State.Waiting;
+				this.OnInteractionComplete(this.selectionState);
+			}
+		}
 
 		public void BeginPlayerInteraction(CharacterType character)
 		{
-            int num = 0;
-            PlayerCombatant playerCombatant = null;
-            foreach (Combatant combatant in this.combatantController.GetFactionCombatants(BattleFaction.PlayerTeam))
-            {
-                playerCombatant = (PlayerCombatant)combatant;
-                if (playerCombatant.Character == character)
-                {
-                    break;
-                }
-                num++;
-            }
-            Combatant firstLiveCombatant = this.combatantController.GetFirstLiveCombatant(BattleFaction.PlayerTeam);
-            bool showRun = firstLiveCombatant != null && firstLiveCombatant.ID == playerCombatant.ID;
-            this.state = BattleInterfaceController.State.TopLevelSelection;
+			int num = 0;
+			PlayerCombatant playerCombatant = null;
+			foreach (Combatant combatant in this.combatantController.GetFactionCombatants(BattleFaction.PlayerTeam))
+			{
+				playerCombatant = (PlayerCombatant)combatant;
+				if (playerCombatant.Character == character)
+				{
+					break;
+				}
+				num++;
+			}
+			Combatant firstLiveCombatant = this.combatantController.GetFirstLiveCombatant(BattleFaction.PlayerTeam);
+			bool showRun = firstLiveCombatant != null && firstLiveCombatant.ID == playerCombatant.ID;
+			this.state = BattleInterfaceController.State.TopLevelSelection;
 			bool lockPSI = false;
 			foreach (StatusEffectInstance statusEffectInstance in playerCombatant.GetStatusEffects())
 			{
@@ -1331,9 +1335,9 @@ namespace SunsetRhapsody.Battle
 				}
 			}
 			this.buttonBar.SetActions(BattleButtonBars.GetActions(character, showRun, lockPSI));
-            this.buttonBar.Show(0);
-            this.textbox.Hide();
-            this.cardBar.SelectedIndex = num;
+			this.buttonBar.Show(0);
+			this.textbox.Hide();
+			this.cardBar.SelectedIndex = num;
 		}
 
 		public void EndPlayerInteraction()
@@ -1365,10 +1369,10 @@ namespace SunsetRhapsody.Battle
 		{
 			this.cardBar.AddSpring(index, amplitude, speed, decay);
 		}
-        public void SetCardGlow(int index, BattleCard.GlowType type)
-        {
-            this.cardBar.SetGlow(index, type);
-        }
+		public void SetCardGlow(int index, BattleCard.GlowType type)
+		{
+			this.cardBar.SetGlow(index, type);
+		}
 		public void HideButtonBar()
 		{
 			this.buttonBar.Hide();
@@ -1410,42 +1414,42 @@ namespace SunsetRhapsody.Battle
 			this.graphicModifiers.Clear();
 		}
 
-        public void RemoveEnemy(int id)
-        {
-            this.RemoveTalker(this.enemyGraphics[id]);
-            this.graphicModifiers.RemoveAll((IGraphicModifier x) => x.Graphic == this.enemyGraphics[id]);
-            this.pipeline.Remove(this.enemyGraphics[id]);
-            this.enemyGraphics[id].Dispose();
-            this.enemyGraphics.Remove(id);
-            this.enemyIDs.Remove(id);
-            this.AlignEnemyGraphics();
-        }
+		public void RemoveEnemy(int id)
+		{
+			this.RemoveTalker(this.enemyGraphics[id]);
+			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x.Graphic == this.enemyGraphics[id]);
+			this.pipeline.Remove(this.enemyGraphics[id]);
+			this.enemyGraphics[id].Dispose();
+			this.enemyGraphics.Remove(id);
+			this.enemyIDs.Remove(id);
+			this.AlignEnemyGraphics();
+		}
 
 		public void UpdatePlayerCard(int id, int hp, int pp, float meter)
 		{
 			PlayerCombatant playerCombatant = (PlayerCombatant)this.combatantController[id];
-            this.cardBar.SetHP(playerCombatant.PartyIndex, hp);
+			this.cardBar.SetHP(playerCombatant.PartyIndex, hp);
 			this.cardBar.SetPP(playerCombatant.PartyIndex, pp);
-			
+
 			this.cardBar.SetMeter(playerCombatant.PartyIndex, 0.87f);
 			//this.cardBar.SetMeter(playerCombatant.PartyIndex, meter);
 
 
-            if (playerCombatant.Stats.HP <= 0)
-            {
+			if (playerCombatant.Stats.HP <= 0)
+			{
 				//playerCombatant.AddStatusEffect(StatusEffect.Unconscious, 500);
-;
+				;
 				foreach (var bg in background.Layers)
-                {
-                    LayerParams param = bg.Parameters;
-                    param.Speed += (float)(param.Speed * 0.1);
-                    bg.UpdateParameters(param);
+				{
+					LayerParams param = bg.Parameters;
+					param.Speed += (float)(param.Speed * 0.1);
+					bg.UpdateParameters(param);
 
 				}
 
 
 				this.cardBar.KillCard(playerCombatant.PartyIndex);
-                //KillCard
+				//KillCard
 
 
 			}
@@ -1453,56 +1457,56 @@ namespace SunsetRhapsody.Battle
 
 		public void Update()
 		{
-            this.textbox.Update();
-            foreach (IGraphicModifier graphicModifier in this.graphicModifiers)
-            {
-                graphicModifier.Update();
-            }
-            this.graphicModifiers.RemoveAll((IGraphicModifier x) => x.Done);
-            foreach (PsiAnimator psiAnimator in this.psiAnimators)
-            {
-                psiAnimator.Update();
-            }
-            this.psiAnimators.RemoveAll((PsiAnimator x) => x.Complete);
-            foreach (DamageNumber damageNumber in this.damageNumbers)
-            {
-                damageNumber.Update();
-            }
-            if (this.youWon != null)
-            {
-                this.youWon.Update();
-            }
-            if (this.groovy != null)
-            {
-                this.groovy.Update();
-            }
-            this.comboCircle.Update();
-            this.dimmer.Update();
-            if (this.topLetterboxY < this.topLetterboxTargetY - 0.5f || this.topLetterboxY > this.topLetterboxTargetY + 0.5f)
-            {
-                this.topLetterboxY += (this.topLetterboxTargetY - this.topLetterboxY) / 10f;
-                this.topLetterbox.Position = new Vector2f(this.topLetterbox.Position.X, (float)((int)this.topLetterboxY));
-            }
-            else if ((int)this.topLetterboxY != (int)this.topLetterboxTargetY)
-            {
-                this.topLetterboxY = this.topLetterboxTargetY;
-                this.topLetterbox.Position = new Vector2f(this.topLetterbox.Position.X, (float)((int)this.topLetterboxY));
-            }
-            if (this.bottomLetterboxY > this.bottomLetterboxTargetY + 0.5f || this.bottomLetterboxY < this.bottomLetterboxTargetY - 0.5f)
-            {
-                this.bottomLetterboxY += (this.bottomLetterboxTargetY - this.bottomLetterboxY) / 10f;
-                this.bottomLetterbox.Position = new Vector2f(this.bottomLetterbox.Position.X, (float)((int)this.bottomLetterboxY));
-            }
-            else if ((int)this.bottomLetterboxY != (int)this.bottomLetterboxTargetY)
-            {
-                this.bottomLetterboxY = this.bottomLetterboxTargetY;
-                this.bottomLetterbox.Position = new Vector2f(this.bottomLetterbox.Position.X, (float)((int)this.bottomLetterboxY));
-            }
-            if (this.textboxHideFlag)
-            {
-                this.textbox.Hide();
-                this.textboxHideFlag = false;
-            }	
+			this.textbox.Update();
+			foreach (IGraphicModifier graphicModifier in this.graphicModifiers)
+			{
+				graphicModifier.Update();
+			}
+			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x.Done);
+			foreach (PsiAnimator psiAnimator in this.psiAnimators)
+			{
+				psiAnimator.Update();
+			}
+			this.psiAnimators.RemoveAll((PsiAnimator x) => x.Complete);
+			foreach (DamageNumber damageNumber in this.damageNumbers)
+			{
+				damageNumber.Update();
+			}
+			if (this.youWon != null)
+			{
+				this.youWon.Update();
+			}
+			if (this.groovy != null)
+			{
+				this.groovy.Update();
+			}
+			this.comboCircle.Update();
+			this.dimmer.Update();
+			if (this.topLetterboxY < this.topLetterboxTargetY - 0.5f || this.topLetterboxY > this.topLetterboxTargetY + 0.5f)
+			{
+				this.topLetterboxY += (this.topLetterboxTargetY - this.topLetterboxY) / 10f;
+				this.topLetterbox.Position = new Vector2f(this.topLetterbox.Position.X, (float)((int)this.topLetterboxY));
+			}
+			else if ((int)this.topLetterboxY != (int)this.topLetterboxTargetY)
+			{
+				this.topLetterboxY = this.topLetterboxTargetY;
+				this.topLetterbox.Position = new Vector2f(this.topLetterbox.Position.X, (float)((int)this.topLetterboxY));
+			}
+			if (this.bottomLetterboxY > this.bottomLetterboxTargetY + 0.5f || this.bottomLetterboxY < this.bottomLetterboxTargetY - 0.5f)
+			{
+				this.bottomLetterboxY += (this.bottomLetterboxTargetY - this.bottomLetterboxY) / 10f;
+				this.bottomLetterbox.Position = new Vector2f(this.bottomLetterbox.Position.X, (float)((int)this.bottomLetterboxY));
+			}
+			else if ((int)this.bottomLetterboxY != (int)this.bottomLetterboxTargetY)
+			{
+				this.bottomLetterboxY = this.bottomLetterboxTargetY;
+				this.bottomLetterbox.Position = new Vector2f(this.bottomLetterbox.Position.X, (float)((int)this.bottomLetterboxY));
+			}
+			if (this.textboxHideFlag)
+			{
+				this.textbox.Hide();
+				this.textboxHideFlag = false;
+			}
 		}
 
 		public void Draw(RenderTarget target)
@@ -1768,7 +1772,7 @@ namespace SunsetRhapsody.Battle
 			TopLevelSelection,
 			// Token: 0x04000668 RID: 1640
 			PsiTypeSelection,
-            PsiAttackSelection,
+			PsiAttackSelection,
 			// Token: 0x04000669 RID: 1641
 			SpecialSelection,
 			// Token: 0x0400066A RID: 1642

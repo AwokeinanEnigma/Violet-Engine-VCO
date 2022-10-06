@@ -63,6 +63,8 @@ namespace SunsetRhapsody.GUI
 
 		public SectionedPsiBox(RenderPipeline pipeline, int depth, float lineHeight)
 		{
+			Console.Write("bababooey");
+
 			this.pipeline = pipeline;
 			this.currentSelection = 0;
 			this.currentTopLevelSelection = 0;
@@ -83,8 +85,11 @@ namespace SunsetRhapsody.GUI
 			this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, this.windowPosition, new Vector2f(240f, 3f * lineHeight + 16f), 32766);
 			this.selectorFillColor = UIColors.HighlightColor;
 
-			RectangleShape rectangleShape = new RectangleShape(new Vector2f(48f, lineHeight  ));
-			rectangleShape.FillColor = this.selectorFillColor;
+			//RectangleShape rectangleShape = new RectangleShape(new Vector2f(48f, lineHeight  ));
+			//rectangleShape.FillColor = this.selectorFillColor;
+			RectangleShape rectangleShape = new RectangleShape(new Vector2f(48,/* 11 * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f*/ lineHeight) - ScrollingList.SELECT_RECT_SIZE_OFFSET);
+			rectangleShape.FillColor = UIColors.HighlightColor;
+
 			this.selectorBox = new ShapeGraphic(rectangleShape, default(Vector2f), default(Vector2f), rectangleShape.Size, 32767);
 			RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(2f, 3f * lineHeight - 2f));
 			rectangleShape2.FillColor = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 70);
@@ -92,28 +97,30 @@ namespace SunsetRhapsody.GUI
 
 			this.separator = new ShapeGraphic(rectangleShape2, new Vector2f(102.399994f, lineHeight - 8f), default(Vector2f), rectangleShape2.Size, 32767);
 			this.cursor = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", default(Vector2f), 32767);
+			this.nucursor = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", default(Vector2f), 32767);
 			this.states = new RenderStates(BlendMode.Alpha);
+			//pipeline.Add(cursor);
 		}
 
 		internal OffensePsi SelectOffensePsi()
 		{
-			
-			return this.offensePsiItems.Find((OffensePsi s) => s.Name == this.activePsiList[this.currentSelection].Text);
+
+			return this.offensePsiItems.Find((OffensePsi s) => s.aux.QualifiedName == this.activePsiList[this.currentSelection].Text);
 		}
 
 		internal AssistivePsi SelectAssistPsi()
 		{
-			return this.assistPsiItems.Find((AssistivePsi s) => s.Name == this.activePsiList[this.currentSelection].Text);
+			return this.assistPsiItems.Find((AssistivePsi s) => s.aux.QualifiedName == this.activePsiList[this.currentSelection].Text);
 		}
 
 		internal DefensivePsi SelectDefensePsi()
 		{
-			return this.defensePsiItems.Find((DefensivePsi s) => s.Name == this.activePsiList[this.currentSelection].Text);
+			return this.defensePsiItems.Find((DefensivePsi s) => s.aux.QualifiedName == this.activePsiList[this.currentSelection].Text);
 		}
 
 		internal OtherPsi SelectOtherPsi()
 		{
-			return this.otherPsiItems.Find((OtherPsi s) => s.Name == this.activePsiList[this.currentSelection].Text);
+			return this.otherPsiItems.Find((OtherPsi s) => s.aux.QualifiedName == this.activePsiList[this.currentSelection].Text);
 		}
 
 		internal bool InTypeSelection()
@@ -203,6 +210,7 @@ namespace SunsetRhapsody.GUI
 					this.UpdateCursor();
 					this.pipeline.Add(this.selectorBox);
 					this.pipeline.Add(this.cursor);
+					this.pipeline.Add(this.nucursor);
 				}
 				this.pipeline.Add(this.separator);
 			}
@@ -223,6 +231,7 @@ namespace SunsetRhapsody.GUI
 				this.pipeline.Remove(this.selectorBox);
 				this.pipeline.Remove(this.cursor);
 				this.pipeline.Remove(this.separator);
+				this.pipeline.Remove(nucursor);
 				this.psiTypes.Clear();
 				this.activePsiList.Clear();
 				this.pipeline.Target.Clear();
@@ -361,36 +370,36 @@ namespace SunsetRhapsody.GUI
 		{
 			switch (this.currentSelectionLevel)
 			{
-			case 0:
-				this.psiTypes[this.currentTopLevelSelection].Color = Color.White;
-				this.currentSelectionLevel = 1;
-				this.UpdateSelectorBox();
-				return;
-			case 1:
-				if (this.activeBetaList[this.currentSelection] != null || this.activeOmegaList[this.currentSelection] != null)
-				{
-					this.currentSelectionLevel = 2;
+				case 0:
+					this.psiTypes[this.currentTopLevelSelection].Color = Color.White;
+					this.currentSelectionLevel = 1;
 					this.UpdateSelectorBox();
 					return;
-				}
-				break;
-			case 2:
-				if (this.activeGammaList[this.currentSelection] != null)
-				{
-					this.currentSelectionLevel = 3;
-					this.UpdateSelectorBox();
+				case 1:
+					if (this.activeBetaList[this.currentSelection] != null || this.activeOmegaList[this.currentSelection] != null)
+					{
+						this.currentSelectionLevel = 2;
+						this.UpdateSelectorBox();
+						return;
+					}
+					break;
+				case 2:
+					if (this.activeGammaList[this.currentSelection] != null)
+					{
+						this.currentSelectionLevel = 3;
+						this.UpdateSelectorBox();
+						return;
+					}
+					break;
+				case 3:
+					if (this.activeOmegaList[this.currentSelection] != null)
+					{
+						this.currentSelectionLevel = 4;
+						this.UpdateSelectorBox();
+					}
+					break;
+				default:
 					return;
-				}
-				break;
-			case 3:
-				if (this.activeOmegaList[this.currentSelection] != null)
-				{
-					this.currentSelectionLevel = 4;
-					this.UpdateSelectorBox();
-				}
-				break;
-			default:
-				return;
 			}
 		}
 
@@ -405,7 +414,7 @@ namespace SunsetRhapsody.GUI
 
 		private void AddPsiType(string name)
 		{
-			this.psiTypes.Add(new TextRegion(new Vector2f(this.windowPosition.X + 10f, this.windowPosition.Y + 5f + this.lineHeight * (float)this.psiTypes.Count), 32768, Fonts.Main, name));
+			this.psiTypes.Add(new TextRegion(new Vector2f(this.windowPosition.X + 12f, this.windowPosition.Y + 5f + this.lineHeight * (float)this.psiTypes.Count), 32768, Fonts.Main, name));
 		}
 
 		private void AddPsiForCurrentSelection()
@@ -425,7 +434,7 @@ namespace SunsetRhapsody.GUI
 				}
 				if (text == "Support")
 				{
-					
+
 					this.AddPsiAbilityFromList<DefensivePsi>(this.defensePsiItems);
 					return;
 				}
@@ -442,10 +451,12 @@ namespace SunsetRhapsody.GUI
 			for (int i = 0; i < psiList.Count; i++)
 			{
 				IPsi psi = psiList[i];
-				if (psi.Levels[0] <= this.MaxLevel)
+				if (psi.aux.Symbols.Length <= this.MaxLevel)
 				{
 					if (i < this.firstVisibleIndex || i > this.lastVisibleIndex)
 					{
+						Console.WriteLine("LOOK AT ME");
+
 						this.activePsiList.Add(null);
 						this.activeAlphaList.Add(null);
 						this.activeBetaList.Add(null);
@@ -461,17 +472,18 @@ namespace SunsetRhapsody.GUI
 		"γ",
 		"Ω"
 	};*/
+						Console.WriteLine("LOOK AT ME2");
 
 						this.activeAlphaList.Add(new TextRegion(new Vector2f(200f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "α"));
-						if (psi.Levels.Length == 4)
+						if (psi.aux.Symbols.Length == 4)
 						{
-							if (psi.Levels[1] < this.MaxLevel)
+							if (psi.aux.Symbols[1] < this.MaxLevel)
 							{
 								this.activeBetaList.Add(new TextRegion(new Vector2f(220f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "β"));
-								if (psi.Levels[2] < this.MaxLevel)
+								if (psi.aux.Symbols[2] < this.MaxLevel)
 								{
 									this.activeGammaList.Add(new TextRegion(new Vector2f(240f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "γ"));
-									if (psi.Levels[3] < this.MaxLevel)
+									if (psi.aux.Symbols[3] < this.MaxLevel)
 									{
 										this.activeOmegaList.Add(new TextRegion(new Vector2f(260f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "Ω"));
 									}
@@ -493,9 +505,9 @@ namespace SunsetRhapsody.GUI
 								this.activeOmegaList.Add(null);
 							}
 						}
-						else if (psi.Levels.Length == 2)
+						else if (psi.aux.Symbols.Length == 2)
 						{
-							if (psi.Levels[1] < this.MaxLevel)
+							if (psi.aux.Symbols[1] < this.MaxLevel)
 							{
 								this.activeOmegaList.Add(new TextRegion(new Vector2f(220f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "Ω"));
 							}
@@ -506,7 +518,7 @@ namespace SunsetRhapsody.GUI
 							this.activeBetaList.Add(null);
 							this.activeGammaList.Add(null);
 						}
-						this.activePsiList.Add(new TextRegion(new Vector2f(120f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, psi.Name));
+						this.activePsiList.Add(new TextRegion(new Vector2f(120f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, psi.aux.QualifiedName));
 					}
 				}
 			}
@@ -516,31 +528,36 @@ namespace SunsetRhapsody.GUI
 		{
 			if (this.currentSelectionLevel == 0)
 			{
-                this.selectorBox.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X - 1f, this.psiTypes[this.currentTopLevelSelection].Position.Y + 3f);
-                this.psiTypes[this.currentTopLevelSelection].Color = Color.Black;
-                this.cursor.Visible = false;
+				//this.nucursor.Position = new Vector2f(this.position.X - 1f, (this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + 11 - this.cursor.Size.Y / 2f) + -1);
+				this.nucursor.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X, //- 2f,
+					this.psiTypes[this.currentTopLevelSelection].Position.Y + 5f);
+
+				this.selectorBox.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X - 1f, this.psiTypes[this.currentTopLevelSelection].Position.Y - 1f);
+				//((RectangleShape)selectorBox.Shape).Size = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X, this.psiTypes[this.currentTopLevelSelection].Position.Y);
+				this.psiTypes[this.currentTopLevelSelection].Color = Color.Black;
+				this.cursor.Visible = false;
 				return;
 			}
 			if (this.currentSelectionLevel == 1)
 			{
 				this.cursor.Visible = true;
 
-                try
-                {
+				try
+				{
 
 
-                    this.cursor.Position = new Vector2f(this.activeAlphaList[this.currentSelection].Position.X - 3f,
-                        this.activeAlphaList[this.currentSelection].Position.Y + 8f);
+					this.cursor.Position = new Vector2f(this.activeAlphaList[this.currentSelection].Position.X - 3f,
+						this.activeAlphaList[this.currentSelection].Position.Y + 6f);
 				}
-                catch (Exception e)
-                {
-                    this.selectorBox.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X - 1f, this.psiTypes[this.currentTopLevelSelection].Position.Y + 3f);
-                    this.psiTypes[this.currentTopLevelSelection].Color = Color.Black;
-                    this.cursor.Visible = false;
-                    currentSelectionLevel = 0;
-                }
+				catch (Exception e)
+				{
+					this.selectorBox.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X - 1f, this.psiTypes[this.currentTopLevelSelection].Position.Y + 3f);
+					this.psiTypes[this.currentTopLevelSelection].Color = Color.Black;
+					this.cursor.Visible = false;
+					currentSelectionLevel = 0;
+				}
 
-                return;
+				return;
 			}
 			if (this.currentSelectionLevel == 2)
 			{
@@ -577,35 +594,57 @@ namespace SunsetRhapsody.GUI
 			this.ClearListFromPipeline<TextRegion>(this.activeGammaList);
 			this.ClearListFromPipeline<TextRegion>(this.activeOmegaList);
 			this.AddPsiForCurrentSelection();
-			for (int i = this.firstVisibleIndex; i < Math.Min(this.activePsiList.Count, this.lastVisibleIndex + 1); i++)
+			Console.WriteLine("buyba");
+			try
 			{
-				this.pipeline.Add(this.activePsiList[i]);
-				this.pipeline.Add(this.activeAlphaList[i]);
-				if (this.activeBetaList[i] != null)
+				for (int i = this.firstVisibleIndex; i < Math.Min(this.activePsiList.Count, this.lastVisibleIndex + 1); i++)
 				{
-					this.pipeline.Add(this.activeBetaList[i]);
+					Console.WriteLine("buyba1");
+					this.pipeline.Add(this.activePsiList[i]);
+					Console.WriteLine("buyba2");
+					this.pipeline.Add(this.activeAlphaList[i]);
+					Console.WriteLine("buyba2.5");
+
+					if (i != activeBetaList.Count)
+					{
+						if (this.activeBetaList != null && activeBetaList[i] != null)
+						{
+							this.pipeline.Add(this.activeBetaList[i]);
+							Console.WriteLine("buyba3");
+						}
+					}
+					if (this.activeGammaList[i] != null)
+					{
+						this.pipeline.Add(this.activeGammaList[i]);
+						Console.WriteLine("buyba3");
+					}
+					if (this.activeOmegaList[i] != null)
+					{
+						this.pipeline.Add(this.activeOmegaList[i]);
+						Console.WriteLine("buyba4");
+					}
 				}
-				if (this.activeGammaList[i] != null)
-				{
-					this.pipeline.Add(this.activeGammaList[i]);
-				}
-				if (this.activeOmegaList[i] != null)
-				{
-					this.pipeline.Add(this.activeOmegaList[i]);
-				}
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("FUCK");
 			}
 		}
 
 		private void ClearListFromPipeline<T>(List<T> list) where T : Renderable
 		{
-			foreach (T t in list)
+			if (list != null)
 			{
-				if (t != null)
+				foreach (T t in list)
 				{
-					this.pipeline.Remove(t);
+					if (t != null)
+					{
+						this.pipeline.Remove(t);
+					}
 				}
+				list.Clear();
 			}
-			list.Clear();
 		}
 
 		private const int SCROLL_LIMIT = 3;
@@ -619,6 +658,7 @@ namespace SunsetRhapsody.GUI
 		private readonly ShapeGraphic separator;
 
 		private readonly IndexedColorGraphic cursor;
+		private readonly IndexedColorGraphic nucursor;
 
 		private int depth;
 

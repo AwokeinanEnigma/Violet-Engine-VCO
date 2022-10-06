@@ -14,7 +14,8 @@ namespace SunsetRhapsody.Battle.UI
 
 		public int ItemIndex;
 
-		public IPsi Psi;
+		public SOMETHING.AUXBase Psi;
+		public IPsi Wrapper;
 
 		public int PsiLevel;
 

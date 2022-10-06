@@ -107,11 +107,11 @@ namespace SunsetRhapsody.Scenes
 				{
 					IPsi item = ((Tuple<IPsi, int>)retVal).Item1;
 					int item2 = ((Tuple<IPsi, int>)retVal).Item2;
-					if (item.Key == "psi.telepathy")
+					/*if (item.Key == "psi.telepathy")
 					{
 						FlagManager.Instance[3] = true;
 						this.ExitMenu();
-					}
+					}*/
 				}
 				return;
 			}

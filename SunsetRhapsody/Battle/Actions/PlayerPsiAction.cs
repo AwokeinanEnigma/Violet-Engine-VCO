@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Linq;
+//using SunsetRhapsody.AUX;
 using SunsetRhapsody.Battle.Combatants;
 using SunsetRhapsody.Battle.PsiAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.Psi;
+using SunsetRhapsody.SOMETHING;
 
 namespace SunsetRhapsody.Battle.Actions
 {
 	internal class PlayerPsiAction : BattleAction
 	{
+		public AUXBase aux;
 		public PlayerPsiAction(ActionParams aparams) : base(aparams)
 		{
+			Console.WriteLine("CONSTRUCTOR");
 			this.combatant = (this.sender as PlayerCombatant);
 			IPsi psi = (aparams.data.Length > 0) ? ((IPsi)aparams.data[0]) : null;
-			this.psi = ((psi is OffensePsi) ? ((OffensePsi)psi) : default(OffensePsi));
+			this.psi = psi;
 			this.psiLevel = ((aparams.data.Length > 1) ? ((int)aparams.data[1]) : 0);
+			aux = ((aparams.data.Length > 1) ? ((AUXBase)aparams.data[2]) : null);
+			
 			this.state = PlayerPsiAction.State.Initialize;
 		}
 
@@ -67,7 +73,7 @@ namespace SunsetRhapsody.Battle.Actions
 				{
 					if (statusEffectInstance.Type == StatusEffect.DisablePSI)
 					{
-						string msg = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(this.combatant.Character), this.psi.Name, PsiLetters.Get(this.psiLevel));
+						string msg = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(this.combatant.Character), this.psi.aux.QualifiedName, PsiLetters.Get(this.psiLevel));
 						this.controller.InterfaceController.ShowMessage(msg, false);
 						this.controller.InterfaceController.ShowMessage("...But it failed!", false);
 						this.complete = true;
@@ -75,39 +81,32 @@ namespace SunsetRhapsody.Battle.Actions
 						return;
 					}
 				}
-					
-				string message = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(this.combatant.Character), this.psi.Name, PsiLetters.Get(this.psiLevel));
+
 				this.RemoveInvalidTargets();
-
-				
-
-				this.controller.InterfaceController.OnTextboxComplete += this.OnTextboxComplete;
-				this.controller.InterfaceController.ShowMessage(message, false);
-				this.controller.InterfaceController.PrePsiSound.Play();
-				this.controller.InterfaceController.PopCard(this.combatant.ID, 12);
-				this.state = PlayerPsiAction.State.WaitForUI;
+				aux.Initialize(combatant, controller.InterfaceController, this, targets);
 				return;
 			}
 			if (this.state == PlayerPsiAction.State.Animate)
 			{
-				PsiElementList animation = PsiAnimations.Get(this.psi);
-				PsiAnimator psiAnimator = this.controller.InterfaceController.AddPsiAnimation(animation, this.sender, this.targets);
-				psiAnimator.OnAnimationComplete += this.OnAnimationComplete;
-				this.state = PlayerPsiAction.State.WaitForUI;
+				aux.Animate(combatant, controller.InterfaceController, this, targets);
+
+
 				return;
 			}
 			if (this.state == PlayerPsiAction.State.DamageNumbers)
 			{
+				aux.Act(targets, combatant, controller.InterfaceController, this);
+				/*
 				foreach (Combatant combatant in this.targets)
 				{
 					//todo:
 					//lifeup breaks the game because its effect is null
-					int num = BattleCalculator.CalculatePsiDamage(this.psi.Effect[this.psiLevel][0], this.psi.Effect[this.psiLevel][1], this.sender, combatant);
-					DamageNumber damageNumber = this.controller.InterfaceController.AddDamageNumber(combatant, num);
+					//int num = BattleCalculator.CalculatePsiDamage(this.psi.Effect[this.psiLevel][0], this.psi.Effect[this.psiLevel][1], this.sender, combatant);
+					DamageNumber damageNumber = this.controller.InterfaceController.AddDamageNumber(combatant, 32);
 					damageNumber.OnComplete += this.OnDamageNumberComplete;
 					StatSet statChange = new StatSet
 					{
-						HP = -num
+						HP = -32
 					};
 					combatant.AlterStats(statChange);
 					if (combatant as EnemyCombatant != null)
@@ -117,17 +116,16 @@ namespace SunsetRhapsody.Battle.Actions
 				}
 				StatSet statChange2 = new StatSet
 				{
-					PP = -this.psi.PP[this.psiLevel],
+					PP = -this.psi.aux.AUCost,
 					Meter = 0.026666667f
 				};
-				this.sender.AlterStats(statChange2);
-				this.state = PlayerPsiAction.State.WaitForUI;
+				this.sender.AlterStats(statChange2);*/
+				//this.state = PlayerPsiAction.State.WaitForUI;
 				return;
 			}
 			if (this.state == PlayerPsiAction.State.Finish)
 			{
-				this.controller.InterfaceController.PopCard(this.combatant.ID, 0);
-				this.complete = true;
+				aux.Finish(targets, combatant, controller.InterfaceController, this);
 			}
 		}
 
@@ -137,17 +135,13 @@ namespace SunsetRhapsody.Battle.Actions
 			this.state = PlayerPsiAction.State.Finish;
 		}
 
-		private void OnTextboxComplete()
-		{
-			this.controller.InterfaceController.OnTextboxComplete -= this.OnTextboxComplete;
-			this.state = PlayerPsiAction.State.Animate;
+		public void Finish()
+        {
+			this.complete = true;
+
 		}
 
-		private void OnAnimationComplete(PsiAnimator anim)
-		{
-			anim.OnAnimationComplete -= this.OnAnimationComplete;
-			this.state = PlayerPsiAction.State.DamageNumbers;
-		}
+
 
 		private const float ONE_GP = 0.013333334f;
 
@@ -159,15 +153,15 @@ namespace SunsetRhapsody.Battle.Actions
 
 		private const int PSI_LEVEL_INDEX = 1;
 
-		private PlayerPsiAction.State state;
+		public PlayerPsiAction.State state;
 
 		private PlayerCombatant combatant;
 
-		private OffensePsi psi;
+		public IPsi psi;
 
-		private int psiLevel;
+		public int psiLevel;
 
-		private enum State
+		public enum State
 		{
 			Initialize,
 			Animate,

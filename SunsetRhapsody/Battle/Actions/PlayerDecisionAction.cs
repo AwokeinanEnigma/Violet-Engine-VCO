@@ -126,8 +126,9 @@ namespace SunsetRhapsody.Battle.Actions
 						targets = selectionState.Targets,
 						data = new object[]
 						{
-							selectionState.Psi,
-							selectionState.PsiLevel
+							selectionState.Wrapper,
+							selectionState.PsiLevel,
+							selectionState.Psi
 						}
 					});
 					break;

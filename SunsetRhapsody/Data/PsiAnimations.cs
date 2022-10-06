@@ -246,7 +246,8 @@ namespace SunsetRhapsody.Data
 
 		public static PsiElementList Get(IPsi psi)
 		{
-			return PsiAnimations.Get(psi.Animation);
+			return Get(1);
+			//return PSI;
 		}
 	}
 }
