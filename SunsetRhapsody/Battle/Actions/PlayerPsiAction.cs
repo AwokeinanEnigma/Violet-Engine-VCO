@@ -110,7 +110,10 @@ namespace SunsetRhapsody.Battle.Actions
 						HP = -num
 					};
 					combatant.AlterStats(statChange);
-					this.controller.InterfaceController.BlinkEnemy(combatant as EnemyCombatant, 3, 2);
+					if (combatant as EnemyCombatant != null)
+					{
+						this.controller.InterfaceController.BlinkEnemy(combatant as EnemyCombatant, 3, 2);
+					}
 				}
 				StatSet statChange2 = new StatSet
 				{

@@ -1144,7 +1144,7 @@ namespace SunsetRhapsody.Battle
 					return;
 				}
 				this.psiMenu.Hide();
-                this.selectionState.TargetingMode = TargetingMode.Enemy;
+                this.selectionState.TargetingMode = TargetingMode.PartyMember;
                 this.StartTargetSelection(); 
                 this.selectionState.Psi = psi;
 				this.selectionState.PsiLevel = num;
