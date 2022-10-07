@@ -138,9 +138,13 @@ namespace SunsetRhapsody.Psi
 		{
 			if (assistTag != null)
 			{
-				Console.WriteLine("huh1");
-				OffensePsi psi = new OffensePsi(new SOMETHING.Debug());
-				Console.WriteLine($"Offensive8 PSI: {psi.aux.QualifiedName} " + Environment.NewLine);
+				AssistivePsi psi3 = new AssistivePsi(new SOMETHING.LifeUp());
+				Console.WriteLine($"Assistive PSI: {psi3.aux.QualifiedName} " + Environment.NewLine);
+				this.AddPsiToCharacters<AssistivePsi>(this.assistive, psi3, new List<string>() { "travis" });
+
+				AssistivePsi psi2 = new AssistivePsi(new SOMETHING.Telepathy());
+				Console.WriteLine($"Assistive PSI: {psi2.aux.QualifiedName} " + Environment.NewLine);
+				this.AddPsiToCharacters<AssistivePsi>(this.assistive, psi2, new List<string>() { "travis", "meryl", "leo" });
 			}
 			Console.WriteLine("Could not load AssistPsi. Is the assist tag present?");
 		}

@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace SunsetRhapsody.SOMETHING
 {
-    public class Fire : AUXBase
+    public class Telepathy : AUXBase
     {
-        public override int AUCost => 12; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override TargetingMode TargetMode => TargetingMode.AllEnemies;//; set => throw new NotImplementedException(); }
+        public override int AUCost => 0; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override TargetingMode TargetMode => TargetingMode.Enemy;//; set => throw new NotImplementedException(); }
         public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string QualifiedName => "PK Fire";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override string QualifiedName => "Telapathy";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        internal override IPsi identifier => new DefensivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        internal override IPsi identifier => new AssistivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Fire()
+        public Telepathy()
         {
-            Console.WriteLine("THE PURPOSE OF MAN IS TO BURN");
+            Console.WriteLine("THE PURPOSE OF MAN IS TO PERFORM TELEPATHY");
         }
 
 
@@ -48,16 +48,9 @@ namespace SunsetRhapsody.SOMETHING
 
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
         {
-            PsiElementList animation = PsiAnimations.Get(7);
-            PsiAnimator psiAnimator = interfaceController.AddPsiAnimation(animation, combantant, targets);
-            psiAnimator.OnAnimationComplete += OnAnimationComplete;
-            action.state = PlayerPsiAction.State.WaitForUI;
+            // skip animation -- it's a textbox
+            action.state = PlayerPsiAction.State.DamageNumbers;
 
-            void OnAnimationComplete(PsiAnimator anim)
-            {
-                anim.OnAnimationComplete -= OnAnimationComplete;
-                action.state = PlayerPsiAction.State.DamageNumbers;
-            }
         }
 
         internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action)
@@ -65,17 +58,19 @@ namespace SunsetRhapsody.SOMETHING
             Console.WriteLine("act");
             foreach (Combatant combatant in combatants)
             {
-
-                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 23);
-                damageNumber.OnComplete += DamageNumber_OnComplete; ;
-                StatSet statChange = new StatSet
+                EnemyCombatant enemy = combatant as EnemyCombatant;
+                if (enemy == null)
                 {
-                    HP = -23
-                };
-                combatant.AlterStats(statChange);
-                if (combatant as EnemyCombatant != null)
+                    throw new Exception("Enemy don't work!");
+                    return;
+                }
+                interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, Violet.GUI.WindowBox.Style.Telepathy);
+                interfaceController.OnTextboxComplete += InterfaceController_OnTextboxComplete;
+                void InterfaceController_OnTextboxComplete()
                 {
-                    interfaceController.BlinkEnemy(combatant as EnemyCombatant, 3, 2);
+                    interfaceController.OnTextboxComplete -= InterfaceController_OnTextboxComplete;
+                    interfaceController.ResetTextboxStyle();
+                    action.state = PlayerPsiAction.State.Finish;
                 }
             }
             StatSet statChange2 = new StatSet
@@ -85,11 +80,10 @@ namespace SunsetRhapsody.SOMETHING
             };
             combantant.AlterStats(statChange2);
             action.state = PlayerPsiAction.State.WaitForUI;
-            void DamageNumber_OnComplete(DamageNumber sender)
-            {
-                action.state = PlayerPsiAction.State.Finish;
-            }
+
         }
+
+        
 
         internal override void ScaleToLevel(PlayerCombatant combatant)
         {

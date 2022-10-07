@@ -24,6 +24,7 @@ using SunsetRhapsody.Actors;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Background;
 using SunsetRhapsody.SOMETHING;
+using Violet.GUI;
 
 namespace SunsetRhapsody.Battle
 {
@@ -1389,6 +1390,18 @@ namespace SunsetRhapsody.Battle
 			this.textbox.Show();
 		}
 
+		public void ShowStyledMessage(string message, bool useButton, WindowBox.Style style)
+		{
+			this.textbox.Reset(message, useButton);
+			this.textbox.ChangeStyle(style);
+			this.textbox.Show();
+		}
+
+		public void ResetTextboxStyle()
+		{
+			this.textbox.ChangeStyle(Settings.WindowStyle);
+		}
+
 		public void SetLetterboxing(float letterboxing)
 		{
 			this.topLetterboxTargetY = (float)(-(float)((int)(400)));
@@ -1611,7 +1624,7 @@ namespace SunsetRhapsody.Battle
 		private bool disposed;
 
 		// Token: 0x0400062B RID: 1579
-		private RenderPipeline pipeline;
+		public RenderPipeline pipeline;
 
 		// Token: 0x0400062C RID: 1580
 		private ActorManager actorManager;

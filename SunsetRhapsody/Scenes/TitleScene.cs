@@ -153,7 +153,7 @@ namespace SunsetRhapsody.Scenes
 							PartyManager.Instance.Add(CharacterType.Floyd);
 							PartyManager.Instance.Add(CharacterType.Meryl);
 							PartyManager.Instance.Add(CharacterType.Leo);
-							BattleScene scene = new BattleScene(new EnemyData[1] { EnemyFile.Instance.GetEnemyData("Hermit Can") }, true);
+							BattleScene scene = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Hermit Can"), EnemyFile.Instance.GetEnemyData("Amoeballoon"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
 							SceneManager.Instance.Push(scene);
 							break;
 						default:

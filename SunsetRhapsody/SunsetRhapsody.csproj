@@ -200,6 +200,8 @@
     <Compile Include="Data\StatusEffectActions.cs" />
     <Compile Include="Data\UIColors.cs" />
     <Compile Include="SOMETHINGSKILLS\Skills\Beam.cs" />
+    <Compile Include="SOMETHINGSKILLS\Skills\Telepathy.cs" />
+    <Compile Include="SOMETHINGSKILLS\Skills\LifeUp.cs" />
     <Compile Include="SOMETHINGSKILLS\Skills\Fire.cs" />
     <Compile Include="SOMETHINGSKILLS\Skills\Freeze.cs" />
     <Compile Include="SOMETHINGSKILLS\Skills\Debug.cs" />

@@ -11,6 +11,7 @@ using SFML.System;
 
 namespace SunsetRhapsody.GUI
 {
+
 	internal class SectionedPsiBox : Actor
 	{
 		public IEnumerable<OffensePsi> OffensePsiItems
@@ -63,8 +64,6 @@ namespace SunsetRhapsody.GUI
 
 		public SectionedPsiBox(RenderPipeline pipeline, int depth, float lineHeight)
 		{
-			Console.Write("bababooey");
-
 			this.pipeline = pipeline;
 			this.currentSelection = 0;
 			this.currentTopLevelSelection = 0;
@@ -74,7 +73,7 @@ namespace SunsetRhapsody.GUI
 			this.states = new RenderStates(BlendMode.Alpha);
 			this.visible = false;
 			this.depth = depth;
-			this.lineHeight = lineHeight + 2;
+			this.lineHeight = lineHeight;
 			this.psiTypes = new List<TextRegion>(4);
 			this.activePsiList = new List<TextRegion>();
 			this.activeAlphaList = new List<TextRegion>();
@@ -102,6 +101,7 @@ namespace SunsetRhapsody.GUI
 			//pipeline.Add(cursor);
 		}
 
+
 		internal OffensePsi SelectOffensePsi()
 		{
 
@@ -127,7 +127,6 @@ namespace SunsetRhapsody.GUI
 		{
 			return this.currentSelectionLevel == 0;
 		}
-
 		public PsiType SelectedPsiType()
 		{
 			string text;
@@ -237,6 +236,7 @@ namespace SunsetRhapsody.GUI
 				this.pipeline.Target.Clear();
 			}
 		}
+
 
 		internal void SelectDown()
 		{
@@ -366,6 +366,7 @@ namespace SunsetRhapsody.GUI
 			this.UpdateSelectorBox();
 		}
 
+
 		internal void SelectRight()
 		{
 			switch (this.currentSelectionLevel)
@@ -451,12 +452,10 @@ namespace SunsetRhapsody.GUI
 			for (int i = 0; i < psiList.Count; i++)
 			{
 				IPsi psi = psiList[i];
-				if (psi.aux.Symbols.Length <= this.MaxLevel)
+				if (psi.aux.Symbols[0] <= this.MaxLevel)
 				{
 					if (i < this.firstVisibleIndex || i > this.lastVisibleIndex)
 					{
-						Console.WriteLine("LOOK AT ME");
-
 						this.activePsiList.Add(null);
 						this.activeAlphaList.Add(null);
 						this.activeBetaList.Add(null);
@@ -472,7 +471,6 @@ namespace SunsetRhapsody.GUI
 		"γ",
 		"Ω"
 	};*/
-						Console.WriteLine("LOOK AT ME2");
 
 						this.activeAlphaList.Add(new TextRegion(new Vector2f(200f, this.windowPosition.Y + 5f + this.lineHeight * (float)(this.activePsiList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "α"));
 						if (psi.aux.Symbols.Length == 4)
@@ -528,12 +526,10 @@ namespace SunsetRhapsody.GUI
 		{
 			if (this.currentSelectionLevel == 0)
 			{
-				//this.nucursor.Position = new Vector2f(this.position.X - 1f, (this.position.Y + this.lineHeight * (float)(this.selectedIndex - this.topIndex) + 11 - this.cursor.Size.Y / 2f) + -1);
 				this.nucursor.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X, //- 2f,
 					this.psiTypes[this.currentTopLevelSelection].Position.Y + 5f);
 
 				this.selectorBox.Position = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X - 1f, this.psiTypes[this.currentTopLevelSelection].Position.Y - 1f);
-				//((RectangleShape)selectorBox.Shape).Size = new Vector2f(this.psiTypes[this.currentTopLevelSelection].Position.X, this.psiTypes[this.currentTopLevelSelection].Position.Y);
 				this.psiTypes[this.currentTopLevelSelection].Color = Color.Black;
 				this.cursor.Visible = false;
 				return;
@@ -547,7 +543,7 @@ namespace SunsetRhapsody.GUI
 
 
 					this.cursor.Position = new Vector2f(this.activeAlphaList[this.currentSelection].Position.X - 3f,
-						this.activeAlphaList[this.currentSelection].Position.Y + 6f);
+						this.activeAlphaList[this.currentSelection].Position.Y + 8f);
 				}
 				catch (Exception e)
 				{
@@ -580,7 +576,6 @@ namespace SunsetRhapsody.GUI
 				return;
 			}
 		}
-
 		private void UpdateCursor()
 		{
 			int num = this.currentSelectionLevel;
@@ -594,57 +589,35 @@ namespace SunsetRhapsody.GUI
 			this.ClearListFromPipeline<TextRegion>(this.activeGammaList);
 			this.ClearListFromPipeline<TextRegion>(this.activeOmegaList);
 			this.AddPsiForCurrentSelection();
-			Console.WriteLine("buyba");
-			try
+			for (int i = this.firstVisibleIndex; i < Math.Min(this.activePsiList.Count, this.lastVisibleIndex + 1); i++)
 			{
-				for (int i = this.firstVisibleIndex; i < Math.Min(this.activePsiList.Count, this.lastVisibleIndex + 1); i++)
+				this.pipeline.Add(this.activePsiList[i]);
+				this.pipeline.Add(this.activeAlphaList[i]);
+				if (this.activeBetaList[i] != null)
 				{
-					Console.WriteLine("buyba1");
-					this.pipeline.Add(this.activePsiList[i]);
-					Console.WriteLine("buyba2");
-					this.pipeline.Add(this.activeAlphaList[i]);
-					Console.WriteLine("buyba2.5");
-
-					if (i != activeBetaList.Count)
-					{
-						if (this.activeBetaList != null && activeBetaList[i] != null)
-						{
-							this.pipeline.Add(this.activeBetaList[i]);
-							Console.WriteLine("buyba3");
-						}
-					}
-					if (this.activeGammaList[i] != null)
-					{
-						this.pipeline.Add(this.activeGammaList[i]);
-						Console.WriteLine("buyba3");
-					}
-					if (this.activeOmegaList[i] != null)
-					{
-						this.pipeline.Add(this.activeOmegaList[i]);
-						Console.WriteLine("buyba4");
-					}
+					this.pipeline.Add(this.activeBetaList[i]);
 				}
-
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("FUCK");
+				if (this.activeGammaList[i] != null)
+				{
+					this.pipeline.Add(this.activeGammaList[i]);
+				}
+				if (this.activeOmegaList[i] != null)
+				{
+					this.pipeline.Add(this.activeOmegaList[i]);
+				}
 			}
 		}
 
 		private void ClearListFromPipeline<T>(List<T> list) where T : Renderable
 		{
-			if (list != null)
+			foreach (T t in list)
 			{
-				foreach (T t in list)
+				if (t != null)
 				{
-					if (t != null)
-					{
-						this.pipeline.Remove(t);
-					}
+					this.pipeline.Remove(t);
 				}
-				list.Clear();
 			}
+			list.Clear();
 		}
 
 		private const int SCROLL_LIMIT = 3;

@@ -43,6 +43,10 @@ namespace SunsetRhapsody.Battle.UI
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 		}
 
+		public void ChangeStyle(WindowBox.Style style) {
+			window.FrameStyle = style;
+		}
+
 		private void TypewriterComplete()
 		{
 			this.typewriterFinished = true;

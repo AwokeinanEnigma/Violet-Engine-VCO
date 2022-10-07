@@ -5,8 +5,11 @@ namespace SunsetRhapsody.Psi
 {
 	public struct AssistivePsi : IPsi
 	{
-
-		public AssistivePsi(OffensePsi ability)
+		public AssistivePsi(AUXBase ability)
+		{
+			_aux = ability;
+		}
+		public AssistivePsi(AssistivePsi ability)
 		{
 			_aux = ability.aux;
 		}

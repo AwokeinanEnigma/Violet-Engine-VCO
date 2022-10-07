@@ -1,4 +1,5 @@
-﻿using SunsetRhapsody.Battle;
+﻿using SFML.System;
+using SunsetRhapsody.Battle;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Combatants;
 using SunsetRhapsody.Battle.PsiAnimation;
@@ -10,21 +11,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Violet.Graphics;
 
 namespace SunsetRhapsody.SOMETHING
 {
-    public class Fire : AUXBase
+    public class LifeUp : AUXBase
     {
-        public override int AUCost => 12; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override TargetingMode TargetMode => TargetingMode.AllEnemies;//; set => throw new NotImplementedException(); }
+        public override int AUCost => 1; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override TargetingMode TargetMode => TargetingMode.AllPartyMembers;//; set => throw new NotImplementedException(); }
         public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string QualifiedName => "PK Fire";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override string QualifiedName => "PK LifeUp";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        internal override IPsi identifier => new DefensivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        internal override IPsi identifier => new AssistivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Fire()
+        public LifeUp()
         {
-            Console.WriteLine("THE PURPOSE OF MAN IS TO BURN");
+            Console.WriteLine("THE PURPOSE OF MAN IS TO HEAL");
         }
 
 
@@ -36,7 +38,7 @@ namespace SunsetRhapsody.SOMETHING
             action.state = PlayerPsiAction.State.WaitForUI;
             interfaceController.OnTextboxComplete += OnTextboxComplete;
             interfaceController.ShowMessage(message, false);
-            interfaceController.PopCard(combantant.ID, 23);
+            interfaceController.PopCard(combantant.ID, 20);
 
             void OnTextboxComplete()
             {
@@ -48,16 +50,18 @@ namespace SunsetRhapsody.SOMETHING
 
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
         {
-            PsiElementList animation = PsiAnimations.Get(7);
-            PsiAnimator psiAnimator = interfaceController.AddPsiAnimation(animation, combantant, targets);
-            psiAnimator.OnAnimationComplete += OnAnimationComplete;
+            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "psilifeup1.dat", "lifeupalpha", new Vector2f(160, 90), 579600);
+            interfaceController.pipeline.Add(graphic);
+            graphic.OnAnimationComplete += Graphic_OnAnimationComplete;
             action.state = PlayerPsiAction.State.WaitForUI;
 
-            void OnAnimationComplete(PsiAnimator anim)
+            void Graphic_OnAnimationComplete(AnimatedRenderable renderable)
             {
-                anim.OnAnimationComplete -= OnAnimationComplete;
+                interfaceController.pipeline.Remove(renderable);
+                graphic.Visible = false;
+                graphic.OnAnimationComplete -= Graphic_OnAnimationComplete;
                 action.state = PlayerPsiAction.State.DamageNumbers;
-            }
+            };
         }
 
         internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action)
@@ -66,11 +70,11 @@ namespace SunsetRhapsody.SOMETHING
             foreach (Combatant combatant in combatants)
             {
 
-                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 23);
+                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 32);
                 damageNumber.OnComplete += DamageNumber_OnComplete; ;
                 StatSet statChange = new StatSet
                 {
-                    HP = -23
+                    HP = +15
                 };
                 combatant.AlterStats(statChange);
                 if (combatant as EnemyCombatant != null)
