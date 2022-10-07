@@ -34,14 +34,14 @@ namespace SunsetRhapsody.Battle.UI
 			}
 		}
 
-		public DamageNumber(RenderPipeline pipeline, Vector2f position, Vector2f offset, int hangTime, int number)
+		public DamageNumber(RenderPipeline pipeline, Vector2f position, Vector2f offset, int hangTime, int number, string customNumberset = "")
 		{
 			this.pipeline = pipeline;
 			this.position = position;
 			this.goal = position + offset;
 			this.hangTime = hangTime;
 			this.number = number;
-			this.Reset(this.position, number);
+			this.Reset(this.position, number, customNumberset);
 		}
 
 		~DamageNumber()
@@ -55,10 +55,15 @@ namespace SunsetRhapsody.Battle.UI
 			this.Reset(this.position, this.number);
 		}
 
-		public void Reset(Vector2f position, int number)
+		public void Reset(Vector2f position, int number, string customNumberset = "")
 		{
 			this.position = position;
 			this.number = number;
+
+			string numberSet = DamageNumber.RESOURCE;
+			if (customNumberset != string.Empty) {
+				numberSet = customNumberset;
+			}
 			if (this.numbers != null && this.numbers.Length > 0)
 			{
 				for (int i = 0; i < this.numbers.Length; i++)
@@ -73,7 +78,7 @@ namespace SunsetRhapsody.Battle.UI
 			int num3 = 0;
 			for (int j = 0; j < this.numbers.Length; j++)
 			{
-				this.numbers[j] = new IndexedColorGraphic(DamageNumber.RESOURCE, "numbers", default(Vector2f), 32767);
+				this.numbers[j] = new IndexedColorGraphic(numberSet, "numbers", default(Vector2f), 32767);
 				this.numbers[j].Frame = (float)Digits.Get(number, this.numbers.Length - j);
 				this.numbers[j].Visible = false;
 				num2 += this.numbers[j].TextureRect.Width + -1;

@@ -123,27 +123,14 @@ namespace SunsetRhapsody.Scenes
 							return;
 						case Button.Six:
 							{
-								/*
-								List<PsiData> allPsiData = PsiFile.Instance.GetAllPsiData();
-								using (List<PsiData>.Enumerator enumerator = allPsiData.GetEnumerator())
-								{
-									while (enumerator.MoveNext())
-									{
-										PsiData psiData = enumerator.Current;
-										Console.Write(psiData.QualifiedName);
-										Console.Write(" ");
-										for (int i = 0; i < psiData.Symbols.Length; i++)
-										{
-											Console.Write(psiData.GetSymbol(i));
-											if (i < psiData.Symbols.Length - 1)
-											{
-												Console.Write(", ");
-											}
-										}
-										Console.WriteLine();
-									}
-									return;
-								}*/
+								PartyManager.Instance.Clear();
+								PartyManager.Instance.Add(CharacterType.Travis);
+								PartyManager.Instance.Add(CharacterType.Zack);
+								PartyManager.Instance.Add(CharacterType.Floyd);
+								PartyManager.Instance.Add(CharacterType.Meryl);
+								PartyManager.Instance.Add(CharacterType.Leo);
+								BattleScene scenea = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Snagtagious Froog"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
+								SceneManager.Instance.Push(scenea);
 								break;
 							}
 						case Button.Seven:
@@ -153,7 +140,7 @@ namespace SunsetRhapsody.Scenes
 							PartyManager.Instance.Add(CharacterType.Floyd);
 							PartyManager.Instance.Add(CharacterType.Meryl);
 							PartyManager.Instance.Add(CharacterType.Leo);
-							BattleScene scene = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Hermit Can"), EnemyFile.Instance.GetEnemyData("Amoeballoon"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
+							BattleScene scene = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Hermit Can"), EnemyFile.Instance.GetEnemyData("Modern Mind"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
 							SceneManager.Instance.Push(scene);
 							break;
 						default:

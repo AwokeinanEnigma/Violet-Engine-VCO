@@ -138,7 +138,7 @@ namespace SunsetRhapsody.Battle.UI
 		{
             this.card.Visible = false;
             deadCard.Visible = true;
-			
+			odoHP.SetValue(-1);
 			this.hitsparks = new Graphic[16];
 			for (int j = 0; j < this.hitsparks.Length; j++)
 			{
@@ -161,7 +161,7 @@ namespace SunsetRhapsody.Battle.UI
 			this.hitsparks[this.hitsparkIndex].Frame = 0f;
 			this.hitsparks[this.hitsparkIndex].OnAnimationComplete += this.HitsparkAnimationComplete;
 			this.hitsparkIndex = (this.hitsparkIndex + 1) % this.hitsparks.Length;
-			Console.WriteLine(vector2f2);
+			//Console.WriteLine(vector2f2);
 
 			//uhohsound.Play();
 		}
@@ -382,7 +382,6 @@ namespace SunsetRhapsody.Battle.UI
 			//int a = TimerManager.Instance.StartTimer(2);
 
 			if (clock.ElapsedTime.AsSeconds() > 0.3f && deadCard.Visible) {
-				Console.WriteLine("hello!");
 				Pop();
 				clock.Restart();
 			}

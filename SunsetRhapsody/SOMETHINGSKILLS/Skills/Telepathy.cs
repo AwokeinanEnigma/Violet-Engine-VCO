@@ -1,33 +1,35 @@
-﻿using SunsetRhapsody.Battle;
+﻿using SFML.Graphics;
+using SFML.System;
+using SunsetRhapsody.Battle;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Combatants;
 using SunsetRhapsody.Battle.PsiAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
+using SunsetRhapsody.GUI.Modifiers;
 using SunsetRhapsody.Psi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Violet.Graphics;
 
 namespace SunsetRhapsody.SOMETHING
 {
     public class Telepathy : AUXBase
     {
-        public override int AUCost => 0; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override TargetingMode TargetMode => TargetingMode.Enemy;//; set => throw new NotImplementedException(); }
-        public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string QualifiedName => "Telapathy";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        internal override IPsi identifier => new AssistivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override int AUCost => 0; 
+        public override TargetingMode TargetMode => TargetingMode.Enemy;
+        public override int[] Symbols => new int[2];
+        public override string QualifiedName => "Telapathy";
+        public override string Key => "1"; 
+        internal override IPsi identifier => new AssistivePsi(); 
 
         public Telepathy()
         {
             Console.WriteLine("THE PURPOSE OF MAN IS TO PERFORM TELEPATHY");
         }
-
-
 
         internal override void Initialize(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
         {
@@ -48,11 +50,8 @@ namespace SunsetRhapsody.SOMETHING
 
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
         {
-            // skip animation -- it's a textbox
             action.state = PlayerPsiAction.State.DamageNumbers;
-
         }
-
         internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action)
         {
             Console.WriteLine("act");
@@ -60,8 +59,8 @@ namespace SunsetRhapsody.SOMETHING
             {
                 EnemyCombatant enemy = combatant as EnemyCombatant;
                 if (enemy == null)
-                {
-                    throw new Exception("Enemy don't work!");
+                {               
+                    throw new Exception("Combatant is not an enemy or somehow has null data!");
                     return;
                 }
                 interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, Violet.GUI.WindowBox.Style.Telepathy);

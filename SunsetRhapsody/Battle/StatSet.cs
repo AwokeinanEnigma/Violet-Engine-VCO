@@ -40,6 +40,8 @@ namespace SunsetRhapsody.Battle
 			return result;
 		}
 
+
+
 		public int Level;
 
 		public int Experience;

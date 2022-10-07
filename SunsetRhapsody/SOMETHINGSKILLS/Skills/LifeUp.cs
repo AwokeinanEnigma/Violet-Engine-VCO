@@ -70,11 +70,11 @@ namespace SunsetRhapsody.SOMETHING
             foreach (Combatant combatant in combatants)
             {
 
-                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 32);
+                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 32, Paths.GRAPHICS + "numbersethealing.dat");
                 damageNumber.OnComplete += DamageNumber_OnComplete; ;
                 StatSet statChange = new StatSet
                 {
-                    HP = +15
+                    HP = +32
                 };
                 combatant.AlterStats(statChange);
                 if (combatant as EnemyCombatant != null)

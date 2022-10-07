@@ -72,24 +72,24 @@ namespace SunsetRhapsody.Battle.UI.Modifiers
 		}
 
 		// Token: 0x06000302 RID: 770 RVA: 0x0001332D File Offset: 0x0001152D
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        // Token: 0x06000303 RID: 771 RVA: 0x0001333C File Offset: 0x0001153C
-        protected void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    this.pipeline.Remove(this.talker);
-                    this.talker.Dispose();
-                }
-                this.disposed = true;
-            }
+		// Token: 0x06000303 RID: 771 RVA: 0x0001333C File Offset: 0x0001153C
+		protected void Dispose(bool disposing)
+		{
+			if (!this.disposed)
+			{
+				if (disposing)
+				{
+					this.pipeline.Remove(this.talker);
+					this.talker.Dispose();
+				}
+				this.disposed = true;
+			}
 		}
 
 		// Token: 0x0400046A RID: 1130

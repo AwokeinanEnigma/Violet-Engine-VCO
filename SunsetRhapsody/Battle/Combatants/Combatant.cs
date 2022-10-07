@@ -72,6 +72,14 @@ namespace SunsetRhapsody.Battle.Combatants
 			}
 		}
 
+		public virtual void SetStats(StatSet stats) {
+			this.stats = stats;
+			if (this.OnStatChange != null)
+			{
+				this.OnStatChange(this, stats);
+			}
+		}
+
 		public virtual bool AddStatusEffect(StatusEffect effect, int turnCount)
 		{
 			bool flag = false;

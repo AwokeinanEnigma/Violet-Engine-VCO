@@ -19,6 +19,12 @@ namespace SunsetRhapsody.Battle.Actions
                 case "BoilerPlateAI":
                     aicontrol = new BoilerplateAI(controller, sender, data);
                     break;
+				case "FrooguAI":
+					aicontrol = new FrooguAI(controller, Sender, data);
+					break;
+				case "hermitcanai":
+					aicontrol = new HermitCanAI(controller, Sender, data);
+					break;
                 default:
                     aicontrol = new BoilerplateAI(controller, sender, data);
                     break;

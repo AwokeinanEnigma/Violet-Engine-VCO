@@ -40,6 +40,7 @@ namespace SunsetRhapsody.GUI.Modifiers
 				this.graphic.Position += this.moveVector;
 				return;
 			}
+			Console.WriteLine($"Moving {graphic} to {target}");
 			if (!this.cleanupFlag)
 			{
 				this.graphic.Position = this.target;

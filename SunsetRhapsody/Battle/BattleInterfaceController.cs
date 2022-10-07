@@ -508,7 +508,7 @@ namespace SunsetRhapsody.Battle
 			return psiAnimator;
 		}
 
-		public DamageNumber AddDamageNumber(Combatant combatant, int number)
+		public DamageNumber AddDamageNumber(Combatant combatant, int number, string customNumberSet = "")
 		{
 			Vector2f offset = default(Vector2f);
 			Vector2f position;
@@ -528,7 +528,7 @@ namespace SunsetRhapsody.Battle
 			{
 				position = new Vector2f(-320f, -180f);
 			}
-			DamageNumber damageNumber = new DamageNumber(this.pipeline, position, offset, 30, number);
+			DamageNumber damageNumber = new DamageNumber(this.pipeline, position, offset, 30, number, customNumberSet);
 			damageNumber.SetVisibility(true);
 			this.damageNumbers.Add(damageNumber);
 			damageNumber.Start();
@@ -643,6 +643,9 @@ namespace SunsetRhapsody.Battle
 			}
 			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicTalker);
 			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x is GraphicBouncer);
+			foreach (PlayerCombatant com in combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)) {
+				com.RemoveStatusEffect(StatusEffect.Talking);
+			}
 		}
 		public void AddShieldAnimation(Combatant combatant)
 		{
@@ -1447,11 +1450,21 @@ namespace SunsetRhapsody.Battle
 			this.cardBar.SetMeter(playerCombatant.PartyIndex, 0.87f);
 			//this.cardBar.SetMeter(playerCombatant.PartyIndex, meter);
 
+			// incredibly roundabout way of doing this, instead of just stopping the HP from going below 0 in the statset struct
+			// also doesn't work! it causes immortality!
+			/*if (playerCombatant.Stats.HP < 0) {
+				StatSet newstat = playerCombatant.Stats;
+				newstat.HP = 0;
+				playerCombatant.SetStats(newstat);
+				
+			
+			}*/
 
 			if (playerCombatant.Stats.HP <= 0)
 			{
-				//playerCombatant.AddStatusEffect(StatusEffect.Unconscious, 500);
-				;
+				// why was this commented??
+				playerCombatant.AddStatusEffect(StatusEffect.Unconscious, 500);
+
 				foreach (var bg in background.Layers)
 				{
 					LayerParams param = bg.Parameters;

@@ -59,7 +59,7 @@ namespace SunsetRhapsody.Battle.EnemyAI
 							possibleTargets.Add(playerCombatant);
 						}
 					}
-					
+
 				}
 			}
 
@@ -72,7 +72,44 @@ namespace SunsetRhapsody.Battle.EnemyAI
 			return BattleAction.GetInstance(aparams);
 		}
 
-		private List<ActionParams> battleActionParams;
+		private List<ActionParams> battleActionParams = new List<ActionParams>() {
+						new ActionParams
+						{
+							actionType = typeof(DisablePSIAction),
+							data = new object[]
+							{
+								"a comet",
+								23
+							}
+						},
+						new ActionParams
+						{
+							actionType = typeof(EnemyProjectileAction),
+							data = new object[]
+							{
+								"a comet",
+								5
+							}
+						},
+						new ActionParams
+						{
+							actionType = typeof(EnemyTurnWasteAction),
+							data = new object[]
+							{
+								"The Modern Mind is having trouble thinking!",
+								true
+							}
+						},
+						new ActionParams
+						{
+							actionType = typeof(EnemyBashAction),
+							data = new object[]
+							{
+								12f
+							}
+						}
+
+		};
 
 		private BattleController controller;
 

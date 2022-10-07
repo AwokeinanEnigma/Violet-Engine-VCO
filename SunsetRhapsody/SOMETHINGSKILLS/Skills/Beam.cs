@@ -16,7 +16,7 @@ namespace SunsetRhapsody.SOMETHING
     public class Beam : AUXBase
     {
         public override int AUCost => 12; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override TargetingMode TargetMode => TargetingMode.AllEnemies;//; set => throw new NotImplementedException(); }
+        public override TargetingMode TargetMode => TargetingMode.Enemy;//; set => throw new NotImplementedException(); }
         public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string QualifiedName => "PK Beam";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

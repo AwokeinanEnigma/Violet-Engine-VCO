@@ -30,9 +30,9 @@ namespace SunsetRhapsody.Data
 					MaxHP = 98,
 					MaxPP = 50,
 					HP = 84,
-					PP = 31,
+					PP = 45,
 					Speed = 8,
-					Offense = 12,
+					Offense = 9,
 					Defense = 5,
 					IQ = 3,
 					Guts = 80,
@@ -46,7 +46,7 @@ namespace SunsetRhapsody.Data
 				new StatSet
 				{
 					HP = 21,
-					PP = 32,
+					PP = 34,
 					Speed = 8,
 					Offense = 4,
 					Defense = 5,
@@ -78,9 +78,9 @@ namespace SunsetRhapsody.Data
 				new StatSet
 				{
 					HP = 42,
-					PP = 20,
+					PP = 30,
 					Speed = 5,
-					Offense = 7,
+					Offense = 12,
 					Defense = 6,
 					IQ = 3,
 					Guts = 2,
@@ -96,7 +96,7 @@ namespace SunsetRhapsody.Data
 					HP = 15,
 					PP = 0,
 					Speed = 1,
-					Offense = 1,
+					Offense = 6,
 					Defense = 1,
 					IQ = 1,
 					Guts = 1,
