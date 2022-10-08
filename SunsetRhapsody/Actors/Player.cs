@@ -26,6 +26,7 @@ namespace SunsetRhapsody.Actors
 				return this.checkVector;
 			}
 		}
+
 		public int Direction
 		{
 			get
@@ -33,6 +34,7 @@ namespace SunsetRhapsody.Actors
 				return this.direction;
 			}
 		}
+
 		public bool Running
 		{
 			get
@@ -40,6 +42,7 @@ namespace SunsetRhapsody.Actors
 				return this.isRunning;
 			}
 		}
+
 		public float HopFactor
 		{
 			get
@@ -52,6 +55,7 @@ namespace SunsetRhapsody.Actors
 				this.hopFrame = Engine.Frame;
 			}
 		}
+
 		public int Depth
 		{
 			get
@@ -59,6 +63,7 @@ namespace SunsetRhapsody.Actors
 				return this.playerGraphic.Depth;
 			}
 		}
+
 		public Vector2f EmoticonPoint
 		{
 			get
@@ -66,6 +71,7 @@ namespace SunsetRhapsody.Actors
 				return new Vector2f(this.position.X, this.position.Y - this.playerGraphic.Origin.Y);
 			}
 		}
+
 		public bool InputLocked
 		{
 			get
@@ -77,6 +83,7 @@ namespace SunsetRhapsody.Actors
 				this.isInputLocked = value;
 			}
 		}
+
 		public override bool MovementLocked
 		{
 			get
@@ -90,15 +97,19 @@ namespace SunsetRhapsody.Actors
 				this.recorder.MovementLocked = this.isMovementLocked;
 			}
 		}
+
 		public event Player.OnCollisionHanlder OnCollision;
+
 		public event Player.OnTelepathyAnimationCompleteHanlder OnTelepathyAnimationComplete;
+
 		public event Player.OnRunningChangeHandler OnRunningChange;
+
 		public Player(RenderPipeline pipeline, CollisionManager colman, PartyTrain recorder, Vector2f position, int direction, CharacterType character, bool useShadow, bool isOcean, bool isRunning) : base(colman)
 		{
 			this.position = position;
 			this.moveVector = new Vector2f(0f, 0f);
 			this.pipeline = pipeline;
-			this.mesh = new Mesh(new FloatRect(-6f, -3f, 14f, 6f));
+			this.mesh = new Mesh(new FloatRect(-8f, -3f, 15f, 6f));
 			this.aabb = base.Mesh.AABB;
 			this.ignoreCollisionTypes = new Type[]
 			{
@@ -124,17 +135,20 @@ namespace SunsetRhapsody.Actors
 			InputManager.Instance.ButtonReleased += this.ButtonReleased;
 			TimerManager.Instance.OnTimerEnd += this.CrouchTimerEnd;
 		}
+
 		public void UpdateStatusEffects()
 		{
 			this.isDead = (CharacterStatusEffects.HasStatusEffect(this.character, StatusEffect.Unconscious) || CharacterStats.GetStats(this.character).HP <= 0);
 			this.isNauseous = CharacterStatusEffects.HasStatusEffect(this.character, StatusEffect.Nausea);
 		}
+
 		public void Telepathize()
 		{
 			this.effectGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "telepathy.dat", "telepathy", VectorMath.Truncate(this.position - new Vector2f(0f, this.playerGraphic.Origin.Y - this.playerGraphic.Size.Y / 4f)), 2147450881);
 			this.effectGraphic.OnAnimationComplete += this.effectGraphic_OnAnimationComplete;
 			this.pipeline.Add(this.effectGraphic);
 		}
+
 		private void effectGraphic_OnAnimationComplete(AnimatedRenderable graphic)
 		{
 			this.effectGraphic.OnAnimationComplete -= this.effectGraphic_OnAnimationComplete;
@@ -146,6 +160,7 @@ namespace SunsetRhapsody.Actors
 				this.OnTelepathyAnimationComplete(this);
 			}
 		}
+
 		private void ButtonPressed(InputManager sender, Button b)
 		{
 			if (!this.isMovementLocked && !this.isInputLocked && b == Button.B)
@@ -153,6 +168,7 @@ namespace SunsetRhapsody.Actors
 				this.isRunButtonPressed = true;
 			}
 		}
+
 		private void ButtonReleased(InputManager sender, Button b)
 		{
 			if (!this.isMovementLocked && !this.isInputLocked && b == Button.B)
@@ -160,6 +176,7 @@ namespace SunsetRhapsody.Actors
 				this.isRunButtonReleased = true;
 			}
 		}
+
 		private void CrouchTimerEnd(int timerIndex)
 		{
 			if (this.crouchTimerIndex == timerIndex)
@@ -167,10 +184,12 @@ namespace SunsetRhapsody.Actors
 				this.isRunTimerComplete = true;
 			}
 		}
+
 		public void SetPosition(Vector2f position)
 		{
 			this.SetPosition(position, false);
 		}
+
 		public void SetPosition(Vector2f position, bool extend)
 		{
 			this.position = position;
@@ -178,6 +197,7 @@ namespace SunsetRhapsody.Actors
 			this.recorder.Reset(this.position, this.direction, this.terrainType, extend);
 			this.UpdateGraphics();
 		}
+
 		public void SetDirection(int dir)
 		{
 			while (dir < 0)
@@ -187,24 +207,29 @@ namespace SunsetRhapsody.Actors
 			this.direction = dir % 8;
 			this.animator.UpdateSubsprite(this.GetAnimationContext());
 		}
+
 		public void SetShadow(bool isVisible)
 		{
 			this.isShadowEnabled = isVisible;
 			this.shadowGraphic.Visible = this.isShadowEnabled;
 		}
+
 		public void SetMover(Mover mover)
 		{
 			this.mover = mover;
 		}
+
 		public void ClearMover()
 		{
 			this.mover = null;
 		}
+
 		public void OverrideSubsprite(string subsprite)
 		{
 			this.animator.OverrideSubsprite(subsprite);
 			this.animator.UpdateSubsprite(this.GetAnimationContext());
 		}
+
 		public void ClearOverrideSubsprite()
 		{
 			this.animator.ClearOverride();
@@ -216,6 +241,7 @@ namespace SunsetRhapsody.Actors
 				this.playerGraphic.OnAnimationComplete -= this.playerGraphic_OnAnimationComplete;
 			}
 		}
+
 		public void SetAnimationLoopCount(int loopCount)
 		{
 			if (this.animator.Overriden)
@@ -225,6 +251,7 @@ namespace SunsetRhapsody.Actors
 				this.playerGraphic.OnAnimationComplete += this.playerGraphic_OnAnimationComplete;
 			}
 		}
+
 		private void playerGraphic_OnAnimationComplete(AnimatedRenderable renderable)
 		{
 			this.animationLoopCount++;
@@ -234,6 +261,7 @@ namespace SunsetRhapsody.Actors
 				this.playerGraphic.OnAnimationComplete -= this.playerGraphic_OnAnimationComplete;
 			}
 		}
+
 		private void SetRunning(bool isRunning)
 		{
 			this.isRunning = isRunning;
@@ -242,6 +270,7 @@ namespace SunsetRhapsody.Actors
 				this.OnRunningChange(this);
 			}
 		}
+
 		private AnimationContext GetAnimationContext()
 		{
 			return new AnimationContext
@@ -255,6 +284,7 @@ namespace SunsetRhapsody.Actors
 				IsTalk = false
 			};
 		}
+
 		public void ChangeSprite(string resource, string subsprite)
 		{
 			if (this.playerGraphic != null)
@@ -270,6 +300,7 @@ namespace SunsetRhapsody.Actors
 			this.animator.ChangeGraphic(this.playerGraphic);
 			this.animator.UpdateSubsprite(this.GetAnimationContext());
 		}
+
 		private void HandleRunFlags()
 		{
 			if (this.isNauseous)
@@ -312,6 +343,7 @@ namespace SunsetRhapsody.Actors
 				this.isRunTimerComplete = false;
 			}
 		}
+
 		public override void Input()
 		{
 			if (this.mover == null)
@@ -369,55 +401,57 @@ namespace SunsetRhapsody.Actors
 				this.isSolid = !InputManager.Instance.State[Button.L];
 			}
 		}
+
 		private void HandleCornerSliding()
 		{
 			if (this.direction % 2 == 0)
 			{
-                Vector2f vector2f = VectorMath.DirectionToVector(this.direction);
-                Vector2f vector2f2 = VectorMath.LeftNormal(vector2f);
-                int num = (this.direction == 0 || this.direction == 4) ? 8 : 10;
-                int num2 = -1;
-                for (int i = num; i > 0; i--)
-                {
-                    bool flag = this.collisionManager.PlaceFree(this, this.position + vector2f + vector2f2 * (float)i, null, this.ignoreCollisionTypes);
-                    if (flag)
-                    {
-                        num2 = i;
-                        break;
-                    }
-                }
-                int num3 = -1;
-                for (int j = num; j > 0; j--)
-                {
-                    bool flag2 = this.collisionManager.PlaceFree(this, this.position + vector2f - vector2f2 * (float)j, null, this.ignoreCollisionTypes);
-                    if (flag2)
-                    {
-                        num3 = j;
-                        break;
-                    }
-                }
-                if (num2 >= 0 || num3 >= 0)
-                {
-                    Vector2f position = this.position + ((num2 > num3) ? vector2f2 : (-vector2f2));
-                    bool flag3 = this.collisionManager.PlaceFree(this, position, null, this.ignoreCollisionTypes);
-                    if (flag3)
-                    {
-                        this.lastPosition = this.position;
-                        this.position = position;
-                        this.collisionManager.Update(this, this.lastPosition, this.position);
-                        position = this.position + vector2f;
-                        flag3 = this.collisionManager.PlaceFree(this, position, null, this.ignoreCollisionTypes);
-                        if (flag3 && collisionManager.ObjectsAtPosition(position).Count() < 0)
-                        {
-                            this.lastPosition = this.position;
-                            this.position = position;
-                            this.collisionManager.Update(this, this.lastPosition, this.position);
-                        }
+				Vector2f vector2f = VectorMath.DirectionToVector(this.direction);
+				Vector2f vector2f2 = VectorMath.LeftNormal(vector2f);
+				int num = (this.direction == 0 || this.direction == 4) ? 8 : 10;
+				int num2 = -1;
+				for (int i = num; i > 0; i--)
+				{
+					bool flag = this.collisionManager.PlaceFree(this, this.position + vector2f + vector2f2 * (float)i, null, this.ignoreCollisionTypes);
+					if (flag)
+					{
+						num2 = i;
+						break;
 					}
-                }
+				}
+				int num3 = -1;
+				for (int j = num; j > 0; j--)
+				{
+					bool flag2 = this.collisionManager.PlaceFree(this, this.position + vector2f - vector2f2 * (float)j, null, this.ignoreCollisionTypes);
+					if (flag2)
+					{
+						num3 = j;
+						break;
+					}
+				}
+				if (num2 >= 0 || num3 >= 0)
+				{
+					Vector2f position = this.position + ((num2 > num3) ? vector2f2 : (-vector2f2));
+					bool flag3 = this.collisionManager.PlaceFree(this, position, null, this.ignoreCollisionTypes);
+					if (flag3)
+					{
+						this.lastPosition = this.position;
+						this.position = position;
+						this.collisionManager.Update(this, this.lastPosition, this.position);
+						position = this.position + vector2f;
+						flag3 = this.collisionManager.PlaceFree(this, position, null, this.ignoreCollisionTypes);
+						if (flag3)
+						{
+							this.lastPosition = this.position;
+							this.position = position;
+							this.collisionManager.Update(this, this.lastPosition, this.position);
+						}
+					}
+				}
 			}
 		}
-        protected override void HandleCollision(ICollidable[] collisionObjects)
+
+		protected override void HandleCollision(ICollidable[] collisionObjects)
 		{
 			if (this.OnCollision != null)
 			{
@@ -425,7 +459,7 @@ namespace SunsetRhapsody.Actors
 			}
 			for (int i = 0; i < collisionObjects.Length; i++)
 			{
-                if (collisionObjects[i] != null && !(collisionObjects[i] is Portal) && !(collisionObjects[i] is TriggerArea))
+				if (collisionObjects[i] != null && !(collisionObjects[i] is Portal) && !(collisionObjects[i] is TriggerArea))
 				{
 					if (this.isRunning)
 					{
@@ -434,22 +468,22 @@ namespace SunsetRhapsody.Actors
 					}
 					if (collisionObjects[i] is SolidStatic)
 					{
-                        this.HandleCornerSliding();
+						this.HandleCornerSliding();
 						return;
 					}
-
-                    if (collisionObjects[i] is NPC && ( (collisionObjects[i] as NPC).MovementLocked = false))
-                    {
-                        if (!collisionManager.PlaceFree(this, position))
-                        {
-                            Console.WriteLine($"the phantom exterior like fish eggs interior like suicide wrist-red. I could exercise you, this could be your phys-ed. Cheat on your man homie AAGH I tried to sneak through the door man! Can't make it. Can't make it. Shit's stuck. Outta my way son! DOOR STUCK! DOOR STUCK! PLEASE! I BEG YOU! We're dead. You're a genuine dick sucker.");
-                            this.position += new Vector2f(direction, direction);
-                            HandleCornerSliding();
-                        }
-                    }
+					if (collisionObjects[i] is NPC && ((collisionObjects[i] as NPC).MovementLocked = false))
+					{
+						if (!collisionManager.PlaceFree(this, position))
+						{
+							Console.WriteLine($"the phantom exterior like fish eggs interior like suicide wrist-red. I could exercise you, this could be your phys-ed. Cheat on your man homie AAGH I tried to sneak through the door man! Can't make it. Can't make it. Shit's stuck. Outta my way son! DOOR STUCK! DOOR STUCK! PLEASE! I BEG YOU! We're dead. You're a genuine dick sucker.");
+							this.position += new Vector2f(direction, direction);
+							HandleCornerSliding();
+						}
+					}
 				}
 			}
 		}
+
 		private void UpdateGraphics()
 		{
 			this.graphicOffset.Y = -this.zOffset;
@@ -463,6 +497,7 @@ namespace SunsetRhapsody.Actors
 				this.pipeline.Update(this.shadowGraphic);
 			}
 		}
+
 		public override void Update()
 		{
 			if (this.mover != null)
@@ -499,6 +534,7 @@ namespace SunsetRhapsody.Actors
 				this.UpdateGraphics();
 			}
 		}
+
 		public override void Collision(CollisionContext context)
 		{
 			if (!(context.Other is TriggerArea))
@@ -508,6 +544,7 @@ namespace SunsetRhapsody.Actors
 				this.playerGraphic.Depth = (int)this.Position.Y;
 			}
 		}
+
 		protected override void Dispose(bool disposing)
 		{
 			if (!this.disposed)
@@ -526,48 +563,91 @@ namespace SunsetRhapsody.Actors
 			}
 			base.Dispose(disposing);
 		}
+
 		private const float HOT_POINT_LENGTH = 11f;
+
 		private const int SLIDE_DISTANCE_X = 10;
+
 		private const int SLIDE_DISTANCE_Y = 8;
+
 		private const float SPEED_WALK = 1f;
+
 		private const float SPEED_RUN = 3f;
+
 		private const float SPEED_CYCLE = 4f;
+
 		private const int RUN_TIMER_DURATION = 10;
+
 		private Vector2f moveVector;
+
 		private Vector2f runVector;
+
 		private Vector2f lastMoveVector;
+
 		private RenderPipeline pipeline;
+
 		private PartyTrain recorder;
+
 		private Graphic shadowGraphic;
+
 		private IndexedColorGraphic playerGraphic;
+
 		private int direction;
+
 		private float speed;
+
 		private float lastSpeed;
+
 		private CharacterType character;
+
 		private Mover mover;
+
 		private bool isShadowEnabled;
+
 		private bool isDead;
+
 		private bool isNauseous;
+
 		private bool isCrouch;
+
 		private bool isRunning;
+
 		private bool isRunReady;
+
 		private int crouchTimerIndex;
+
 		private float hopFactor;
+
 		private long hopFrame;
+
 		private float lastZOffset;
+
 		private Vector2f graphicOffset;
+
 		private bool isRunButtonPressed;
+
 		private bool isRunButtonReleased;
+
 		private bool isRunTimerComplete;
+
 		private bool isInputLocked;
+
 		private IndexedColorGraphic effectGraphic;
+
 		private AnimationControl animator;
+
 		private int animationLoopCount;
+
 		private int animationLoopCountTarget;
+
 		private TerrainType terrainType;
+
 		private Vector2f checkVector;
+
 		public delegate void OnCollisionHanlder(Player sender, ICollidable[] collisionObjects);
+
 		public delegate void OnTelepathyAnimationCompleteHanlder(Player sender);
+
 		public delegate void OnRunningChangeHandler(Player sender);
 	}
 }
