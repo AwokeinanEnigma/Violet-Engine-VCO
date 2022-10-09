@@ -331,7 +331,7 @@ namespace SunsetRhapsody.GUI
 			}
 			if (this.useHighlightTextColor)
 			{
-				this.texts[this.selectedIndex - this.topIndex].Color = Color.Black;
+				this.texts[this.selectedIndex - this.topIndex].Color = new Color(255, 89, 209);
 			}
 		}
 

@@ -46,7 +46,7 @@ namespace SunsetRhapsody.Battle
 			return (int)Math.Max((double)minimum, val);
 		}
 
-		public static int CalculatePsiDamage(int lowerDamage, int upperDamage, Combatant attacker, Combatant target)
+		public static int CalculateAUXDamage(int lowerDamage, int upperDamage, Combatant attacker, Combatant target)
 		{
 			int num = lowerDamage + (upperDamage - lowerDamage) / 2;
 			double val = GaussianRandom.Next((double)num, 3.0);
@@ -92,7 +92,7 @@ namespace SunsetRhapsody.Battle
 
 		private const double PHYSICAL_STD_DEV = 2.0;
 
-		private const double PSI_STD_DEV = 3.0;
+		private const double AUX_STD_DEV = 3.0;
 
 		private const float SMAAASH_POWER = 4f;
 

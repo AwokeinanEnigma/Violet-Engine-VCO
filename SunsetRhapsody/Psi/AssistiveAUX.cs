@@ -1,12 +1,15 @@
 ﻿using SunsetRhapsody.SOMETHING;
 using System;
 
-namespace SunsetRhapsody.Psi
+namespace SunsetRhapsody.AUX
 {
-	public struct OtherPsi : IPsi
+	public struct AssistiveAUX : IAUX
 	{
-
-		public OtherPsi(OffensePsi ability)
+		public AssistiveAUX(AUXBase ability)
+		{
+			_aux = ability;
+		}
+		public AssistiveAUX(AssistiveAUX ability)
 		{
 			_aux = ability.aux;
 		}

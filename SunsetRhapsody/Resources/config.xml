@@ -7,8 +7,10 @@
       <character id="travis" />
     </party>
   </start>
-  
+  <debug>
+    <debugmap value="Hell" />
+  </debug>
   <basestats id="travis">
-    
+
   </basestats>
 </config>

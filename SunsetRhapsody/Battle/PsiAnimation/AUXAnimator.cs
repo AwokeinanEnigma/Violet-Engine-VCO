@@ -6,9 +6,9 @@ using SunsetRhapsody.GUI.Modifiers;
 using SFML.Graphics;
 using SFML.System;
 
-namespace SunsetRhapsody.Battle.PsiAnimation
+namespace SunsetRhapsody.Battle.AUXAnimation
 {
-	internal class PsiAnimator
+	internal class AUXAnimator
 	{
 		public bool Complete
 		{
@@ -18,9 +18,9 @@ namespace SunsetRhapsody.Battle.PsiAnimation
 			}
 		}
 
-		public event PsiAnimator.AnimationCompleteHandler OnAnimationComplete;
+		public event AUXAnimator.AnimationCompleteHandler OnAnimationComplete;
 
-		public PsiAnimator(RenderPipeline pipeline, List<IGraphicModifier> graphicModifiers, PsiElementList animation, Graphic senderGraphic, Graphic[] targetGraphics, CardBar cardBar, int[] targetCardIds)
+		public AUXAnimator(RenderPipeline pipeline, List<IGraphicModifier> graphicModifiers, AUXElementList animation, Graphic senderGraphic, Graphic[] targetGraphics, CardBar cardBar, int[] targetCardIds)
 		{
 			this.pipeline = pipeline;
 			this.graphicModifiers = graphicModifiers;
@@ -79,34 +79,34 @@ namespace SunsetRhapsody.Battle.PsiAnimation
 
 		public void Update()
 		{
-			List<PsiElement> elementsAtTime = this.animation.GetElementsAtTime(this.step);
+			List<AUXElement> elementsAtTime = this.animation.GetElementsAtTime(this.step);
 			if (elementsAtTime != null && elementsAtTime.Count > 0)
 			{
-				foreach (PsiElement psiElement in elementsAtTime)
+				foreach (AUXElement AUXElement in elementsAtTime)
 				{
-					if (psiElement.Animation != null)
+					if (AUXElement.Animation != null)
 					{
-						this.pipeline.Add(psiElement.Animation);
-						psiElement.Animation.OnAnimationComplete += this.GraphicAnimationComplete;
+						this.pipeline.Add(AUXElement.Animation);
+						AUXElement.Animation.OnAnimationComplete += this.GraphicAnimationComplete;
 						this.animatingCount++;
-						if (psiElement.LockToTargetPosition)
+						if (AUXElement.LockToTargetPosition)
 						{
-							psiElement.Animation.Position = this.targetGraphics[psiElement.PositionIndex].Position;
-							psiElement.Animation.Position += psiElement.Offset;
+							AUXElement.Animation.Position = this.targetGraphics[AUXElement.PositionIndex].Position;
+							AUXElement.Animation.Position += AUXElement.Offset;
 						}
 					}
-					if (psiElement.Sound != null)
+					if (AUXElement.Sound != null)
 					{
-						psiElement.Sound.Play();
+						AUXElement.Sound.Play();
 					}
-					Color? screenDarkenColor = psiElement.ScreenDarkenColor;
+					Color? screenDarkenColor = AUXElement.ScreenDarkenColor;
 					if (screenDarkenColor != null)
 					{
-						Color? screenDarkenColor2 = psiElement.ScreenDarkenColor;
-						this.DarkenScreen(screenDarkenColor2.Value, psiElement.ScreenDarkenDepth ?? 32667);
+						Color? screenDarkenColor2 = AUXElement.ScreenDarkenColor;
+						this.DarkenScreen(screenDarkenColor2.Value, AUXElement.ScreenDarkenDepth ?? 32667);
 						this.animatingCount++;
 					}
-					Color? targetFlashColor = psiElement.TargetFlashColor;
+					Color? targetFlashColor = AUXElement.TargetFlashColor;
 					if (targetFlashColor != null)
 					{
 						foreach (Graphic graphic in this.targetGraphics)
@@ -114,25 +114,25 @@ namespace SunsetRhapsody.Battle.PsiAnimation
 							if (graphic is IndexedColorGraphic)
 							{
 								IndexedColorGraphic graphic2 = graphic as IndexedColorGraphic;
-								Color? targetFlashColor2 = psiElement.TargetFlashColor;
-								GraphicFader item = new GraphicFader(graphic2, targetFlashColor2.Value, psiElement.TargetFlashBlendMode, psiElement.TargetFlashFrames, psiElement.TargetFlashCount);
+								Color? targetFlashColor2 = AUXElement.TargetFlashColor;
+								GraphicFader item = new GraphicFader(graphic2, targetFlashColor2.Value, AUXElement.TargetFlashBlendMode, AUXElement.TargetFlashFrames, AUXElement.TargetFlashCount);
 								this.graphicModifiers.Add(item);
 							}
 						}
 					}
-					Color? senderFlashColor = psiElement.SenderFlashColor;
+					Color? senderFlashColor = AUXElement.SenderFlashColor;
 					if (senderFlashColor != null && this.senderGraphic is IndexedColorGraphic)
 					{
 						IndexedColorGraphic graphic3 = this.senderGraphic as IndexedColorGraphic;
-						Color? senderFlashColor2 = psiElement.SenderFlashColor;
-						GraphicFader item2 = new GraphicFader(graphic3, senderFlashColor2.Value, psiElement.SenderFlashBlendMode, psiElement.SenderFlashFrames, psiElement.SenderFlashCount);
+						Color? senderFlashColor2 = AUXElement.SenderFlashColor;
+						GraphicFader item2 = new GraphicFader(graphic3, senderFlashColor2.Value, AUXElement.SenderFlashBlendMode, AUXElement.SenderFlashFrames, AUXElement.SenderFlashCount);
 						this.graphicModifiers.Add(item2);
 					}
 					foreach (int num in this.targetCardIds)
 					{
 						if (num >= 0)
 						{
-							this.cardBar.SetSpring(num, psiElement.CardSpringMode, psiElement.CardSpringAmplitude, psiElement.CardSpringSpeed, psiElement.CardSpringDecay);
+							this.cardBar.SetSpring(num, AUXElement.CardSpringMode, AUXElement.CardSpringAmplitude, AUXElement.CardSpringSpeed, AUXElement.CardSpringDecay);
 						}
 					}
 				}
@@ -190,7 +190,7 @@ namespace SunsetRhapsody.Battle.PsiAnimation
 
 		private RenderPipeline pipeline;
 
-		private PsiElementList animation;
+		private AUXElementList animation;
 
 		private Graphic senderGraphic;
 
@@ -224,6 +224,6 @@ namespace SunsetRhapsody.Battle.PsiAnimation
 
 		private int animatingCount;
 
-		public delegate void AnimationCompleteHandler(PsiAnimator anim);
+		public delegate void AnimationCompleteHandler(AUXAnimator anim);
 	}
 }

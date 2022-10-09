@@ -73,7 +73,7 @@ namespace SunsetRhapsody.Battle.UI
 				case ButtonBar.Action.Bash:
 					spriteName = "bash";
 					break;
-				case ButtonBar.Action.Psi:
+				case ButtonBar.Action.AUX:
 					spriteName = "psi";
 					break;
 				case ButtonBar.Action.Items:
@@ -233,7 +233,7 @@ namespace SunsetRhapsody.Battle.UI
 		{
 			None,
 			Bash,
-			Psi,
+			AUX,
 			Items,
 			Talk,
 			Guard,

@@ -2,27 +2,27 @@
 using System.Linq;
 //using SunsetRhapsody.AUX;
 using SunsetRhapsody.Battle.Combatants;
-using SunsetRhapsody.Battle.PsiAnimation;
+using SunsetRhapsody.Battle.AUXAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using SunsetRhapsody.SOMETHING;
 
 namespace SunsetRhapsody.Battle.Actions
 {
-	internal class PlayerPsiAction : BattleAction
+	internal class PlayerAUXAction : BattleAction
 	{
 		public AUXBase aux;
-		public PlayerPsiAction(ActionParams aparams) : base(aparams)
+		public PlayerAUXAction(ActionParams aparams) : base(aparams)
 		{
 			Console.WriteLine("CONSTRUCTOR");
 			this.combatant = (this.sender as PlayerCombatant);
-			IPsi psi = (aparams.data.Length > 0) ? ((IPsi)aparams.data[0]) : null;
-			this.psi = psi;
-			this.psiLevel = ((aparams.data.Length > 1) ? ((int)aparams.data[1]) : 0);
+			IAUX AUX = (aparams.data.Length > 0) ? ((IAUX)aparams.data[0]) : null;
+			this.AUX = AUX;
+			this.AUXLevel = ((aparams.data.Length > 1) ? ((int)aparams.data[1]) : 0);
 			aux = ((aparams.data.Length > 1) ? ((AUXBase)aparams.data[2]) : null);
 			
-			this.state = PlayerPsiAction.State.Initialize;
+			this.state = PlayerAUXAction.State.Initialize;
 		}
 
 		private void RemoveInvalidTargets()
@@ -67,13 +67,13 @@ namespace SunsetRhapsody.Battle.Actions
 		protected override void UpdateAction()
 		{
 			base.UpdateAction();
-			if (this.state == PlayerPsiAction.State.Initialize)
+			if (this.state == PlayerAUXAction.State.Initialize)
 			{
 				foreach (StatusEffectInstance statusEffectInstance in combatant.GetStatusEffects())
 				{
-					if (statusEffectInstance.Type == StatusEffect.DisablePSI)
+					if (statusEffectInstance.Type == StatusEffect.DisableAUX)
 					{
-						string msg = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(this.combatant.Character), this.psi.aux.QualifiedName, PsiLetters.Get(this.psiLevel));
+						string msg = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(this.combatant.Character), this.AUX.aux.QualifiedName, AUXLetters.Get(this.AUXLevel));
 						this.controller.InterfaceController.ShowMessage(msg, false);
 						this.controller.InterfaceController.ShowMessage("...But it failed!", false);
 						this.complete = true;
@@ -83,25 +83,25 @@ namespace SunsetRhapsody.Battle.Actions
 				}
 
 				this.RemoveInvalidTargets();
-				aux.Initialize(combatant, controller.InterfaceController, this, targets);
+				aux.Initialize(combatant, controller.InterfaceController, this, targets, AUXLevel);
 				return;
 			}
-			if (this.state == PlayerPsiAction.State.Animate)
+			if (this.state == PlayerAUXAction.State.Animate)
 			{
-				aux.Animate(combatant, controller.InterfaceController, this, targets);
+				aux.Animate(combatant, controller.InterfaceController, this, targets, AUXLevel);
 
 
 				return;
 			}
-			if (this.state == PlayerPsiAction.State.DamageNumbers)
+			if (this.state == PlayerAUXAction.State.DamageNumbers)
 			{
-				aux.Act(targets, combatant, controller.InterfaceController, this);
+				aux.Act(targets, combatant, controller.InterfaceController, this, AUXLevel);
 				/*
 				foreach (Combatant combatant in this.targets)
 				{
 					//todo:
 					//lifeup breaks the game because its effect is null
-					//int num = BattleCalculator.CalculatePsiDamage(this.psi.Effect[this.psiLevel][0], this.psi.Effect[this.psiLevel][1], this.sender, combatant);
+					//int num = BattleCalculator.CalculateAUXDamage(this.AUX.Effect[this.AUXLevel][0], this.AUX.Effect[this.AUXLevel][1], this.sender, combatant);
 					DamageNumber damageNumber = this.controller.InterfaceController.AddDamageNumber(combatant, 32);
 					damageNumber.OnComplete += this.OnDamageNumberComplete;
 					StatSet statChange = new StatSet
@@ -116,23 +116,23 @@ namespace SunsetRhapsody.Battle.Actions
 				}
 				StatSet statChange2 = new StatSet
 				{
-					PP = -this.psi.aux.AUCost,
+					PP = -this.AUX.aux.AUCost,
 					Meter = 0.026666667f
 				};
 				this.sender.AlterStats(statChange2);*/
-				//this.state = PlayerPsiAction.State.WaitForUI;
+				//this.state = PlayerAUXAction.State.WaitForUI;
 				return;
 			}
-			if (this.state == PlayerPsiAction.State.Finish)
+			if (this.state == PlayerAUXAction.State.Finish)
 			{
-				aux.Finish(targets, combatant, controller.InterfaceController, this);
+				aux.Finish(targets, combatant, controller.InterfaceController, this, AUXLevel);
 			}
 		}
 
 		private void OnDamageNumberComplete(DamageNumber sender)
 		{
 			sender.OnComplete -= this.OnDamageNumberComplete;
-			this.state = PlayerPsiAction.State.Finish;
+			this.state = PlayerAUXAction.State.Finish;
 		}
 
 		public void Finish()
@@ -149,17 +149,17 @@ namespace SunsetRhapsody.Battle.Actions
 
 		private const int DAMAGE_NUMBER_WAIT = 70;
 
-		private const int PSI_INDEX = 0;
+		private const int AUX_INDEX = 0;
 
-		private const int PSI_LEVEL_INDEX = 1;
+		private const int AUX_LEVEL_INDEX = 1;
 
-		public PlayerPsiAction.State state;
+		public PlayerAUXAction.State state;
 
 		private PlayerCombatant combatant;
 
-		public IPsi psi;
+		public IAUX AUX;
 
-		public int psiLevel;
+		public int AUXLevel;
 
 		public enum State
 		{

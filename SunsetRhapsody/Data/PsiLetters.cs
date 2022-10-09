@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace SunsetRhapsody.Data
 {
-	internal class PsiLetters
+	internal class AUXLetters
 	{
 		public static char Get(int level)
 		{
 			char result = '?';
-			PsiLetters.letters.TryGetValue(level, out result);
+			AUXLetters.letters.TryGetValue(level, out result);
 			return result;
 		}
-		/*	private static readonly string[] PSI_LEVEL_STRINGS = new string[]
+		/*	private static readonly string[] AUX_LEVEL_STRINGS = new string[]
 {
 "α",
 "β",

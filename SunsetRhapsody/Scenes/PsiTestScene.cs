@@ -8,12 +8,12 @@ using SFML.System;
 
 namespace SunsetRhapsody.Scenes
 {
-	internal class PsiTestScene : StandardScene
+	internal class AUXTestScene : StandardScene
 	{
-		public PsiTestScene()
+		public AUXTestScene()
 		{
 			this.animations = new List<MultipartAnimation>();
-			IEnumerable<string> enumerable = Directory.EnumerateFiles(Paths.PSI_GRAPHICS);
+			IEnumerable<string> enumerable = Directory.EnumerateFiles(Paths.AUX_GRAPHICS);
 			foreach (string resource in enumerable)
 			{
 				MultipartAnimation multipartAnimation = new MultipartAnimation(resource, new Vector2f(160f, 90f), 0.5f, 0);

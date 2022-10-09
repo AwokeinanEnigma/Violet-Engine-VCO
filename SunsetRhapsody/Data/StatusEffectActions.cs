@@ -24,9 +24,13 @@ namespace SunsetRhapsody.Data
 				typeof(TalkStatusEffectAction)
 			},
 			{
-				StatusEffect.DisablePSI,
-				typeof(DisablePSI)
-			}			
+				StatusEffect.DisableAUX,
+				typeof(DisableAUX)
+			},
+			{ 
+				StatusEffect.Infection,
+				typeof(InfectionStatusEffectAction)
+			}
 		};
 	}
 }

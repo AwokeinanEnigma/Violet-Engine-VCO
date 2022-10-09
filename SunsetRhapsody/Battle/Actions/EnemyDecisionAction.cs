@@ -25,6 +25,9 @@ namespace SunsetRhapsody.Battle.Actions
 				case "hermitcanai":
 					aicontrol = new HermitCanAI(controller, Sender, data);
 					break;
+				case "infestedai":
+					aicontrol = new InfestedLegsAI(controller, Sender, data);
+					break;
                 default:
                     aicontrol = new BoilerplateAI(controller, sender, data);
                     break;

@@ -5,9 +5,9 @@ using SunsetRhapsody.Battle.UI;
 using SFML.Graphics;
 using SFML.System;
 
-namespace SunsetRhapsody.Battle.PsiAnimation
+namespace SunsetRhapsody.Battle.AUXAnimation
 {
-	internal struct PsiElement
+	internal struct AUXElement
 	{
 		public int Timestamp;
 

@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.Utility;
-using SunsetRhapsody.Battle.PsiAnimation;
+using SunsetRhapsody.Battle.AUXAnimation;
 using SunsetRhapsody.Battle.UI;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using SFML.Graphics;
 using SFML.System;
 
 namespace SunsetRhapsody.Data
 {
-	internal class PsiAnimations
+	internal class AUXAnimations
 	{
-		private static PsiElementList GenerateFreezeAlpha()
+		private static AUXElementList GenerateFreezeAlpha()
 		{
-			List<PsiElement> elements = new List<PsiElement>
+			List<AUXElement> elements = new List<AUXElement>
 			{
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 0,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "freeze_a.sdat", default(Vector2f), 0.5f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEPSI + "pkFreezeA.wav", AudioType.Sound),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "freeze_a.sdat", default(Vector2f), 0.5f, 32767),
+					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkFreezeA.wav", AudioType.Sound),
 					LockToTargetPosition = true,
 					PositionIndex = 0,
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
 				},
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 20,
 					TargetFlashColor = new Color?(Color.Cyan),
@@ -34,29 +34,29 @@ namespace SunsetRhapsody.Data
 					TargetFlashFrames = 10,
 					TargetFlashCount = 1
 				},
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 50,
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 0))
 				}
 			};
-			return new PsiElementList(elements);
+			return new AUXElementList(elements);
 		}
 
-		private static PsiElementList GenerateBeamAlpha()
+		private static AUXElementList GenerateBeamAlpha()
 		{
-			MultipartAnimation animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
-			MultipartAnimation multipartAnimation = new MultipartAnimation(Paths.PSI_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
+			MultipartAnimation animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
+			MultipartAnimation multipartAnimation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
 			multipartAnimation.Scale = new Vector2f(-1f, 1f);
-			List<PsiElement> list = new List<PsiElement>();
-			list.Add(new PsiElement
+			List<AUXElement> list = new List<AUXElement>();
+			list.Add(new AUXElement
 			{
 				Timestamp = 0,
-				Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
+				Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
 				ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128)),
-				Sound = AudioManager.Instance.Use(Paths.SFXBATTLEPSI + "pkBeamA.wav", AudioType.Sound)
+				Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkBeamA.wav", AudioType.Sound)
 			});
-			list.Add(new PsiElement
+			list.Add(new AUXElement
 			{
 				Timestamp = 50,
 				Animation = animation,
@@ -64,7 +64,7 @@ namespace SunsetRhapsody.Data
 				LockToTargetPosition = true,
 				PositionIndex = 0
 			});
-			list.Add(new PsiElement
+			list.Add(new AUXElement
 			{
 				Timestamp = 50,
 				Animation = multipartAnimation,
@@ -72,7 +72,7 @@ namespace SunsetRhapsody.Data
 				LockToTargetPosition = true,
 				PositionIndex = 0
 			});
-			list.Add(new PsiElement
+			list.Add(new AUXElement
 			{
 				Timestamp = 80,
 				TargetFlashColor = new Color?(Color.Yellow),
@@ -82,40 +82,40 @@ namespace SunsetRhapsody.Data
 			});
 			for (int i = 0; i < 6; i++)
 			{
-				list.Add(new PsiElement
+				list.Add(new AUXElement
 				{
 					Timestamp = 80 + i * 5,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
 					Offset = new Vector2f((float)(i * -8), 0f),
 					LockToTargetPosition = true,
 					PositionIndex = 0
 				});
-				list.Add(new PsiElement
+				list.Add(new AUXElement
 				{
 					Timestamp = 80 + i * 5,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
 					Offset = new Vector2f((float)(i * 8), 0f),
 					LockToTargetPosition = true,
 					PositionIndex = 0
 				});
 			}
-			list.Add(new PsiElement
+			list.Add(new AUXElement
 			{
 				Timestamp = list[list.Count - 1].Timestamp + 30,
 				ScreenDarkenColor = new Color?(new Color(0, 0, 0, 0))
 			});
-			return new PsiElementList(list);
+			return new AUXElementList(list);
 		}
 
-		private static PsiElementList GenerateHitback()
+		private static AUXElementList GenerateHitback()
 		{
 			Vector2f position = new Vector2f(160f, 90f);
-			return new PsiElementList(new List<PsiElement>
+			return new AUXElementList(new List<AUXElement>
 			{
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 0,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "comet_reflect.sdat", position, 0.5f, 32767),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet_reflect.sdat", position, 0.5f, 32767),
 					Sound = AudioManager.Instance.Use(Paths.SFXBATTLE + "rocketReflect.wav", AudioType.Sound),
 					CardSpringMode = BattleCard.SpringMode.BounceUp,
 					CardSpringAmplitude = new Vector2f(0f, 4f),
@@ -125,25 +125,25 @@ namespace SunsetRhapsody.Data
 			});
 		}
 
-		private static List<PsiElement> GenerateThrow()
+		private static List<AUXElement> GenerateThrow()
 		{
 			Vector2f position = new Vector2f(160f, 90f);
-			return new List<PsiElement>
+			return new List<AUXElement>
 			{
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 0,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "comet.sdat", position, 0.5f, 32767),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet.sdat", position, 0.5f, 32767),
 					Sound = AudioManager.Instance.Use(Paths.SFXBATTLE + "rocket.wav", AudioType.Sound)
 				}
 			};
 		}
 
-		private static List<PsiElement> GenerateExplosion(int startTimestamp)
+		private static List<AUXElement> GenerateExplosion(int startTimestamp)
 		{
 			Vector2f v = new Vector2f(160f, 90f);
-			List<PsiElement> list = new List<PsiElement>();
-			list.Add(new PsiElement
+			List<AUXElement> list = new List<AUXElement>();
+			list.Add(new AUXElement
 			{
 				Timestamp = startTimestamp,
 				ScreenDarkenColor = new Color?(Color.Cyan),
@@ -169,14 +169,14 @@ namespace SunsetRhapsody.Data
 				{
 					Vector2f vector2f = v + new Vector2f((float)(-(float)num5 + (num + 20) * j), -v.Y + (float)(num2 * (i + 1)));
 					int num6 = (int)(VectorMath.Magnitude(v - vector2f) / 10f);
-					list.Add(new PsiElement
+					list.Add(new AUXElement
 					{
 						Timestamp = startTimestamp + num6,
-						Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "comet_boom.sdat", vector2f, 0.4f, 32767)
+						Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet_boom.sdat", vector2f, 0.4f, 32767)
 					});
 				}
 			}
-			list.Add(new PsiElement
+			list.Add(new AUXElement
 			{
 				Timestamp = list[list.Count - 1].Timestamp + 10,
 				ScreenDarkenColor = new Color?(new Color(0, 0, 0, 0)),
@@ -185,26 +185,26 @@ namespace SunsetRhapsody.Data
 			return list;
 		}
 
-		private static PsiElementList GenerateComet()
+		private static AUXElementList GenerateComet()
 		{
-			List<PsiElement> list = new List<PsiElement>();
-			list.AddRange(PsiAnimations.GenerateThrow());
-			list.AddRange(PsiAnimations.GenerateExplosion(40));
-			return new PsiElementList(list);
+			List<AUXElement> list = new List<AUXElement>();
+			list.AddRange(AUXAnimations.GenerateThrow());
+			list.AddRange(AUXAnimations.GenerateExplosion(40));
+			return new AUXElementList(list);
 		}
 
-		private static PsiElementList GenerateFireAlpha()
+		private static AUXElementList GenerateFireAlpha()
 		{
-			List<PsiElement> elements = new List<PsiElement>
+			List<AUXElement> elements = new List<AUXElement>
 			{
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 0,
-					Animation = new MultipartAnimation(Paths.PSI_GRAPHICS + "fire_a.sdat", new Vector2f(160f, 90f), 0.4f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEPSI + "pkFireA.wav", AudioType.Sound),
+					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "fire_a.sdat", new Vector2f(160f, 90f), 0.4f, 32767),
+					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkFireA.wav", AudioType.Sound),
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
 				},
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 40,
 					TargetFlashColor = new Color?(Color.Red),
@@ -212,42 +212,42 @@ namespace SunsetRhapsody.Data
 					TargetFlashFrames = 10,
 					TargetFlashCount = 1
 				},
-				new PsiElement
+				new AUXElement
 				{
 					Timestamp = 80,
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 0))
 				}
 			};
-			return new PsiElementList(elements);
+			return new AUXElementList(elements);
 		}
 
-		public static PsiElementList Get(int psiId)
+		public static AUXElementList Get(int AUXId)
 		{
-			switch (psiId)
+			switch (AUXId)
 			{
 			case 1:
-				return PsiAnimations.GenerateFreezeAlpha();
+				return AUXAnimations.GenerateFreezeAlpha();
 			case 2:
-				return PsiAnimations.GenerateBeamAlpha();
+				return AUXAnimations.GenerateBeamAlpha();
 			case 3:
-				return PsiAnimations.GenerateComet();
+				return AUXAnimations.GenerateComet();
 			case 4:
-				return new PsiElementList(PsiAnimations.GenerateThrow());
+				return new AUXElementList(AUXAnimations.GenerateThrow());
 			case 5:
-				return PsiAnimations.GenerateHitback();
+				return AUXAnimations.GenerateHitback();
 			case 6:
-				return new PsiElementList(PsiAnimations.GenerateExplosion(0));
+				return new AUXElementList(AUXAnimations.GenerateExplosion(0));
 			case 7:
-				return PsiAnimations.GenerateFireAlpha();
+				return AUXAnimations.GenerateFireAlpha();
 			default:
-				return PsiAnimations.GenerateHitback();
+				return AUXAnimations.GenerateHitback();
 			}
 		}
 
-		public static PsiElementList Get(IPsi psi)
+		public static AUXElementList Get(IAUX AUX)
 		{
 			return Get(1);
-			//return PSI;
+			//return AUX;
 		}
 	}
 }

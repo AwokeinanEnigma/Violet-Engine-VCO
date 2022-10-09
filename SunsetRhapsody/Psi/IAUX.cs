@@ -1,9 +1,9 @@
 ﻿using SunsetRhapsody.SOMETHING;
 using System;
 
-namespace SunsetRhapsody.Psi
+namespace SunsetRhapsody.AUX
 {
-	internal interface IPsi
+	internal interface IAUX
 	{
 		 AUXBase aux { get; set; }
 

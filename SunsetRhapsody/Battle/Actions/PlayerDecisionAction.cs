@@ -115,11 +115,11 @@ namespace SunsetRhapsody.Battle.Actions
 						targets = selectionState.Targets
 					});
 					break;
-				case SelectionState.SelectionType.PSI:
+				case SelectionState.SelectionType.AUX:
 					
 					actionParams = new ActionParams?(new ActionParams
 					{
-						actionType = typeof(PlayerPsiAction),
+						actionType = typeof(PlayerAUXAction),
 						controller = this.controller,
 						sender = this.combatant,
 						priority = priority,
@@ -127,8 +127,8 @@ namespace SunsetRhapsody.Battle.Actions
 						data = new object[]
 						{
 							selectionState.Wrapper,
-							selectionState.PsiLevel,
-							selectionState.Psi
+							selectionState.AUXLevel,
+							selectionState.AUX
 						}
 					});
 					break;

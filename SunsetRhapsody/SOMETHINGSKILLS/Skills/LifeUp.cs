@@ -2,10 +2,10 @@
 using SunsetRhapsody.Battle;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Combatants;
-using SunsetRhapsody.Battle.PsiAnimation;
+using SunsetRhapsody.Battle.AUXAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +20,9 @@ namespace SunsetRhapsody.SOMETHING
         public override int AUCost => 1; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override TargetingMode TargetMode => TargetingMode.AllPartyMembers;//; set => throw new NotImplementedException(); }
         public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string QualifiedName => "PK LifeUp";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override string QualifiedName => "AUX Heal";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        internal override IPsi identifier => new AssistivePsi(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        internal override IAUX identifier => new AssistiveAUX(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public LifeUp()
         {
@@ -31,11 +31,11 @@ namespace SunsetRhapsody.SOMETHING
 
 
 
-        internal override void Initialize(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
+        internal override void Initialize(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
-            string message = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(combantant.Character), QualifiedName, PsiLetters.Get(action.psiLevel));
+            string message = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(combantant.Character), QualifiedName, AUXLetters.Get(action.AUXLevel));
 
-            action.state = PlayerPsiAction.State.WaitForUI;
+            action.state = PlayerAUXAction.State.WaitForUI;
             interfaceController.OnTextboxComplete += OnTextboxComplete;
             interfaceController.ShowMessage(message, false);
             interfaceController.PopCard(combantant.ID, 20);
@@ -43,28 +43,28 @@ namespace SunsetRhapsody.SOMETHING
             void OnTextboxComplete()
             {
                 interfaceController.OnTextboxComplete -= OnTextboxComplete;
-                action.state = PlayerPsiAction.State.Animate;
+                action.state = PlayerAUXAction.State.Animate;
             }
             Console.WriteLine("initialize");
         }
 
-        internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action, Combatant[] targets)
+        internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
-            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "psilifeup1.dat", "lifeupalpha", new Vector2f(160, 90), 579600);
+            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "AUXlifeup1.dat", "lifeupalpha", new Vector2f(160, 90), 579600);
             interfaceController.pipeline.Add(graphic);
             graphic.OnAnimationComplete += Graphic_OnAnimationComplete;
-            action.state = PlayerPsiAction.State.WaitForUI;
+            action.state = PlayerAUXAction.State.WaitForUI;
 
             void Graphic_OnAnimationComplete(AnimatedRenderable renderable)
             {
                 interfaceController.pipeline.Remove(renderable);
                 graphic.Visible = false;
                 graphic.OnAnimationComplete -= Graphic_OnAnimationComplete;
-                action.state = PlayerPsiAction.State.DamageNumbers;
+                action.state = PlayerAUXAction.State.DamageNumbers;
             };
         }
 
-        internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action)
+        internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level)
         {
             Console.WriteLine("act");
             foreach (Combatant combatant in combatants)
@@ -88,14 +88,14 @@ namespace SunsetRhapsody.SOMETHING
                 Meter = 0.026666667f
             };
             combantant.AlterStats(statChange2);
-            action.state = PlayerPsiAction.State.WaitForUI;
+            action.state = PlayerAUXAction.State.WaitForUI;
             void DamageNumber_OnComplete(DamageNumber sender)
             {
-                action.state = PlayerPsiAction.State.Finish;
+                action.state = PlayerAUXAction.State.Finish;
             }
         }
 
-        internal override void ScaleToLevel(PlayerCombatant combatant)
+        internal override void ScaleToLevel(PlayerCombatant combatant, int level)
         {
         }
 
@@ -104,7 +104,7 @@ namespace SunsetRhapsody.SOMETHING
             interfaceController.ShowMessage("Not enough AU!", false);
         }
 
-        internal override void Finish(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerPsiAction action)
+        internal override void Finish(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level)
         {
             interfaceController.PopCard(combantant.ID, 0);
             action.Finish();

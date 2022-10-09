@@ -167,7 +167,7 @@ namespace SunsetRhapsody.Data
                     {
                         new ActionParams
                         {
-                            actionType = typeof(DisablePSIAction),
+                            actionType = typeof(DisableAUXAction),
                             data = new object[]
                             {
                                 "a comet",

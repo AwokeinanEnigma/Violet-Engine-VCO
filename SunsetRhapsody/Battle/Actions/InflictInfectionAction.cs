@@ -2,15 +2,16 @@
 using SunsetRhapsody.Battle.Combatants;
 using SunsetRhapsody.Data;
 using SFML.Graphics;
+using SunsetRhapsody.Utility;
 
 namespace SunsetRhapsody.Battle.Actions
 {
-	internal class DisablePSIAction : BattleAction
+	internal class InflictInfectionAction : BattleAction
 	{
-		public DisablePSIAction(ActionParams aparams) : base(aparams)
+		public InflictInfectionAction(ActionParams aparams) : base(aparams)
 		{
-			Console.WriteLine($"Current Target: {targets[0] } ");
-			this.state = DisablePSIAction.State.Initialize;
+			Console.WriteLine($"Current Target for infliction: {targets[0] } ");
+			this.state = InflictInfectionAction.State.Initialize;
 		}
 
 		protected override void UpdateAction()
@@ -18,22 +19,22 @@ namespace SunsetRhapsody.Battle.Actions
 			base.UpdateAction();
 			switch (this.state)
 			{
-				case DisablePSIAction.State.Initialize:
+				case InflictInfectionAction.State.Initialize:
 
 					this.controller.InterfaceController.OnTextboxComplete += this.InteractionComplete;
-					targets[0].AddStatusEffect(StatusEffect.DisablePSI, 3);
-					
+					targets[0].AddStatusEffect(StatusEffect.Infection, 3);
+
 					EnemyCombatant cE = this.sender as EnemyCombatant;
 					PlayerCombatant pC = targets[0] as PlayerCombatant;
 
-					this.controller.InterfaceController.ShowMessage($"{  cE.Enemy.PlayerFriendlyName } disabled { CharacterNames.GetName(pC.Character) }'s PSI!", true);
+					this.controller.InterfaceController.ShowMessage($"{Capitalizer.Capitalize(cE.Enemy.Article)}{  cE.Enemy.PlayerFriendlyName }inflicted { CharacterNames.GetName(pC.Character) } with a deadly infection!", true);
 					this.controller.InterfaceController.FlashEnemy(this.sender as EnemyCombatant, Color.Black, 8, 2);
 					this.controller.InterfaceController.PreEnemyAttack.Play();
-					this.state = DisablePSIAction.State.WaitForUI;
+					this.state = InflictInfectionAction.State.WaitForUI;
 					return;
-				case DisablePSIAction.State.WaitForUI:
+				case InflictInfectionAction.State.WaitForUI:
 					break;
-				case DisablePSIAction.State.Finish:
+				case InflictInfectionAction.State.Finish:
 					this.controller.InterfaceController.OnTextboxComplete -= this.InteractionComplete;
 					this.complete = true;
 					break;
@@ -44,7 +45,7 @@ namespace SunsetRhapsody.Battle.Actions
 
 		public void InteractionComplete()
 		{
-			this.state = DisablePSIAction.State.Finish;
+			this.state = InflictInfectionAction.State.Finish;
 		}
 
 		private const int MESSAGE_INDEX = 0;
@@ -55,7 +56,7 @@ namespace SunsetRhapsody.Battle.Actions
 
 		private const int BLINK_COUNT = 2;
 
-		private DisablePSIAction.State state;
+		private InflictInfectionAction.State state;
 
 		private enum State
 		{

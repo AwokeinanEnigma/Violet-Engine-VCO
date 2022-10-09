@@ -12,7 +12,6 @@ namespace SunsetRhapsody.Battle
         // Token: 0x04000395 RID: 917
         Sleep,
         // Token: 0x04000396 RID: 918
-        DisablePsi,
         // Token: 0x04000397 RID: 919
         Cold,
         // Token: 0x04000398 RID: 920
@@ -42,11 +41,11 @@ namespace SunsetRhapsody.Battle
         // Token: 0x040003A4 RID: 932
         Shield,
         // Token: 0x040003A5 RID: 933
-        PsiShield,
+        AUXShield,
         // Token: 0x040003A6 RID: 934
         Counter,
         // Token: 0x040003A7 RID: 935
-        PsiCounter,
+        AUXCounter,
         // Token: 0x040003A8 RID: 936
         Eraser,
         // Token: 0x040003A9 RID: 937
@@ -61,6 +60,7 @@ namespace SunsetRhapsody.Battle
         QuickUp,
         // Token: 0x040003AE RID: 942
         QuickDown,
-        DisablePSI
+        DisableAUX,
+        Infection
     }
 }

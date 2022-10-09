@@ -88,7 +88,7 @@ namespace SunsetRhapsody.Battle.Actions
 							{
 
 
-                                item2 = string.Format("{0}{1} bashed {2} for {3} hit points of damage!", new object[]
+                                item2 = string.Format("{0}{1}bashed {2} for {3} hit points of damage!", new object[]
                                 {
                                     Capitalizer.Capitalize(this.combatant.Enemy.Article),
                                     this.combatant.Enemy.PlayerFriendlyName,
@@ -98,7 +98,7 @@ namespace SunsetRhapsody.Battle.Actions
 							}
 							else
 							{
-								item2 = string.Format("{0}{1} {2} {3} for {4} hit points of damage!", new object[]
+								item2 = string.Format("{0}{1}{2} {3} for {4} hit points of damage!", new object[]
 								{
 									Capitalizer.Capitalize(this.combatant.Enemy.Article),
                                     this.combatant.Enemy.PlayerFriendlyName,

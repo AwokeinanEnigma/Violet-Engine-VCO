@@ -34,7 +34,7 @@ namespace SunsetRhapsody
             {
                 SceneManager.Instance.AbortTransition();
                 SceneManager.Instance.Clear();
-                SceneManager.Instance.Transition = new IrisTransition(0.2f);
+                SceneManager.Instance.Transition = new IrisTransition(3f);
                 SceneManager.Instance.Push(new ErrorScene(value));
 
                 StreamWriter streamWriter = new StreamWriter("error.log", true);

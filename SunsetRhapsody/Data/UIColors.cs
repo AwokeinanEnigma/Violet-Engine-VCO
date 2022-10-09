@@ -9,7 +9,7 @@ namespace SunsetRhapsody.Data
 		{
 			get
 			{
-				return UIColors.highlightColors[(int)(checked((IntPtr)Math.Max(0L, unchecked(Math.Min((long)(UIColors.highlightColors.Length - 1), (long)((ulong)Settings.WindowFlavor))))))];
+				return new Color(255, 89, 209);
 			}
 		}
 

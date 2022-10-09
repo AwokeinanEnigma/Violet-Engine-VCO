@@ -1,6 +1,6 @@
 ﻿using System;
 using SunsetRhapsody.Battle.Combatants;
-using SunsetRhapsody.Battle.PsiAnimation;
+using SunsetRhapsody.Battle.AUXAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.Utility;
@@ -32,9 +32,9 @@ namespace SunsetRhapsody.Battle.Actions
 
 		private void DoAnimation(int index)
 		{
-			PsiElementList animation = PsiAnimations.Get(index);
-			PsiAnimator psiAnimator = this.controller.InterfaceController.AddPsiAnimation(animation, this.sender, this.targets);
-			psiAnimator.OnAnimationComplete += this.OnAnimationComplete;
+			AUXElementList animation = AUXAnimations.Get(index);
+			AUXAnimator AUXAnimator = this.controller.InterfaceController.AddAUXAnimation(animation, this.sender, this.targets);
+			AUXAnimator.OnAnimationComplete += this.OnAnimationComplete;
 			this.ChangeState(EnemyProjectileAction.State.WaitForUI);
 		}
 
@@ -151,7 +151,7 @@ namespace SunsetRhapsody.Battle.Actions
 			this.ChangeState(EnemyProjectileAction.State.AnimateThrow);
 		}
 
-		private void OnAnimationComplete(PsiAnimator anim)
+		private void OnAnimationComplete(AUXAnimator anim)
 		{
 			anim.OnAnimationComplete -= this.OnAnimationComplete;
 			switch (this.previousState)

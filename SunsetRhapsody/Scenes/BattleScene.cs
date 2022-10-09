@@ -55,9 +55,9 @@ namespace SunsetRhapsody.Scenes
 			this.uiController = new BattleInterfaceController(this.pipeline, this.actorManager, this.combatantController, this.letterboxing);
            // Console.WriteLine("init btc");
             this.controller = new BattleController(this.uiController, this.combatantController, this.comboControl);
-           // Console.WriteLine("init bc");
+			// Console.WriteLine("init bc");
 			this.background = new BattleBackground(Paths.GRAPHICS + $"BBG/xml/{enemyCombatant.Enemy.BackgroundName}.xml");
-           // Console.WriteLine("init bbg");
+			// Console.WriteLine("init bbg");
 			this.GenerateIntroMessage(factionCombatants2.Length, factionCombatants.Length, playerCombatant.Character, playerCombatant2.Character, enemyCombatant.Enemy);
             uiController.controller = controller;
             uiController.background = background;

@@ -38,7 +38,7 @@ namespace SunsetRhapsody.Battle.UI.Modifiers
 			this.shieldAnims = new AnimatedRenderable[GraphicShielder.SHIELD_POINTS.Length];
 			for (int i = 0; i < this.shieldAnims.Length; i++)
 			{
-				this.shieldAnims[i] = new IndexedColorGraphic(Paths.PSI_GRAPHICS + "shield.dat", "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10);
+				this.shieldAnims[i] = new IndexedColorGraphic(Paths.AUX_GRAPHICS + "shield.dat", "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10);
 				this.shieldAnims[i].Visible = false;
 				this.shieldAnims[i].SpeedModifier = 0f;
 				this.shieldAnims[i].OnAnimationComplete += this.OnAnimationComplete;

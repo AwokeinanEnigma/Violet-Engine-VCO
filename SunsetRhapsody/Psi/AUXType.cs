@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SunsetRhapsody.Psi
+namespace SunsetRhapsody.AUX
 {
-	public enum PsiType
+	public enum AUXType
 	{
 		Offense,
 		Defense,

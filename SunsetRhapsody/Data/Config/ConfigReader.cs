@@ -7,225 +7,190 @@ using SFML.System;
 
 namespace SunsetRhapsody.Data.Config
 {
-	internal class ConfigReader
-	{
-		public static ConfigReader Instance
-		{
-			get
-			{
-				if (ConfigReader.instance == null)
-				{
-					ConfigReader.instance = new ConfigReader();
-				}
-				return ConfigReader.instance;
-			}
-		}
+    internal class ConfigReader
+    {
+        private const string TAG_NAME_START = "start";
+        private const string TAG_NAME_START_MAP = "map";
+        private const string TAG_NAME_START_POSITION = "position";
+        private const string TAG_NAME_PARTY = "party";
+        private const string TAG_NAME_PARTY_CHARACTER = "character";
+        private const string ATTR_NAME_VALUE = "value";
+        private const string ATTR_NAME_ID = "id";
+        private const string ATTR_NAME_X = "x";
+        private const string ATTR_NAME_Y = "y";
+        private static ConfigReader instance;
+        private Stack<ConfigReader.ReadState> stateStack;
+        private string startingMap;
+        private string debugMap;
+        private Vector2i startingPosition;
+        private List<CharacterType> partyList;
 
-		public string StartingMapName
-		{
-			get
-			{
-				return this.startingMap;
-			}
-		}
+        public static ConfigReader Instance
+        {
+            get
+            {
+                if (ConfigReader.instance == null)
+                    ConfigReader.instance = new ConfigReader();
+                return ConfigReader.instance;
+            }
+        }
 
-		public Vector2i StartingPosition
-		{
-			get
-			{
-				return this.startingPosition;
-			}
-		}
+        public string StartingMapName => this.startingMap;
+        public string DebugMapName => this.debugMap;
 
-		public CharacterType[] StartingParty
-		{
-			get
-			{
-				return this.partyList.ToArray();
-			}
-		}
+        public Vector2i StartingPosition => this.startingPosition;
 
-		public ConfigReader()
-		{
-			this.stateStack = new Stack<ConfigReader.ReadState>();
-			this.stateStack.Push(ConfigReader.ReadState.Root);
-			this.partyList = new List<CharacterType>();
-			this.Load();
-		}
+        public CharacterType[] StartingParty => this.partyList.ToArray();
 
-		private void ReadStartElement(XmlTextReader reader)
-		{
-			string name;
-			if ((name = reader.Name) != null)
-			{
-				if (!(name == "map"))
-				{
-					if (!(name == "position"))
-					{
-						return;
-					}
-					while (reader.MoveToNextAttribute())
-					{
-						string name2;
-						if ((name2 = reader.Name) != null)
-						{
-							if (!(name2 == "x"))
-							{
-								if (name2 == "y")
-								{
-									int.TryParse(reader.Value, out this.startingPosition.Y);
-								}
-							}
-							else
-							{
-								int.TryParse(reader.Value, out this.startingPosition.X);
-							}
-						}
-					}
-				}
-				else if (reader.MoveToNextAttribute() && reader.Name == "value")
-				{
-					this.startingMap = reader.Value;
-					return;
-				}
-			}
-		}
+        public ConfigReader()
+        {
+            this.stateStack = new Stack<ConfigReader.ReadState>();
+            this.stateStack.Push(ConfigReader.ReadState.Root);
+            this.partyList = new List<CharacterType>();
+            this.Load();
+        }
 
-		private void ReadPartyElement(XmlTextReader reader)
-		{
-			string name;
-			if ((name = reader.Name) != null)
-			{
-				if (!(name == "character"))
-				{
-					return;
-				}
-				string value;
-				if (reader.MoveToNextAttribute() && reader.Name == "id" && (value = reader.Value) != null)
-				{
-					if (value == "travis")
-					{
-						this.partyList.Add(CharacterType.Travis);
-						return;
-					}
-					if (value == "floyd")
-					{
-						this.partyList.Add(CharacterType.Floyd);
-						return;
-					}
-					if (value == "meryl")
-					{
-						this.partyList.Add(CharacterType.Meryl);
-						return;
-					}
-					if (value == "leo")
-					{
-						this.partyList.Add(CharacterType.Leo);
-						return;
-					}
-					if (value == "zack")
-					{
-						this.partyList.Add(CharacterType.Zack);
-						return;
-					}
-					if (!(value == "renee"))
-					{
-						return;
-					}
-					this.partyList.Add(CharacterType.Renee);
-				}
-			}
-		}
+        private void ReadStartElement(XmlTextReader reader)
+        {
+            switch (reader.Name)
+            {
+                case "map":
+                    if (!reader.MoveToNextAttribute() || !(reader.Name == "value"))
+                        break;
+                    this.startingMap = reader.Value;
+                    break;
+                case "position":
+                    while (reader.MoveToNextAttribute())
+                    {
+                        switch (reader.Name)
+                        {
+                            case "x":
+                                int.TryParse(reader.Value, out this.startingPosition.X);
+                                continue;
+                            case "y":
+                                int.TryParse(reader.Value, out this.startingPosition.Y);
+                                continue;
+                            default:
+                                continue;
+                        }
+                    }
+                    break;
+            }
+        }
 
-		private void HandleInnerElement(XmlTextReader reader)
-		{
-			switch (this.stateStack.Peek())
-			{
-			case ConfigReader.ReadState.Start:
-				this.ReadStartElement(reader);
-				return;
-			case ConfigReader.ReadState.Party:
-				this.ReadPartyElement(reader);
-				return;
-			default:
-				return;
-			}
-		}
+        private void ReadDebugElement(XmlTextReader reader)
+        {
+            switch (reader.Name)
+            {
+                case "debugmap":
+                    if (!reader.MoveToNextAttribute() || !(reader.Name == "value"))
+                        break;
+                    this.debugMap = reader.Value;
+                    break;
+      
+            }
+        }
 
-		private void HandleElement(XmlTextReader reader)
-		{
-			string name;
-			if ((name = reader.Name) != null)
-			{
-				if (name == "start")
-				{
-					this.stateStack.Push(ConfigReader.ReadState.Start);
-					return;
-				}
-				if (name == "party")
-				{
-					this.stateStack.Push(ConfigReader.ReadState.Party);
-					return;
-				}
-			}
-			this.HandleInnerElement(reader);
-		}
+        private void ReadPartyElement(XmlTextReader reader)
+        {
+            switch (reader.Name)
+            {
+                case "character":
+                    if (!reader.MoveToNextAttribute() || !(reader.Name == "id"))
+                        break;
+                    switch (reader.Value)
+                    {
+                        case "travis":
+                            this.partyList.Add(CharacterType.Travis);
+                            return;
+                        case "floyd":
+                            this.partyList.Add(CharacterType.Floyd);
+                            return;
+                        case "meryl":
+                            this.partyList.Add(CharacterType.Meryl);
+                            return;
+                        case "leo":
+                            this.partyList.Add(CharacterType.Leo);
+                            return;
+                        case "zack":
+                            this.partyList.Add(CharacterType.Zack);
+                            return;
+                        case "renee":
+                            this.partyList.Add(CharacterType.Renee);
+                            return;
+                        case null:
+                            return;
+                        default:
+                            return;
+                    }
+            }
+        }
 
-		private void HandleEndElement(XmlTextReader reader)
-		{
-			this.stateStack.Pop();
-		}
+        private void HandleInnerElement(XmlTextReader reader)
+        {
+            switch (this.stateStack.Peek())
+            {
+                case ConfigReader.ReadState.Start:
+                    this.ReadStartElement(reader);
+                    break;
+                case ConfigReader.ReadState.Party:
+                    this.ReadPartyElement(reader);
+                    break;
+                case ConfigReader.ReadState.Debug:
+                    ReadDebugElement(reader);
+                    break;
+            }
+        }
 
-		private void Load()
-		{
-			using (Stream stream = EmbeddedResources.GetStream("SunsetRhapsody.Resources.config.xml"))
-			{
-				XmlTextReader xmlTextReader = new XmlTextReader(stream);
-				while (xmlTextReader.Read())
-				{
-					XmlNodeType nodeType = xmlTextReader.NodeType;
-					if (nodeType == XmlNodeType.Element)
-					{
-						this.HandleElement(xmlTextReader);
-					}
-				}
-			}
-		}
+        private void HandleElement(XmlTextReader reader)
+        {
+            switch (reader.Name)
+            {
+                case "start":
+                    this.stateStack.Push(ConfigReader.ReadState.Start);
+                    break;
+                case "party":
+                    this.stateStack.Push(ConfigReader.ReadState.Party);
+                    break;
+                case "debug":
+                    this.stateStack.Push(ConfigReader.ReadState.Debug);
+                    break;
+                default:
+                    this.HandleInnerElement(reader);
+                    break;
+            }
+        }
 
-		private const string TAG_NAME_START = "start";
+        private void HandleEndElement(XmlTextReader reader)
+        {
+            int num = (int)this.stateStack.Pop();
+        }
 
-		private const string TAG_NAME_START_MAP = "map";
+        private void Load()
+        {
+            using (Stream stream = EmbeddedResources.GetStream("SunsetRhapsody.Resources.config.xml"))
+            {
+                XmlTextReader reader = new XmlTextReader(stream);
+                if (reader != null)
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            this.HandleElement(reader);
+                        }
+                    }
+                }
+            }
+        }
 
-		private const string TAG_NAME_START_POSITION = "position";
-
-		private const string TAG_NAME_PARTY = "party";
-
-		private const string TAG_NAME_PARTY_CHARACTER = "character";
-
-		private const string ATTR_NAME_VALUE = "value";
-
-		private const string ATTR_NAME_ID = "id";
-
-		private const string ATTR_NAME_X = "x";
-
-		private const string ATTR_NAME_Y = "y";
-
-		private static ConfigReader instance;
-
-		private Stack<ConfigReader.ReadState> stateStack;
-
-		private string startingMap;
-
-		private Vector2i startingPosition;
-
-		private List<CharacterType> partyList;
-
-		private enum ReadState
-		{
-			Root,
-			BaseStats,
-			Start,
-			Party
-		}
-	}
+        private enum ReadState
+        {
+            Root,
+            BaseStats,
+            Start,
+            Party,
+            Debug
+        }
+    }
 }

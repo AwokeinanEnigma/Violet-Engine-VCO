@@ -8,14 +8,14 @@ using Violet.Graphics;
 using Violet.Input;
 using Violet.Utility;
 using SunsetRhapsody.Battle.Combatants;
-using SunsetRhapsody.Battle.PsiAnimation;
+using SunsetRhapsody.Battle.AUXAnimation;
 using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Battle.UI.Modifiers;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.GUI;
 using SunsetRhapsody.GUI.Modifiers;
 using SunsetRhapsody.GUI.OverworldMenu;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using SunsetRhapsody.Scripts.Text;
 using SunsetRhapsody.Utility;
 using SFML.Graphics;
@@ -74,11 +74,11 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-		public VioletSound PrePsiSound
+		public VioletSound PreAUXSound
 		{
 			get
 			{
-				return this.prePsiSound;
+				return this.preAUXSound;
 			}
 		}
 
@@ -149,8 +149,8 @@ namespace SunsetRhapsody.Battle
 
 			this.cardBar = new CardBar(pipeline, array, this);
 			actorManager.Add(this.cardBar);
-			this.psiMenu = new SectionedPsiBox(this.pipeline, 1, 14f);
-			//this.pipeline.Add(this.psiMenu);
+			this.AUXMenu = new SectionedAUXBox(this.pipeline, 1, 14f);
+			//this.pipeline.Add(this.AUXMenu);
 			this.selectionMarkers = new Dictionary<Graphic, Graphic>();
 			for (int j = 0; j < array.Length; j++)
 			{
@@ -212,7 +212,7 @@ namespace SunsetRhapsody.Battle
 			this.prePlayerAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "prePlayerAttack.wav", AudioType.Sound);
 			this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "preEnemyAttack.wav", AudioType.Sound);
 
-			this.prePsiSound = AudioManager.Instance.Use(Paths.SFXBATTLEPSI + "prePsi.wav", AudioType.Sound);
+			this.preAUXSound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "preAUX.wav", AudioType.Sound);
 
 			this.talkSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "floydTalk.wav", AudioType.Sound);
 			this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "enemyDeath.wav", AudioType.Sound);
@@ -254,7 +254,7 @@ namespace SunsetRhapsody.Battle
 			this.jingler = new LevelUpJingler(array, true);
 			this.graphicModifiers = new List<IGraphicModifier>();
 			this.damageNumbers = new List<DamageNumber>();
-			this.psiAnimators = new List<PsiAnimator>();
+			this.AUXAnimators = new List<AUXAnimator>();
 			InputManager.Instance.AxisPressed += this.AxisPressed;
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 
@@ -416,14 +416,14 @@ namespace SunsetRhapsody.Battle
 					case StatusEffect.Shield:
 						this.SetCardGlow(sender.ID, BattleCard.GlowType.Shield);
 						return;
-					case StatusEffect.PsiShield:
-						this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiSheild);
+					case StatusEffect.AUXShield:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.AUXSheild);
 						return;
 					case StatusEffect.Counter:
 						this.SetCardGlow(sender.ID, BattleCard.GlowType.Counter);
 						return;
-					case StatusEffect.PsiCounter:
-						this.SetCardGlow(sender.ID, BattleCard.GlowType.PsiCounter);
+					case StatusEffect.AUXCounter:
+						this.SetCardGlow(sender.ID, BattleCard.GlowType.AUXCounter);
 						return;
 					case StatusEffect.Eraser:
 						this.SetCardGlow(sender.ID, BattleCard.GlowType.Eraser);
@@ -443,9 +443,9 @@ namespace SunsetRhapsody.Battle
 				switch (statusEffect)
 				{
 					case StatusEffect.Shield:
-					case StatusEffect.PsiShield:
+					case StatusEffect.AUXShield:
 					case StatusEffect.Counter:
-					case StatusEffect.PsiCounter:
+					case StatusEffect.AUXCounter:
 					case StatusEffect.Eraser:
 						this.SetCardGlow(sender.ID, BattleCard.GlowType.None);
 						return;
@@ -477,7 +477,11 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-		public PsiAnimator AddPsiAnimation(PsiElementList animation, Combatant sender, Combatant[] targets)
+		public Graphic GetEnemyGraphic(int id) {
+			return this.enemyGraphics[id];
+		}
+
+		public AUXAnimator AddAUXAnimation(AUXElementList animation, Combatant sender, Combatant[] targets)
 		{
 			Graphic senderGraphic = null;
 			if (sender.Faction == BattleFaction.EnemyTeam)
@@ -503,9 +507,9 @@ namespace SunsetRhapsody.Battle
 					array[i] = targets[i].ID;
 				}
 			}
-			PsiAnimator psiAnimator = new PsiAnimator(this.pipeline, this.graphicModifiers, animation, senderGraphic, array2, this.cardBar, array);
-			this.psiAnimators.Add(psiAnimator);
-			return psiAnimator;
+			AUXAnimator AUXAnimator = new AUXAnimator(this.pipeline, this.graphicModifiers, animation, senderGraphic, array2, this.cardBar, array);
+			this.AUXAnimators.Add(AUXAnimator);
+			return AUXAnimator;
 		}
 
 		public DamageNumber AddDamageNumber(Combatant combatant, int number, string customNumberSet = "")
@@ -835,7 +839,7 @@ namespace SunsetRhapsody.Battle
 			switch (this.state)
 			{
 				case BattleInterfaceController.State.Waiting:
-				case BattleInterfaceController.State.PsiAttackSelection:
+				case BattleInterfaceController.State.AUXAttackSelection:
 				case BattleInterfaceController.State.SpecialSelection:
 				case BattleInterfaceController.State.ItemSelection:
 					break;
@@ -851,25 +855,25 @@ namespace SunsetRhapsody.Battle
 						return;
 					}
 					break;
-				case BattleInterfaceController.State.PsiTypeSelection:
+				case BattleInterfaceController.State.AUXTypeSelection:
 					if (flag3)
 					{
-						this.psiMenu.SelectUp();
+						this.AUXMenu.SelectUp();
 						return;
 					}
 					if (flag4)
 					{
-						this.psiMenu.SelectDown();
+						this.AUXMenu.SelectDown();
 						return;
 					}
 					if (flag)
 					{
-						this.psiMenu.SelectLeft();
+						this.AUXMenu.SelectLeft();
 						return;
 					}
 					if (flag2)
 					{
-						this.psiMenu.SelectRight();
+						this.AUXMenu.SelectRight();
 						return;
 					}
 					break;
@@ -925,7 +929,7 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-		private void ShowPsiTypeSelector(Func<PlayerCombatant> CurrentPlayerCombatant)
+		private void ShowAUXTypeSelector(Func<PlayerCombatant> CurrentPlayerCombatant)
 		{
 			throw new NotImplementedException();
 		}
@@ -957,13 +961,13 @@ namespace SunsetRhapsody.Battle
 
 				if (b == Button.Three)
 				{
-					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.PsiCounter);
-					Console.WriteLine($"PsiCounter");
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.AUXCounter);
+					Console.WriteLine($"AUXCounter");
 				}
 				if (b == Button.Five)
 				{
-					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.PsiSheild);
-					Console.WriteLine($"PsiCounter");
+					this.SetCardGlow(combatantController.GetFactionCombatants(BattleFaction.PlayerTeam)[0].ID, BattleCard.GlowType.AUXSheild);
+					Console.WriteLine($"AUXCounter");
 				}
 				if (b == Button.Five)
 				{
@@ -983,11 +987,11 @@ namespace SunsetRhapsody.Battle
 				case BattleInterfaceController.State.TopLevelSelection:
 					this.TopLevelSelection(b);
 					return;
-				case BattleInterfaceController.State.PsiTypeSelection:
-					this.PsiTypeSelection(b);
+				case BattleInterfaceController.State.AUXTypeSelection:
+					this.AUXTypeSelection(b);
 					return;
-				case BattleInterfaceController.State.PsiAttackSelection:
-					this.PsiAttackSelection(b);
+				case BattleInterfaceController.State.AUXAttackSelection:
+					this.AUXAttackSelection(b);
 					return;
 				case BattleInterfaceController.State.SpecialSelection:
 					this.SpecialSelection(b);
@@ -1040,9 +1044,9 @@ namespace SunsetRhapsody.Battle
 			this.ResetTargetingSelection();
 		}
 
-		public void HidePSI()
+		public void HideAUX()
 		{
-			//	this.psiMenu
+			//	this.AUXMenu
 		}
 
 		private void TopLevelSelection(Button b)
@@ -1056,25 +1060,25 @@ namespace SunsetRhapsody.Battle
 							this.selectionState.TargetingMode = TargetingMode.Enemy;
 							this.StartTargetSelection();
 							return;
-						case ButtonBar.Action.Psi:
+						case ButtonBar.Action.AUX:
 							{
-								Console.Write("psi selected");
+								Console.Write("AUX selected");
 								PlayerCombatant playerCombatant = this.CurrentPlayerCombatant();
 								//if (playerCombatant.GetStatusEffects().ToList().Contains())
-								this.psiMenu.Reset();
-								this.psiMenu.MaxLevel = 3; // this.CurrentPlayerCombatant().Stats.Level;
+								this.AUXMenu.Reset();
+								this.AUXMenu.MaxLevel = 3; // this.CurrentPlayerCombatant().Stats.Level;
 								Console.WriteLine($"Current Character: { playerCombatant.Character}");
-								this.psiMenu.OffensePsiItems = PsiManager.Instance.GetCharacterOffensePsi(playerCombatant.Character);
-								foreach (var psi in psiMenu.OffensePsiItems)
+								this.AUXMenu.OffenseAUXItems = AUXManager.Instance.GetCharacterOffenseAUX(playerCombatant.Character);
+								foreach (var AUX in AUXMenu.OffenseAUXItems)
 								{
-									Console.WriteLine(psi.aux.QualifiedName);
+									Console.WriteLine(AUX.aux.QualifiedName);
 								}
-								this.psiMenu.DefensePsiItems = PsiManager.Instance.GetCharacterDefensePsi(playerCombatant.Character);
-								this.psiMenu.AssistPsiItems = PsiManager.Instance.GetCharacterAssistPsi(playerCombatant.Character);
-								this.psiMenu.OtherPsiItems = PsiManager.Instance.GetCharacterOtherPsi(playerCombatant.Character);
-								this.state = BattleInterfaceController.State.PsiTypeSelection;
+								this.AUXMenu.DefenseAUXItems = AUXManager.Instance.GetCharacterDefenseAUX(playerCombatant.Character);
+								this.AUXMenu.AssistAUXItems = AUXManager.Instance.GetCharacterAssistAUX(playerCombatant.Character);
+								this.AUXMenu.OtherAUXItems = AUXManager.Instance.GetCharacterOtherAUX(playerCombatant.Character);
+								this.state = BattleInterfaceController.State.AUXTypeSelection;
 								this.buttonBar.Hide();
-								this.psiMenu.Show();
+								this.AUXMenu.Show();
 								return;
 							}
 						case ButtonBar.Action.Items:
@@ -1112,54 +1116,54 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-		private void PsiTypeSelection(Button b)
+		private void AUXTypeSelection(Button b)
 		{
 			switch (b)
 			{
 				case Button.A:
 					{
-						if (this.psiMenu.InTypeSelection())
+						if (this.AUXMenu.InTypeSelection())
 						{
-							this.psiMenu.SelectRight();
+							this.AUXMenu.SelectRight();
 							return;
 						}
-						PsiType psiType = this.psiMenu.SelectedPsiType();
-						Console.WriteLine(psiType);
-						int num = this.psiMenu.SelectedLevel();
-						IPsi psi;
-						switch (psiType)
+						AUXType AUXType = this.AUXMenu.SelectedAUXType();
+						Console.WriteLine(AUXType);
+						int num = this.AUXMenu.SelectedLevel();
+						IAUX AUX;
+						switch (AUXType)
 						{
-							case PsiType.Offense:
-								psi = this.psiMenu.SelectOffensePsi();
+							case AUXType.Offense:
+								AUX = this.AUXMenu.SelectOffenseAUX();
 								break;
-							case PsiType.Defense:
-								psi = this.psiMenu.SelectDefensePsi();
+							case AUXType.Defense:
+								AUX = this.AUXMenu.SelectDefenseAUX();
 								break;
-							case PsiType.Assist:
-								psi = this.psiMenu.SelectAssistPsi();
+							case AUXType.Assist:
+								AUX = this.AUXMenu.SelectAssistAUX();
 								break;
-							case PsiType.Other:
-								psi = this.psiMenu.SelectOtherPsi()	;
+							case AUXType.Other:
+								AUX = this.AUXMenu.SelectOtherAUX()	;
 								break;
 							default:
 								throw new InvalidOperationException();
 						}
-						AUXBase aux = psi.aux;
+						AUXBase aux = AUX.aux;
 						if (!aux.GetAvailiability(CurrentPlayerCombatant(), this))
 						{
 							aux.ShowUnavaliableMessage(CurrentPlayerCombatant(), this);
 							return;
 						}
-						this.psiMenu.Hide();
+						this.AUXMenu.Hide();
 						this.selectionState.TargetingMode = aux.TargetMode;
 						this.StartTargetSelection();
-						this.selectionState.Psi = aux;
-						selectionState.Wrapper = psi;
-						this.selectionState.PsiLevel = num;
+						this.selectionState.AUX = aux;
+						selectionState.Wrapper = AUX;
+						this.selectionState.AUXLevel = num;
 						return;
 					}
 				case Button.B:
-					this.psiMenu.Hide();
+					this.AUXMenu.Hide();
 					this.state = BattleInterfaceController.State.TopLevelSelection;
 					this.buttonBar.Show();
 					return;
@@ -1168,14 +1172,14 @@ namespace SunsetRhapsody.Battle
 			}
 		}
 
-		private void PsiAttackSelection(Button b)
+		private void AUXAttackSelection(Button b)
 		{
 			switch (b)
 			{
 				case Button.A:
 					break;
 				case Button.B:
-					this.psiMenu.Show();
+					this.AUXMenu.Show();
 					this.state = BattleInterfaceController.State.TopLevelSelection;
 					break;
 				default:
@@ -1250,8 +1254,8 @@ namespace SunsetRhapsody.Battle
 					case ButtonBar.Action.Bash:
 						this.selectionState.Type = SelectionState.SelectionType.Bash;
 						break;
-					case ButtonBar.Action.Psi:
-						this.selectionState.Type = SelectionState.SelectionType.PSI;
+					case ButtonBar.Action.AUX:
+						this.selectionState.Type = SelectionState.SelectionType.AUX;
 						break;
 					case ButtonBar.Action.Talk:
 						this.selectionState.Type = SelectionState.SelectionType.Talk;
@@ -1330,15 +1334,15 @@ namespace SunsetRhapsody.Battle
 			Combatant firstLiveCombatant = this.combatantController.GetFirstLiveCombatant(BattleFaction.PlayerTeam);
 			bool showRun = firstLiveCombatant != null && firstLiveCombatant.ID == playerCombatant.ID;
 			this.state = BattleInterfaceController.State.TopLevelSelection;
-			bool lockPSI = false;
+			bool lockAUX = false;
 			foreach (StatusEffectInstance statusEffectInstance in playerCombatant.GetStatusEffects())
 			{
-				if (statusEffectInstance.Type == StatusEffect.DisablePSI)
+				if (statusEffectInstance.Type == StatusEffect.DisableAUX)
 				{
-					lockPSI = true;
+					lockAUX = true;
 				}
 			}
-			this.buttonBar.SetActions(BattleButtonBars.GetActions(character, showRun, lockPSI));
+			this.buttonBar.SetActions(BattleButtonBars.GetActions(character, showRun, lockAUX));
 			this.buttonBar.Show(0);
 			this.textbox.Hide();
 			this.cardBar.SelectedIndex = num;
@@ -1489,11 +1493,11 @@ namespace SunsetRhapsody.Battle
 				graphicModifier.Update();
 			}
 			this.graphicModifiers.RemoveAll((IGraphicModifier x) => x.Done);
-			foreach (PsiAnimator psiAnimator in this.psiAnimators)
+			foreach (AUXAnimator AUXAnimator in this.AUXAnimators)
 			{
-				psiAnimator.Update();
+				AUXAnimator.Update();
 			}
-			this.psiAnimators.RemoveAll((PsiAnimator x) => x.Complete);
+			this.AUXAnimators.RemoveAll((AUXAnimator x) => x.Complete);
 			foreach (DamageNumber damageNumber in this.damageNumbers)
 			{
 				damageNumber.Update();
@@ -1578,7 +1582,7 @@ namespace SunsetRhapsody.Battle
 				AudioManager.Instance.Unuse(this.cancelBeep);
 				AudioManager.Instance.Unuse(this.prePlayerAttack);
 				AudioManager.Instance.Unuse(this.preEnemyAttack);
-				AudioManager.Instance.Unuse(this.prePsiSound);
+				AudioManager.Instance.Unuse(this.preAUXSound);
 				AudioManager.Instance.Unuse(this.talkSound);
 				AudioManager.Instance.Unuse(this.enemyDeathSound);
 				foreach (KeyValuePair<CharacterType, List<VioletSound>> keyValuePair in this.comboSoundMap)
@@ -1667,7 +1671,7 @@ namespace SunsetRhapsody.Battle
 		private ButtonBar buttonBar;
 
 		// Token: 0x04000635 RID: 1589
-		private SectionedPsiBox psiMenu;
+		private SectionedAUXBox AUXMenu;
 
 		// Token: 0x04000636 RID: 1590
 		private CardBar cardBar;
@@ -1703,7 +1707,7 @@ namespace SunsetRhapsody.Battle
 		private List<IGraphicModifier> graphicModifiers;
 
 		// Token: 0x04000641 RID: 1601
-		private List<PsiAnimator> psiAnimators;
+		private List<AUXAnimator> AUXAnimators;
 
 		// Token: 0x04000642 RID: 1602
 		private BattleInterfaceController.State state;
@@ -1733,7 +1737,7 @@ namespace SunsetRhapsody.Battle
 		private VioletSound preEnemyAttack;
 
 		// Token: 0x0400064B RID: 1611
-		private VioletSound prePsiSound;
+		private VioletSound preAUXSound;
 
 		// Token: 0x0400064C RID: 1612
 		private VioletSound talkSound;
@@ -1797,8 +1801,8 @@ namespace SunsetRhapsody.Battle
 			// Token: 0x04000667 RID: 1639
 			TopLevelSelection,
 			// Token: 0x04000668 RID: 1640
-			PsiTypeSelection,
-			PsiAttackSelection,
+			AUXTypeSelection,
+			AUXAttackSelection,
 			// Token: 0x04000669 RID: 1641
 			SpecialSelection,
 			// Token: 0x0400066A RID: 1642

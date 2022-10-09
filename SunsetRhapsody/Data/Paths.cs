@@ -49,9 +49,9 @@ namespace SunsetRhapsody.Data
         public static readonly string SFXBATTLECOMBO = SFXBATTLE + "Combos" + Path.DirectorySeparatorChar;
 
         /// <summary>
-        /// Corresponds to Resources/Audio/SFX/Battle/PSI/
+        /// Corresponds to Resources/Audio/SFX/Battle/AUX/
         /// </summary>
-        public static readonly string SFXBATTLEPSI = SFXBATTLE + "PSI" + Path.DirectorySeparatorChar;
+        public static readonly string SFXBATTLEAUX = SFXBATTLE + "AUXSFX" + Path.DirectorySeparatorChar;
 
         /// <summary>
         /// Corresponds to Resources/Audio/SFX/Battle/Jingles/
@@ -88,11 +88,11 @@ namespace SunsetRhapsody.Data
         #endregion
 
 
-        public static readonly string PSI_GRAPHICS = Path.Combine(Paths.GRAPHICS, "PSI", "") + Path.DirectorySeparatorChar;
+        public static readonly string AUX_GRAPHICS = Path.Combine(Paths.GRAPHICS, "_AUX", "") + Path.DirectorySeparatorChar;
 
 		public static readonly string MAPS = Path.Combine(Paths.RESOURCES, "Maps", "") + Path.DirectorySeparatorChar;
 
-		public static readonly string PSI = Path.Combine(Paths.RESOURCES, "Psi", "") + Path.DirectorySeparatorChar;
+		public static readonly string AUXFILES = Path.Combine(Paths.RESOURCES, "AUXFiles", "") + Path.DirectorySeparatorChar;
 
 		public static readonly string TEXT = Path.Combine(Paths.RESOURCES, "Text", "") + Path.DirectorySeparatorChar;
 

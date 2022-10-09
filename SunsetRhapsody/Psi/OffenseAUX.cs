@@ -1,14 +1,14 @@
 ﻿using SunsetRhapsody.SOMETHING;
 using System;
 
-namespace SunsetRhapsody.Psi
+namespace SunsetRhapsody.AUX
 {
-	public struct OffensePsi : IPsi
+	public struct OffenseAUX : IAUX
 	{
-		public OffensePsi(AUXBase baseo) {
+		public OffenseAUX(AUXBase baseo) {
 			_aux = baseo;
 		}
-		public OffensePsi(OffensePsi ability)
+		public OffenseAUX(OffenseAUX ability)
 		{
 			Console.WriteLine("hey");
 			_aux = ability.aux;

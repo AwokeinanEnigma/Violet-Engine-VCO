@@ -63,7 +63,7 @@ namespace SunsetRhapsody.GUI.OverworldMenu
         private static readonly string[] MAIN_ITEMS = new string[]
         {
             StringFile.Instance.Get("menu.goods").Value,
-            StringFile.Instance.Get("menu.psi").Value,
+            StringFile.Instance.Get("menu.AUX").Value,
             StringFile.Instance.Get("menu.status").Value,
             StringFile.Instance.Get("menu.map").Value
         };

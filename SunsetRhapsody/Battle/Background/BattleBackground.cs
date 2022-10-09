@@ -149,6 +149,7 @@ namespace SunsetRhapsody.Battle.Background
 				num2 = (num2 + 1) % 2;
 				this.buffers[num2].Clear(Color.Transparent);
 				this.layers[i].Draw(this.buffers[num], this.buffers[num2]);
+			
 			}
 			this.bbgStates.Texture = this.buffers[num2].Texture;
 			target.Draw(this.bbgVerts, this.bbgStates);

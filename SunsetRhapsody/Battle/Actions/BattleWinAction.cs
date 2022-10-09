@@ -61,7 +61,7 @@ namespace SunsetRhapsody.Battle.Actions
 				{
 					int num = 0;
 					int num2 = 180;
-					string message = string.Format("[t:0,{0}][p:{1}] ", num, num2);
+					string message = string.Format("Sean was victorious! ", num, num2);
 					this.controller.InterfaceController.ShowMessage(message, false);
 					this.controller.InterfaceController.PlayWinBGM(num);
 					this.controller.InterfaceController.RemoveTalkers();

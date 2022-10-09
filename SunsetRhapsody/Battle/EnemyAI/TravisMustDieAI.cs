@@ -29,7 +29,7 @@ namespace SunsetRhapsody.Battle.EnemyAI
 			List<Combatant> possibleTargets = null;
 
 
-			if (!(aparams.actionType == typeof(DisablePSI)))
+			if (!(aparams.actionType == typeof(DisableAUX)))
 			{
 				Console.WriteLine("Choosing to fuck up TRAVIS.");
 				foreach (Combatant combatant2 in potentialTargets)
@@ -47,7 +47,7 @@ namespace SunsetRhapsody.Battle.EnemyAI
 			}
 			else
 			{
-				Console.WriteLine("Choosing to fuck up PSI.");
+				Console.WriteLine("Choosing to fuck up AUX.");
 				possibleTargets = new List<Combatant>();
 				foreach (Combatant combatant2 in potentialTargets)
 				{
@@ -75,7 +75,7 @@ namespace SunsetRhapsody.Battle.EnemyAI
 		private List<ActionParams> battleActionParams = new List<ActionParams>() {
 						new ActionParams
 						{
-							actionType = typeof(DisablePSIAction),
+							actionType = typeof(DisableAUXAction),
 							data = new object[]
 							{
 								"a comet",

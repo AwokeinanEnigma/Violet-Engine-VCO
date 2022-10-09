@@ -17,14 +17,12 @@ using Rufini.Strings;
 using SFML.Graphics;
 using SFML.System;
 using SunsetRhapsody.Data.Config;
-using SunsetRhapsody.Battle.Background;
 
 namespace SunsetRhapsody.Scenes
 {
-	internal class TitleScene : StandardScene
+	internal class DebugScene : StandardScene
 	{
-		public BattleBackgroundRenderable background;
-		public TitleScene()
+		public DebugScene()
 		{
 			Fonts.LoadFonts(Settings.Locale);
 
@@ -57,18 +55,15 @@ namespace SunsetRhapsody.Scenes
 					"Quit"
 				};
 			}
-			this.optionList = new ScrollingList(new Vector2f(32f, 50f), 9000, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
-			this.optionList.ShowSelectionRectangle = true;
+			this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
+			this.optionList.ShowSelectionRectangle = false;
 			this.optionList.UseHighlightTextColor = false;
 			this.optionList.ShowArrows = true;
 			this.optionList.ShowCursor = true;
-			optionList.Depth = 1100;
 			this.pipeline.Add(this.optionList);
-			this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title.xml", 10);
-			pipeline.Add(background);
-			this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS + "/opener/logo.dat", "title", new Vector2f(160f, 90), 1000);
+			this.titleImage = new IndexedColorGraphic(Paths.GRAPHICSPARTYMEMBERS + "travis.dat", "Walk East", new Vector2f(160f, 44f), 100);
 			Version version = Assembly.GetEntryAssembly().GetName().Version;
-			this.versionText = new TextRegion(new Vector2f(2f, 164f), 101, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
+			this.versionText = new TextRegion(new Vector2f(160, 90f), 0, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
 			{
 				version.Major,
 				version.Minor,
@@ -79,8 +74,7 @@ namespace SunsetRhapsody.Scenes
 			this.versionText.Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128);
 			this.pipeline.Add(this.titleImage);
 			this.pipeline.Add(this.versionText);
-			
-	//		this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
+			this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
 			this.sfxCursorY = AudioManager.Instance.Use(Paths.SFXMENU + "cursory.wav", AudioType.Sound);
 			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
 			this.sfxCancel = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
@@ -105,8 +99,6 @@ namespace SunsetRhapsody.Scenes
 		public override void Draw()
 		{
 			base.Draw();
-			//DrawBehind = true;
-
 			//optionList.Draw();
 		}
 
@@ -139,14 +131,12 @@ namespace SunsetRhapsody.Scenes
 						case Button.Six:
 							{
 								PartyManager.Instance.Clear();
-						//		PartyManager.Instance.Add(CharacterType.Travis);
-						//		PartyManager.Instance.Add(CharacterType.Zack);
-						//		PartyManager.Instance.Add(CharacterType.Floyd);
+								PartyManager.Instance.Add(CharacterType.Travis);
+								PartyManager.Instance.Add(CharacterType.Zack);
+								PartyManager.Instance.Add(CharacterType.Floyd);
 								PartyManager.Instance.Add(CharacterType.Meryl);
-						//		PartyManager.Instance.Add(CharacterType.Leo);
-								
-								BattleScene scenea = new BattleScene(new EnemyData[1]{ EnemyFile.Instance.GetEnemyData("Infested Legs") }, true);
-								SceneManager.Instance.Transition = new IrisTransition(3);
+								PartyManager.Instance.Add(CharacterType.Leo);
+								BattleScene scenea = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Snagtagious Froog"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
 								SceneManager.Instance.Push(scenea);
 								break;
 							}
@@ -247,7 +237,7 @@ namespace SunsetRhapsody.Scenes
 		public override void Update()
 		{
 			base.Update();
-			//this.mod.Update();
+			this.mod.Update();
 		}
 
 		protected override void Dispose(bool disposing)

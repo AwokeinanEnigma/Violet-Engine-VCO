@@ -6,7 +6,7 @@ using Violet.GUI;
 using Violet.Utility;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.GUI;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using SFML.Graphics;
 using SFML.System;
 using Violet.Audio;
@@ -63,11 +63,11 @@ namespace SunsetRhapsody.Battle.UI
                 new BattleCard.GlowSettings(new Color(byte.MaxValue, 249, 119), ColorBlendMode.Multiply)
             },
             {
-                BattleCard.GlowType.PsiSheild,
+                BattleCard.GlowType.AUXSheild,
                 new BattleCard.GlowSettings(new Color(120, 232, 252), ColorBlendMode.Multiply)
             },
             {
-                BattleCard.GlowType.PsiCounter,
+                BattleCard.GlowType.AUXCounter,
                 new BattleCard.GlowSettings(new Color(219, 121, 251), ColorBlendMode.Multiply)
             },
             {
@@ -102,9 +102,9 @@ namespace SunsetRhapsody.Battle.UI
             // Token: 0x040006C6 RID: 1734
             Counter,
             // Token: 0x040006C7 RID: 1735
-            PsiSheild,
+            AUXSheild,
             // Token: 0x040006C8 RID: 1736
-            PsiCounter,
+            AUXCounter,
             // Token: 0x040006C9 RID: 1737
             Eraser
         }
@@ -192,7 +192,7 @@ namespace SunsetRhapsody.Battle.UI
 			this.hpLabel.CurrentPalette = Settings.WindowFlavor;
 			this.ppLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "pp", position + BattleCard.PPLABEL_POSITION, depth + 2);
 			this.ppLabel.CurrentPalette = Settings.WindowFlavor;
-			this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, /* "tom"); */ name);
+			this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, "Sean");/* "tom");  name);*/
 			this.nameTag.Color = Color.Black;
 			this.nametagX = (int)((float)(this.card.TextureRect.Width / 2) - this.nameTag.Size.X / 2f);
 			this.nameTag.Position = position + new Vector2f((float)this.nametagX, 4f) + BattleCard.NAME_POSITION;
@@ -211,7 +211,7 @@ namespace SunsetRhapsody.Battle.UI
 			deadCard.Visible = false;
 			this.meter = new BattleMeter(pipeline, position + BattleCard.METER_OFFSET, meterFill, depth + 1);
 			this.odoHP = new Odometer(pipeline, position + BattleCard.HPODO_POSITION, depth + 2, 3, hp, maxHp, this);
-            if (PsiManager.Instance.CharacterHasPsi(type) == false)
+            if (AUXManager.Instance.CharacterHasAUX(type) == false)
             {
                 ppLabel.Visible = false;
             }

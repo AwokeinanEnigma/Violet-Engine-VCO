@@ -7,7 +7,7 @@ using SunsetRhapsody.Battle.UI;
 using SunsetRhapsody.Data;
 using SunsetRhapsody.GUI;
 using SunsetRhapsody.GUI.OverworldMenu;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using SFML.System;
 
 namespace SunsetRhapsody.Scenes
@@ -26,9 +26,9 @@ namespace SunsetRhapsody.Scenes
 			this.goodsPanel = new GoodsMenu();
 			this.goodsPanel.Visible = false;
 			this.pipeline.Add(this.goodsPanel);
-			this.psiPanel = new PsiMenu();
-			this.psiPanel.Visible = false;
-			this.pipeline.Add(this.psiPanel);
+			this.AUXPanel = new AUXMenu();
+			this.AUXPanel.Visible = false;
+			this.pipeline.Add(this.AUXPanel);
 			this.cardBar = new CardBar(this.pipeline, PartyManager.Instance.ToArray(), null);
 			this.cardBar.Hide(true);
 			this.cardBar.Show();
@@ -76,7 +76,7 @@ namespace SunsetRhapsody.Scenes
 				this.ChangeActivePanel(this.goodsPanel);
 				return;
 			case 1:
-				this.ChangeActivePanel(this.psiPanel);
+				this.ChangeActivePanel(this.AUXPanel);
 				break;
 			case 2:
 			case 3:
@@ -99,15 +99,15 @@ namespace SunsetRhapsody.Scenes
 			this.activePanel.Focus();
 		}
 
-		private void HandlePsiMenuButton(object retVal)
+		private void HandleAUXMenuButton(object retVal)
 		{
 			if (!(retVal is int))
 			{
-				if (retVal is Tuple<IPsi, int>)
+				if (retVal is Tuple<IAUX, int>)
 				{
-					IPsi item = ((Tuple<IPsi, int>)retVal).Item1;
-					int item2 = ((Tuple<IPsi, int>)retVal).Item2;
-					/*if (item.Key == "psi.telepathy")
+					IAUX item = ((Tuple<IAUX, int>)retVal).Item1;
+					int item2 = ((Tuple<IAUX, int>)retVal).Item2;
+					/*if (item.Key == "AUX.telepathy")
 					{
 						FlagManager.Instance[3] = true;
 						this.ExitMenu();
@@ -121,7 +121,7 @@ namespace SunsetRhapsody.Scenes
 				return;
 			}
 			this.activePanel.Unfocus();
-			this.psiPanel.Visible = false;
+			this.AUXPanel.Visible = false;
 			this.activePanel = this.mainPanel;
 			this.activePanel.Focus();
 		}
@@ -169,9 +169,9 @@ namespace SunsetRhapsody.Scenes
 						{
 							this.HandleGoodsMenuButton(obj);
 						}
-						else if (this.activePanel is PsiMenu)
+						else if (this.activePanel is AUXMenu)
 						{
-							this.HandlePsiMenuButton(obj);
+							this.HandleAUXMenuButton(obj);
 						}
 					}
 				}
@@ -211,7 +211,7 @@ namespace SunsetRhapsody.Scenes
 
 		private MenuPanel goodsPanel;
 
-		private MenuPanel psiPanel;
+		private MenuPanel AUXPanel;
 
 		private CardBar cardBar;
 	}

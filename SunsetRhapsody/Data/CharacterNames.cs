@@ -75,7 +75,7 @@ namespace SunsetRhapsody.Data
 			},
 			{
 				CharacterType.Meryl,
-				"Meryl"
+				"Sean"
 			},
 			{
 				CharacterType.Floyd,

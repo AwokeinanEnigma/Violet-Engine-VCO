@@ -7,26 +7,26 @@ using Violet.Input;
 using Violet.Utility;
 using SunsetRhapsody.Battle;
 using SunsetRhapsody.Data;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 using Rufini.Strings;
 using SFML.Graphics;
 using SFML.System;
 
 namespace SunsetRhapsody.GUI.OverworldMenu
 {
-	internal class PsiMenu : MenuPanel
+	internal class AUXMenu : MenuPanel
 	{
-		public PsiMenu() : base(ViewManager.Instance.FinalTopLeft + PsiMenu.PANEL_POSITION, PsiMenu.PANEL_SIZE, 0)
+		public AUXMenu() : base(ViewManager.Instance.FinalTopLeft + AUXMenu.PANEL_POSITION, AUXMenu.PANEL_SIZE, 0)
 		{
 			Console.Write("create");
 
-			RectangleShape rectangleShape = new RectangleShape(new Vector2f(1f, PsiMenu.PANEL_SIZE.Y * 0.6f));
-			rectangleShape.FillColor = PsiMenu.DIVIDER_COLOR;
-			this.vertDivider = new ShapeGraphic(rectangleShape, new Vector2f(PsiMenu.PANEL_SIZE.X * 0.33f, PsiMenu.PANEL_SIZE.Y * 0.3f), VectorMath.Truncate(rectangleShape.Size / 2f), rectangleShape.Size, 1);
+			RectangleShape rectangleShape = new RectangleShape(new Vector2f(1f, AUXMenu.PANEL_SIZE.Y * 0.6f));
+			rectangleShape.FillColor = AUXMenu.DIVIDER_COLOR;
+			this.vertDivider = new ShapeGraphic(rectangleShape, new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f, AUXMenu.PANEL_SIZE.Y * 0.3f), VectorMath.Truncate(rectangleShape.Size / 2f), rectangleShape.Size, 1);
 			base.Add(this.vertDivider);
-			RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(PsiMenu.PANEL_SIZE.X, 1f));
-			rectangleShape2.FillColor = PsiMenu.DIVIDER_COLOR;
-			this.horizDivider = new ShapeGraphic(rectangleShape2, new Vector2f(PsiMenu.PANEL_SIZE.X * 0.5f, PsiMenu.PANEL_SIZE.Y * 0.66f), VectorMath.Truncate(rectangleShape2.Size / 2f), rectangleShape2.Size, 1);
+			RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(AUXMenu.PANEL_SIZE.X, 1f));
+			rectangleShape2.FillColor = AUXMenu.DIVIDER_COLOR;
+			this.horizDivider = new ShapeGraphic(rectangleShape2, new Vector2f(AUXMenu.PANEL_SIZE.X * 0.5f, AUXMenu.PANEL_SIZE.Y * 0.66f), VectorMath.Truncate(rectangleShape2.Size / 2f), rectangleShape2.Size, 1);
 			base.Add(this.horizDivider);
 			CharacterType[] array = PartyManager.Instance.ToArray();
 			this.tabs = new IndexedColorGraphic[array.Length];
@@ -35,35 +35,35 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			int num2 = 0;
 			for (int i = 0; i < array.Length; i++)
 			{
-				if (PsiManager.Instance.CharacterHasPsi(array[i]))
+				if (AUXManager.Instance.CharacterHasAUX(array[i]))
 				{
 					this.tabs[num2] = new IndexedColorGraphic(Paths.GRAPHICS + "pause.dat", (num2 == this.selectedTab) ? "firsttag" : "tag", new Vector2f(-8f, -7f) + new Vector2f(50f * (float)num2, 0f), (num2 == this.selectedTab) ? 1 : -2);
 					this.tabs[num2].CurrentPalette = ((num2 == this.selectedTab) ? num : (num + 1U));
 					base.Add(this.tabs[num2]);
 					this.tabLabels[num2] = new TextRegion(new Vector2f(-4f, -21f) + new Vector2f(50f * (float)num2, 0f), (num2 == this.selectedTab) ? 2 : -1, Fonts.Main, CharacterNames.GetName(array[i]));
-					this.tabLabels[num2].Color = ((num2 == this.selectedTab) ? PsiMenu.ACTIVE_TAB_TEXT_COLOR : PsiMenu.INACTIVE_TAB_TEXT_COLOR);
+					this.tabLabels[num2].Color = ((num2 == this.selectedTab) ? AUXMenu.ACTIVE_TAB_TEXT_COLOR : AUXMenu.INACTIVE_TAB_TEXT_COLOR);
 					base.Add(this.tabLabels[num2]);
 					num2++;
 				}
 			}
 			Array.Resize<IndexedColorGraphic>(ref this.tabs, num2);
 			Array.Resize<TextRegion>(ref this.tabLabels, num2);
-			this.psiTypeList = new ScrollingList(new Vector2f(8f, 0f), 0, PsiMenu.PSI_TYPE_STRINGS, 4, 14f, 50f, PsiMenu.CURSOR_FILE);
-			base.Add(this.psiTypeList);
-			this.selectedList = this.psiTypeList;
-			this.SetupPsiList();
-			this.descriptionText = new TextRegion(new Vector2f(8f, (float)((int)(PsiMenu.PANEL_SIZE.Y * 0.66f) + 4)), 0, Fonts.Main, this.GetDescription());
+			this.AUXTypeList = new ScrollingList(new Vector2f(8f, 0f), 0, AUXMenu.AUX_TYPE_STRINGS, 4, 14f, 50f, AUXMenu.CURSOR_FILE);
+			base.Add(this.AUXTypeList);
+			this.selectedList = this.AUXTypeList;
+			this.SetupAUXList();
+			this.descriptionText = new TextRegion(new Vector2f(8f, (float)((int)(AUXMenu.PANEL_SIZE.Y * 0.66f) + 4)), 0, Fonts.Main, this.GetDescription());
 			base.Add(this.descriptionText);
 		}
 
 		private string GetDescription()
 		{
 			string text = null;
-			if (this.selectedList != this.psiTypeList && this.selectedList == this.psiList)
+			if (this.selectedList != this.AUXTypeList && this.selectedList == this.AUXList)
 			{
-				string arg = this.psiList.SelectedItem.Replace(" ", "").ToLower();
+				string arg = this.AUXList.SelectedItem.Replace(" ", "").ToLower();
 				string str = string.Format("{0}{1}", arg, this.selectedLevel + 1);
-				text = StringFile.Instance.Get("psiDesc." + str).Value;
+				text = StringFile.Instance.Get("AUXDesc." + str).Value;
 			}
 			if (text == null)
 			{
@@ -85,12 +85,12 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			this.descriptionText.Reset(description, 0, description.Length);
 		}
 
-		private void SelectPsiList()
+		private void SelectAUXList()
 		{
-			this.psiTypeList.ShowSelectionRectangle = false;
-			this.psiTypeList.ShowCursor = false;
-			this.psiTypeList.Focused = false;
-			this.selectedList = this.psiList;
+			this.AUXTypeList.ShowSelectionRectangle = false;
+			this.AUXTypeList.ShowCursor = false;
+			this.AUXTypeList.Focused = false;
+			this.selectedList = this.AUXList;
 			this.UpdateDescription();
 			this.selectedList.ShowSelectionRectangle = true;
 			this.selectedList.Focused = true;
@@ -101,13 +101,13 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			}
 		}
 
-		private void SelectPsiTypeList()
+		private void SelectAUXTypeList()
 		{
-			if (this.psiList != null)
+			if (this.AUXList != null)
 			{
-				this.psiList.SelectedIndex = 0;
-				this.psiList.ShowSelectionRectangle = false;
-				this.psiList.Focused = false;
+				this.AUXList.SelectedIndex = 0;
+				this.AUXList.ShowSelectionRectangle = false;
+				this.AUXList.Focused = false;
 				for (int i = 0; i < this.levelList.Length; i++)
 				{
 					this.levelList[i].SelectedIndex = 0;
@@ -115,7 +115,7 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 					this.levelList[i].Focused = false;
 				}
 			}
-			this.selectedList = this.psiTypeList;
+			this.selectedList = this.AUXTypeList;
 			this.UpdateDescription();
 			this.selectedList.ShowSelectionRectangle = true;
 			this.selectedList.ShowCursor = true;
@@ -132,11 +132,11 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 				this.selectedList.SelectPrevious();
 				if (selectedIndex != this.selectedList.SelectedIndex)
 				{
-					if (this.selectedList == this.psiTypeList)
+					if (this.selectedList == this.AUXTypeList)
 					{
-						this.SetupPsiList();
+						this.SetupAUXList();
 					}
-					else if (this.selectedList == this.psiList)
+					else if (this.selectedList == this.AUXList)
 					{
 						for (int i = 0; i < this.levelList.Length; i++)
 						{
@@ -157,11 +157,11 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 				this.selectedList.SelectNext();
 				if (selectedIndex2 != this.selectedList.SelectedIndex)
 				{
-					if (this.selectedList == this.psiTypeList)
+					if (this.selectedList == this.AUXTypeList)
 					{
-						this.SetupPsiList();
+						this.SetupAUXList();
 					}
-					else if (this.selectedList == this.psiList)
+					else if (this.selectedList == this.AUXList)
 					{
 						for (int j = 0; j < this.levelList.Length; j++)
 						{
@@ -178,13 +178,13 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			}
 			else if (axis.X != 0f)
 			{
-				if (this.selectedList == this.psiTypeList)
+				if (this.selectedList == this.AUXTypeList)
 				{
 					if (axis.X > 0f)
 					{
-						if (this.psiList != null)
+						if (this.AUXList != null)
 						{
-							this.SelectPsiList();
+							this.SelectAUXList();
 							return;
 						}
 					}
@@ -193,13 +193,13 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 						return;
 					}
 				}
-				else if (this.selectedList == this.psiList)
+				else if (this.selectedList == this.AUXList)
 				{
 					if (axis.X < 0f)
 					{
 						if (this.selectedLevel <= 0)
 						{
-							this.SelectPsiTypeList();
+							this.SelectAUXTypeList();
 							return;
 						}
 						this.ChangeSelectedLevel(this.selectedLevel - 1);
@@ -219,32 +219,32 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			}
 		}
 
-		private void SetupPsiList()
+		private void SetupAUXList()
 		{
 			CharacterType[] array = PartyManager.Instance.ToArray();
 			CharacterType characterType = array[this.selectedTab];
-			IEnumerable<IPsi> collection;
-			switch (this.psiTypeList.SelectedIndex)
+			IEnumerable<IAUX> collection;
+			switch (this.AUXTypeList.SelectedIndex)
 			{
 			case 1:
-				collection = PsiManager.Instance.GetCharacterAssistPsi(characterType).Cast<IPsi>();
+				collection = AUXManager.Instance.GetCharacterAssistAUX(characterType).Cast<IAUX>();
 				break;
 			case 2:
-				collection = PsiManager.Instance.GetCharacterDefensePsi(characterType).Cast<IPsi>();
+				collection = AUXManager.Instance.GetCharacterDefenseAUX(characterType).Cast<IAUX>();
 				break;
 			case 3:
-				collection = PsiManager.Instance.GetCharacterOtherPsi(characterType).Cast<IPsi>();
+				collection = AUXManager.Instance.GetCharacterOtherAUX(characterType).Cast<IAUX>();
 				break;
 			default:
-				collection = PsiManager.Instance.GetCharacterOffensePsi(characterType).Cast<IPsi>();
+				collection = AUXManager.Instance.GetCharacterOffenseAUX(characterType).Cast<IAUX>();
 				break;
 			}
-			this.psiItemList = new List<IPsi>(collection);
-			if (this.psiList != null)
+			this.AUXItemList = new List<IAUX>(collection);
+			if (this.AUXList != null)
 			{
-				base.Remove(this.psiList);
-				this.psiList.Dispose();
-				this.psiList = null;
+				base.Remove(this.AUXList);
+				this.AUXList.Dispose();
+				this.AUXList = null;
 			}
 			if (this.levelList != null)
 			{
@@ -262,11 +262,11 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			{
 				this.levelList = new ScrollingList[4];
 			}
-			if (this.psiItemList.Count > 0)
+			if (this.AUXItemList.Count > 0)
 			{
-				Console.Write("psi>0");
+				Console.Write("AUX>0");
 				StatSet stats = CharacterStats.GetStats(characterType);
-				string[] array2 = new string[this.psiItemList.Count];
+				string[] array2 = new string[this.AUXItemList.Count];
 				string[][] array3 = new string[4][];
 				for (int j = 0; j < array3.Length; j++)
 				{
@@ -274,28 +274,28 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 				}
 				for (int k = 0; k < array2.Length; k++)
 				{
-					array2[k] = this.psiItemList[k].aux.QualifiedName;
+					array2[k] = this.AUXItemList[k].aux.QualifiedName;
 					for (int l = 0; l < array3.Length; l++)
 					{
-						if (l < this.psiItemList[k].aux.Symbols.Length && this.psiItemList[k].aux.Symbols[l] <= stats.Level)
+						if (l < this.AUXItemList[k].aux.Symbols.Length && this.AUXItemList[k].aux.Symbols[l] <= stats.Level)
 						{
-							Console.Write(PsiMenu.PSI_LEVEL_STRINGS[l]);
-							array3[l][k] = PsiMenu.PSI_LEVEL_STRINGS[l];
+							Console.Write(AUXMenu.AUX_LEVEL_STRINGS[l]);
+							array3[l][k] = AUXMenu.AUX_LEVEL_STRINGS[l];
 						}
 						else
 						{
-							array3[l][k] = PsiMenu.PSI_LEVEL_STRINGS[l];
+							array3[l][k] = AUXMenu.AUX_LEVEL_STRINGS[l];
 						}
 					}
 				}
-				this.psiList = new ScrollingList(new Vector2f(PsiMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, PsiMenu.PANEL_SIZE.X * 0.66f - 2f, PsiMenu.CURSOR_FILE);
-				this.psiList.ShowSelectionRectangle = false;
-				this.psiList.ShowCursor = false;
-				this.psiList.Focused = false;
-				base.Add(this.psiList);
+				this.AUXList = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, AUXMenu.PANEL_SIZE.X * 0.66f - 2f, AUXMenu.CURSOR_FILE);
+				this.AUXList.ShowSelectionRectangle = false;
+				this.AUXList.ShowCursor = false;
+				this.AUXList.Focused = false;
+				base.Add(this.AUXList);
 				for (int m = 0; m < this.levelList.Length; m++)
 				{
-					this.levelList[m] = new ScrollingList(new Vector2f(PsiMenu.PANEL_SIZE.X * 0.33f + 80f + (float)(16 * m), 0f), 1, array3[m], 5, 14f, 1f, PsiMenu.CURSOR_FILE);
+					this.levelList[m] = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 80f + (float)(16 * m), 0f), 1, array3[m], 5, 14f, 1f, AUXMenu.CURSOR_FILE);
 					this.levelList[m].ShowSelectionRectangle = false;
 					this.levelList[m].ShowCursor = (m == 0);
 					this.levelList[m].Focused = false;
@@ -323,11 +323,11 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			{
 				this.tabs[i].CurrentPalette = ((i == this.selectedTab) ? 0U : 1U);
 				this.tabs[i].Depth = ((i == this.selectedTab) ? 1 : -2);
-				this.tabLabels[i].Color = ((i == this.selectedTab) ? PsiMenu.ACTIVE_TAB_TEXT_COLOR : PsiMenu.INACTIVE_TAB_TEXT_COLOR);
+				this.tabLabels[i].Color = ((i == this.selectedTab) ? AUXMenu.ACTIVE_TAB_TEXT_COLOR : AUXMenu.INACTIVE_TAB_TEXT_COLOR);
 				this.tabLabels[i].Depth = ((i == this.selectedTab) ? 2 : -1);
 			}
-			this.SelectPsiTypeList();
-			this.SetupPsiList();
+			this.SelectAUXTypeList();
+			this.SetupAUXList();
 		}
 
 		public override object ButtonPressed(Button button)
@@ -335,24 +335,24 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 			object result = null;
 			if (button == Button.A)
 			{
-				if (this.selectedList == this.psiTypeList)
+				if (this.selectedList == this.AUXTypeList)
 				{
-					this.SelectPsiList();
+					this.SelectAUXList();
 				}
-				else if (this.selectedList == this.psiList)
+				else if (this.selectedList == this.AUXList)
 				{
-					result = new Tuple<IPsi, int>(this.psiItemList[this.psiList.SelectedIndex], this.selectedLevel);
+					result = new Tuple<IAUX, int>(this.AUXItemList[this.AUXList.SelectedIndex], this.selectedLevel);
 				}
 			}
 			else if (button == Button.B)
 			{
-				if (this.selectedList == this.psiTypeList)
+				if (this.selectedList == this.AUXTypeList)
 				{
 					result = -1;
 				}
-				else if (this.selectedList == this.psiList)
+				else if (this.selectedList == this.AUXList)
 				{
-					this.SelectPsiTypeList();
+					this.SelectAUXTypeList();
 				}
 			}
 			else if (button == Button.L)
@@ -388,7 +388,7 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 
 		public static readonly Vector2f PANEL_POSITION = MainMenu.PANEL_POSITION + new Vector2f(MainMenu.PANEL_SIZE.X + 20f, 13f);
 
-		public static readonly Vector2f PANEL_SIZE = new Vector2f(320f - PsiMenu.PANEL_POSITION.X - 20f, 99f);
+		public static readonly Vector2f PANEL_SIZE = new Vector2f(320f - AUXMenu.PANEL_POSITION.X - 20f, 99f);
 
 		public static readonly Color ACTIVE_TAB_TEXT_COLOR = Color.Black;
 
@@ -398,15 +398,15 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 
 		private static readonly string CURSOR_FILE = Paths.GRAPHICS + "realcursor.dat";
 
-		private static readonly string[] PSI_TYPE_STRINGS = new string[]
+		private static readonly string[] AUX_TYPE_STRINGS = new string[]
 		{
-			StringFile.Instance.Get("psi.offense").Value,
-			StringFile.Instance.Get("psi.recovery").Value,
-			StringFile.Instance.Get("psi.support").Value,
-			StringFile.Instance.Get("psi.other").Value
+			"Offense", //StringFile.Instance.Get("AUX.offense").Value,
+			"Recovery",//StringFile.Instance.Get("AUX.recovery").Value,
+			"Support",//StringFile.Instance.Get("AUX.support").Value,
+			"Ecifircas", //StringFile.Instance.Get("AUX.other").Value
 		};
 
-		private static readonly string[] PSI_LEVEL_STRINGS = new string[]
+		private static readonly string[] AUX_LEVEL_STRINGS = new string[]
 		{
 			"α",
 			"β",
@@ -424,9 +424,9 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 
 		private int selectedTab;
 
-		private ScrollingList psiTypeList;
+		private ScrollingList AUXTypeList;
 
-		private ScrollingList psiList;
+		private ScrollingList AUXList;
 
 		private ScrollingList selectedList;
 
@@ -434,7 +434,7 @@ namespace SunsetRhapsody.GUI.OverworldMenu
 
 		private int selectedLevel;
 
-		private List<IPsi> psiItemList;
+		private List<IAUX> AUXItemList;
 
 		private TextRegion descriptionText;
 	}

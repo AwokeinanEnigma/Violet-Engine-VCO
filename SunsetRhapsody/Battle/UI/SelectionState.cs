@@ -1,6 +1,6 @@
 ﻿using System;
 using SunsetRhapsody.Battle.Combatants;
-using SunsetRhapsody.Psi;
+using SunsetRhapsody.AUX;
 
 namespace SunsetRhapsody.Battle.UI
 {
@@ -14,15 +14,15 @@ namespace SunsetRhapsody.Battle.UI
 
 		public int ItemIndex;
 
-		public SOMETHING.AUXBase Psi;
-		public IPsi Wrapper;
+		public SOMETHING.AUXBase AUX;
+		public IAUX Wrapper;
 
-		public int PsiLevel;
+		public int AUXLevel;
 
 		public enum SelectionType
 		{
 			Bash,
-			PSI,
+			AUX,
 			Talk,
 			Items,
 			Guard,

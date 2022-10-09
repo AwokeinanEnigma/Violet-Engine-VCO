@@ -1,4 +1,5 @@
-﻿using SunsetRhapsody.Battle;
+﻿using SFML.System;
+using SunsetRhapsody.Battle;
 using SunsetRhapsody.Battle.Actions;
 using SunsetRhapsody.Battle.Combatants;
 using SunsetRhapsody.Battle.AUXAnimation;
@@ -10,21 +11,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Violet.Graphics;
 
 namespace SunsetRhapsody.SOMETHING
 {
-    public class Debug : AUXBase
+    public class Sacrifice : AUXBase
     {
         public override int AUCost => 1; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override TargetingMode TargetMode => TargetingMode.AllEnemies;//; set => throw new NotImplementedException(); }
+        public override TargetingMode TargetMode => TargetingMode.Enemy;//; set => throw new NotImplementedException(); }
         public override int[] Symbols => new int[2]; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string QualifiedName => "AUX Scorch";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override string QualifiedName => "AUX Sacrifice";//{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override string Key => "1"; //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        internal override IAUX identifier => new DefensiveAUX(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        internal override IAUX identifier => new OtherAUX(); //{ get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Debug()
+        public Sacrifice()
         {
-            Console.WriteLine("THE PURPOSE OF MAN IS TO KILL");
+            Console.WriteLine("THE PURPOSE OF MAN IS TO SACRIFICE");
         }
 
 
@@ -48,16 +50,34 @@ namespace SunsetRhapsody.SOMETHING
 
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
-            AUXElementList animation = AUXAnimations.Get(action.AUX);
-            AUXAnimator AUXAnimator = interfaceController.AddAUXAnimation(animation, combantant, targets);
-            AUXAnimator.OnAnimationComplete += OnAnimationComplete;
+            level += 1;
+            string thing = "whoknowsssss.dat";
+            switch (level)
+            {
+
+                case 1:
+                    //do nothing
+                    break;
+                case 2:
+                    thing = "other.dat";
+                    break;
+
+
+
+            }
+            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + thing, "spark", interfaceController.GetEnemyGraphic((targets[0] as EnemyCombatant).ID).Position, 579600);
+
+            interfaceController.pipeline.Add(graphic);
+            graphic.OnAnimationComplete += Graphic_OnAnimationComplete;
             action.state = PlayerAUXAction.State.WaitForUI;
 
-            void OnAnimationComplete(AUXAnimator anim)
+            void Graphic_OnAnimationComplete(AnimatedRenderable renderable)
             {
-                anim.OnAnimationComplete -= OnAnimationComplete;
+                interfaceController.pipeline.Remove(renderable);
+                graphic.Visible = false;
+                graphic.OnAnimationComplete -= Graphic_OnAnimationComplete;
                 action.state = PlayerAUXAction.State.DamageNumbers;
-            }
+            };
         }
 
         internal override void Act(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level)
@@ -66,11 +86,14 @@ namespace SunsetRhapsody.SOMETHING
             foreach (Combatant combatant in combatants)
             {
 
-                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, combatant.Stats.HP);
-                damageNumber.OnComplete += DamageNumber_OnComplete; ;
+
+                level += 1;
+                int dmg = -32 * level;
+                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, dmg);
+                damageNumber.OnComplete += DamageNumber_OnComplete; ; Console.WriteLine("level is " + level + "");
                 StatSet statChange = new StatSet
                 {
-                    HP = -combatant.Stats.HP
+                    HP = dmg
                 };
                 combatant.AlterStats(statChange);
                 if (combatant as EnemyCombatant != null)

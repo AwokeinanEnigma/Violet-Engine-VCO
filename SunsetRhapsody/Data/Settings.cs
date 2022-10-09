@@ -77,9 +77,9 @@ namespace SunsetRhapsody.Data
 
 		private static uint windowFlavor = 0U;
 
-		private static float bgmVolume = 0.7f;
+		private static float bgmVolume = 0.0f;
 
-		private static float sfxVolume = 0.9f;
+		private static float sfxVolume = 0.4f;
 
 		private static int textSpeed = 2;
 	}
