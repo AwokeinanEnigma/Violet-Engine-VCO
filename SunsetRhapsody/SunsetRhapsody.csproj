@@ -110,6 +110,7 @@
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Battle\Actions\InflictInfectionAction.cs" />
     <Compile Include="Battle\Actions\InfectionStatusEffectAction.cs" />
+    <Compile Include="Battle\EnemyAI\DemiurgeFilamentAI.cs" />
     <Compile Include="Battle\EnemyAI\InfestedLegsAI.cs" />
     <Compile Include="Battle\EnemyAI\HermitCanAI.cs" />
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />

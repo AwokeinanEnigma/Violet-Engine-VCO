@@ -28,8 +28,11 @@ namespace SunsetRhapsody.Battle.Actions
 				case "infestedai":
 					aicontrol = new InfestedLegsAI(controller, Sender, data);
 					break;
+				case "demiurgeai":
+					aicontrol = new DemiurgeFilamentAI(controller, Sender, data);
+						break;
                 default:
-                    aicontrol = new BoilerplateAI(controller, sender, data);
+                    aicontrol = new BoilerplateAI(controller, Sender, data);
                     break;
             }
 

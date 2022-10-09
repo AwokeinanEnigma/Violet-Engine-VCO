@@ -212,7 +212,7 @@ namespace SunsetRhapsody.Battle
 			this.prePlayerAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "prePlayerAttack.wav", AudioType.Sound);
 			this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "preEnemyAttack.wav", AudioType.Sound);
 
-			this.preAUXSound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "preAUX.wav", AudioType.Sound);
+			this.preAUXSound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "prePSI.wav", AudioType.Sound);
 
 			this.talkSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "floydTalk.wav", AudioType.Sound);
 			this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "enemyDeath.wav", AudioType.Sound);

@@ -143,9 +143,9 @@ namespace SunsetRhapsody.Scenes
 						//		PartyManager.Instance.Add(CharacterType.Zack);
 						//		PartyManager.Instance.Add(CharacterType.Floyd);
 								PartyManager.Instance.Add(CharacterType.Meryl);
-						//		PartyManager.Instance.Add(CharacterType.Leo);
-								
-								BattleScene scenea = new BattleScene(new EnemyData[1]{ EnemyFile.Instance.GetEnemyData("Infested Legs") }, true);
+								//		PartyManager.Instance.Add(CharacterType.Leo);
+								//Demiurge Filament
+								BattleScene scenea = new BattleScene(new EnemyData[1]{ EnemyFile.Instance.GetEnemyData("Demiurge Filament") }, true);
 								SceneManager.Instance.Transition = new IrisTransition(3);
 								SceneManager.Instance.Push(scenea);
 								break;

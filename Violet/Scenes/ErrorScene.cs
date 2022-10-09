@@ -17,7 +17,7 @@ namespace Violet.Scenes
             streamWriter.Close();
             Engine.ClearColor = Color.Blue;
             this.title = new TextRegion(new Vector2f(16f, 8f), 0, Engine.DefaultFont, "An unhandled exception has occurred.");
-            this.message = new TextRegion(new Vector2f(16f, 32f), 0, Engine.DefaultFont, "Enigma  is obviously an incompetent programmer.");
+            this.message = new TextRegion(new Vector2f(16f, 32f), 0, Engine.DefaultFont, "Enigma is obviously an incompetent programmer.");
             this.pressenter = new TextRegion(new Vector2f(16f, 48f), 0, Engine.DefaultFont, "Press Enter/Start to exit.");
             this.exceptionDetails = new TextRegion(new Vector2f(16f, 80f), 0, Engine.DefaultFont, string.Format("{0}\nSee error.log for more details.", ex.Message));
             this.pipeline = new RenderPipeline(Engine.FrameBuffer);

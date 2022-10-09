@@ -150,7 +150,7 @@ namespace Violet.Audio.fmod
 
             if (result != RESULT.OK)
             {
-                Console.WriteLine(($"There was an error trying to play the song for the map!!! "));
+                Console.WriteLine(($"There was an error trying to play a sound! "));
             }
             //throw new FmodException(string.Format("FMOD error: {0} - {1}", (object)result, (object)Error.String(result)));
         }
