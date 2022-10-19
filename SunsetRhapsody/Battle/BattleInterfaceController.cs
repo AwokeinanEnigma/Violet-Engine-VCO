@@ -1358,6 +1358,11 @@ namespace SunsetRhapsody.Battle
 			this.cardBar.SelectedIndex = index;
 		}
 
+		public Graphic GetCardGraphic(int index)
+		{
+			return cardBar.GetCardGraphic(index);// this.cardBar.PopCard(index, height);
+		}
+
 		public void PopCard(int index, int height)
 		{
 			this.cardBar.PopCard(index, height);
@@ -1643,6 +1648,7 @@ namespace SunsetRhapsody.Battle
 		// Token: 0x0400062B RID: 1579
 		public RenderPipeline pipeline;
 
+
 		// Token: 0x0400062C RID: 1580
 		private ActorManager actorManager;
 
@@ -1704,7 +1710,9 @@ namespace SunsetRhapsody.Battle
 		private List<int> partyIDs;
 
 		// Token: 0x04000640 RID: 1600
-		private List<IGraphicModifier> graphicModifiers;
+		public List<IGraphicModifier> graphicModifiers;
+
+	
 
 		// Token: 0x04000641 RID: 1601
 		private List<AUXAnimator> AUXAnimators;

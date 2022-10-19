@@ -651,7 +651,7 @@ namespace SunsetRhapsody.Scenes
 			if (this.battleEnemies != null)
 			{
 				this.player.MovementLocked = false;
-                battleEnemies.ForEach(x => this.collisionManager.Remove(x, false));
+                battleEnemies.ForEach(x => this.collisionManager.Remove(x));
                 battleEnemies.ForEach(x => this.actorManager.Remove(x));
 				/*foreach (EnemyNPC enemy in this.battleEnemies)
 				{
@@ -883,7 +883,7 @@ namespace SunsetRhapsody.Scenes
 				this.UpdateSpawners();
 				this.screenDimmer.Update();
 				this.executor.Execute();
-                collisionManager.Filter();
+               // collisionManager.Filter();
 
 			}
 		}

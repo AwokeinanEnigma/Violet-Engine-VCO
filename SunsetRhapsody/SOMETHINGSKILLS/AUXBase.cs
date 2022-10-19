@@ -25,7 +25,7 @@ namespace SunsetRhapsody.SOMETHING
         internal abstract void Finish(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level);
         internal abstract void ShowUnavaliableMessage(PlayerCombatant combatant, BattleInterfaceController interfaceController);
         internal abstract void ScaleToLevel(PlayerCombatant combatant, int level);
-        internal void Update(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level) 
+        internal void Update(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level) 
         { 
             // do nothing
         }

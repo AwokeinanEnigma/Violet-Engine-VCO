@@ -51,14 +51,11 @@ namespace Violet.Collision
         /// Removes a collider
         /// </summary>
         /// <param name="collidable"></param>
-        public void Remove(ICollidable collidable, bool clear)
+        public void Remove(ICollidable collidable)
         {
             collidables.Remove(collidable);
             this.spatialHash.Remove(collidable);
-            if (clear)
-            {
-                Clear();
-            }
+
         }
 
         public void Filter()
@@ -103,10 +100,9 @@ namespace Violet.Collision
                 ICollidable collidable = this.resultStack.Pop();
                 if (this.PlaceFreeBroadPhase(obj, position, collidable))
                 {
-                    bool flag2 = this.CheckPositionCollision(obj, position, collidable);
-                    if (flag2)
+                    if (this.CheckPositionCollision(obj, position, collidable))
                     {
-                        bool flag3 = false;
+                        bool cannotPlace = false;
                         //Console.WriteLine($"Moving collider '{obj}' to position '{position}' ");
                         if (ignoreTypes != null)
                         {
@@ -114,12 +110,12 @@ namespace Violet.Collision
                             {
                                 if (ignoreTypes[i] == collidable.GetType())
                                 {
-                                    flag3 = true;
+                                    cannotPlace = true;
                                     break;
                                 }
                             }
                         }
-                        if (!flag3)
+                        if (!cannotPlace)
                         {
                             flag = true;
                             if (collisionResults == null || num >= collisionResults.Length)
@@ -201,7 +197,7 @@ namespace Violet.Collision
                 float maxB = 0f;
                 this.ProjectPolygon(vector2f, objA.Mesh, position, ref minA, ref maxA);
                 this.ProjectPolygon(vector2f, objB.Mesh, objB.Position, ref minB, ref maxB);
-                if (this.IntervalDistance(minA, maxA, minB, maxB) > 1f)
+                if (this.IntervalDistance(minA, maxA, minB, maxB) > 0f)
                 {
                     return false;
                 }

@@ -128,6 +128,7 @@ namespace SunsetRhapsody.Actors
 			string file = CharacterGraphics.GetFile(character);
 			this.ChangeSprite(file, "walk south");
 			this.isShadowEnabled = (useShadow && !isOcean);
+			//this.isShadowEnabled = false;
 			this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1);
 			this.shadowGraphic.Visible = this.isShadowEnabled;
 			pipeline.Add(this.shadowGraphic);
@@ -492,7 +493,10 @@ namespace SunsetRhapsody.Actors
 			this.pipeline.Update(this.playerGraphic);
 			if (this.isShadowEnabled)
 			{
-				this.shadowGraphic.Position = VectorMath.Truncate(this.position);
+				Vector2f shadowPos = VectorMath.Truncate(this.position);
+				shadowPos.X -= 1;
+				shadowPos.Y += 1;
+				this.shadowGraphic.Position = shadowPos;
 				this.shadowGraphic.Depth = this.playerGraphic.Depth - 1;
 				this.pipeline.Update(this.shadowGraphic);
 			}

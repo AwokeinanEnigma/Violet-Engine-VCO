@@ -10,8 +10,9 @@ namespace SunsetRhapsody.Battle.Actions
 	{
 		public EnemyDecisionAction(ActionParams aparams, EnemyData data) : base(aparams)
 		{
-			this.enemyType = (this.sender as EnemyCombatant).Enemy;
-            switch (enemyType.AIName)
+            this.enemyType = (this.sender as EnemyCombatant).Enemy;
+			Console.WriteLine("Created another decision!");
+			switch (enemyType.AIName)
             {
                 case "TravisMustDie":
                     aicontrol = new TravisMustDieAI(controller, sender, data);
@@ -37,6 +38,15 @@ namespace SunsetRhapsody.Battle.Actions
             }
 
 			//this.aicontrol = new RandomAI(this.controller, this.sender);
+		}
+
+		public void UpdateActionParams(ActionParams aparams, EnemyData data) {
+			this.aparams = aparams;
+			this.controller = aparams.controller;
+			this.priority = aparams.priority;
+			this.sender = aparams.sender;
+			this.targets = aparams.targets;
+			this.enemyType = data;
 		}
 
 		protected override void UpdateAction()
@@ -73,12 +83,14 @@ namespace SunsetRhapsody.Battle.Actions
 				Combatant[] factionCombatants = this.controller.CombatantController.GetFactionCombatants(BattleFaction.PlayerTeam);
 				BattleAction action = this.aicontrol.GetAction(this.sender.Stats.Speed, factionCombatants);
 				this.controller.AddAction(action);
+				Console.WriteLine($"added action: action is {action}");
 			}
+
 			this.complete = true;
 		}
 
 		private EnemyData enemyType;
-
+		private ActionParams aparams;
 		private IEnemyAI aicontrol;
 	}
 }

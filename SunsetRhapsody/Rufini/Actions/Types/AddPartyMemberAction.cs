@@ -57,7 +57,7 @@ namespace Rufini.Actions.Types
 					position = npc.Position;
 					direction = npc.Direction;
 					context.ActorManager.Remove(npc);
-					context.CollisionManager.Remove(npc, false);
+					context.CollisionManager.Remove(npc);
 				}
 				else
 				{

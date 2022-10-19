@@ -86,6 +86,7 @@ namespace SunsetRhapsody.Battle.Actions
 				aux.Initialize(combatant, controller.InterfaceController, this, targets, AUXLevel);
 				return;
 			}
+			aux.Update(combatant, controller.InterfaceController, this, targets, AUXLevel);
 			if (this.state == PlayerAUXAction.State.Animate)
 			{
 				aux.Animate(combatant, controller.InterfaceController, this, targets, AUXLevel);

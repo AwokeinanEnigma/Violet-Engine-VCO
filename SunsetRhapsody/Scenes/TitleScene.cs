@@ -120,21 +120,34 @@ namespace SunsetRhapsody.Scenes
 					{
 						case Button.One:
 							goto IL_46;
-						/*case Button.Two:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new TextTestScene());
-							return;*/
+						case Button.Two:
+							Console.WriteLine("purple");
+							pipeline.Remove(background);
+							this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title.xml", 10);
+							pipeline.Add(background);
+							//SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
+							//SceneManager.Instance.Push(new TextTestScene());
+							return;
 						case Button.Three:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new AUXTestScene());
+							Console.WriteLine("blue");
+							pipeline.Remove(background);
+							this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title_blue.xml", 10);
+							pipeline.Add(background);
+							//			SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
+							//			SceneManager.Instance.Push(new AUXTestScene());
 							return;
 						case Button.Four:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new SaveScene(SaveScene.Location.Belring, SaveFileManager.Instance.CurrentProfile));
+							Console.WriteLine("green");
+							pipeline.Remove(background);
+							this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title_green.xml", 10);
+							pipeline.Add(background);
+
+							//				SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
+							//			SceneManager.Instance.Push(new SaveScene(SaveScene.Location.Belring, SaveFileManager.Instance.CurrentProfile));
 							return;
 						case Button.Five:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new EnemyTestScene());
+				//			SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
+				//			SceneManager.Instance.Push(new EnemyTestScene());
 							return;
 						case Button.Six:
 							{
@@ -145,7 +158,13 @@ namespace SunsetRhapsody.Scenes
 								PartyManager.Instance.Add(CharacterType.Meryl);
 								//		PartyManager.Instance.Add(CharacterType.Leo);
 								//Demiurge Filament
-								BattleScene scenea = new BattleScene(new EnemyData[1]{ EnemyFile.Instance.GetEnemyData("Demiurge Filament") }, true);
+								EnemyData dat = EnemyFile.Instance.GetEnemyData("Demiurge Filament");
+								EnemyData[] data = new EnemyData[2]
+								{ 
+									dat, dat
+								};
+
+								BattleScene scenea = new BattleScene(data, true);
 								SceneManager.Instance.Transition = new IrisTransition(3);
 								SceneManager.Instance.Push(scenea);
 								break;

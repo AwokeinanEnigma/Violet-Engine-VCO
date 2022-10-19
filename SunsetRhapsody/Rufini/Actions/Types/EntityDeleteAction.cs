@@ -28,7 +28,7 @@ namespace Rufini.Actions.Types
 			if (npc != null)
 			{
 				context.ActorManager.Remove(npc);
-				context.CollisionManager.Remove(npc, false);
+				context.CollisionManager.Remove(npc);
 			}
 			return default(ActionReturnContext);
 		}

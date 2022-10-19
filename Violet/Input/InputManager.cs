@@ -104,6 +104,7 @@ namespace Violet.Input
                 return;
             }
             bool flag = false;
+            
             switch (e.Code)
             {
                 case Keyboard.Key.Left:
@@ -123,6 +124,8 @@ namespace Violet.Input
                     flag = true;
                     break;
             }
+            
+            this.xKeyAxis
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
             this.yKeyAxis = (this.upPress ? -1f : 0f) + (this.downPress ? 1f : 0f);
             if (this.enabled && flag && this.AxisPressed != null)

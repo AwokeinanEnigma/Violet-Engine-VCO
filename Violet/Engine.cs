@@ -227,9 +227,10 @@ namespace Violet
             debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
             ClearColor = SFML.Graphics.Color.Black;
 
-            if (OpenGLVersion() < REQUIREDOPENGLVERSION)
+            decimal openGlV = OpenGLVersion();
+            if (openGlV < REQUIREDOPENGLVERSION)
             {
-                string message = $"OpenGL version {REQUIREDOPENGLVERSION} or higher is required. This system has version {OpenGLVersion()}.";
+                string message = $"OpenGL version {REQUIREDOPENGLVERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
             Console.WriteLine("OpenGL v{0}.{1}", window.Settings.MajorVersion, window.Settings.MinorVersion);
@@ -237,6 +238,7 @@ namespace Violet
             SetCursorTimer(90);
             Running = true;
         }
+
         public static void StartSession()
         {
             startTicks = DateTime.Now.Ticks;
