@@ -30,7 +30,7 @@ namespace SunsetRhapsody.Scenes
 
 			if (ConfigReader.Instance.DebugMapName != null)
 			{
-				Console.Write("THE DEBUG MAP IS REALLLLL");
+			//	Console.Write("THE DEBUG MAP IS REALLLLL");
 			}
 
 			string[] items;

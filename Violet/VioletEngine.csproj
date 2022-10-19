@@ -95,7 +95,6 @@
     <Compile Include="Scenes\Transitions\ITransition.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileGroup.cs" />
-    <Compile Include="Utility\Class1.cs" />
     <Compile Include="Utility\ColorHelper.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />
     <Compile Include="Utility\Digits.cs" />

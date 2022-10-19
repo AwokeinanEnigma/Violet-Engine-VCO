@@ -125,7 +125,7 @@ namespace Violet.Input
                     break;
             }
             
-            this.xKeyAxis
+      //      this.xKeyAxis
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
             this.yKeyAxis = (this.upPress ? -1f : 0f) + (this.downPress ? 1f : 0f);
             if (this.enabled && flag && this.AxisPressed != null)

@@ -26,11 +26,6 @@ namespace SunsetRhapsody.Scenes
 		{
 			Fonts.LoadFonts(Settings.Locale);
 
-			if (ConfigReader.Instance.DebugMapName != null)
-			{
-				Console.Write("THE DEBUG MAP IS REALLLLL");
-			}
-
 			string[] items;
 			if (File.Exists("sav.dat"))
 			{
