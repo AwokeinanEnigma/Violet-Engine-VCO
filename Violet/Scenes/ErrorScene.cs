@@ -15,16 +15,21 @@ namespace Violet.Scenes
             StreamWriter streamWriter = new StreamWriter("error.log");
             streamWriter.WriteLine(ex);
             streamWriter.Close();
-            Engine.ClearColor = Color.Blue;
+          //  Engine.ClearColor = Color.Blue;
             this.title = new TextRegion(new Vector2f(16f, 8f), 0, Engine.DefaultFont, "An unhandled exception has occurred.");
             this.message = new TextRegion(new Vector2f(16f, 32f), 0, Engine.DefaultFont, "Enigma is obviously an incompetent programmer.");
             this.pressenter = new TextRegion(new Vector2f(16f, 48f), 0, Engine.DefaultFont, "Press Enter/Start to exit.");
             this.exceptionDetails = new TextRegion(new Vector2f(16f, 80f), 0, Engine.DefaultFont, string.Format("{0}\nSee error.log for more details.", ex.Message));
+            //todo - change this to a nonpersistant path
+            IndexedColorGraphic graphic = new IndexedColorGraphic($"C:\\Users\\Tom\\source\\repos\\SunsetRhapsody\\SunsetRhapsody\\bin\\Release\\Resources\\Graphics\\whoops.dat", "whoops", new Vector2f(160, 90), 100);
             this.pipeline = new RenderPipeline(Engine.FrameBuffer);
+            pipeline.Add(graphic);
             this.pipeline.Add(this.title);
             this.pipeline.Add(this.message);
             this.pipeline.Add(this.pressenter);
             this.pipeline.Add(this.exceptionDetails);
+
+            Debug.DumpLogs();
         }
 
         public override void Focus()

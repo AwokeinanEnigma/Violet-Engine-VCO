@@ -226,6 +226,8 @@ namespace Violet
             defaultFont = new FontData();
             debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
             ClearColor = SFML.Graphics.Color.Black;
+          
+            Debug.Initialize();
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < REQUIREDOPENGLVERSION)
@@ -458,10 +460,10 @@ namespace Violet
 			}
 			catch (Exception ex)
 			{
-               SceneManager.Instance.AbortTransition();
-               SceneManager.Instance.Clear();
-               SceneManager.Instance.Transition = new InstantTransition();
-               SceneManager.Instance.Push(new ErrorScene(ex));
+                SceneManager.Instance.AbortTransition();
+                SceneManager.Instance.Clear();
+                SceneManager.Instance.Transition = new InstantTransition();
+                SceneManager.Instance.Push(new ErrorScene(ex));
             }
             ViewManager.Instance.UseDefault();
             if (debugDisplay)

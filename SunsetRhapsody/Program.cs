@@ -22,6 +22,8 @@ namespace SunsetRhapsody
             Scene newScene = new TitleScene();
             EnemyFile.Load();
 
+
+            //Debug.DumpLogs();
             try
             {
                 SceneManager.Instance.Push(newScene);

@@ -131,7 +131,7 @@ namespace SunsetRhapsody.Scenes.Transitions
 		public void Draw()
 		{
 			this.renderStates.Transform = new Transform(1f, 0f, ViewManager.Instance.FinalCenter.X, 0f, 1f, ViewManager.Instance.FinalCenter.Y, 0f, 0f, 1f);
-			this.target.Draw(this.verts, PrimitiveType.Quads, this.renderStates);
+			this.target.Draw(this.verts, PrimitiveType.Points, this.renderStates);
 		}
 
 		public void Reset()

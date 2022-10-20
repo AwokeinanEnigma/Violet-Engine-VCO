@@ -4,6 +4,7 @@ using System.IO;
 using Violet.Maps;
 using Violet.Utility;
 using fNbt;
+using Violet;
 
 namespace SunsetRhapsody.Data.Enemies
 {
@@ -59,7 +60,7 @@ namespace SunsetRhapsody.Data.Enemies
 			NbtFile nbtFile = new NbtFile(path);
             EnemyData enemyData = new EnemyData((NbtCompound)nbtFile.RootTag);
             int key = Hash.Get(enemyData.QualifiedName);
-			Console.WriteLine($"Path '{path}', qualified name is {enemyData.QualifiedName}");
+			Debug.LInfo($"Path '{path}', qualified name is {enemyData.QualifiedName}");
             this.enemyDataDict.Add(key, enemyData); 
             
             /*foreach (NbtTag nbtTag in nbtFile.RootTag)
@@ -82,7 +83,7 @@ namespace SunsetRhapsody.Data.Enemies
                 //Console.WriteLine($"Properly returned enemy: {name}");
                 return attemptData;
             }
-            Console.WriteLine($"Was unable to return enemy: {name}");
+            Debug.LError($"Was unable to return enemy: {name}");
             return attemptData;
         }
 
