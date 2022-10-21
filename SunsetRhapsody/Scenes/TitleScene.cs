@@ -30,7 +30,7 @@ namespace SunsetRhapsody.Scenes
 
 			if (ConfigReader.Instance.DebugMapName != null)
 			{
-			//	Console.Write("THE DEBUG MAP IS REALLLLL");
+			// 	Console.Write("THE DEBUG MAP IS REALLLLL");
 			}
 
 			string[] items;
@@ -159,9 +159,10 @@ namespace SunsetRhapsody.Scenes
 								//		PartyManager.Instance.Add(CharacterType.Leo);
 								//Demiurge Filament
 								EnemyData dat = EnemyFile.Instance.GetEnemyData("Demiurge Filament");
-								EnemyData[] data = new EnemyData[2]
+								EnemyData dat2 = EnemyFile.Instance.GetEnemyData("Infested Legs");
+								EnemyData[] data = new EnemyData[3]
 								{ 
-									dat, dat
+									dat, dat, dat2
 								};
 
 								BattleScene scenea = new BattleScene(data, true);

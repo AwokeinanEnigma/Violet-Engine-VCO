@@ -160,6 +160,8 @@ namespace SunsetRhapsody.Battle
 				this.pipeline.Add(graphic);
 				this.selectionMarkers.Add(cardGraphic, graphic);
 			}
+			region.Visible = false;
+			pipeline.Add(region);
 			this.enemyGraphics = new Dictionary<int, IndexedColorGraphic>();
 			this.enemyIDs = new List<int>();
 			this.partyIDs = new List<int>();
@@ -667,15 +669,34 @@ namespace SunsetRhapsody.Battle
 				this.graphicModifiers.Add(new GraphicShielder(this.pipeline, graphic));
 			}
 		}
+		TextRegion region = new TextRegion(new Vector2f(3,3), 32767, Fonts.Main, "thing");
+
 		private void SetSelectionMarkerVisibility(Graphic graphic, bool visible)
 		{
 			Graphic graphic2 = this.selectionMarkers[graphic];
 			if (visible)
 			{
-				graphic2.Position = VectorMath.Truncate(graphic.Position - graphic.Origin + new Vector2f(graphic.Size.X / 2f, 4f));
+				Vector2f cursorPosition = VectorMath.Truncate(graphic.Position - graphic.Origin + new Vector2f(graphic.Size.X / 2f, 4f)); ;
+				graphic2.Position = cursorPosition;
 				graphic2.Depth = 32767;
 				this.pipeline.Update(graphic2);
+				//int onTheY = ;
+				//this.card.Position.Y - this.card.Origin.Y + (float)((int)(Engine.Random.NextDouble() * (double)this.card.TextureRect.Height))
+				int val = DictionaryExtensions.KeyByValue<int, IndexedColorGraphic>(enemyGraphics, (IndexedColorGraphic)graphic);
+				IEnumerable<Combatant> combatboy = combatantController.GetFactionCombatants(BattleFaction.EnemyTeam).Where(x => x.ID == val);
+				EnemyCombatant enemyCombatant = (EnemyCombatant)combatboy.FirstOrDefault();
+				string enemyName = enemyCombatant.Enemy.PlayerFriendlyName;
+				//	Vector2f testMiddle = - graphic.Size / 2);
+				//Vector2f position = new Vector2f(cursorPosition.X - graphic.Size.X - (enemyName.Length/2), (int)(graphic.Position.Y - graphic.Origin.Y + graphic.TextureRect.Height));
+				//int thing = (cursorPosition.X - enemyName.Length * 2.35f);
+
+				Vector2f position = new Vector2f(cursorPosition.X - enemyName.Length * 2.27f, (int)(graphic.Position.Y - graphic.Origin.Y + graphic.TextureRect.Height));
+				region.Position = VectorMath.Truncate(position);//new Vector2f(graphic.Position.X, onTheY); //VectorMath.Truncate(graphic.Position - graphic.Origin + new Vector2f(graphic.Size.X / 2f, 4f));
+				region.Reset(enemyName, 0, enemyName.Length);
+				pipeline.Update(region);
+				ShowMessage(enemyName, false);
 			}
+			//region.Visible = true;
 			graphic2.Visible = visible;
 		}
 		private void ResetTargetingSelection()
