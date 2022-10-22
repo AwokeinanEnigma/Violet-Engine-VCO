@@ -56,7 +56,7 @@ namespace Rufini.Actions.Types
 				if (this.speed > 0f)
 				{
 					this.TurnStep(true);
-					TimerManager.Instance.OnTimerEnd += this.OnTimer;
+					FrameTimerManager.Instance.OnTimerEnd += this.OnTimer;
 					result.Wait = ScriptExecutor.WaitType.Event;
 				}
 				else
@@ -85,10 +85,10 @@ namespace Rufini.Actions.Types
 			}
 			if (num != this.directionTo)
 			{
-				this.timerId = TimerManager.Instance.StartTimer((int)(1f / this.speed));
+				this.timerId = FrameTimerManager.Instance.StartTimer((int)(1f / this.speed));
 				return;
 			}
-			TimerManager.Instance.OnTimerEnd -= this.OnTimer;
+			FrameTimerManager.Instance.OnTimerEnd -= this.OnTimer;
 			this.npc.MovementLocked = false;
 			this.context.Executor.Continue();
 		}

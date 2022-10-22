@@ -47,7 +47,7 @@ namespace Violet
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LSystem(
-        string message,
+        object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
@@ -85,7 +85,7 @@ namespace Violet
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LError(
-        string message,
+        object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
@@ -93,7 +93,7 @@ namespace Violet
             SceneManager.Instance.AbortTransition();
             SceneManager.Instance.Clear();
             SceneManager.Instance.Transition = new InstantTransition();
-            SceneManager.Instance.Push(new ErrorScene(new Exception(message))); //throw new Exception("Assertion failed!");
+            SceneManager.Instance.Push(new ErrorScene(new Exception(message.ToString()))); //throw new Exception("Assertion failed!");
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Violet
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LWarning(
-        string message,
+        object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
@@ -117,7 +117,7 @@ namespace Violet
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LInfo(
-        string message,
+        object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
@@ -131,7 +131,7 @@ namespace Violet
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LDebug(
-        string message,
+        object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
@@ -148,7 +148,7 @@ namespace Violet
             Verbosity = level;
         }
 
-        private static void LogInternal(LogLevel logLevel, string message, string callerFilePath, int callerLineNumber)
+        private static void LogInternal(LogLevel logLevel, object message, string callerFilePath, int callerLineNumber)
         {
             if (Verbosity < logLevel)
             {

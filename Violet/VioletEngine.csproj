@@ -95,7 +95,7 @@
     <Compile Include="Scenes\Transitions\ITransition.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileGroup.cs" />
-    <Compile Include="Utility\Class1.cs" />
+    <Compile Include="Utility\Debug.cs" />
     <Compile Include="Utility\Class2.cs" />
     <Compile Include="Utility\ColorHelper.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="Utility\IconFile.cs" />
     <Compile Include="Utility\Quadtree.cs" />
     <Compile Include="Utility\Rectangle.cs" />
-    <Compile Include="Utility\TimerManager.cs" />
+    <Compile Include="Utility\FrameTimerManager.cs" />
     <Compile Include="Utility\VectorMath.cs" />
   </ItemGroup>
   <ItemGroup>

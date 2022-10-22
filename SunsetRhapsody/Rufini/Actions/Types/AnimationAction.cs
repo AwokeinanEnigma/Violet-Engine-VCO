@@ -76,8 +76,8 @@ namespace Rufini.Actions.Types
 		{
 			this.context.Pipeline.Remove(graphic);
 			this.graphic.OnAnimationComplete -= this.OnAnimationComplete;
-			this.timerId = TimerManager.Instance.StartTimer(1);
-			TimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
+			this.timerId = FrameTimerManager.Instance.StartTimer(1);
+			FrameTimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
 			if (this.blocking)
 			{
 				this.context.Executor.Continue();
@@ -90,7 +90,7 @@ namespace Rufini.Actions.Types
 			if (this.timerId == timerIndex)
 			{
 				this.graphic.Dispose();
-				TimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
 			}
 		}
 

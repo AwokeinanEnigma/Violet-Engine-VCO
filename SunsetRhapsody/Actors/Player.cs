@@ -14,6 +14,7 @@ using SunsetRhapsody.Overworld;
 using SFML.Graphics;
 using SFML.System;
 using SunsetRhapsody.Actors.NPCs;
+using SunsetRhapsody.Scenes;
 
 namespace SunsetRhapsody.Actors
 {
@@ -134,7 +135,7 @@ namespace SunsetRhapsody.Actors
 			pipeline.Add(this.shadowGraphic);
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 			InputManager.Instance.ButtonReleased += this.ButtonReleased;
-			TimerManager.Instance.OnTimerEnd += this.CrouchTimerEnd;
+			FrameTimerManager.Instance.OnTimerEnd += this.CrouchTimerEnd;
 		}
 
 		public void UpdateStatusEffects()
@@ -313,7 +314,7 @@ namespace SunsetRhapsody.Actors
 				if (!this.isRunning)
 				{
 					this.isCrouch = true;
-					this.crouchTimerIndex = TimerManager.Instance.StartTimer(10);
+					this.crouchTimerIndex = FrameTimerManager.Instance.StartTimer(10);
 					this.runVector = VectorMath.DirectionToVector(this.direction);
 					this.moveVector = VectorMath.ZERO_VECTOR;
 				}
@@ -332,7 +333,7 @@ namespace SunsetRhapsody.Actors
 				}
 				else
 				{
-					TimerManager.Instance.Cancel(this.crouchTimerIndex);
+					FrameTimerManager.Instance.Cancel(this.crouchTimerIndex);
 				}
 				this.animator.ClearOverride();
 				this.isCrouch = false;
@@ -521,6 +522,7 @@ namespace SunsetRhapsody.Actors
 				{
 					this.recorder.Record(this.position, this.moveVector, this.terrainType);
 				}
+				//OverworldScene.instance.FindTile(base.position);
 				num++;
 			}
 			if (this.hopFactor >= 1f)
@@ -562,7 +564,7 @@ namespace SunsetRhapsody.Actors
 				}
 				InputManager.Instance.ButtonPressed -= this.ButtonPressed;
 				InputManager.Instance.ButtonReleased -= this.ButtonReleased;
-				TimerManager.Instance.OnTimerEnd -= this.CrouchTimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.CrouchTimerEnd;
 				this.disposed = true;
 			}
 			base.Dispose(disposing);

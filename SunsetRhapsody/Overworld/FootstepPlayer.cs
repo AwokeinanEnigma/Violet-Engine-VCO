@@ -32,7 +32,7 @@ namespace SunsetRhapsody.Overworld
 			this.terrainType = TerrainType.Tile;
 			this.isPaused = false;
 			this.timerIndex = -1;
-			TimerManager.Instance.OnTimerEnd += this.TimerEnd;
+			FrameTimerManager.Instance.OnTimerEnd += this.TimerEnd;
 			VioletSound[] value = new VioletSound[]
 			{
 				this.Load("stepGrass1"),
@@ -67,7 +67,7 @@ namespace SunsetRhapsody.Overworld
 			if (this.timerIndex == timerIndex)
 			{
 				this.Play();
-				this.timerIndex = TimerManager.Instance.StartTimer(12);
+				this.timerIndex = FrameTimerManager.Instance.StartTimer(12);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace SunsetRhapsody.Overworld
 			{
 				if (!this.isPaused)
 				{
-					this.timerIndex = TimerManager.Instance.StartTimer(0);
+					this.timerIndex = FrameTimerManager.Instance.StartTimer(0);
 				}
 				this.isPaused = false;
 			}
@@ -125,7 +125,7 @@ namespace SunsetRhapsody.Overworld
 			{
 				this.lastSound.Stop();
 				this.lastSound = null;
-				TimerManager.Instance.Cancel(this.timerIndex);
+				FrameTimerManager.Instance.Cancel(this.timerIndex);
 				this.timerIndex = -1;
 			}
 		}
@@ -149,7 +149,7 @@ namespace SunsetRhapsody.Overworld
 						AudioManager.Instance.Unuse(array[i]);
 					}
 				}
-				TimerManager.Instance.OnTimerEnd -= this.TimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.TimerEnd;
 			}
 			this.disposed = true;
 		}

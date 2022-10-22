@@ -66,8 +66,8 @@ namespace SunsetRhapsody.GUI.NamingMenu
 			this.nameText = new TextRegion(new Vector2f(6f + this.promptText.Size.X, (float)Fonts.Main.LineHeight), 2, Fonts.Main, string.Empty);
 			this.nameText.Color = Color.Black;
 			base.Add(this.nameText);
-			this.cursorTimerIndex = TimerManager.Instance.StartTimer(30);
-			TimerManager.Instance.OnTimerEnd += this.CursorTimerEnd;
+			this.cursorTimerIndex = FrameTimerManager.Instance.StartTimer(30);
+			FrameTimerManager.Instance.OnTimerEnd += this.CursorTimerEnd;
 		}
 
 		private void CursorTimerEnd(int timerIndex)
@@ -75,7 +75,7 @@ namespace SunsetRhapsody.GUI.NamingMenu
 			if (timerIndex == this.cursorTimerIndex)
 			{
 				this.cursor.Visible = !this.cursor.Visible;
-				this.cursorTimerIndex = TimerManager.Instance.StartTimer(30);
+				this.cursorTimerIndex = FrameTimerManager.Instance.StartTimer(30);
 			}
 		}
 

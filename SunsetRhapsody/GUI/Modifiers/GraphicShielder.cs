@@ -44,8 +44,8 @@ namespace SunsetRhapsody.Battle.UI.Modifiers
 				this.shieldAnims[i].OnAnimationComplete += this.OnAnimationComplete;
 				this.pipeline.Add(this.shieldAnims[i]);
 			}
-			this.timerIndex = TimerManager.Instance.StartTimer(6);
-			TimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
+			this.timerIndex = FrameTimerManager.Instance.StartTimer(6);
+			FrameTimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
 			this.nextAnim = true;
 			this.animIndex = 0;
 			this.isDone = false;
@@ -68,10 +68,10 @@ namespace SunsetRhapsody.Battle.UI.Modifiers
 				this.animIndex++;
 				if (this.animIndex < this.shieldAnims.Length)
 				{
-					this.timerIndex = TimerManager.Instance.StartTimer(6);
+					this.timerIndex = FrameTimerManager.Instance.StartTimer(6);
 					return;
 				}
-				TimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
 				this.isDone = true;
 			}
 		}

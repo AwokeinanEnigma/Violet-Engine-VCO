@@ -70,12 +70,12 @@ namespace Rufini.Actions.Types
 		{
 			if (this.timerId == -1)
 			{
-				this.timerId = TimerManager.Instance.StartTimer(this.holdDuration);
-				TimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
+				this.timerId = FrameTimerManager.Instance.StartTimer(this.holdDuration);
+				FrameTimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
 				return;
 			}
 			this.dimmer.OnFadeComplete -= this.OnFadeComplete;
-			TimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
+			FrameTimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
 			this.context.Executor.Continue();
 		}
 

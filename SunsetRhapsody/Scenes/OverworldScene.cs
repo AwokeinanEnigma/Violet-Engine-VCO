@@ -573,6 +573,8 @@ namespace SunsetRhapsody.Scenes
 			}
 			bool flag = FlagManager.Instance[1];
 			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS, flag ? 1U : 0U);
+			
+
 			this.pipeline.AddAll<TileGroup>(this.mapGroups);
 			this.backColor = (flag ? map.Head.SecondaryColor : map.Head.PrimaryColor);
 			ExecutionContext context = new ExecutionContext
@@ -628,6 +630,12 @@ namespace SunsetRhapsody.Scenes
 			this.initialized = true;
 		}
 
+		public void FindTile(Vector2f vector2F) {
+			foreach (TileGroup group in mapGroups) {
+				group.GetTileId(vector2F);
+			}
+			
+		}
 		public override void Focus()
 		{
 			base.Focus();

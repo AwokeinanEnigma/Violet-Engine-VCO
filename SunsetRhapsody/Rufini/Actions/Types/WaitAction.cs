@@ -24,8 +24,8 @@ namespace Rufini.Actions.Types
 		{
 			this.context = context;
 			int value = base.GetValue<int>("wait");
-			this.timerIndex = TimerManager.Instance.StartTimer(value);
-			TimerManager.Instance.OnTimerEnd += this.TimerEnd;
+			this.timerIndex = FrameTimerManager.Instance.StartTimer(value);
+			FrameTimerManager.Instance.OnTimerEnd += this.TimerEnd;
 			return new ActionReturnContext
 			{
 				Wait = ScriptExecutor.WaitType.Event
@@ -36,7 +36,7 @@ namespace Rufini.Actions.Types
 		{
 			if (this.timerIndex == timerIndex)
 			{
-				TimerManager.Instance.OnTimerEnd -= this.TimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.TimerEnd;
 				this.context.Executor.Continue();
 			}
 		}

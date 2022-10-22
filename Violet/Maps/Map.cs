@@ -9,6 +9,8 @@ namespace Violet.Maps
 {
     public class Map
     {
+
+        public List<Tile> globalTilelist;
         public Map()
         {
             this.Head = default(Map.Header);
@@ -38,6 +40,7 @@ namespace Violet.Maps
             string resource = string.Format("{0}{1}.dat", graphicDirectory, arg);
             IList<TileGroup> list = new List<TileGroup>(this.Groups.Count);
             long ticks = DateTime.Now.Ticks;
+            List<Tile> globalTiles = new List<Tile>(); 
             for (int i = 0; i < this.Groups.Count; i++)
             {
                 Map.Group group = this.Groups[i];
@@ -66,6 +69,7 @@ namespace Violet.Maps
                         ushort animId = (ushort)(num3 >> 3);
                         Tile item = new Tile((uint)num2, position, flipHoriz, flipVert, flipDiag, animId);
                         list2.Add(item);
+                        globalTiles.Add(item);
                     }
                     j += 2;
                     num++;
@@ -73,7 +77,9 @@ namespace Violet.Maps
                 TileGroup item2 = new TileGroup(list2, resource, group.Depth, new Vector2f(group.X, group.Y), palette);
                 list.Add(item2);
             }
-            Console.WriteLine("Created tile groups in {0}ms", (DateTime.Now.Ticks - ticks) / 10000L);
+            globalTilelist = globalTiles;
+            Debug.LDebug($"global tile list count: {globalTilelist.Count}");
+            Debug.LInfo($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return list;
         }
 

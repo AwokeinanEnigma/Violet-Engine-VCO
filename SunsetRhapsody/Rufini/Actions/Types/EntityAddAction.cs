@@ -138,8 +138,8 @@ namespace Rufini.Actions.Types
 			}
 			context.ActorManager.Add(npc);
 			this.context = context;
-			this.timerId = TimerManager.Instance.StartTimer(0);
-			TimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
+			this.timerId = FrameTimerManager.Instance.StartTimer(0);
+			FrameTimerManager.Instance.OnTimerEnd += this.OnTimerEnd;
 			return new ActionReturnContext
 			{
 				Wait = ScriptExecutor.WaitType.Event
@@ -151,7 +151,7 @@ namespace Rufini.Actions.Types
 			if (this.timerId == timerIndex)
 			{
 				this.context.Executor.Continue();
-				TimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
+				FrameTimerManager.Instance.OnTimerEnd -= this.OnTimerEnd;
 			}
 		}
 

@@ -2,31 +2,31 @@
 
 namespace Violet.Utility
 {
-    public class TimerManager
+    public class FrameTimerManager
     {
-        public static TimerManager Instance
+        public static FrameTimerManager Instance
         {
             get
             {
-                if (TimerManager.instance == null)
+                if (FrameTimerManager.instance == null)
                 {
-                    TimerManager.instance = new TimerManager();
+                    FrameTimerManager.instance = new FrameTimerManager();
                 }
-                return TimerManager.instance;
+                return FrameTimerManager.instance;
             }
         }
 
-        public event TimerManager.OnTimerEndHandler OnTimerEnd;
+        public event FrameTimerManager.OnTimerEndHandler OnTimerEnd;
 
-        private TimerManager()
+        private FrameTimerManager()
         {
-            this.timers = new List<TimerManager.Timer>();
+            this.timers = new List<FrameTimerManager.Timer>();
         }
 
         public int StartTimer(int duration)
         {
             long frame = Engine.Frame;
-            TimerManager.Timer item = new TimerManager.Timer
+            FrameTimerManager.Timer item = new FrameTimerManager.Timer
             {
                 End = frame + duration,
                 Index = ++this.timerCounter
@@ -63,9 +63,9 @@ namespace Violet.Utility
             }
         }
 
-        private static TimerManager instance;
+        private static FrameTimerManager instance;
 
-        private List<TimerManager.Timer> timers;
+        private List<FrameTimerManager.Timer> timers;
 
         private int timerCounter;
 
