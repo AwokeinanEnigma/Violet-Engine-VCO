@@ -94,7 +94,7 @@ namespace Violet.Tiles
                 return (int)(texCoords.X / 8f + texCoords.Y / 8f * (this.tileset.Image.Size.X / 8U));
             }
             catch (Exception ex) {
-                Debug.LError(ex);
+                Debug.LError(ex, false);
                 return 0;
             }
         }
@@ -124,7 +124,7 @@ namespace Violet.Tiles
                     }
                     else
                     {
-                        Console.WriteLine("Tried to load tile animation data for animation {0}, but there was no tile data.", num);
+                        Debug.LError($"Tried to load tile animation data for animation {num}, but there was no tile data.", false);
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace Violet.Tiles
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{ index } was outside range of the array! Error: {ex}");
+                    Debug.LError($"{ index } was outside range of the array! Error: {ex}", false);
                     int num = tile.AnimationId;
                     this.animations[num].VertIndexes.Add(index);
                 }

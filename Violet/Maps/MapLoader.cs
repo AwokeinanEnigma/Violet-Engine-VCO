@@ -52,7 +52,7 @@ namespace Violet.Maps
             MapLoader.LoadCollisions(map, rootTag);
             MapLoader.LoadTileGroups(map, rootTag);
             MapLoader.LoadParallax(map, rootTag);
-            Console.WriteLine("Loaded map data in {0}ms", (DateTime.Now.Ticks - ticks) / 10000L);
+            Debug.LDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;
         }
 

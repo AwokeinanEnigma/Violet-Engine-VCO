@@ -199,14 +199,13 @@ namespace Violet
             }
             void SetFrameBuffer()
             {
-                frameBuffer = new RenderTexture(320U, 180U);
+                frameBuffer = new RenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
                 frameBufferState = new RenderStates(BlendMode.Alpha, Transform.Identity, frameBuffer.Texture, null);
                 frameBufferVertArray = new VertexArray(PrimitiveType.Quads, 4U);
             }
             void SetFrameBuffArray()
             {
-                int width = 160;
-                int height = 90;
+
                 frameBufferVertArray[0U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(0f, 0f));
                 frameBufferVertArray[1U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, 0f));
                 frameBufferVertArray[2U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -235,7 +234,7 @@ namespace Violet
                 string message = $"OpenGL version {REQUIREDOPENGLVERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
-            Console.WriteLine("OpenGL v{0}.{1}", window.Settings.MajorVersion, window.Settings.MinorVersion);
+            Debug.LDebug($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
             SetCursorTimer(90);
             Running = true;
@@ -283,12 +282,14 @@ namespace Violet
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);
             }
 
-            window = new RenderWindow(desktopMode, "Mother 4", style);
+           
+            window = new RenderWindow(desktopMode, "Voyage: Carpe Omnia", style);
             window.Closed += OnWindowClose;
             window.MouseMoved += MouseMoved;
             window.MouseButtonPressed += MouseButtonPressed;
             InputManager.Instance.AttachToWindow(window);
             window.SetMouseCursorVisible(!goFullscreen);
+
             if (vsync || goFullscreen)
             {
                 window.SetFramerateLimit(FRAME_RATE_LIMIT);
@@ -298,7 +299,9 @@ namespace Violet
             else
             {
                 window.SetFramerateLimit(FRAME_RATE_LIMIT);
+            
             }
+            
             if (iconFile != null)
             {
                 window.SetIcon(32U, 32U, iconFile.GetBytesForSize(32));
@@ -342,7 +345,7 @@ namespace Violet
             SFML.Graphics.Image image3 = frameBuffer.Texture.CopyToImage();
             string text = string.Format("screenshot{0}.png", Directory.GetFiles("./", "screenshot*.png").Length);
             image3.SaveToFile(text);
-            Console.WriteLine("Screenshot saved as \"{0}\"", text);
+            Debug.LInfo("Screenshot saved as \"{0}\"", text);
         }
          
         public static unsafe void TakeScreenshot()
@@ -363,7 +366,7 @@ namespace Violet
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
                 Clipboard.SetImage(image2);
             }
-            Console.WriteLine("Screenshot copied to clipboard");
+            Debug.LInfo("Screenshot copied to clipboard");
         }
 
         public static void OnButtonPressed(InputManager sender, Violet.Input.Button b)

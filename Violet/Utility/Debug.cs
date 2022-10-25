@@ -36,7 +36,7 @@ namespace Violet
             [LogLevel.Error] = ConsoleColor.Red,
             [LogLevel.Warning] = ConsoleColor.Yellow,
             [LogLevel.Info] = ConsoleColor.White,
-            [LogLevel.Debug] = ConsoleColor.DarkBlue,
+            [LogLevel.Debug] = ConsoleColor.Green,
             [LogLevel.Trace] = ConsoleColor.Cyan,
         };
 
@@ -86,14 +86,19 @@ namespace Violet
         /// <param name="callerLineNumber">Ignore this.</param>
         public static void LError(
         object message,
+        bool throwException,
         [CallerFilePath] string callerFilePath = "",
-        [CallerLineNumber] int callerLineNumber = 0)
+        [CallerLineNumber] int callerLineNumber = 0
+        )
         {
             LogInternal(LogLevel.Error, message, callerFilePath, callerLineNumber);
-            SceneManager.Instance.AbortTransition();
-            SceneManager.Instance.Clear();
-            SceneManager.Instance.Transition = new InstantTransition();
-            SceneManager.Instance.Push(new ErrorScene(new Exception(message.ToString()))); //throw new Exception("Assertion failed!");
+            if (throwException)
+            {
+                SceneManager.Instance.AbortTransition();
+                SceneManager.Instance.Clear();
+                SceneManager.Instance.Transition = new InstantTransition();
+                SceneManager.Instance.Push(new ErrorScene(new Exception(message.ToString()))); //throw new Exception("Assertion failed!");
+            }
         }
 
         /// <summary>

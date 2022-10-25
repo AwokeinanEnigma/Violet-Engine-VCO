@@ -232,18 +232,12 @@ namespace Violet.Input
         {
             Joystick.Update();
             Joystick.Identification identification = Joystick.GetIdentification(e.JoystickId);
-            Console.WriteLine("Gamepad {0} connected: {1} ({2}, {3})", new object[]
-            {
-                e.JoystickId,
-                identification.Name,
-                identification.VendorId,
-                identification.ProductId
-            });
+            Debug.LInfo($"Gamepad {e.JoystickId} connected: {identification.Name} ({identification.VendorId}, {identification.ProductId})");
         }
 
         private void JoystickDisconnected(object sender, JoystickConnectEventArgs e)
         {
-            Console.WriteLine("Gamepad {0} disconnected", e.JoystickId);
+            Debug.LInfo($"Gamepad {e.JoystickId} disconnected");
         }
 
         private void JoystickButtonPressed(object sender, JoystickButtonEventArgs e)
