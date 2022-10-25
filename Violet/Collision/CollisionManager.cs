@@ -61,7 +61,7 @@ namespace Violet.Collision
         public void Filter()
         {
             var itemToRemove = collidables.FindAll(r => r == null);
-            itemToRemove.ForEach(x=>spatialHash.Remove(x));
+            itemToRemove.ForEach(x => spatialHash.Remove(x));
             List<ICollidable> result = collidables.Except(itemToRemove).ToList();
             collidables = result;
 
