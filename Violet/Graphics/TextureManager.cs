@@ -110,7 +110,7 @@ namespace Violet.Graphics
 
             // Create IndexTexture variable so we can initialize it later.
             IndexedTexture indexedTexture;
-            
+
             // To save memory, we're not going to load the texture again. Instead, we'll just return an instance from our dictionary of loaded textures.
             if (!this.textures.ContainsKey(num))
             {
@@ -118,7 +118,8 @@ namespace Violet.Graphics
                 activeFilenameHashes.Add(num, spriteFile);
 
                 // Before adding the texture's sprite to our allFilenameHashes dict, first check if we have already cached it before
-                if (!this.allFilenameHashes.ContainsKey(spriteFile)) {
+                if (!this.allFilenameHashes.ContainsKey(spriteFile))
+                {
                     allFilenameHashes.Add(spriteFile, num);
                 }
 
@@ -256,6 +257,7 @@ namespace Violet.Graphics
 
         public void Purge()
         {
+            Debug.LInfo($"textures before is {textures.Count} ");
             List<int> list = new List<int>();
             foreach (KeyValuePair<int, IVioletTexture> keyValuePair in this.textures)
             {
@@ -272,6 +274,7 @@ namespace Violet.Graphics
                 this.instances.Remove(key2);
                 this.textures.Remove(key2);
             }
+            Debug.LInfo($"textures length is {textures.Count} ");
         }
 
         public void DumpEveryLoadedTexture() {
