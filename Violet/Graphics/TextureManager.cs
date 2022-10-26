@@ -27,6 +27,8 @@ namespace Violet.Graphics
         {
             this.instances = new Dictionary<int, int>();
             this.textures = new Dictionary<int, IVioletTexture>();
+            this.allFilenameHashes = new Dictionary<string, int>();
+            this.activeFilenameHashes = new Dictionary<int, string>();
         }
         /// <summary>
         /// Creates an IndexedTexture from an NBTCompound
@@ -63,22 +65,22 @@ namespace Violet.Graphics
                         NbtInt nbtInt = null;
                         int[] array = nbtCompound2.TryGet<NbtIntArray>("crd", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
                         int[] array2 = nbtCompound2.TryGet<NbtIntArray>("bnd", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        int[] array3 = nbtCompound2.TryGet<NbtIntArray>("org", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        byte[] array4 = nbtCompound2.TryGet<NbtByteArray>("opt", out nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
-                        IList<NbtTag> list2 = nbtCompound2.Get<NbtList>("spd");
+                        int[] org = nbtCompound2.TryGet<NbtIntArray>("org", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
+                        byte[] opt = nbtCompound2.TryGet<NbtByteArray>("opt", out nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
+                        IList<NbtTag> spd = nbtCompound2.Get<NbtList>("spd");
                         int frames = nbtCompound2.TryGet<NbtInt>("frm", out nbtInt) ? nbtInt.IntValue : 1;
                         NbtIntArray nbtIntArray2 = nbtCompound2.Get<NbtIntArray>("d");
                         int[] data = (nbtIntArray2 == null) ? null : nbtIntArray2.IntArrayValue;
                         Vector2i coords = new Vector2i(array[0], array[1]);
                         Vector2i bounds = new Vector2i(array2[0], array2[1]);
-                        Vector2f origin = new Vector2f((float)array3[0], (float)array3[1]);
-                        bool flipX = array4[0] == 1;
-                        bool flipY = array4[1] == 1;
-                        int mode = (int)array4[2];
-                        float[] array5 = (list2 != null) ? new float[list2.Count] : new float[0];
+                        Vector2f origin = new Vector2f((float)org[0], (float)org[1]);
+                        bool flipX = opt[0] == 1;
+                        bool flipY = opt[1] == 1;
+                        int mode = (int)opt[2];
+                        float[] array5 = (spd != null) ? new float[spd.Count] : new float[0];
                         for (int i = 0; i < array5.Length; i++)
                         {
-                            NbtTag nbtTag4 = list2[i];
+                            NbtTag nbtTag4 = spd[i];
                             array5[i] = nbtTag4.FloatValue;
                         }
                         SpriteDefinition spriteDefinition2 = new SpriteDefinition(text, coords, bounds, origin, frames, array5, flipX, flipY, mode, data);
@@ -103,10 +105,24 @@ namespace Violet.Graphics
         /// <returns></returns>
         public IndexedTexture Use(string spriteFile)
         {
+            // Create hash so we can fetch it later
             int num = Hash.Get(spriteFile);
+
+            // Create IndexTexture variable so we can initialize it later.
             IndexedTexture indexedTexture;
+            
+            // To save memory, we're not going to load the texture again. Instead, we'll just return an instance from our dictionary of loaded textures.
             if (!this.textures.ContainsKey(num))
             {
+                // We don't need to check if we haven't already added it to our activeFilenameHashes dict, because Unuse() will remove the entry from activeFilenameHashes
+                activeFilenameHashes.Add(num, spriteFile);
+
+                // Before adding the texture's sprite to our allFilenameHashes dict, first check if we have already cached it before
+                if (!this.allFilenameHashes.ContainsKey(spriteFile)) {
+                    allFilenameHashes.Add(spriteFile, num);
+                }
+
+
                 if (!File.Exists(spriteFile))
                 {
                     string message = string.Format("The sprite file \"{0}\" does not exist.", spriteFile);
@@ -229,6 +245,7 @@ namespace Violet.Graphics
                 IVioletTexture value = keyValuePair.Value;
                 if (value == texture)
                 {
+                    activeFilenameHashes.Remove(key);
                     Dictionary<int, int> dictionary;
                     int key2;
                     (dictionary = this.instances)[key2 = key] = dictionary[key2] - 1;
@@ -257,7 +274,35 @@ namespace Violet.Graphics
             }
         }
 
+        public void DumpEveryLoadedTexture() {
+            List<string> textures = new List<string>();
+            foreach (KeyValuePair<string, int> keyntex in this.allFilenameHashes) {
+                textures.Add($"name == '{ keyntex.Key}' :: hash == '{keyntex.Value}'");
+            }
+
+            StreamWriter streamWriter = new StreamWriter("all_loaded_textures.log");
+            textures.ForEach(x => streamWriter.WriteLine(x));
+            streamWriter.Close();
+        }
+
+         public void DumpLoadedTextures() {
+            List<string> textures = new List<string>();
+            foreach (KeyValuePair<int, string> keyntex in this.activeFilenameHashes) {
+                textures.Add($"name == '{ keyntex.Value}' :: hash == '{keyntex.Key}'");
+            }
+
+            StreamWriter streamWriter = new StreamWriter("loaded_textures.log");
+            textures.ForEach(x => streamWriter.WriteLine(x));
+            streamWriter.Close();
+        }
+
         private Dictionary<int, int> instances;
+
+        //keeps track of every texture that has ever been loaded within the game session
+        private Dictionary<string, int> allFilenameHashes;
+
+        //only has textures that are currently loaded in memory
+        private Dictionary<int, string> activeFilenameHashes;
 
         private Dictionary<int, IVioletTexture> textures;
 

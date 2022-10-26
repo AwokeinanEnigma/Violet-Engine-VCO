@@ -91,6 +91,7 @@ namespace Violet.Collision
                 Array.Clear(collisionResults, 0, collisionResults.Length);
             }
             bool flag = false;
+            
             Vector2f offset = obj.Position - position;
             this.resultList.Clear();
             this.spatialHash.Query(obj, offset, this.resultStack);
@@ -205,13 +206,13 @@ namespace Violet.Collision
             return true;
         }
 
-        private float IntervalDistance(float minA, float maxA, float minB, float maxB)
+        private int IntervalDistance(float minA, float maxA, float minB, float maxB)
         {
             if (minA < minB)
             {
-                return minB - maxA;
+                return (int)(minB - maxA);
             }
-            return minA - maxB;
+            return (int)(minA - maxB);
         }
 
         private void ProjectPolygon(Vector2f normal, Mesh mesh, Vector2f offset, ref float min, ref float max)

@@ -260,217 +260,203 @@ namespace VCO.Scenes
                 }
 			}
 
-			/*
-            if (!this.executor.Running)
-            {	
-                if (b == Button.One)
-                {
-                    
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 89,
-                        PP = 35,
-                        Meter = 0f,
-                        Offense = 6,
-                        Speed = 150,
-                        Guts = 0,
-                        Level = 40
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.NotSoDeer
-                    }, true));
-                }
-                else if (b == Button.Two)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 110,
-                        PP = 80,
-                        Meter = 0.4f,
-                        Offense = 16,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 59,
-                        PP = 0,
-                        Meter = 0.58666664f,
-                        Offense = 14,
-                        Guts = int.MaxValue,
-                        Speed = 20
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.Mouse
-                    }, true));
-                }
-                else if (b == Button.Three)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 178,
-                        PP = 80,
-                        Meter = 0.06666667f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 160,
-                        PP = 0,
-                        Meter = 0.7866667f,
-                        Offense = 20,
-                        Speed = 20
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 93,
-                        MaxHP = 120,
-                        PP = 116,
-                        MaxPP = 116,
-                        Meter = 0.44f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.HermitCan,
-                        EnemyType.Flamingo
-                    }, true));
-                }
-                else if (b == Button.Four)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Leo, new StatSet
-                    {
-                        HP = 177,
-                        PP = 209,
-                        Meter = 0.82666665f,
-                        Offense = 20,
-                        Level = 24,
-                        Speed = 40
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.AtomicPowerRobo
-                    }, true));
-                }
-                else if (b == Button.Five)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 290,
-                        PP = 11,
-                        Meter = 0.33333334f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 10
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 213,
-                        PP = 0,
-                        Meter = 0.06666667f,
-                        Offense = 20,
-                        Speed = 20
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 177,
-                        PP = 209,
-                        Meter = 0.97333336f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.MeltyRobot,
-                        EnemyType.MeltyRobot
-                    }, true));
-                }
-                else if (b == Button.Six)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Boss);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 490,
-                        MaxHP = 492,
-                        PP = 7,
-                        MaxPP = 380,
-                        Meter = 0.14666666f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 1,
-                        MaxHP = 460,
-                        PP = 0,
-                        MaxPP = 0,
-                        Meter = 0.93333334f,
-                        Offense = 20,
-                        Speed = 15
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 14,
-                        MaxHP = 380,
-                        PP = 155,
-                        MaxPP = 220,
-                        Meter = 0.04f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 40
-                    });
-                    CharacterStats.SetStats(CharacterType.Leo, new StatSet
-                    {
-                        HP = 199,
-                        MaxHP = 512,
-                        PP = 6,
-                        MaxPP = 180,
-                        Meter = 0.6666667f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.ModernMind
-                    }, false));
-                }
-                else if (b == Button.Seven)
-                {
-                    
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    EnemyType[] array = new EnemyType[Engine.Random.Next(12) + 1];
-                    string[] names = Enum.GetNames(typeof(EnemyType));
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        array[i] = (EnemyType)Enum.Parse(typeof(EnemyType), names[Engine.Random.Next(names.Length - 1) + 1]);
-                    }
-                    SceneManager.Instance.Push(new BattleScene(array, true));
-                }
-                else if (b == Button.Eight)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.Flamingo,
-                        EnemyType.Flamingo
-                    }, true));
-                }
+
+			if (!this.executor.Running)
+			{
+				if (b == Button.One)
+				{
+					throw new Exception("triggered");
+				}
+			}
+			/*else if (b == Button.Two)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 110,
+					PP = 80,
+					Meter = 0.4f,
+					Offense = 16,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 59,
+					PP = 0,
+					Meter = 0.58666664f,
+					Offense = 14,
+					Guts = int.MaxValue,
+					Speed = 20
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.Mouse
+				}, true));
+			}
+			else if (b == Button.Three)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 178,
+					PP = 80,
+					Meter = 0.06666667f,
+					Offense = 20,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 160,
+					PP = 0,
+					Meter = 0.7866667f,
+					Offense = 20,
+					Speed = 20
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 93,
+					MaxHP = 120,
+					PP = 116,
+					MaxPP = 116,
+					Meter = 0.44f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.HermitCan,
+						EnemyType.Flamingo
+				}, true));
+			}
+			else if (b == Button.Four)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Leo, new StatSet
+				{
+					HP = 177,
+					PP = 209,
+					Meter = 0.82666665f,
+					Offense = 20,
+					Level = 24,
+					Speed = 40
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.AtomicPowerRobo
+				}, true));
+			}
+			else if (b == Button.Five)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 290,
+					PP = 11,
+					Meter = 0.33333334f,
+					Offense = 20,
+					Level = 40,
+					Speed = 10
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 213,
+					PP = 0,
+					Meter = 0.06666667f,
+					Offense = 20,
+					Speed = 20
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 177,
+					PP = 209,
+					Meter = 0.97333336f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.MeltyRobot,
+						EnemyType.MeltyRobot
+				}, true));
+			}
+			else if (b == Button.Six)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Boss);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 490,
+					MaxHP = 492,
+					PP = 7,
+					MaxPP = 380,
+					Meter = 0.14666666f,
+					Offense = 20,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 1,
+					MaxHP = 460,
+					PP = 0,
+					MaxPP = 0,
+					Meter = 0.93333334f,
+					Offense = 20,
+					Speed = 15
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 14,
+					MaxHP = 380,
+					PP = 155,
+					MaxPP = 220,
+					Meter = 0.04f,
+					Offense = 20,
+					Level = 40,
+					Speed = 40
+				});
+				CharacterStats.SetStats(CharacterType.Leo, new StatSet
+				{
+					HP = 199,
+					MaxHP = 512,
+					PP = 6,
+					MaxPP = 180,
+					Meter = 0.6666667f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.ModernMind
+				}, false));
+			}
+			else if (b == Button.Seven)
+			{
+
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				EnemyType[] array = new EnemyType[Engine.Random.Next(12) + 1];
+				string[] names = Enum.GetNames(typeof(EnemyType));
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i] = (EnemyType)Enum.Parse(typeof(EnemyType), names[Engine.Random.Next(names.Length - 1) + 1]);
+				}
+				SceneManager.Instance.Push(new BattleScene(array, true));
+			}
+			else if (b == Button.Eight)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.Flamingo,
+						EnemyType.Flamingo
+				}, true));
+			}
                 if (b == Button.Start)
                 {
                     CharacterType[] array2 = PartyManager.Instance.ToArray();

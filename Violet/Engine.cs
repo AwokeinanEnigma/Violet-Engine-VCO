@@ -21,6 +21,7 @@ namespace Violet
 {
     public static class Engine
     {
+        #region Static outward fields 
         public static RenderWindow Window
         {
             get
@@ -49,8 +50,13 @@ namespace Violet
                 return defaultFont;
             }
         }
+
         public static bool Running { get; private set; }
 
+        /// <summary>
+        /// Multiply this by the SCREEN_WIDTH and SCREEN_HEIGHT.
+        /// I.
+        /// </summary>
         public static uint ScreenScale
         {
             get
@@ -64,6 +70,9 @@ namespace Violet
             }
         }
 
+        /// <summary>
+        /// Are we fullscreen?
+        /// </summary>
         public static bool Fullscreen
         {
             get
@@ -102,10 +111,13 @@ namespace Violet
                 return (int)TimeSpan.FromTicks(DateTime.Now.Ticks - startTicks).TotalSeconds;
             }
         }
+        #endregion
 
-        public const string CAPTION = "Mother 4";
-        public const uint TARGET_FRAMERATE = 60U;
+
+        public const string CAPTION = "Voyage Carpe Omnia";
+
         private const decimal REQUIRED_OGL_VERSION = 2.1m;
+
         private static uint frameBufferScale = 2U;
         private static RenderWindow window;
         private static RenderTexture frameBuffer;
@@ -115,8 +127,7 @@ namespace Violet
         private static FontData defaultFont;
         private static Text debugText;
         private static bool quit;
-        private static bool isFullscreen;
-        private static bool switchScreenMode;
+
         private static float fps;
         private static float fpsAverage;
         private static long frameIndex;
@@ -130,8 +141,19 @@ namespace Violet
         public static bool debugDisplay;
         private static Stopwatch frameStopwatch;
 
+        #region Full screen
+        // Are we fullscreen?
+        private static bool isFullscreen;
+        // 
+        private static bool switchScreenMode;
+
+        #endregion
+
         #region  Screen Info
+        // Width of the screen in pixels
         public const uint SCREEN_WIDTH = 320U;
+
+        // Height of the screen in pixels
         public const uint SCREEN_HEIGHT = 180U;
         public const uint HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
         public const uint HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
@@ -140,10 +162,11 @@ namespace Violet
         private const int DOUBLE_CLICK_TIME = 20;
         public static readonly Vector2f SCREEN_SIZE = new Vector2f(320f, 180f);
         public static readonly Vector2f HALF_SCREEN_SIZE = SCREEN_SIZE / 2f;
+
+        public const int TARGET_FRAMERATE = 60;
         #endregion
 
-        public const decimal REQUIREDOPENGLVERSION = 2.1m;
-        public const int FRAME_RATE_LIMIT = 60;
+        public const decimal REQUIRED_OPENGL_VERSION = 2.1m;
 
         /// <summary>
         /// Gets the current OpenGl version
@@ -229,9 +252,9 @@ namespace Violet
             Debug.Initialize();
 
             decimal openGlV = OpenGLVersion();
-            if (openGlV < REQUIREDOPENGLVERSION)
+            if (openGlV < REQUIRED_OPENGL_VERSION)
             {
-                string message = $"OpenGL version {REQUIREDOPENGLVERSION} or higher is required. This system has version {openGlV}.";
+                string message = $"OpenGL version {REQUIRED_OPENGL_VERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
             Debug.LDebug($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
@@ -250,33 +273,42 @@ namespace Violet
         }
         private static void SetWindow(bool goFullscreen, bool vsync)
         {
+            // Kill our current window so we can create a new one
             if (window != null)
             {
+                // Dettach everything from the current window
                 window.Closed -= OnWindowClose;
                 window.MouseMoved -= MouseMoved;
                 InputManager.Instance.DetachFromWindow(window);
+                
+                // Kill it!
                 window.Close();
                 window.Dispose();
             }
+
             float cos = (float)Math.Cos(screenAngle);
             float sin = (float)Math.Sin(screenAngle);
             Styles style;
             VideoMode desktopMode;
+
             if (goFullscreen)
             {
                 style = Styles.Fullscreen;
                 desktopMode = VideoMode.DesktopMode;
+               
                 float fullScreenMin = Math.Min(desktopMode.Width / SCREEN_WIDTH, desktopMode.Height / SCREEN_HEIGHT);
                 float num4 = (desktopMode.Width - SCREEN_WIDTH * fullScreenMin) / 2f;
-                float num5 = (desktopMode.Height - 180f * fullScreenMin) / 2f;
-                int num6 = (int)(160f * fullScreenMin);
-                int num7 = (int)(90f * fullScreenMin);
-                frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + num6, -sin, cos * fullScreenMin, num5 + num7, 0f, 0f, 1f);
+                float num5 = (desktopMode.Height - SCREEN_HEIGHT * fullScreenMin) / 2f;
+             
+                int width = (int)(160f * fullScreenMin);
+                int height = (int)(90f * fullScreenMin);
+                frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
             }
             else
             {
-                int halfWidthScale = (int)(160U * ScreenScale);
-                int halfHeightScale = (int)(90U * ScreenScale);
+
+                int halfWidthScale = (int)(HALF_SCREEN_WIDTH * ScreenScale);
+                int halfHeightScale = (int)(HALF_SCREEN_HEIGHT * ScreenScale);
                 style = Styles.Close;
                 desktopMode = new VideoMode(SCREEN_WIDTH * frameBufferScale, SCREEN_HEIGHT * frameBufferScale);
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);
@@ -292,13 +324,13 @@ namespace Violet
 
             if (vsync || goFullscreen)
             {
-                window.SetFramerateLimit(FRAME_RATE_LIMIT);
+                window.SetFramerateLimit(TARGET_FRAMERATE);
 
                 //window.SetVerticalSyncEnabled(true);
             }
             else
             {
-                window.SetFramerateLimit(FRAME_RATE_LIMIT);
+                window.SetFramerateLimit(TARGET_FRAMERATE);
             
             }
             
@@ -397,6 +429,7 @@ namespace Violet
                     return;
                 case Violet.Input.Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
+                    Debug.LInfo($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
                 case Violet.Input.Button.F8:
@@ -446,21 +479,30 @@ namespace Violet
                 cursorTimer = long.MaxValue;
             }
 
-            
+            // This is wrapped in a try catch statement to detect errors and such.
 			try
 			{
+                // Update our audio as soon as possible
                 AudioManager.Instance.Update();
+                
+                // This makes input and other events from the window work
                 window.DispatchEvents();
 
+                // Update cruciel game classes
                 UpdateInstances();
 
+                // OpenGL shit, we have to clear our frame buffer before we can draw to it
                 frameBuffer.Clear(ClearColor);
+
+                //Finally, draw our scene.
                 SceneManager.Instance.Draw();
             }
+            // If we catch an empty stack exception, we just quit. This is because there's no next scene to go to, the game is finished!
 			catch (EmptySceneStackException)
 			{
 				quit = true;
 			}
+            // If the exception is NOT an empty scene stack exception, we'll go to the error scene.
 			catch (Exception ex)
 			{
                 SceneManager.Instance.AbortTransition();
@@ -473,9 +515,12 @@ namespace Violet
             {
                 if (frameIndex % 10L == 0L)
                 {
+                    megabytesUsed = (GC.GetTotalMemory(true) / 1024L);
+                    megabytesUsed *= 0.001;
                     fpsString.Clear();
                     fpsString.AppendFormat("GC: {0:D5} KB\n", GC.GetTotalMemory(false) / 1024L);
                     fpsString.AppendFormat("FGC: {0:D5} KB\n", GC.GetTotalMemory(true) / 1024L);
+                    fpsString.Append($"MGC: {megabytesUsed}MB\n");
                     fpsString.AppendFormat("FPS: {0:F1}", fpsAverage);
                     debugText.DisplayedString = fpsString.ToString();
                 }
@@ -491,6 +536,7 @@ namespace Violet
             fpsAverage = (fpsAverage + fps) / 2f;
             frameIndex += 1L;
         }
+        public static double megabytesUsed;
         public static void SetWindowIcon(string file)
         {
             if (File.Exists(file))

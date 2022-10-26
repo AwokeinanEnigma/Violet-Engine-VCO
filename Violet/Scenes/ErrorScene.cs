@@ -21,15 +21,19 @@ namespace Violet.Scenes
             this.pressenter = new TextRegion(new Vector2f(16f, 48f), 0, Engine.DefaultFont, "Press Enter/Start to exit.");
             this.exceptionDetails = new TextRegion(new Vector2f(16f, 80f), 0, Engine.DefaultFont, string.Format("{0}\nSee error.log for more details.", ex.Message));
             //todo - change this to a nonpersistant path
-            IndexedColorGraphic graphic = new IndexedColorGraphic($"C:\\Users\\Tom\\source\\repos\\SunsetRhapsody\\SunsetRhapsody\\bin\\Release\\Resources\\Graphics\\whoops.dat", "whoops", new Vector2f(160, 90), 100);
+            //IndexedColorGraphic graphic = new IndexedColorGraphic($"C:\\Users\\Tom\\source\\repos\\SunsetRhapsody\\SunsetRhapsody\\bin\\Release\\Resources\\Graphics\\whoops.dat", "whoops", new Vector2f(160, 90), 100);
             this.pipeline = new RenderPipeline(Engine.FrameBuffer);
-            pipeline.Add(graphic);
+            //pipeline.Add(graphic);
+
+
             this.pipeline.Add(this.title);
             this.pipeline.Add(this.message);
             this.pipeline.Add(this.pressenter);
             this.pipeline.Add(this.exceptionDetails);
 
             Debug.DumpLogs();
+            TextureManager.Instance.DumpEveryLoadedTexture();
+            TextureManager.Instance.DumpLoadedTextures();
         }
 
         public override void Focus()
