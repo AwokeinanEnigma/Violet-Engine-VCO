@@ -932,6 +932,7 @@ namespace VCO.Scenes
 					{
 						this.iris.Dispose();
 					}
+					Debug.LInfo("i'm DISPOOOOOOOOOOOOOOOOSING!");
 				}
 				this.actorManager = null;
 				this.mapGroups = null;

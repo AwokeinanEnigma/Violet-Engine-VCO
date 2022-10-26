@@ -13,6 +13,9 @@ namespace Violet.Collision
     /// </summary>
     public class CollisionManager
     {
+        private SpatialHash spatialHash;
+        private Stack<ICollidable> resultStack;
+        private List<ICollidable> resultList;
         public CollisionManager(int width, int height)
         {
             this.spatialHash = new SpatialHash(width, height);
@@ -243,14 +246,5 @@ namespace Violet.Collision
         {
             this.spatialHash.DebugDraw(target);
         }
-
-        // Token: 0x0400004B RID: 75
-        private SpatialHash spatialHash;
-
-        // Token: 0x0400004C RID: 76
-        private Stack<ICollidable> resultStack;
-
-        // Token: 0x0400004D RID: 77
-        private List<ICollidable> resultList;
     }
 }
