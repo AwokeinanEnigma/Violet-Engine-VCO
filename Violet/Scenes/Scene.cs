@@ -44,6 +44,7 @@ namespace Violet.Scenes
         public void Dispose()
         {
             this.Dispose(true);
+            //GC.Collect();
             GC.SuppressFinalize(this);
         }
 

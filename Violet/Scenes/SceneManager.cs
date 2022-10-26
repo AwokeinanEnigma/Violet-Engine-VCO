@@ -195,7 +195,7 @@ namespace Violet.Scenes
                 {
                     Debug.LDebug($"cleaning, pre:{GC.GetTotalMemory(false) / 1024L }");
                     TextureManager.Instance.Purge();
-                    GC.Collect();
+                    
                     Debug.LDebug($"cleaned, post:{GC.GetTotalMemory(false) / 1024L }");
                     this.cleanupFlag = true;
                     return;

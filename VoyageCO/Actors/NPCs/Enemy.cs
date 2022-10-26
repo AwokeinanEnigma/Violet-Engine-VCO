@@ -111,6 +111,7 @@ namespace VCO.Actors.NPCs
             base.HandleCollision(collisionObjects);
             if (!Snipped)
             {
+				/*
                 if (OverworldScene.instance != null && collisionObjects.Length > 0)
                 {
                     if (collisionObjects[0] is Player && hasEnteredBattle != true)
@@ -120,7 +121,7 @@ namespace VCO.Actors.NPCs
                         hasEnteredBattle = true;
 
                     }
-                }
+                }*/
 
             }
             /*if (collisionObjects[0] is EnemyNPC)

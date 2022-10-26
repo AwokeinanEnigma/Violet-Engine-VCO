@@ -77,26 +77,11 @@ namespace Violet.Tiles
 
         public int GetTileId(Vector2f location)
         {
-            try
-            {
-                Vector2f vector2f = location - this.position + this.origin;
-                Debug.LInfo("got position");
-                uint num = (uint)(vector2f.X / 8f + vector2f.Y / 8f);// * (this.size.X / 8f));
-
-                int number = (int)(UIntPtr)(num);
-                Debug.LInfo($"num is {number}. vertices is {vertices.Length}");
-
-                Vertex vertex = this.vertices[number];
-                Debug.LInfo("got vertex");
-                Vector2f texCoords = vertex.TexCoords;
-                Debug.LInfo("got coords");
-
-                return (int)(texCoords.X / 8f + texCoords.Y / 8f * (this.tileset.Image.Size.X / 8U));
-            }
-            catch (Exception ex) {
-                Debug.LError(ex, false);
-                return 0;
-            }
+            Vector2f vector2f = location - this.position + this.origin;
+            uint num = (uint)(vector2f.X / 8f + vector2f.Y / 8f * (this.size.X / 8f));
+            Vertex vertex = this.vertices[(int)((UIntPtr)(num * 4U))];
+            Vector2f texCoords = vertex.TexCoords;
+            return (int)(texCoords.X / 8f + texCoords.Y / 8f * (this.tileset.Image.Size.X / 8U));
         }
 
         private void IDToTexCoords(uint id, out uint tx, out uint ty)
@@ -124,7 +109,7 @@ namespace Violet.Tiles
                     }
                     else
                     {
-                        Debug.LError($"Tried to load tile animation data for animation {num}, but there was no tile data.", false);
+                        Console.WriteLine("Tried to load tile animation data for animation {0}, but there was no tile data.", num);
                     }
                 }
             }
@@ -141,7 +126,7 @@ namespace Violet.Tiles
                 }
                 catch (Exception ex)
                 {
-                    Debug.LError($"{ index } was outside range of the array! Error: {ex}", false);
+                    Console.WriteLine($"{ index } was outside range of the array! Error: {ex}");
                     int num = tile.AnimationId;
                     this.animations[num].VertIndexes.Add(index);
                 }
