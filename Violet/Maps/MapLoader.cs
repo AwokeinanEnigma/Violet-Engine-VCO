@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Violet.Maps.MapLoader
-// Assembly: Violet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 9929100E-21E2-4663-A88C-1F977D6B46C4
-// Assembly location: D:\OddityPrototypes\Violet.dll
-
-using fNbt;
+﻿using fNbt;
 using SFML.Graphics;
 using SFML.System;
 using System;
@@ -78,61 +72,55 @@ namespace Violet.Maps
 
         private static void LoadHeader(Map map, NbtCompound mapTag)
         {
-            NbtCompound nbtCompound1 = mapTag.Get<NbtCompound>("head");
-            Color color1 = ColorHelper.FromInt(nbtCompound1.Get<NbtInt>("color").Value);
-            Color color2 = color1;
-            try
+            NbtCompound nbtCompound = mapTag.Get<NbtCompound>("head");
+            NbtInt nbtInt = nbtCompound.Get<NbtInt>("color");
+            Color color = ColorHelper.FromInt(nbtInt.Value);
+            NbtInt nbtInt2 = nbtCompound.Get<NbtInt>("nColor");
+            Color secondaryColor = color;
+            if (nbtInt2 != null)
             {
-                NbtInt nbtInt1 = nbtCompound1.Get<NbtInt>("nColor");
-                if (nbtInt1 != null)
-                {
-                    color2 = ColorHelper.FromInt(nbtInt1.Value);
-                }
+                secondaryColor = ColorHelper.FromInt(nbtInt2.Value);
             }
-            catch (Exception)
-            {
-                Console.WriteLine($"{map.Head.Subtitle} was null. Who gives a flying fuck?");
-            }
-
-            NbtString nbtString1 = nbtCompound1.Get<NbtString>("title");
-            NbtString nbtString2 = nbtCompound1.Get<NbtString>("subtitle");
-            NbtInt nbtInt2 = nbtCompound1.Get<NbtInt>("width");
-            NbtInt nbtInt3 = nbtCompound1.Get<NbtInt>("height");
-            NbtList nbtList = nbtCompound1.Get<NbtList>("tilesets");
-            List<Map.Tileset> tilesetList = new List<Map.Tileset>();
+            NbtString nbtString = nbtCompound.Get<NbtString>("title");
+            NbtString nbtString2 = nbtCompound.Get<NbtString>("subtitle");
+            NbtInt nbtInt3 = nbtCompound.Get<NbtInt>("width");
+            NbtInt nbtInt4 = nbtCompound.Get<NbtInt>("height");
+            NbtList nbtList = nbtCompound.Get<NbtList>("tilesets");
+            List<Map.Tileset> list = new List<Map.Tileset>();
             if (nbtList != null)
             {
-                foreach (NbtCompound nbtCompound2 in nbtList)
+                foreach (NbtTag nbtTag in nbtList)
                 {
-                    Map.Tileset tileset = new Map.Tileset()
+                    NbtCompound nbtCompound2 = (NbtCompound)nbtTag;
+                    Map.Tileset item = new Map.Tileset
                     {
                         Name = nbtCompound2.Get<NbtString>("ts").Value,
                         FirstId = nbtCompound2.Get<NbtInt>("tid").Value
                     };
-                    tilesetList.Add(tileset);
+                    list.Add(item);
                 }
             }
-            NbtString nbtString3 = nbtCompound1.Get<NbtString>("script");
-            string str1 = nbtString3 == null ? null : nbtString3.StringValue;
-            NbtString nbtString4 = nbtCompound1.Get<NbtString>("bbg");
-            string str2 = nbtString4 == null ? null : nbtString4.StringValue;
-            NbtByte nbtByte1 = nbtCompound1.Get<NbtByte>("shdw");
-            bool flag1 = nbtByte1 == null || nbtByte1.Value != 0;
-            NbtByte nbtByte2 = nbtCompound1.Get<NbtByte>("ocn");
-            bool flag2 = nbtByte2 != null && nbtByte2.Value != 0;
-            map.Head = new Map.Header()
+            NbtString nbtString3 = nbtCompound.Get<NbtString>("script");
+            string script = (nbtString3 == null) ? null : nbtString3.StringValue;
+            NbtString nbtString4 = nbtCompound.Get<NbtString>("bbg");
+            string bbg = (nbtString4 == null) ? null : nbtString4.StringValue;
+            NbtByte nbtByte = nbtCompound.Get<NbtByte>("shdw");
+            bool shadows = nbtByte == null || nbtByte.Value != 0;
+            NbtByte nbtByte2 = nbtCompound.Get<NbtByte>("ocn");
+            bool ocean = nbtByte2 != null && nbtByte2.Value != 0;
+            map.Head = new Map.Header
             {
-                PrimaryColor = color1,
-                SecondaryColor = color2,
-                Title = nbtString1.Value,
+                PrimaryColor = color,
+                SecondaryColor = secondaryColor,
+                Title = nbtString.Value,
                 Subtitle = nbtString2.Value,
-                Width = nbtInt2.Value,
-                Height = nbtInt3.Value,
-                Tilesets = tilesetList,
-                Script = str1,
-                BBG = str2,
-                Shadows = flag1,
-                Ocean = flag2
+                Width = nbtInt3.Value,
+                Height = nbtInt4.Value,
+                Tilesets = list,
+                Script = script,
+                BBG = bbg,
+                Shadows = shadows,
+                Ocean = ocean
             };
         }
 

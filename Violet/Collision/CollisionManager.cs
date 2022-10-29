@@ -61,6 +61,15 @@ namespace Violet.Collision
 
         }
 
+        public void Purge()
+        {
+            collidables.ForEach(x => spatialHash.Remove(x));
+            //collidables.ForEach(x => x.Mesh.Destroy());
+            collidables.Clear();
+            collidables = null;
+            spatialHash = null;
+        }
+
         public void Filter()
         {
             var itemToRemove = collidables.FindAll(r => r == null);

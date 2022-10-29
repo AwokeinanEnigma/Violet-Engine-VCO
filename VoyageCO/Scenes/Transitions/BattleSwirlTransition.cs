@@ -36,9 +36,18 @@ namespace VCO.Scenes.Transitions
 			}
 		}
 
+		
 		public bool Blocking { get; set; }
 
+		private BattleSwirlOverlay.Style style;
+
 		public BattleSwirlTransition(BattleSwirlOverlay.Style style)
+		{
+			this.style = style;
+			Initialize();
+		}
+
+		private void Initialize()
 		{
 			this.overlay = new BattleSwirlOverlay(style, 0, 0.015f);
 			this.overlay.OnAnimationComplete += this.overlay_OnAnimationComplete;
@@ -103,8 +112,14 @@ namespace VCO.Scenes.Transitions
 
 		public void Reset()
 		{
+			// Initialize();
 			this.overlay.Reset();
 		}
+
+        public void Destroy()
+        {
+			Array.Clear(fadeVerts, 0, fadeVerts.Length);
+			fadeVerts = null;		}
 
 		private const float SWIRL_SPEED = 0.015f;
 

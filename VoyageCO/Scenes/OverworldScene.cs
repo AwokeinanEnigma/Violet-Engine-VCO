@@ -30,7 +30,7 @@ using Violet.Utility;
 
 namespace VCO.Scenes
 {
-	internal class OverworldScene : StandardScene
+    internal class OverworldScene : StandardScene
 	{
 		public ScreenDimmer Dimmer
 		{
@@ -57,7 +57,7 @@ namespace VCO.Scenes
 		}
 		private ICollidable[] collisionResults;
 
-		public static OverworldScene instance;
+        public static OverworldScene instance;
 
 		public OverworldScene(string mapName, Vector2f initialPosition, int initialDirection, bool initialRunning, bool extendParty, bool enableLoadScripts)
 		{
@@ -98,6 +98,7 @@ namespace VCO.Scenes
 			if (this.initialized && this.mapGroups.Count > 0)
 			{
 				this.mapGroups[0].Tileset.CurrentPalette = (uint)tilesetPalette;
+				
 			}
 		}
 
@@ -225,249 +226,237 @@ namespace VCO.Scenes
 				Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
 			}
 
-			if (!executor.Running)
-			{
-
-
-				if (b == Button.A)
-				{
-					this.HandleCheckAction(false);
-					return;
+            if (!executor.Running)
+            {
+				if (b == Button.F6) {
+					rainOverlay = new RainOverlay();
 				}
-				if (b == Button.Start)
-				{
-					CharacterType[] array2 = PartyManager.Instance.ToArray();
-					foreach (CharacterType key in array2)
-					{
-						Inventory inventory = InventoryManager.Instance.Get(key);
-						int num = Engine.Random.Next(14);
-						for (int k = 0; k < num; k++)
-						{
-							Item item = new Item(false);
-							item.Set("name", "Test item " + (k + 1));
-							inventory.Add(item);
-						}
-					}
-					this.dontPauseMusic = true;
-					this.openingMenu = true;
-					MenuScene newScene = new MenuScene();
-					SceneManager.Instance.Transition = new InstantTransition();
-					SceneManager.Instance.Push(newScene);
-					return;
-				}
+
+                if (b == Button.A)
+                {
+                    this.HandleCheckAction(false);
+                    return;
+                }
+                if (b == Button.Start)
+                {
+                    CharacterType[] array2 = PartyManager.Instance.ToArray();
+                    foreach (CharacterType key in array2)
+                    {
+                        Inventory inventory = InventoryManager.Instance.Get(key);
+                        int num = Engine.Random.Next(14);
+                        for (int k = 0; k < num; k++)
+                        {	
+                            Item item = new Item(false);
+                            item.Set("name", "Test item " + (k + 1));
+                            inventory.Add(item);
+                        }
+                    }
+                    this.dontPauseMusic = true;
+                    this.openingMenu = true;
+                    MenuScene newScene = new MenuScene();
+                    SceneManager.Instance.Transition = new InstantTransition();
+                    SceneManager.Instance.Push(newScene);
+                    return;
+                }
 			}
 
-			/*
-            if (!this.executor.Running)
-            {	
-                if (b == Button.One)
-                {
-                    
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 89,
-                        PP = 35,
-                        Meter = 0f,
-                        Offense = 6,
-                        Speed = 150,
-                        Guts = 0,
-                        Level = 40
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.NotSoDeer
-                    }, true));
-                }
-                else if (b == Button.Two)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 110,
-                        PP = 80,
-                        Meter = 0.4f,
-                        Offense = 16,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 59,
-                        PP = 0,
-                        Meter = 0.58666664f,
-                        Offense = 14,
-                        Guts = int.MaxValue,
-                        Speed = 20
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.Mouse
-                    }, true));
-                }
-                else if (b == Button.Three)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 178,
-                        PP = 80,
-                        Meter = 0.06666667f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 160,
-                        PP = 0,
-                        Meter = 0.7866667f,
-                        Offense = 20,
-                        Speed = 20
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 93,
-                        MaxHP = 120,
-                        PP = 116,
-                        MaxPP = 116,
-                        Meter = 0.44f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.HermitCan,
-                        EnemyType.Flamingo
-                    }, true));
-                }
-                else if (b == Button.Four)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Leo, new StatSet
-                    {
-                        HP = 177,
-                        PP = 209,
-                        Meter = 0.82666665f,
-                        Offense = 20,
-                        Level = 24,
-                        Speed = 40
-                    });
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.AtomicPowerRobo
-                    }, true));
-                }
-                else if (b == Button.Five)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 290,
-                        PP = 11,
-                        Meter = 0.33333334f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 10
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 213,
-                        PP = 0,
-                        Meter = 0.06666667f,
-                        Offense = 20,
-                        Speed = 20
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 177,
-                        PP = 209,
-                        Meter = 0.97333336f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.MeltyRobot,
-                        EnemyType.MeltyRobot
-                    }, true));
-                }
-                else if (b == Button.Six)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Boss);
-                    CharacterStats.SetStats(CharacterType.Travis, new StatSet
-                    {
-                        HP = 490,
-                        MaxHP = 492,
-                        PP = 7,
-                        MaxPP = 380,
-                        Meter = 0.14666666f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 5
-                    });
-                    CharacterStats.SetStats(CharacterType.Floyd, new StatSet
-                    {
-                        HP = 1,
-                        MaxHP = 460,
-                        PP = 0,
-                        MaxPP = 0,
-                        Meter = 0.93333334f,
-                        Offense = 20,
-                        Speed = 15
-                    });
-                    CharacterStats.SetStats(CharacterType.Meryl, new StatSet
-                    {
-                        HP = 14,
-                        MaxHP = 380,
-                        PP = 155,
-                        MaxPP = 220,
-                        Meter = 0.04f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 40
-                    });
-                    CharacterStats.SetStats(CharacterType.Leo, new StatSet
-                    {
-                        HP = 199,
-                        MaxHP = 512,
-                        PP = 6,
-                        MaxPP = 180,
-                        Meter = 0.6666667f,
-                        Offense = 20,
-                        Level = 40,
-                        Speed = 30
-                    });
-                    
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.ModernMind
-                    }, false));
-                }
-                else if (b == Button.Seven)
-                {
-                    
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    EnemyType[] array = new EnemyType[Engine.Random.Next(12) + 1];
-                    string[] names = Enum.GetNames(typeof(EnemyType));
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        array[i] = (EnemyType)Enum.Parse(typeof(EnemyType), names[Engine.Random.Next(names.Length - 1) + 1]);
-                    }
-                    SceneManager.Instance.Push(new BattleScene(array, true));
-                }
-                else if (b == Button.Eight)
-                {
-                    SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-                    SceneManager.Instance.Push(new BattleScene(new EnemyType[]
-                    {
-                        EnemyType.Flamingo,
-                        EnemyType.Flamingo
-                    }, true));
-                }
+
+			if (!this.executor.Running)
+			{
+				if (b == Button.One)
+				{
+					throw new Exception("triggered");
+				}
+			}
+			/*else if (b == Button.Two)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 110,
+					PP = 80,
+					Meter = 0.4f,
+					Offense = 16,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 59,
+					PP = 0,
+					Meter = 0.58666664f,
+					Offense = 14,
+					Guts = int.MaxValue,
+					Speed = 20
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.Mouse
+				}, true));
+			}
+			else if (b == Button.Three)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 178,
+					PP = 80,
+					Meter = 0.06666667f,
+					Offense = 20,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 160,
+					PP = 0,
+					Meter = 0.7866667f,
+					Offense = 20,
+					Speed = 20
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 93,
+					MaxHP = 120,
+					PP = 116,
+					MaxPP = 116,
+					Meter = 0.44f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.HermitCan,
+						EnemyType.Flamingo
+				}, true));
+			}
+			else if (b == Button.Four)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Leo, new StatSet
+				{
+					HP = 177,
+					PP = 209,
+					Meter = 0.82666665f,
+					Offense = 20,
+					Level = 24,
+					Speed = 40
+				});
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.AtomicPowerRobo
+				}, true));
+			}
+			else if (b == Button.Five)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 290,
+					PP = 11,
+					Meter = 0.33333334f,
+					Offense = 20,
+					Level = 40,
+					Speed = 10
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 213,
+					PP = 0,
+					Meter = 0.06666667f,
+					Offense = 20,
+					Speed = 20
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 177,
+					PP = 209,
+					Meter = 0.97333336f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.MeltyRobot,
+						EnemyType.MeltyRobot
+				}, true));
+			}
+			else if (b == Button.Six)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Boss);
+				CharacterStats.SetStats(CharacterType.Travis, new StatSet
+				{
+					HP = 490,
+					MaxHP = 492,
+					PP = 7,
+					MaxPP = 380,
+					Meter = 0.14666666f,
+					Offense = 20,
+					Level = 40,
+					Speed = 5
+				});
+				CharacterStats.SetStats(CharacterType.Floyd, new StatSet
+				{
+					HP = 1,
+					MaxHP = 460,
+					PP = 0,
+					MaxPP = 0,
+					Meter = 0.93333334f,
+					Offense = 20,
+					Speed = 15
+				});
+				CharacterStats.SetStats(CharacterType.Meryl, new StatSet
+				{
+					HP = 14,
+					MaxHP = 380,
+					PP = 155,
+					MaxPP = 220,
+					Meter = 0.04f,
+					Offense = 20,
+					Level = 40,
+					Speed = 40
+				});
+				CharacterStats.SetStats(CharacterType.Leo, new StatSet
+				{
+					HP = 199,
+					MaxHP = 512,
+					PP = 6,
+					MaxPP = 180,
+					Meter = 0.6666667f,
+					Offense = 20,
+					Level = 40,
+					Speed = 30
+				});
+
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.ModernMind
+				}, false));
+			}
+			else if (b == Button.Seven)
+			{
+
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				EnemyType[] array = new EnemyType[Engine.Random.Next(12) + 1];
+				string[] names = Enum.GetNames(typeof(EnemyType));
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i] = (EnemyType)Enum.Parse(typeof(EnemyType), names[Engine.Random.Next(names.Length - 1) + 1]);
+				}
+				SceneManager.Instance.Push(new BattleScene(array, true));
+			}
+			else if (b == Button.Eight)
+			{
+				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+				SceneManager.Instance.Push(new BattleScene(new EnemyType[]
+				{
+						EnemyType.Flamingo,
+						EnemyType.Flamingo
+				}, true));
+			}
                 if (b == Button.Start)
                 {
                     CharacterType[] array2 = PartyManager.Instance.ToArray();
@@ -522,9 +511,8 @@ namespace VCO.Scenes
 		private void Initialize()
 		{
 			int colorIndex = 1;
-			instance = this;
 			ViewManager.Instance.Reset();
-			AllEnemyNpcs = new List<EnemyNPC>();
+            AllEnemyNpcs = new List<EnemyNPC>();
 			this.screenDimmer = new ScreenDimmer(this.pipeline, Color.Transparent, 0, 2147450870);
 			this.footstepPlayer = new FootstepPlayer();
 			this.textbox = new TextBox(this.pipeline, colorIndex);
@@ -570,6 +558,8 @@ namespace VCO.Scenes
 			}
 			bool flag = FlagManager.Instance[1];
 			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS, flag ? 1U : 0U);
+			
+
 			this.pipeline.AddAll<TileGroup>(this.mapGroups);
 			this.backColor = (flag ? map.Head.SecondaryColor : map.Head.PrimaryColor);
 			ExecutionContext context = new ExecutionContext
@@ -625,6 +615,12 @@ namespace VCO.Scenes
 			this.initialized = true;
 		}
 
+		public void FindTile(Vector2f vector2F) {
+			foreach (TileGroup group in mapGroups) {
+				group.GetTileId(vector2F);
+			}
+			
+		}
 		public override void Focus()
 		{
 			base.Focus();
@@ -648,8 +644,8 @@ namespace VCO.Scenes
 			if (this.battleEnemies != null)
 			{
 				this.player.MovementLocked = false;
-				battleEnemies.ForEach(x => this.collisionManager.Remove(x));
-				battleEnemies.ForEach(x => this.actorManager.Remove(x));
+                battleEnemies.ForEach(x => this.collisionManager.Remove(x));
+                battleEnemies.ForEach(x => this.actorManager.Remove(x));
 				/*foreach (EnemyNPC enemy in this.battleEnemies)
 				{
 					this.collisionManager.Remove(enemy, false);
@@ -660,8 +656,8 @@ namespace VCO.Scenes
                     //this.collisionManager.Update(enemy, enemy.Position, enemy.Position);
 				}*/
 
-				battleEnemies = null;
-			}
+                battleEnemies = null;
+            }
 			/*if (FlagManager.Instance[3])
 			{
 				this.HandleCheckAction(true);
@@ -733,82 +729,82 @@ namespace VCO.Scenes
 					collidable.Solid = false;
 					return;
 				}
-			}
+            }
 		}
 
-		public List<EnemyNPC> AllEnemyNpcs;
-		public void StartBattle(EnemyNPC npc)
-		{
-			List<EnemyNPC> PullNearbyEnemies()
-			{
+        public List<EnemyNPC> AllEnemyNpcs;
+        public void StartBattle(EnemyNPC npc)
+        {
+            List<EnemyNPC> PullNearbyEnemies()
+            {
 
 
-				return null;
-			}
+                return null;
+            }
 
-			if (battleEnemies == null || battleEnemies.Count <= 0)
-			{
-				EnemyNPC enemy = npc;
-				enemy.MovementLocked = true;
-				enemy.FreezeSpriteForever();
-
-				List<EnemyNPC> nearby = new List<EnemyNPC>();
-				// nearby.AddRange(PullNearbyEnemies());
+            if (battleEnemies == null  || battleEnemies.Count<=0)
+            {
+                EnemyNPC enemy = npc;
+                enemy.MovementLocked = true;
+                enemy.FreezeSpriteForever();
+                    
+                List<EnemyNPC> nearby = new List<EnemyNPC>();
+                // nearby.AddRange(PullNearbyEnemies());
 				//allEnemyNpcs.Add(npc);
 				foreach (var _npc in AllEnemyNpcs)
-				{
+                {
 
-					if (VectorMath.Magnitude(ViewManager.Instance.FollowActor.Position - npc.Position) < 100 && _npc != npc)
-					{
+                    if (VectorMath.Magnitude(ViewManager.Instance.FollowActor.Position - npc.Position) < 100 && _npc != npc)
+                    {
 
-						nearby.Add(_npc);
+                        nearby.Add(_npc);
 						_npc.Snip();
-					}
-				}
+                    }
+                }
 				List<EnemyData> allEnemyDatas = new List<EnemyData>();
-				nearby.ForEach(x => allEnemyDatas.Add(x.Type));
+                nearby.ForEach(x => allEnemyDatas.Add(x.Type));
 
 
 				this.battleEnemies = new List<EnemyNPC>();
 
-				battleEnemies.Add(enemy);
-				battleEnemies.AddRange(nearby);
+                battleEnemies.Add(enemy);
+                battleEnemies.AddRange(nearby);
 
 				List<EnemyData> aaa = new List<EnemyData>();
-				aaa.Add(enemy.Type);
-				aaa.AddRange(allEnemyDatas);
+                aaa.Add(enemy.Type);
+                aaa.AddRange(allEnemyDatas);
 
-				Console.BackgroundColor = ConsoleColor.Red;
-				Console.ForegroundColor = ConsoleColor.Yellow;
-				Console.WriteLine($"Enemy specific data time!"
-								  +
-								  Environment.NewLine
-								  +
-								  $"enemy: {enemy} " + Environment.NewLine
-								  +
-								  $"nearby length: {nearby.Count} " + Environment.NewLine
-								  +
-								  $"allEnemyDatas length: {allEnemyDatas.Count} " + Environment.NewLine
-								  +
-								  $"battleEnemies length: {battleEnemies.Count} " + Environment.NewLine
-								  +
-								  $"aaa length: {aaa.Count} " + Environment.NewLine
-				//        +
-				//         $"allEnemyDatas length: {allEnemyDatas.Count} " + Environment.NewLine
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+				Console.WriteLine($"Enemy specific data time!" 
+                                  + 
+                                  Environment.NewLine 
+                                  +
+                                  $"enemy: {enemy} "  + Environment.NewLine
+                                  + 
+                                  $"nearby length: {nearby.Count} " + Environment.NewLine
+                                  + 
+                                  $"allEnemyDatas length: {allEnemyDatas.Count} " + Environment.NewLine
+                                  + 
+                                  $"battleEnemies length: {battleEnemies.Count} " + Environment.NewLine
+                                  + 
+                                  $"aaa length: {aaa.Count} " + Environment.NewLine
+                         //        +
+                         //         $"allEnemyDatas length: {allEnemyDatas.Count} " + Environment.NewLine
 
 
 				);
 				Console.ResetColor();
-				//this.battleEnemies.AddRange(enemy);
-				this.player.MovementLocked = true;
-				this.musicPosition = AudioManager.Instance.BGM.Position;
-				Violet.Audio.AudioManager.Instance.BGM.Stop();
-				this.battleStartSound.Play();
-				SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
-				SceneManager.Instance.Push(new BattleScene(aaa.ToArray(), true));
-				return;
-			}
-		}
+                //this.battleEnemies.AddRange(enemy);
+                this.player.MovementLocked = true;
+                this.musicPosition = AudioManager.Instance.BGM.Position;
+                Violet.Audio.AudioManager.Instance.BGM.Stop();
+                this.battleStartSound.Play();
+                SceneManager.Instance.Transition = new BattleSwirlTransition(BattleSwirlOverlay.Style.Blue);
+                SceneManager.Instance.Push(new BattleScene(aaa.ToArray(), true));
+                return;
+            }
+        }
 		public override void Unfocus()
 		{
 			base.Unfocus();
@@ -857,8 +853,8 @@ namespace VCO.Scenes
 					{
 						this.actorManager.AddAll<EnemyNPC>(list.ToArray());
 						this.collisionManager.AddAll<EnemyNPC>(list);
-						list.ForEach(x => AllEnemyNpcs.Add(x));
-					}
+                        list.ForEach(x=> AllEnemyNpcs.Add(x));
+                    }
 				}
 				else
 				{
@@ -880,7 +876,7 @@ namespace VCO.Scenes
 				this.UpdateSpawners();
 				this.screenDimmer.Update();
 				this.executor.Execute();
-				collisionManager.Filter();
+               // collisionManager.Filter();
 
 			}
 		}
@@ -920,17 +916,16 @@ namespace VCO.Scenes
 					this.actorManager.ClearActors();
 					foreach (TileGroup tileGroup2 in this.mapGroups)
 					{
-						tileGroup2.Dispose();
+						tileGroup2.Dispose();	
 					}
 					foreach (ParallaxBackground parallaxBackground in this.parallaxes)
 					{
 						parallaxBackground.Dispose();
 					}
 					this.screenDimmer.Dispose();
-					// this.letterboxing.Dispose();
 					this.textbox.Dispose();
 					this.footstepPlayer.Dispose();
-					this.pipeline.Clear();
+					this.pipeline.Clear(true);
 					if (this.iris != null)
 					{
 						this.iris.Dispose();
@@ -940,9 +935,9 @@ namespace VCO.Scenes
 				this.mapGroups = null;
 				this.parallaxes = null;
 				this.screenDimmer = null;
-				//this.letterboxing = null;
 				this.textbox = null;
 				this.pipeline = null;
+				collisionManager.Purge();
 				this.collisionManager = null;
 				this.footstepPlayer = null;
 				this.player.OnCollision -= this.OnPlayerCollision;

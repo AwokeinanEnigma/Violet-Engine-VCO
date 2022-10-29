@@ -127,6 +127,10 @@ namespace Violet.Graphics
                 }
             }
             this.renderablesToAdd.Clear();
+
+            renderablesToRemove = null;
+            renderables = null;
+            renderablesToAdd = null;
         }
         public void Draw()
         {

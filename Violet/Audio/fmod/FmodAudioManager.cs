@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Violet.Audio.fmod.FmodAudioManager
-// Assembly: Violet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 9929100E-21E2-4663-A88C-1F977D6B46C4
-// Assembly location: D:\OddityPrototypes\Violet.dll
-
-using FMOD;
+﻿using FMOD;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;

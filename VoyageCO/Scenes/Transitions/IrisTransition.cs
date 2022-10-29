@@ -86,7 +86,11 @@ namespace VCO.Scenes.Transitions
 			this.overlay.Progress = 1f;
 		}
 
-		private bool isComplete;
+        public void Destroy()
+        {
+        }
+
+        private bool isComplete;
 
 		private float progress;
 

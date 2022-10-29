@@ -19,6 +19,9 @@ using Violet.Utility;
 
 namespace Violet
 {
+    /// <summary>
+    /// "You must be ahead to quit. Too many people quit when they’re behind instead of attempting to get ahead. Failure!"
+    /// </summary>
     public static class Engine
     {
         #region Static outward fields 
@@ -515,12 +518,12 @@ namespace Violet
             {
                 if (frameIndex % 10L == 0L)
                 {
-                    //megabytesUsed = (GC.GetTotalMemory(true) / 1024L);
-                    //megabytesUsed *= 0.001;
+                    megabytesUsed = (GC.GetTotalMemory(true) / 1024L);
+                    megabytesUsed *= 0.001;
                     fpsString.Clear();
                     fpsString.AppendFormat("GC: {0:D5} KB\n", GC.GetTotalMemory(false) / 1024L);
                    // fpsString.AppendFormat("FGC: {0:D5} KB\n", GC.GetTotalMemory(true) / 1024L);
-                    //fpsString.Append($"MGC: {megabytesUsed}MB\n");
+                    fpsString.Append($"MGC: {megabytesUsed}MB\n");
                     fpsString.AppendFormat("FPS: {0:F1}", fpsAverage);
                     debugText.DisplayedString = fpsString.ToString();
                 }

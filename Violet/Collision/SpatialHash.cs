@@ -124,7 +124,6 @@ namespace Violet.Collision
                         {
                             Console.WriteLine($"{collidable} removed!");
                         }
-
                         array[i] = null;
             
                         return;

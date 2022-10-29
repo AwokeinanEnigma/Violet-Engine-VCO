@@ -35,11 +35,20 @@ namespace VCO.Scenes.Transitions
 
 		public bool Blocking { get; set; }
 
+		private float duration;
+		private Color givenColor;
 		public BattleFadeTransition(float duration, Color color)
+		{
+			this.duration = duration;
+			givenColor = color;
+			Initialize();
+		}
+
+		private void Initialize()
 		{
 			float num = 60f * duration;
 			this.speed = 1f / num;
-			this.color = color;
+			this.color = givenColor;
 			this.isComplete = false;
 			this.progress = 0f;
 			this.target = Engine.FrameBuffer;
@@ -136,11 +145,17 @@ namespace VCO.Scenes.Transitions
 
 		public void Reset()
 		{
+			// Initialize();
 			this.isComplete = false;
 			this.progress = 0f;
 		}
 
-		private const int STEPS = 20;
+        public void Destroy()
+        {
+			Array.Clear(verts, 0, verts.Length);
+        }
+
+        private const int STEPS = 20;
 
 		private float speed;
 
