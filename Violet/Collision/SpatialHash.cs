@@ -124,7 +124,6 @@ namespace Violet.Collision
                         {
                             Console.WriteLine($"{collidable} removed!");
                         }
-
                         array[i] = null;
             
                         return;
@@ -295,26 +294,21 @@ namespace Violet.Collision
 
         public void Query(ICollidable collidable, Vector2f offset, Stack<ICollidable> resultStack)
         {
-            ClearTouches();
-            Vector2f vector2f = collidable.Position + offset;
+            this.ClearTouches();
             AABB aabb = collidable.AABB;
             int num = ((int)aabb.Size.X - 1) / 256 + 1;
             int num2 = ((int)aabb.Size.Y - 1) / 256 + 1;
             for (int i = 0; i <= num2; i++)
             {
-                int y = i == num2
-                    ? (int)(vector2f.Y + aabb.Position.Y) + (int)aabb.Size.Y
-                    : (int)(vector2f.Y + aabb.Position.Y) + 256 * i;
+                int y = (i == num2) ? ((int)(collidable.Position.Y + aabb.Position.Y) + (int)aabb.Size.Y) : ((int)(collidable.Position.Y + aabb.Position.Y) + 256 * i);
                 for (int j = 0; j <= num; j++)
                 {
-                    int x = j == num
-                        ? (int)(vector2f.X + aabb.Position.X) + (int)aabb.Size.X
-                        : (int)(vector2f.X + aabb.Position.X) + 256 * j;
-                    int positionHash = GetPositionHash(x, y);
-                    if (positionHash >= 0 && positionHash < buckets.Length && !touches[positionHash])
+                    int x = (j == num) ? ((int)(collidable.Position.X + aabb.Position.X) + (int)aabb.Size.X) : ((int)(collidable.Position.X + aabb.Position.X) + 256 * j);
+                    int positionHash = this.GetPositionHash(x, y);
+                    if (positionHash >= 0 && positionHash < this.buckets.Length && !this.touches[positionHash])
                     {
-                        touches[positionHash] = true;
-                        ICollidable[] array = buckets[positionHash];
+                        this.touches[positionHash] = true;
+                        ICollidable[] array = this.buckets[positionHash];
                         if (array != null)
                         {
                             for (int k = 0; k < array.Length; k++)

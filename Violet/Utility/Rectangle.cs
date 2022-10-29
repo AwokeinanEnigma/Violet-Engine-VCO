@@ -1,5 +1,8 @@
 ﻿namespace Violet.Utility
 {
+    /// <summary>
+    /// A generic class containing information for a triangle.
+    /// </summary>
     internal class Rectangle
     {
         public float X { get; set; }

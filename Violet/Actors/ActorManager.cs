@@ -99,7 +99,10 @@ namespace Violet.Actors
                 actors.Remove(actor);
             }
 
+            // uncomment this if you want to fuck the console
+            // Debug.LInfo($"{actors.Count}");
             actorsToRemove.Clear();
+
         }
 
         /// <summary>

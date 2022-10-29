@@ -22,8 +22,8 @@ namespace Violet.Utility
         /// <returns></returns>
         public static int VectorToDirection(Vector2f v)
         {
-            double num = Math.Atan2(-v.Y, v.X) + 0.39269908169872414;
-            int num2 = (int)Math.Floor(num / 0.7853981633974483);
+            double num = Math.Atan2(-v.Y, v.X) + PI_OVER_EIGHT;
+            int num2 = (int)Math.Floor(num / PI_OVER_FOUR);
             if (num2 < 0)
             {
                 num2 += 8;
@@ -73,11 +73,16 @@ namespace Violet.Utility
             return a.X * b.X + a.Y * b.Y;
         }
 
+        /// <summary>
+        /// Casts a vector's X and Y to int.
+        /// </summary>
+        /// <param name="v">The vector to truncate</param>
+        /// <returns></returns>
         public static Vector2f Truncate(Vector2f v)
         {
-            int num = (int)v.X;
-            int num2 = (int)v.Y;
-            return new Vector2f(num, num2);
+            int x = (int)v.X;
+            int y = (int)v.Y;
+            return new Vector2f(x, y);
         }
 
         public const double PI_OVER_FOUR = 0.7853981633974483;
@@ -86,6 +91,7 @@ namespace Violet.Utility
 
         public static readonly Vector2f ZERO_VECTOR = new Vector2f(0f, 0f);
 
+        // used for VectorToDirection
         private static Vector2f[] DIR_TO_VECTOR = new Vector2f[]
         {
             new Vector2f(1f, 0f),

@@ -13,6 +13,9 @@ namespace Violet.Collision
     /// </summary>
     public class CollisionManager
     {
+        private SpatialHash spatialHash;
+        private Stack<ICollidable> resultStack;
+        private List<ICollidable> resultList;
         public CollisionManager(int width, int height)
         {
             this.spatialHash = new SpatialHash(width, height);
@@ -51,20 +54,26 @@ namespace Violet.Collision
         /// Removes a collider
         /// </summary>
         /// <param name="collidable"></param>
-        public void Remove(ICollidable collidable, bool clear)
+        public void Remove(ICollidable collidable)
         {
             collidables.Remove(collidable);
             this.spatialHash.Remove(collidable);
-            if (clear)
-            {
-                Clear();
-            }
+
+        }
+
+        public void Purge()
+        {
+            collidables.ForEach(x => spatialHash.Remove(x));
+            //collidables.ForEach(x => x.Mesh.Destroy());
+            collidables.Clear();
+            collidables = null;
+            spatialHash = null;
         }
 
         public void Filter()
         {
             var itemToRemove = collidables.FindAll(r => r == null);
-            itemToRemove.ForEach(x=>spatialHash.Remove(x));
+            itemToRemove.ForEach(x => spatialHash.Remove(x));
             List<ICollidable> result = collidables.Except(itemToRemove).ToList();
             collidables = result;
 
@@ -94,6 +103,7 @@ namespace Violet.Collision
                 Array.Clear(collisionResults, 0, collisionResults.Length);
             }
             bool flag = false;
+            
             Vector2f offset = obj.Position - position;
             this.resultList.Clear();
             this.spatialHash.Query(obj, offset, this.resultStack);
@@ -103,10 +113,9 @@ namespace Violet.Collision
                 ICollidable collidable = this.resultStack.Pop();
                 if (this.PlaceFreeBroadPhase(obj, position, collidable))
                 {
-                    bool flag2 = this.CheckPositionCollision(obj, position, collidable);
-                    if (flag2)
+                    if (this.CheckPositionCollision(obj, position, collidable))
                     {
-                        bool flag3 = false;
+                        bool cannotPlace = false;
                         //Console.WriteLine($"Moving collider '{obj}' to position '{position}' ");
                         if (ignoreTypes != null)
                         {
@@ -114,12 +123,12 @@ namespace Violet.Collision
                             {
                                 if (ignoreTypes[i] == collidable.GetType())
                                 {
-                                    flag3 = true;
+                                    cannotPlace = true;
                                     break;
                                 }
                             }
                         }
-                        if (!flag3)
+                        if (!cannotPlace)
                         {
                             flag = true;
                             if (collisionResults == null || num >= collisionResults.Length)
@@ -201,7 +210,7 @@ namespace Violet.Collision
                 float maxB = 0f;
                 this.ProjectPolygon(vector2f, objA.Mesh, position, ref minA, ref maxA);
                 this.ProjectPolygon(vector2f, objB.Mesh, objB.Position, ref minB, ref maxB);
-                if (this.IntervalDistance(minA, maxA, minB, maxB) > 1f)
+                if (this.IntervalDistance(minA, maxA, minB, maxB) > 0f)
                 {
                     return false;
                 }
@@ -209,13 +218,13 @@ namespace Violet.Collision
             return true;
         }
 
-        private float IntervalDistance(float minA, float maxA, float minB, float maxB)
+        private int IntervalDistance(float minA, float maxA, float minB, float maxB)
         {
             if (minA < minB)
             {
-                return minB - maxA;
+                return (int)(minB - maxA);
             }
-            return minA - maxB;
+            return (int)(minA - maxB);
         }
 
         private void ProjectPolygon(Vector2f normal, Mesh mesh, Vector2f offset, ref float min, ref float max)
@@ -246,14 +255,5 @@ namespace Violet.Collision
         {
             this.spatialHash.DebugDraw(target);
         }
-
-        // Token: 0x0400004B RID: 75
-        private SpatialHash spatialHash;
-
-        // Token: 0x0400004C RID: 76
-        private Stack<ICollidable> resultStack;
-
-        // Token: 0x0400004D RID: 77
-        private List<ICollidable> resultList;
     }
 }

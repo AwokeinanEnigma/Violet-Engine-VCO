@@ -9,6 +9,8 @@ namespace Violet.Maps
 {
     public class Map
     {
+
+        public List<Tile> globalTilelist;
         public Map()
         {
             this.Head = default(Map.Header);
@@ -45,7 +47,7 @@ namespace Violet.Maps
                 int num = 0;
                 while (j < group.Tiles.Length)
                 {
-                    int num2 = group.Tiles[j] - 1;
+                    int num2 = (int)(group.Tiles[j] - 1);
                     if (num2 >= 0)
                     {
                         ushort num3;
@@ -58,7 +60,7 @@ namespace Violet.Maps
                             num3 = 0;
                         }
                         int num4 = group.Width * 8;
-                        Vector2f position = new Vector2f(num * 8L % num4, num * 8L / num4 * 8L);
+                        Vector2f position = new Vector2f((float)((long)num * 8L % (long)num4), (float)((long)num * 8L / (long)num4 * 8L));
                         bool flipHoriz = (num3 & 1) > 0;
                         bool flipVert = (num3 & 2) > 0;
                         bool flipDiag = (num3 & 4) > 0;
@@ -69,10 +71,10 @@ namespace Violet.Maps
                     j += 2;
                     num++;
                 }
-                TileGroup item2 = new TileGroup(list2, resource, group.Depth, new Vector2f(group.X, group.Y), palette);
+                TileGroup item2 = new TileGroup(list2, resource, group.Depth, new Vector2f((float)group.X, (float)group.Y), palette);
                 list.Add(item2);
             }
-            Console.WriteLine("Created tile groups in {0}ms", (DateTime.Now.Ticks - ticks) / 10000L);
+            Debug.LInfo($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return list;
         }
 
@@ -321,6 +323,8 @@ namespace Violet.Maps
             public int Width;
 
             public int Height;
+
+            public bool Rainaway;
         }
 
         public struct TileAnimation

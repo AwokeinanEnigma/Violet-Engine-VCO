@@ -36,15 +36,15 @@ namespace Violet.Utility
 
         protected virtual void Split()
         {
-            int num = (int)(this.bounds.Width / 2f);
-            int num2 = (int)(this.bounds.Height / 2f);
-            int num3 = (int)this.bounds.X;
-            int num4 = (int)this.bounds.Y;
-            int num5 = this.level + 1;
-            this.nodes[0] = new Quadtree<T>(num5, new Rectangle(num3 + num, num4, num, num2));
-            this.nodes[1] = new Quadtree<T>(num5, new Rectangle(num3, num4, num, num2));
-            this.nodes[2] = new Quadtree<T>(num5, new Rectangle(num3, num4 + num2, num, num2));
-            this.nodes[3] = new Quadtree<T>(num5, new Rectangle(num3 + num, num4 + num2, num, num2));
+            int halfwidth = (int)(this.bounds.Width / 2f);
+            int halfheight = (int)(this.bounds.Height / 2f);
+            int boundsx = (int)this.bounds.X;
+            int boundsy = (int)this.bounds.Y;
+            int level = this.level + 1;
+            this.nodes[0] = new Quadtree<T>(level, new Rectangle(boundsx + halfwidth, boundsy, halfwidth, halfheight));
+            this.nodes[1] = new Quadtree<T>(level, new Rectangle(boundsx, boundsy, halfwidth, halfheight));
+            this.nodes[2] = new Quadtree<T>(level, new Rectangle(boundsx, boundsy + halfheight, halfwidth, halfheight));
+            this.nodes[3] = new Quadtree<T>(level, new Rectangle(boundsx + halfwidth, boundsy + halfheight, halfwidth, halfheight));
         }
 
         protected virtual int FindIndex(T obj)

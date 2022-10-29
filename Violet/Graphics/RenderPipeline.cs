@@ -45,7 +45,7 @@ namespace Violet.Graphics
                 this.renderablesToAdd.Push(renderable);
                 return;
             }
-            Console.WriteLine("Tried to add renderable that already exists in the RenderPipeline.");
+            Debug.LError("Tried to add renderable that already exists in the RenderPipeline.", false);
         }
 
         /// <summary>
@@ -119,6 +119,7 @@ namespace Violet.Graphics
                 }
             }
             this.renderables.Clear();
+
             if (dispose)
             {
                 while (this.renderablesToAdd.Count > 0)
@@ -127,6 +128,13 @@ namespace Violet.Graphics
                 }
             }
             this.renderablesToAdd.Clear();
+            uids.Clear();
+
+            // We don't need these.
+            uids = null;
+            renderablesToRemove = null;
+            renderables = null;
+            renderablesToAdd = null;
         }
         public void Draw()
         {
@@ -153,7 +161,9 @@ namespace Violet.Graphics
                     this.rendRect.Width = renderable.Size.X;
                     this.rendRect.Height = renderable.Size.Y;
                     if (this.rendRect.Intersects(this.viewRect))
+                    {
                         renderable.Draw(this.target);
+                    }
                 }
             }
         }

@@ -58,6 +58,13 @@ namespace Violet.Collision
         /// </summary>
         public Vector2f Center => new Vector2f(aabb.Size.X / 2f, aabb.Size.Y / 2f);
 
+        public void Destroy() {
+            Vertices.Clear();
+            Vertices = null;
+            Edges.Clear();
+            Edges = null; 
+        }
+
         private void AddPoints(List<Vector2f> points)
         {
             Vertices = new List<Vector2f>();

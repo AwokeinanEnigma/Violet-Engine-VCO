@@ -33,7 +33,16 @@ namespace Violet.Scenes.Transitions
 
         public bool Blocking { get; set; }
 
+        private float duration;
+        private Color givenColor;
+
         public ColorFadeTransition(float duration, Color color)
+        {
+            this.duration = duration;
+            givenColor = color;
+            Initialize();
+        }
+        private void Initialize()
         {
             float num = 60f * duration;
             this.speed = 1f / num;
@@ -43,10 +52,10 @@ namespace Violet.Scenes.Transitions
             float num2 = 160f;
             float num3 = 90f;
             this.verts = new Vertex[4];
-            this.verts[0] = new Vertex(new Vector2f(-num2, -num3), color);
-            this.verts[1] = new Vertex(new Vector2f(num2, -num3), color);
-            this.verts[2] = new Vertex(new Vector2f(num2, num3), color);
-            this.verts[3] = new Vertex(new Vector2f(-num2, num3), color);
+            this.verts[0] = new Vertex(new Vector2f(-num2, -num3), givenColor);
+            this.verts[1] = new Vertex(new Vector2f(num2, -num3), givenColor);
+            this.verts[2] = new Vertex(new Vector2f(num2, num3), givenColor);
+            this.verts[3] = new Vertex(new Vector2f(-num2, num3), givenColor);
             Transform transform = new Transform(1f, 0f, ViewManager.Instance.FinalCenter.X, 0f, 1f, ViewManager.Instance.FinalCenter.Y, 0f, 0f, 1f);
             this.renderStates = new RenderStates(transform);
         }
@@ -72,12 +81,19 @@ namespace Violet.Scenes.Transitions
 
         public void Reset()
         {
+
             this.isComplete = false;
             this.progress = 0f;
             this.verts[0].Color.A = 0;
             this.verts[1].Color.A = 0;
             this.verts[2].Color.A = 0;
             this.verts[3].Color.A = 0;
+        }
+
+        public void Destroy()
+        {
+            Array.Clear(verts, 0, verts.Length);
+            verts = null;
         }
 
         private const int STEPS = 10;
