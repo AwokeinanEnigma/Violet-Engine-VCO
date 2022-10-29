@@ -164,6 +164,7 @@ namespace Violet.Graphics
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palIndex", ((IndexedTexture)this.texture).CurrentPaletteFloat);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palSize", ((IndexedTexture)this.texture).PaletteSize);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blend", this.blend);
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("delta", 0.1f);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blendMode", (float)this.blendMode);
                 if (!this.disposed)
                 {

@@ -922,6 +922,8 @@ namespace VCO.Scenes
 					{
 						parallaxBackground.Dispose();
 					}
+					mapGroups.Clear();
+					collisionManager.Purge();
 					this.screenDimmer.Dispose();
 					this.textbox.Dispose();
 					this.footstepPlayer.Dispose();
@@ -937,7 +939,6 @@ namespace VCO.Scenes
 				this.screenDimmer = null;
 				this.textbox = null;
 				this.pipeline = null;
-				collisionManager.Purge();
 				this.collisionManager = null;
 				this.footstepPlayer = null;
 				this.player.OnCollision -= this.OnPlayerCollision;

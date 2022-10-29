@@ -271,6 +271,7 @@ namespace Violet.Graphics
             foreach (int key2 in list)
             {
                 this.textures[key2].Dispose();
+                this.textures[key2] = null;
                 this.instances.Remove(key2);
                 this.textures.Remove(key2);
             }

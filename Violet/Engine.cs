@@ -491,7 +491,7 @@ namespace Violet
                 // This makes input and other events from the window work
                 window.DispatchEvents();
 
-                // Update cruciel game classes
+                // Update cruciel game instances
                 UpdateInstances();
 
                 // OpenGL shit, we have to clear our frame buffer before we can draw to it
@@ -518,12 +518,12 @@ namespace Violet
             {
                 if (frameIndex % 10L == 0L)
                 {
-                    megabytesUsed = (GC.GetTotalMemory(true) / 1024L);
-                    megabytesUsed *= 0.001;
+                    //megabytesUsed = ;
+                    //megabytesUsed *= 0.001;
                     fpsString.Clear();
                     fpsString.AppendFormat("GC: {0:D5} KB\n", GC.GetTotalMemory(false) / 1024L);
                    // fpsString.AppendFormat("FGC: {0:D5} KB\n", GC.GetTotalMemory(true) / 1024L);
-                    fpsString.Append($"MGC: {megabytesUsed}MB\n");
+                    fpsString.Append($"MGC: {(GC.GetTotalMemory(true) / 1024L) * 0.001}MB\n");
                     fpsString.AppendFormat("FPS: {0:F1}", fpsAverage);
                     debugText.DisplayedString = fpsString.ToString();
                 }

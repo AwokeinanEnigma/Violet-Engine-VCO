@@ -119,6 +119,7 @@ namespace Violet.Graphics
                 }
             }
             this.renderables.Clear();
+
             if (dispose)
             {
                 while (this.renderablesToAdd.Count > 0)
@@ -127,7 +128,10 @@ namespace Violet.Graphics
                 }
             }
             this.renderablesToAdd.Clear();
+            uids.Clear();
 
+            // We don't need these.
+            uids = null;
             renderablesToRemove = null;
             renderables = null;
             renderablesToAdd = null;
@@ -157,7 +161,9 @@ namespace Violet.Graphics
                     this.rendRect.Width = renderable.Size.X;
                     this.rendRect.Height = renderable.Size.Y;
                     if (this.rendRect.Intersects(this.viewRect))
+                    {
                         renderable.Draw(this.target);
+                    }
                 }
             }
         }

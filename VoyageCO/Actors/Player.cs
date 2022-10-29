@@ -560,7 +560,9 @@ namespace VCO.Actors
 					this.pipeline.Remove(this.playerGraphic);
 					this.pipeline.Remove(this.shadowGraphic);
 					this.playerGraphic.Dispose();
+					playerGraphic = null;
 					this.shadowGraphic.Dispose();
+					shadowGraphic = null;
 				}
 				InputManager.Instance.ButtonPressed -= this.ButtonPressed;
 				InputManager.Instance.ButtonReleased -= this.ButtonReleased;

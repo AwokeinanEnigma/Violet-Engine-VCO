@@ -58,6 +58,7 @@ namespace Rufini.Actions.Types
 		{
 			this.context.Pipeline.Remove(graphic);
 			graphic.Dispose();
+			graphic = null;
 			if (this.isBlocking)
 			{
 				this.context.Executor.Continue();

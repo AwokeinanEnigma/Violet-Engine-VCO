@@ -15,11 +15,8 @@ using SFML.System;
 
 namespace VCO.Actors.NPCs
 {
-	// Token: 0x020000A6 RID: 166
 	internal class NPC : SolidActor
 	{
-		// Token: 0x17000094 RID: 148
-		// (get) Token: 0x0600036B RID: 875 RVA: 0x0001608D File Offset: 0x0001428D
 		public List<Map.NPCtext> Text
 		{
 			get
@@ -27,9 +24,6 @@ namespace VCO.Actors.NPCs
 				return this.text;
 			}
 		}
-
-		// Token: 0x17000095 RID: 149
-		// (get) Token: 0x0600036C RID: 876 RVA: 0x00016095 File Offset: 0x00014295
 		public List<Map.NPCtext> TeleText
 		{
 			get
@@ -38,8 +32,6 @@ namespace VCO.Actors.NPCs
 			}
 		}
 
-		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x0600036D RID: 877 RVA: 0x0001609D File Offset: 0x0001429D
 		public string Name
 		{
 			get
@@ -48,9 +40,6 @@ namespace VCO.Actors.NPCs
 			}
 		}
 
-		// Token: 0x17000097 RID: 151
-		// (get) Token: 0x0600036E RID: 878 RVA: 0x000160A5 File Offset: 0x000142A5
-		// (set) Token: 0x0600036F RID: 879 RVA: 0x000160AD File Offset: 0x000142AD
 		public int Direction
 		{
 			get
@@ -417,24 +406,30 @@ namespace VCO.Actors.NPCs
 		{
 			if (!this.disposed)
 			{
-				try
+				if (disposing)
 				{
-					if (disposing)
+					this.pipeline.Remove(this.npcGraphic);
+					this.pipeline.Remove(this.shadowGraphic);
+					
+					this.npcGraphic.Dispose();
+					npcGraphic = null;
+
+					// clear text, because it gets stuck in memory otherwise
+					text.Clear();
+					text = null;
+
+					teleText.Clear();
+					teleText = null;
+
+					if (this.shadow)
 					{
-						this.pipeline.Remove(this.npcGraphic);
-						this.pipeline.Remove(this.shadowGraphic);
-						this.npcGraphic.Dispose();
-						if (this.shadow)
-						{
-							this.shadowGraphic.Dispose();
-						}
+						this.shadowGraphic.Dispose();
+						this.shadowGraphic = null;
 					}
-					this.disposed = true;
+
 				}
-				finally
-				{
-					base.Dispose(disposing);
-				}
+				this.disposed = true;
+				base.Dispose(disposing);
 			}
 		}
 

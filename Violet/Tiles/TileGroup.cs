@@ -64,7 +64,12 @@ namespace Violet.Tiles
 			this.renderState = new RenderStates(BlendMode.Alpha, Transform.Identity, this.tileset.Image, TileGroup.TILE_GROUP_SHADER);
 			this.animationEnabled = true;
 			this.CreateAnimations(this.tileset.GetSpriteDefinitions());
-			this.CreateVertexArray(tiles);
+			// this is like putting a screaming baby on mute, but it works!
+			// try
+			// {
+				this.CreateVertexArray(tiles);
+			// }
+			
 			this.ResetTransform();
 		}
 
@@ -254,6 +259,11 @@ namespace Violet.Tiles
 
 				// Unuse tileset
 				TextureManager.Instance.Unuse(this.tileset);
+
+				// Additionally, dispose of the tileset and set it to null.
+				// Just for safety :^)
+				tileset.Dispose();
+				tileset = null;
 				
 				// These would stay in memory and just shit up MEMORY AND SHIT UP PERFORMANCE
 				// BECAUSE FOR SOME FUCKING REASON, THE STUPID FUCKING GARBAGE COLLECTOR WOULDN'T FUCKING COLLECT IT!
