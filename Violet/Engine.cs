@@ -303,8 +303,8 @@ namespace Violet
                 float num4 = (desktopMode.Width - SCREEN_WIDTH * fullScreenMin) / 2f;
                 float num5 = (desktopMode.Height - SCREEN_HEIGHT * fullScreenMin) / 2f;
              
-                int width = (int)(160f * fullScreenMin);
-                int height = (int)(90f * fullScreenMin);
+                int width = (int)(HALF_SCREEN_WIDTH * fullScreenMin);
+                int height = (int)(HALF_SCREEN_HEIGHT * fullScreenMin);
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
             }
             else
