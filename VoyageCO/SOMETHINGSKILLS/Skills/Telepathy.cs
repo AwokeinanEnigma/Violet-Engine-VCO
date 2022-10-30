@@ -170,7 +170,7 @@ namespace VCO.SOMETHING
                     throw new Exception("Combatant is not an enemy or somehow has null data!");
                     return;
                 }
-                interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, Violet.GUI.WindowBox.Style.Telepathy);
+                interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, "Data/Graphics/window3.dat");
                 interfaceController.OnTextboxComplete += InterfaceController_OnTextboxComplete;
                 void InterfaceController_OnTextboxComplete()
                 {

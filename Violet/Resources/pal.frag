@@ -5,7 +5,7 @@ uniform float blendMode;
 uniform float palSize;
 // uniform float delta;
  uniform float time;
-
+ 
 void main() {
 	vec4 index = texture2D(image, gl_TexCoord[0].xy);
 	vec4 baseColor = texture2D(palette, vec2(((index.r * 255.0) + 0.5) / palSize, palIndex));

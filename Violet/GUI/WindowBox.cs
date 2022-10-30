@@ -7,7 +7,8 @@ namespace Violet.GUI
 {
 	public class WindowBox : Renderable
 	{
-		public override Vector2f Position
+        #region Properties
+        public override Vector2f Position
 		{
 			get
 			{
@@ -46,18 +47,6 @@ namespace Violet.GUI
 			}
 		}
 
-		public WindowBox.Style FrameStyle
-		{
-			get
-			{
-				return this.style;
-			}
-			set
-			{
-				this.SetStyle(value);
-			}
-		}
-
 		public uint Palette
 		{
 			get
@@ -70,18 +59,44 @@ namespace Violet.GUI
 			}
 		}
 
-		public WindowBox(WindowBox.Style style, uint palette, Vector2f position, Vector2f size, int depth)
+		public string FramePath
 		{
-			this.style = style;
+			get
+			{
+				return this.framePath;
+			}
+			set
+			{
+				this.framePath = value;
+			}
+		}
+		#endregion
+		
+		#region Private fields
+		private bool beamRepeat;
+		private uint palette;
+		private IndexedColorGraphic frame;
+		private RenderStates states;
+		private Transform transform;
+		private VertexArray verts;
+		private Shader shader;
+		private string framePath;
+		#endregion
+        public WindowBox(string framePath, uint palette, Vector2f position, Vector2f size, int depth)
+		{
+			this.framePath = framePath;
 			this.palette = palette;
 			this.position = position;
 			this.size = size;
 			this.depth = depth;
-			this.SetStyle(this.style);
+			this.SetStyle(framePath);
 		}
 
-		private void SetStyle(WindowBox.Style newStyle)
+		private void SetStyle(string newStyle)
 		{
+			/* 
+			I think this code is actually decompiled correctly, but using labels for stuff like this is really weird and unnecessary. - Enigma
+			
 			this.style = newStyle;
 			string resource;
 			switch (this.style)
@@ -98,9 +113,24 @@ namespace Violet.GUI
 			resource = "Data/Graphics/window1.dat";
 			this.beamRepeat = false;
 		IL_4D:
-			this.frame = new IndexedColorGraphic(resource, "center", this.position, this.depth);
+			*/
+
+			// abbrievated as
+			if (string.IsNullOrEmpty(newStyle)) {
+				Debug.LWarning("WindowBox with no style tried to be initiated!");
+
+				// if we have no style :^)
+				newStyle = "Data/Graphics/window1.dat";
+
+				// set our framepath to this generic one
+				framePath = newStyle;
+			}	
+
+			this.frame = new IndexedColorGraphic(newStyle, "center", this.position, this.depth);
 			this.frame.CurrentPalette = this.palette;
+			
 			((IndexedTexture)this.frame.Texture).CurrentPalette = this.palette;
+			
 			this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
 			this.shader.SetParameter("image", this.frame.Texture.Image);
 			this.shader.SetParameter("palette", ((IndexedTexture)this.frame.Texture).Palette);
@@ -108,11 +138,13 @@ namespace Violet.GUI
 			this.shader.SetParameter("palSize", ((IndexedTexture)this.frame.Texture).PaletteSize);
 			this.shader.SetParameter("blend", Color.White);
 			this.shader.SetParameter("blendMode", 1f);
+		
 			this.states = new RenderStates(BlendMode.Alpha, this.transform, this.frame.Texture.Image, this.shader);
 			this.verts = new VertexArray(PrimitiveType.Quads);
+			
 			this.ConfigureQuads();
 			this.ConfigureTransform();
-			//foreach (var thing in frame.defini)
+
 		}
 
 		private void ConfigureTransform()
@@ -123,6 +155,7 @@ namespace Violet.GUI
 
 		private void ConfigureQuads()
 		{
+			// have fun fuckos, because i am NOT touching this code!
 			SpriteDefinition spriteDefinition = this.frame.GetSpriteDefinition("topleft");
 			SpriteDefinition spriteDefinition2 = this.frame.GetSpriteDefinition("topright");
 			SpriteDefinition spriteDefinition3 = this.frame.GetSpriteDefinition("bottomleft");
@@ -286,29 +319,6 @@ namespace Violet.GUI
 				this.frame.Dispose();
 			}
 			this.disposed = true;
-		}
-
-		private bool beamRepeat;
-
-		private uint palette;
-
-		private WindowBox.Style style;
-
-		private IndexedColorGraphic frame;
-
-		private RenderStates states;
-
-		private Transform transform;
-
-		private VertexArray verts;
-
-		private Shader shader;
-
-		public enum Style
-		{
-			Normal,
-			Classic,
-			Telepathy
 		}
 	}
 }

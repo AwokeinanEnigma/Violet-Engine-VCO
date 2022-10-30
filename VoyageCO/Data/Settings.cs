@@ -29,11 +29,11 @@ namespace VCO.Data
 			}
 		}
 
-		public static WindowBox.Style WindowStyle
+		public static string WindowStyle
 		{
 			get
 			{
-				return WindowBox.Style.Normal;
+				return "Data/Graphics/window1.dat";
 			}
 		}
 

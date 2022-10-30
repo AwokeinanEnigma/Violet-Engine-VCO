@@ -11,7 +11,7 @@ namespace VCO.GUI
 {
 	internal abstract class MenuPanel : Renderable
 	{
-		public MenuPanel(Vector2f position, Vector2f size, int depth, WindowBox.Style style, uint flavor)
+		public MenuPanel(Vector2f position, Vector2f size, int depth, string style, uint flavor)
 		{
 			this.Initialize(position, size, depth, style, flavor);
 		}
@@ -21,7 +21,7 @@ namespace VCO.GUI
 			this.Initialize(position, size, depth, Settings.WindowStyle, Settings.WindowFlavor);
 		}
 
-		private void Initialize(Vector2f position, Vector2f size, int depth, WindowBox.Style style, uint flavor)
+		private void Initialize(Vector2f position, Vector2f size, int depth, string style, uint flavor)
 		{
 			this.position = position;
 			this.size = size;

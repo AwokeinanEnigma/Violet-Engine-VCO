@@ -25,7 +25,7 @@ namespace VCO.GUI.NamingMenu
 			}
 		}
 
-		public TextInputPanel(Vector2f position, Vector2f size) : base(position, size, 0, WindowBox.Style.Normal, 0U)
+		public TextInputPanel(Vector2f position, Vector2f size) : base(position, size, 0, "Data/Graphics/window1.dat", 0U)
 		{
 			this.selectingLetters = true;
 			this.SetupSounds();

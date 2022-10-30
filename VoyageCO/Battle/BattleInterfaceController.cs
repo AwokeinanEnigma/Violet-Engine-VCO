@@ -1423,7 +1423,7 @@ namespace VCO.Battle
 			this.textbox.Show();
 		}
 
-		public void ShowStyledMessage(string message, bool useButton, WindowBox.Style style)
+		public void ShowStyledMessage(string message, bool useButton, string style)
 		{
 			this.textbox.Reset(message, useButton);
 			this.textbox.ChangeStyle(style);
