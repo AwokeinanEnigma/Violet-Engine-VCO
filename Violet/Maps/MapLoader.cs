@@ -9,20 +9,29 @@ using Violet.Utility;
 
 namespace Violet.Maps
 {
+    /// <summary>
+    /// Helper class for loading a map
+    /// </summary>
     public class MapLoader
     {
+        // path fixing function
         private static string FixPath(string mapFile)
         {
             string path = mapFile;
             if (System.IO.Path.GetExtension(path) == string.Empty)
             {
-                path += ".dat";
+                path += ".mdat";
             }
 
             return path;
         }
 
-        public static Map Load(string mapFile, string graphicsDirectory)
+        /// <summary>
+        ///  Creates a Map instance from a .dat map file. 
+        /// </summary>
+        /// <param name="mapFile"></param>
+        /// <returns></returns>
+        public static Map Load(string mapFile)
         {
             string str = MapLoader.FixPath(mapFile);
             if (!File.Exists(str))

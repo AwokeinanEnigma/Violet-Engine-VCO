@@ -4,7 +4,8 @@ namespace Violet.Scenes
 {
 	public abstract class Scene : IDisposable
 	{
-		public bool DrawBehind
+        #region Properties
+        public bool DrawBehind
 		{
 			get
 			{
@@ -15,16 +16,24 @@ namespace Violet.Scenes
 				this.drawBehind = value;
 			}
 		}
+        #endregion
 
-		~Scene()
+        #region Booleans
+        protected bool disposed;
+		private bool drawBehind;
+        #endregion
+
+        ~Scene()
 		{
 			this.Dispose(false);
 		}
 
-		/// <summary>
-		/// Called when the scene is first loaded.
-		/// </summary>
-		public virtual void Focus()
+        #region Methods
+
+        /// <summary>
+        /// Called when the scene is first loaded.
+        /// </summary>
+        public virtual void Focus()
 		{
 		}
 
@@ -69,9 +78,6 @@ namespace Violet.Scenes
 			}
 			this.disposed = true;
 		}
-
-		protected bool disposed;
-
-		private bool drawBehind;
-	}
+        #endregion
+    }
 }

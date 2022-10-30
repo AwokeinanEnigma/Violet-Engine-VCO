@@ -11,11 +11,17 @@ namespace Violet.Scenes
 	/// </summary>
 	public class SceneManager
 	{
-        #region Properties
-        /// <summary>
-        /// The active instance of the SceneManager
-        /// </summary>
-        public static SceneManager Instance
+		private enum State
+		{
+			Scene,
+			Transition
+		}
+
+		#region Properties
+		/// <summary>
+		/// The active instance of the SceneManager
+		/// </summary>
+		public static SceneManager Instance
 		{
 			get
 			{
@@ -100,6 +106,7 @@ namespace Violet.Scenes
 		private bool isCompositeMode;
         #endregion
 
+        #region Methods
         /// <summary>
         /// Creates a new scene manager.
         /// </summary>
@@ -330,17 +337,11 @@ namespace Violet.Scenes
 				}
 			}
 		}
-
-		private enum State
-		{
-			Scene,
-			Transition
-		}
-
-		/// <summary>
-		/// Manages the stack of scenes.
-		/// </summary>
-		private class SceneStack
+        #endregion
+        /// <summary>
+        /// Manages the stack of scenes.
+        /// </summary>
+        private class SceneStack
 		{
 			private List<Scene> list;
 
