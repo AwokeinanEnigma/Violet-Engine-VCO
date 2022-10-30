@@ -56,7 +56,7 @@ namespace VCO.Scenes
 			this.optionList.ShowArrows = true;
 			this.optionList.ShowCursor = true;
 			this.pipeline.Add(this.optionList);
-			this.titleImage = new IndexedColorGraphic(Paths.GRAPHICSPARTYMEMBERS + "travis.dat", "Walk East", new Vector2f(160f, 44f), 100);
+			this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS_PARTYMEMBERS + "travis.dat", "Walk East", new Vector2f(160f, 44f), 100);
 			Version version = Assembly.GetEntryAssembly().GetName().Version;
 			this.versionText = new TextRegion(new Vector2f(160, 90f), 0, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
 			{
@@ -70,9 +70,9 @@ namespace VCO.Scenes
 			this.pipeline.Add(this.titleImage);
 			this.pipeline.Add(this.versionText);
 			this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
-			this.sfxCursorY = AudioManager.Instance.Use(Paths.SFXMENU + "cursory.wav", AudioType.Sound);
-			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
-			this.sfxCancel = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
+			this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
+			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+			this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
 		}
 
 		private void AxisPressed(InputManager sender, Vector2f axis)

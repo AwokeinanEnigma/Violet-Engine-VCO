@@ -66,10 +66,10 @@ namespace VCO.Scenes
 			this.settingsList.Hide();
 			this.titleText = new TextRegion(new Vector2f(4f, 4f), 0, Fonts.Title, "Map Test Setup");
 			this.pipeline.Add(this.titleText);
-			this.sfxCursorX = AudioManager.Instance.Use(Paths.SFXMENU + "cursorx.wav", AudioType.Sound);
-			this.sfxCursorY = AudioManager.Instance.Use(Paths.SFXMENU + "cursory.wav", AudioType.Sound);
-			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
-			this.sfxCancel = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
+			this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
+			this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
+			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+			this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
 			FlagManager.Instance.Reset();
 			ValueManager.Instance.Reset();
 		}
@@ -250,7 +250,7 @@ namespace VCO.Scenes
 			base.Focus();
 			ViewManager.Instance.Center = new Vector2f(160f, 90f);
 			Engine.ClearColor = Color.Black;
-			AudioManager.Instance.SetBGM(Paths.BGMOVERWORLD + "test.mp3");
+			AudioManager.Instance.SetBGM(Paths.BGM_OVERWORLD + "test.mp3");
 			AudioManager.Instance.BGM.Play();
 			InputManager.Instance.AxisPressed += this.AxisPressed;
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;

@@ -108,8 +108,8 @@ namespace VCO.Scenes
 
 		private void SetupSounds()
 		{
-			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
-			this.sfxCancel = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
+			this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+			this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
 		}
 
 		private void AxisPressed(InputManager sender, Vector2f axis)
@@ -180,7 +180,7 @@ namespace VCO.Scenes
 		public override void Focus()
 		{
 			base.Focus();
-			AudioManager.Instance.SetBGM(Paths.BGMOVERWORLD + "hint.mp3");
+			AudioManager.Instance.SetBGM(Paths.BGM_OVERWORLD + "hint.mp3");
 			AudioManager.Instance.BGM.Play();
 			ViewManager.Instance.Center = Engine.HALF_SCREEN_SIZE;
 			Engine.ClearColor = Color.Black;

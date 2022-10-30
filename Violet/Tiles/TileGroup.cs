@@ -57,6 +57,7 @@ namespace Violet.Tiles
 
 		public TileGroup(IList<Tile> tiles, string resource, int depth, Vector2f position, uint palette)
 		{
+			Debug.Log($"trying to! {resource}");
 			this.tileset = TextureManager.Instance.Use(resource);
 			this.tileset.CurrentPalette = palette;
 			this.position = position;

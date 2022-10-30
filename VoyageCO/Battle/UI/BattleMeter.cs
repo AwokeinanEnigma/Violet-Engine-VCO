@@ -25,7 +25,7 @@ namespace VCO.Battle.UI
 		{
 			this.targetFill = initialFill;
 			this.fill = this.targetFill;
-			this.meter = new IndexedColorGraphic(Paths.GRAPHICS + "battleui2.dat", "meter2", default(Vector2f), depth);
+			this.meter = new IndexedColorGraphic(Paths.GRAPHICS_BATTLE + "battleui2.dat", "meter2", default(Vector2f), depth);
 			this.meter.CurrentPalette = Settings.WindowFlavor;
 			this.initialTextureRect = this.meter.TextureRect;
 			this.hOffset = this.initialTextureRect.Height - (int)((float)this.initialTextureRect.Height * this.fill);

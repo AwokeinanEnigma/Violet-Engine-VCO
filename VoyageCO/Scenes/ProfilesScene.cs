@@ -89,10 +89,10 @@ namespace VCO.Scenes
 			if (!this.isInitialized)
 			{
 				this.GenerateSelectionList();
-				this.sfxCursorX = AudioManager.Instance.Use(Paths.SFXMENU + "cursorx.wav", AudioType.Sound);
-				this.sfxCursorY = AudioManager.Instance.Use(Paths.SFXMENU + "cursory.wav", AudioType.Sound);
-				this.sfxConfirm = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
-				this.sfxCancel = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
+				this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
+				this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
+				this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+				this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
 				this.isInitialized = true;
 			}
 			ViewManager.Instance.Center = Engine.HALF_SCREEN_SIZE;

@@ -568,7 +568,9 @@ namespace VCO.Scenes
 				this.partyTrain.Add(partyFollower);
 				this.collisionManager.Add(partyFollower);
 			}
+			Debug.Log("1");
 			List<NPC> addActors = MapPopulator.GenerateNPCs(this.pipeline, this.collisionManager, map);
+			Debug.Log("2");
 			this.actorManager.AddAll<NPC>(addActors.ToArray());
 			IList<ICollidable> collidables = MapPopulator.GeneratePortals(map);
 			this.collisionManager.AddAll<ICollidable>(collidables);
@@ -587,7 +589,7 @@ namespace VCO.Scenes
 				this.collisionManager.Add(new SolidStatic(mesh));
 			}
 			bool flag = FlagManager.Instance[1];
-			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS, flag ? 1U : 0U);
+			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS_MAPGRAPHICS, flag ? 1U : 0U);
 			
 
 			this.pipeline.AddAll<TileGroup>(this.mapGroups);
@@ -641,7 +643,7 @@ namespace VCO.Scenes
 			{
 				Console.WriteLine((map.Music.Count > 0) ? "No BGM flags were enabled for any BGM for this map." : "This map has no BGMs set.");
 			}
-			this.battleStartSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "battleIntro.mp3", AudioType.Sound);
+			this.battleStartSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "battleIntro.mp3", AudioType.Sound);
 			this.initialized = true;
 		}
 

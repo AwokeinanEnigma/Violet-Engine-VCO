@@ -113,7 +113,8 @@ namespace VCO.Actors.NPCs
 			if (npcData.Sprite != null && npcData.Sprite.Length > 0)
 			{
 				this.hasSprite = true;
-				this.ChangeSprite(Paths.GRAPHICS + npcData.Sprite + ".dat", "stand south");
+				Debug.Log("loading npc thing");
+				this.ChangeSprite(Paths.GRAPHICS_NPCS + npcData.Sprite + ".dat", "stand south");
 				if (this.shadow)
 				{
 					this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.npcGraphic.Size), this.position, this.depth - 1);

@@ -21,7 +21,7 @@ namespace VCO.Data
 				{
 					Timestamp = 0,
 					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "freeze_a.sdat", default(Vector2f), 0.5f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkFreezeA.wav", AudioType.Sound),
+					Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkFreezeA.wav", AudioType.Sound),
 					LockToTargetPosition = true,
 					PositionIndex = 0,
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
@@ -54,7 +54,7 @@ namespace VCO.Data
 				Timestamp = 0,
 				Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
 				ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128)),
-				Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkBeamA.wav", AudioType.Sound)
+				Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkBeamA.wav", AudioType.Sound)
 			});
 			list.Add(new AUXElement
 			{
@@ -116,7 +116,7 @@ namespace VCO.Data
 				{
 					Timestamp = 0,
 					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet_reflect.sdat", position, 0.5f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLE + "rocketReflect.wav", AudioType.Sound),
+					Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "rocketReflect.wav", AudioType.Sound),
 					CardSpringMode = BattleCard.SpringMode.BounceUp,
 					CardSpringAmplitude = new Vector2f(0f, 4f),
 					CardSpringSpeed = new Vector2f(0f, 0.2f),
@@ -134,7 +134,7 @@ namespace VCO.Data
 				{
 					Timestamp = 0,
 					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet.sdat", position, 0.5f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLE + "rocket.wav", AudioType.Sound)
+					Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "rocket.wav", AudioType.Sound)
 				}
 			};
 		}
@@ -148,7 +148,7 @@ namespace VCO.Data
 				Timestamp = startTimestamp,
 				ScreenDarkenColor = new Color?(Color.Cyan),
 				ScreenDarkenDepth = new int?(0),
-				Sound = AudioManager.Instance.Use(Paths.SFXBATTLE + "explosion.wav", AudioType.Sound)
+				Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "explosion.wav", AudioType.Sound)
 			});
 			int num = 98;
 			int[] array = new int[]
@@ -201,7 +201,7 @@ namespace VCO.Data
 				{
 					Timestamp = 0,
 					Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "fire_a.sdat", new Vector2f(160f, 90f), 0.4f, 32767),
-					Sound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "pkFireA.wav", AudioType.Sound),
+					Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkFireA.wav", AudioType.Sound),
 					ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
 				},
 				new AUXElement

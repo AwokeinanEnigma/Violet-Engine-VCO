@@ -1,4 +1,9 @@
-Resources ->
+.mdat = Map file. Is opened by game only. If you need to manually edit it, use NBTExplorer.
+.gdat = Graphic file. Opened with SpriteMan
+.edat = Enemy file. Opened with M4EC
+.mtdat = MapTileset file. Opened with SpriteMan 
+
+Data ->
 			->Audio
 				-> SFX
 					-> Menu : Contains menu SFX
@@ -14,9 +19,9 @@ Resources ->
 				-> Enemies
 			
 			-> Graphics
-				-> Party Members
+				-> PartyMembers
 				-> NPCs
-				-> MapGraphics
+				-> MapTilesets
 				-> EnemiesOverworld
 				-> EnemiesBattle
 			-> Scripts
@@ -24,7 +29,6 @@ Resources ->
 				-> SPANISH
 				-> GERMAN
 				-> Any other language
-
 
 EnemyFile
 		
