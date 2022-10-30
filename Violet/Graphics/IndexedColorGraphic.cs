@@ -76,8 +76,8 @@ namespace Violet.Graphics
 
         public IndexedColorGraphic(string resource, string spriteName, Vector2f position, int depth)
         {
-            time = new Clock();
-            time.Restart();
+            // time = new Clock();
+           // time.Restart();
             this.texture = TextureManager.Instance.Use(resource);
             this.sprite = new Sprite(this.texture.Image);
             this.Position = position;
@@ -131,7 +131,7 @@ namespace Violet.Graphics
             this.frame %= Frames;
         }
 
-        public Clock time;
+      //  public Clock time;
 
         protected override void IncrementFrame()
         {
@@ -170,7 +170,7 @@ namespace Violet.Graphics
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palSize", ((IndexedTexture)this.texture).PaletteSize);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blend", this.blend);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blendMode", (float)this.blendMode);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("time", time.ElapsedTime.AsSeconds());
+                //IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("time", time.ElapsedTime.AsSeconds());
                 if (!this.disposed)
                 {
                     target.Draw(this.sprite, this.renderStates);

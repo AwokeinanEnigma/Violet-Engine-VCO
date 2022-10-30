@@ -28,14 +28,14 @@ void main() {
 	
 
 	//these make the sprites fade in and out	
-	vec2 coord = gl_TexCoord[0].xy;   
-    vec4 pixel_color = texture2D(image, coord);
-     float alpha=0.5+0.5*cos(2*time);
+	// vec2 coord = gl_TexCoord[0].xy;   
+	// vec4 pixel_color = texture2D(image, coord);
+    // float alpha=0.5+0.5*cos(2*time);
 
     // gl_FragColor = vec4 (pixel_color.xyz,min(alpha,pixel_color.w));
-	 gl_FragColor = vec4(finalColor, min(baseColor.a,alpha));
+	// gl_FragColor = vec4(finalColor, min(baseColor.a,alpha));
 
 	
-	//gl_FragColor = vec4(finalColor, baseColor.a);
+	gl_FragColor = vec4(finalColor, baseColor.a);
 
 }

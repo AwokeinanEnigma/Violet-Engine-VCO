@@ -1,15 +1,15 @@
 Resources ->
 			->Audio
 				-> SFX
-					-> Menu
-					-> Battle
-						-> PSI
-						-> Combos
-						-> Jingles
+					-> Menu : Contains menu SFX
+					-> Battle : Contains battle SFX
+						-> PSI : Contains PSI SFX
+						-> Combos : Contains combo SFX
+						-> Jingles : Contains jingle SFX
 					-> Text
 				-> BGM
-					-> Overworld
-					-> Battle
+					-> Overworld : Contains overworld background music
+					-> Battle : Contains battle background music
 			-> Data
 				-> Enemies
 			

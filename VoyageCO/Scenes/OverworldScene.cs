@@ -225,11 +225,11 @@ namespace VCO.Scenes
 			return 0;
 		}
 
-		private int Mul(int a, int b)
+		private string PopText(string a, string b)
 		{
-			textbox.Reset("@hamburher", "Tutorial Agent", false, false);
+			textbox.Reset(a, b, false, false);
 			textbox.Show();
-			return a * b;
+			return string.Empty;
 
 		}
 
@@ -240,14 +240,11 @@ namespace VCO.Scenes
 			
 			Script script = new Script();
 
-			script.Globals["Mul"] = (Func<int, int, int>)Mul;
+			script.Globals["PopText"] = (Func<string, string, string>)PopText;
 
 			script.DoString(scriptcode);
 
 			DynValue res = script.Call(script.Globals["fact"], 4);
-
-			return res.Number;
-
 
 			return res.Number;
 		}
