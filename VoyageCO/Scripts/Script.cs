@@ -3,7 +3,7 @@ using VCO.Scripts.Actions;
 
 namespace VCO.Scripts
 {
-	internal struct Script
+	internal struct RufiniScript
 	{
 		public string Name;
 

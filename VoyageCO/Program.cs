@@ -8,6 +8,7 @@ using VCO.Data.Enemies;
 using VCO.Scenes;
 using VCO.Scenes.Transitions;
 using Violet.Scenes.Transitions;
+using VCO.Lua;
 
 namespace VCO
 {
@@ -21,7 +22,8 @@ namespace VCO
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
             Scene newScene = new TitleScene();
             EnemyFile.Load();
-
+            LUAManager.Initialize();
+            
 
             //Debug.DumpLogs();
             try

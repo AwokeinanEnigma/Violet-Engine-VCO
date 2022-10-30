@@ -5,7 +5,7 @@ namespace VCO.Data
 {
 	internal static class Paths
 	{
-        public static readonly string RESOURCES = "Resources" + Path.DirectorySeparatorChar;
+        public static readonly string RESOURCES = "Data" + Path.DirectorySeparatorChar;
 
         public static readonly string SFX = Path.Combine(Paths.RESOURCES, "Audio", "SFX") + Path.DirectorySeparatorChar;
 
@@ -13,10 +13,18 @@ namespace VCO.Data
 
         public static readonly string AUDIO = Path.Combine(Paths.RESOURCES, "Audio", "") + Path.DirectorySeparatorChar;
 
-        public static readonly string DATA = Path.Combine(Paths.RESOURCES, "Data", "") + Path.DirectorySeparatorChar;
+        public static readonly string DATA = Path.Combine(Paths.RESOURCES, "Content", "") + Path.DirectorySeparatorChar;
 
         public static readonly string GRAPHICS = Path.Combine(Paths.RESOURCES, "Graphics", "") + Path.DirectorySeparatorChar;
 
+        /// <summary>
+        /// Corresponds to Resources/Data/LUA/
+        /// </summary>
+        public static readonly string DATALUA = DATA + "LUA" + Path.DirectorySeparatorChar;
+
+        /// <summary>
+        /// Corresponds to Resources/Data/Enemies
+        /// </summary>
         public static readonly string DATAENEMIES = DATA + "Enemies" + Path.DirectorySeparatorChar;
 
         #region  Generic SFX

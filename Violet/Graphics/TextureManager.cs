@@ -23,6 +23,18 @@ namespace Violet.Graphics
             }
         }
 
+        private Dictionary<int, int> instances;
+
+        //keeps track of every texture that has ever been loaded within the game session
+        private Dictionary<string, int> allFilenameHashes;
+
+        //only has textures that are currently loaded in memory
+        private Dictionary<int, string> activeFilenameHashes;
+
+        private Dictionary<int, IVioletTexture> textures;
+
+        private static TextureManager instance = new TextureManager();
+
         private TextureManager()
         {
             this.instances = new Dictionary<int, int>();
@@ -37,6 +49,7 @@ namespace Violet.Graphics
         /// <returns></returns>
         private IndexedTexture LoadFromNbtTag(NbtCompound root)
         {
+            // this code is all dave/carbine code therefore i wil not look at it!
             NbtTag nbtTag = root.Get("pal");
             IEnumerable<NbtTag> enumerable = (nbtTag is NbtList) ? ((NbtList)nbtTag) : ((NbtCompound)nbtTag).Tags;
             uint intValue = (uint)root.Get<NbtInt>("w").IntValue;
@@ -284,7 +297,7 @@ namespace Violet.Graphics
                 textures.Add($"name == '{ keyntex.Key}' :: hash == '{keyntex.Value}'");
             }
 
-            StreamWriter streamWriter = new StreamWriter("all_loaded_textures.log");
+            StreamWriter streamWriter = new StreamWriter("Data/Logs/all_loaded_textures.log");
             textures.ForEach(x => streamWriter.WriteLine(x));
             streamWriter.Close();
         }
@@ -295,21 +308,9 @@ namespace Violet.Graphics
                 textures.Add($"name == '{ keyntex.Value}' :: hash == '{keyntex.Key}'");
             }
 
-            StreamWriter streamWriter = new StreamWriter("loaded_textures.log");
+            StreamWriter streamWriter = new StreamWriter("Data/Logs/loaded_textures.log");
             textures.ForEach(x => streamWriter.WriteLine(x));
             streamWriter.Close();
         }
-
-        private Dictionary<int, int> instances;
-
-        //keeps track of every texture that has ever been loaded within the game session
-        private Dictionary<string, int> allFilenameHashes;
-
-        //only has textures that are currently loaded in memory
-        private Dictionary<int, string> activeFilenameHashes;
-
-        private Dictionary<int, IVioletTexture> textures;
-
-        private static TextureManager instance = new TextureManager();
     }
 }

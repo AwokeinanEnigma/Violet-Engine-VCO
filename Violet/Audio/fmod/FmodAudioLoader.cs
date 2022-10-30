@@ -11,7 +11,7 @@ namespace Violet.Audio.fmod
 {
     internal class FmodAudioLoader
     {
-        public const string AUDIO_PATH = "Resources/Audio/";
+        public const string AUDIO_PATH = "Data/Audio/";
         private static FmodAudioLoader instance;
         private NbtFile nbtFile;
         private NbtCompound bgmRoot;
@@ -34,7 +34,7 @@ namespace Violet.Audio.fmod
 
         private FmodAudioLoader()
         {
-            this.nbtFile = new NbtFile("Resources/Audio/audio.dat");
+            this.nbtFile = new NbtFile("Data/Audio/audio.dat");
             this.bgmRoot = this.nbtFile.RootTag.Get<NbtCompound>("bgm");
             if (this.bgmRoot != null)
             {
@@ -89,7 +89,7 @@ namespace Violet.Audio.fmod
                 NbtString nbtString = nbtCompound.Get<NbtString>("f");
                 if (nbtString != null)
                 {
-                    filename = "Resources/Audio/" + nbtString.StringValue + this.bgmExtension;
+                    filename = "Data/Audio/" + nbtString.StringValue + this.bgmExtension;
                 }
             }
             return new FmodSound(ref system, filename, AudioType.Stream, loopBegin, loopEnd, loopCount, volume);
@@ -108,7 +108,7 @@ namespace Violet.Audio.fmod
                 NbtString nbtString = nbtCompound.Get<NbtString>("f");
                 if (nbtString != null)
                 {
-                    filename = "Resources/Audio/" + nbtString.StringValue + this.sfxExtension;
+                    filename = "Data/Audio/" + nbtString.StringValue + this.sfxExtension;
                 }
             }
             return new FmodSound(ref system, filename, AudioType.Sound, 0U, 0U, loopCount, volume);

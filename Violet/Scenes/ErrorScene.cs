@@ -10,16 +10,28 @@ namespace Violet.Scenes
 {
     public class ErrorScene : Scene
     {
+        private RenderPipeline pipeline;
+
+        private TextRegion title;
+        private TextRegion message;
+        private TextRegion pressenter;
+        private TextRegion exceptionDetails;
+        private TextRegion additionalUserDetails;
+
         public ErrorScene(Exception ex)
         {
-            StreamWriter streamWriter = new StreamWriter("error.log");
+            StreamWriter streamWriter = new StreamWriter("Data/Logs/error.log");
             streamWriter.WriteLine(ex);
             streamWriter.Close();
           //  Engine.ClearColor = Color.Blue;
-            this.title = new TextRegion(new Vector2f(16f, 8f), 0, Engine.DefaultFont, "An unhandled exception has occurred.");
-            this.message = new TextRegion(new Vector2f(16f, 32f), 0, Engine.DefaultFont, "tom is obviously an incompetent programmer.");
-            this.pressenter = new TextRegion(new Vector2f(16f, 48f), 0, Engine.DefaultFont, "Press Enter/Start to exit.");
-            this.exceptionDetails = new TextRegion(new Vector2f(16f, 80f), 0, Engine.DefaultFont, string.Format("{0}\nSee error.log for more details.", ex.Message));
+            this.title = new TextRegion(new Vector2f(3f, 8f), 0, Engine.DefaultFont, "An unhandled exception has occurred.");
+            this.message = new TextRegion(new Vector2f(3f, 32f), 0, Engine.DefaultFont, "Enigma is obviously an incompetent programmer.");
+            this.pressenter = new TextRegion(new Vector2f(3f, 48f), 0, Engine.DefaultFont, "Press Enter/Start to exit.");
+            this.exceptionDetails = new TextRegion(new Vector2f(3f, 80f), 0, Engine.DefaultFont, string.Format("{0}\nSee error.log for more details.", ex.Message));
+            this.additionalUserDetails = new TextRegion(new Vector2f(3f, 110), 0, Engine.DefaultFont, "Additionally, files detailing the state of the " +
+                "\nTextureManager and all logs prior to the error have " +
+                "\nbeen dumped.");
+
             //todo - change this to a nonpersistant path
             //IndexedColorGraphic graphic = new IndexedColorGraphic($"C:\\Users\\Tom\\source\\repos\\SunsetRhapsody\\SunsetRhapsody\\bin\\Release\\Resources\\Graphics\\whoops.dat", "whoops", new Vector2f(160, 90), 100);
             this.pipeline = new RenderPipeline(Engine.FrameBuffer);
@@ -30,7 +42,7 @@ namespace Violet.Scenes
             this.pipeline.Add(this.message);
             this.pipeline.Add(this.pressenter);
             this.pipeline.Add(this.exceptionDetails);
-
+            this.pipeline.Add(this.additionalUserDetails);
             Debug.DumpLogs();
             TextureManager.Instance.DumpEveryLoadedTexture();
             TextureManager.Instance.DumpLoadedTextures();
@@ -76,15 +88,5 @@ namespace Violet.Scenes
             }
             base.Dispose(disposing);
         }
-
-        private RenderPipeline pipeline;
-
-        private TextRegion title;
-
-        private TextRegion message;
-
-        private TextRegion pressenter;
-
-        private TextRegion exceptionDetails;
     }
 }

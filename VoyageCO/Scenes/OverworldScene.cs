@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using MoonSharp.Interpreter;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -104,10 +105,10 @@ namespace VCO.Scenes
 
 		private void SetExecutorScript(string scriptName, bool isTelepathy)
 		{
-			Script? script = ScriptLoader.Load(scriptName);
+			RufiniScript? script = ScriptLoader.Load(scriptName);
 			if (script != null)
 			{
-				Script value = script.Value;
+				RufiniScript value = script.Value;
 				if (isTelepathy)
 				{
 					RufiniAction[] array = new RufiniAction[value.Actions.Length + 2];
@@ -146,11 +147,11 @@ namespace VCO.Scenes
 					num3 += 8;
 				}
 				npc.Direction = num3;
-				Script? script = ScriptLoader.Load(npctext.ID);
+				RufiniScript? script = ScriptLoader.Load(npctext.ID);
 				if (script != null)
 				{
 					result = true;
-					Script value = script.Value;
+					RufiniScript value = script.Value;
 					if (isTelepathy)
 					{
 						RufiniAction[] array = new RufiniAction[value.Actions.Length + 2];
@@ -218,11 +219,43 @@ namespace VCO.Scenes
 				this.SetExecutorScript("Default", isTelepathy);
 			}
 		}
+		private int ShareText(string txt, string name, bool suppressin, bool suppressout) {
 
+			textbox.Reset(txt, name, suppressin, suppressout);
+			return 0;
+		}
+
+		private int Mul(int a, int b)
+		{
+			textbox.Reset("@hamburher", "Tutorial Agent", false, false);
+			textbox.Show();
+			return a * b;
+
+		}
+
+
+		double MoonSharpFactorial2()
+		{ 
+			string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
+			
+			Script script = new Script();
+
+			script.Globals["Mul"] = (Func<int, int, int>)Mul;
+
+			script.DoString(scriptcode);
+
+			DynValue res = script.Call(script.Globals["fact"], 4);
+
+			return res.Number;
+
+
+			return res.Number;
+		}
 		private void ButtonPressed(InputManager sender, Button b)
 		{
 			if (b == Button.F1)
 			{
+				Debug.Log(MoonSharpFactorial2());
 				Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
 			}
 
@@ -576,7 +609,7 @@ namespace VCO.Scenes
 			this.executor = new ScriptExecutor(context);
 			if (map.Head.Script != null && this.enableLoadScripts)
 			{
-				Script? script = ScriptLoader.Load(map.Head.Script);
+				RufiniScript? script = ScriptLoader.Load(map.Head.Script);
 				if (script != null)
 				{
 					Console.WriteLine("Executing script on load: {0}", script.Value.Name);

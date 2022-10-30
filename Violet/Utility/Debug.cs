@@ -55,6 +55,21 @@ namespace Violet
         }
 
         /// <summary>
+        /// Generic log. Just logs as system.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="callerFilePath">Ignore this.</param>
+        /// <param name="callerLineNumber">Ignore this.</param>
+        public static void Log(
+        object message,
+        [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0)
+        {
+            LogInternal(LogLevel.System, message, callerFilePath, callerLineNumber);
+        }
+
+
+        /// <summary>
         /// Used to stop the game if a condition is false.
         /// </summary>
         /// <param name="condition">If this condition is false, the game will go into an error scene.</param>
@@ -166,12 +181,12 @@ namespace Violet
             Console.ForegroundColor = logColors[logLevel];
             Console.WriteLine($"{logLevel}, {dateTimeNow}, {callsite}>>> {message}");
             Console.ResetColor();
-            log.Add($"{dateTimeNow} [{logLevel}] {callsite} {message}");
+            log.Add($"{dateTimeNow} [{logLevel}] {callsite}>>> {message}");
 
         }
 
         public static void DumpLogs() {
-            StreamWriter streamWriter = new StreamWriter("logs.log");
+            StreamWriter streamWriter = new StreamWriter("Data/Logs/logs.log");
             log.ForEach(x => streamWriter.WriteLine(x));
             streamWriter.Close();
         }

@@ -87,15 +87,15 @@ namespace Violet.GUI
 			switch (this.style)
 			{
 				case WindowBox.Style.Classic:
-					resource = "Resources/Graphics/window2.dat";
+					resource = "Data/Graphics/window2.dat";
 					this.beamRepeat = false;
 					goto IL_4D;
 				case WindowBox.Style.Telepathy:
-					resource = "Resources/Graphics/window3.dat";
+					resource = "Data/Graphics/window3.dat";
 					this.beamRepeat = true;
 					goto IL_4D;
 			}
-			resource = "Resources/Graphics/window1.dat";
+			resource = "Data/Graphics/window1.dat";
 			this.beamRepeat = false;
 		IL_4D:
 			this.frame = new IndexedColorGraphic(resource, "center", this.position, this.depth);
