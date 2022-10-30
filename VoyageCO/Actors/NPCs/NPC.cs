@@ -113,7 +113,7 @@ namespace VCO.Actors.NPCs
 			if (npcData.Sprite != null && npcData.Sprite.Length > 0)
 			{
 				this.hasSprite = true;
-				Debug.Log("loading npc thing");
+				//Debug.Log("loading npc thing");
 				this.ChangeSprite(Paths.GRAPHICS_NPCS + npcData.Sprite + ".dat", "stand south");
 				if (this.shadow)
 				{

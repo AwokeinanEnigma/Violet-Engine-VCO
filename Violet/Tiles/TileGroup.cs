@@ -57,7 +57,7 @@ namespace Violet.Tiles
 
 		public TileGroup(IList<Tile> tiles, string resource, int depth, Vector2f position, uint palette)
 		{
-			Debug.Log($"trying to! {resource}");
+			//Debug.Log($"trying to! {resource}");
 			this.tileset = TextureManager.Instance.Use(resource);
 			this.tileset.CurrentPalette = palette;
 			this.position = position;
@@ -65,7 +65,9 @@ namespace Violet.Tiles
 			this.renderState = new RenderStates(BlendMode.Alpha, Transform.Identity, this.tileset.Image, TileGroup.TILE_GROUP_SHADER);
 			this.animationEnabled = true;
 			this.CreateAnimations(this.tileset.GetSpriteDefinitions());
+			
 			// this is like putting a screaming baby on mute, but it works!
+			// update: it did not work
 			// try
 			// {
 				this.CreateVertexArray(tiles);

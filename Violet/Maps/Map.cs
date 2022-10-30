@@ -36,7 +36,7 @@ namespace Violet.Maps
             {
                 arg = this.Head.Tilesets[0].Name;
             }
-            string resource = string.Format("{0}{1}.dat", graphicDirectory, arg);
+            string resource = string.Format("{0}{1}.mtdat", graphicDirectory, arg);
             IList<TileGroup> list = new List<TileGroup>(this.Groups.Count);
             long ticks = DateTime.Now.Ticks;
             for (int i = 0; i < this.Groups.Count; i++)

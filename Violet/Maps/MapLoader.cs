@@ -9,29 +9,20 @@ using Violet.Utility;
 
 namespace Violet.Maps
 {
-    /// <summary>
-    /// Helper class for loading a map
-    /// </summary>
     public class MapLoader
     {
-        // path fixing function
         private static string FixPath(string mapFile)
         {
             string path = mapFile;
             if (System.IO.Path.GetExtension(path) == string.Empty)
             {
-                path += ".mdat";
+                path += ".dat";
             }
 
             return path;
         }
 
-        /// <summary>
-        ///  Creates a Map instance from a .dat map file. 
-        /// </summary>
-        /// <param name="mapFile"></param>
-        /// <returns></returns>
-        public static Map Load(string mapFile)
+        public static Map Load(string mapFile, string graphicsDirectory)
         {
             string str = MapLoader.FixPath(mapFile);
             if (!File.Exists(str))
@@ -42,18 +33,31 @@ namespace Violet.Maps
             Map map = new Map();
             NbtCompound rootTag = new NbtFile(str).RootTag;
             long ticks = DateTime.Now.Ticks;
+            //Debug.Log("Starting loading");
             MapLoader.LoadHeader(map, rootTag);
+            //Debug.Log("Loaded header");
             MapLoader.LoadBGM(map, rootTag);
+            //Debug.Log("Loaded BGM");
             MapLoader.LoadSFX(map, rootTag);
+            //Debug.Log("Loaded SFX");
             MapLoader.LoadDoors(map, rootTag);
+            //Debug.Log("Loaded doors");
             MapLoader.LoadTriggers(map, rootTag);
+            //Debug.Log("Loaded triggers");
             MapLoader.LoadNPCs(map, rootTag);
+            //Debug.Log("Loaded NPCs");
             MapLoader.LoadNPCPaths(map, rootTag);
+            //Debug.Log("Loaded NPC paths");
             MapLoader.LoadNPCAreas(map, rootTag);
+            //Debug.Log("Loaded NPC Areas");
             MapLoader.LoadCrowds(map, rootTag);
+            //Debug.Log("Loaded crowds");
             MapLoader.LoadSpawns(map, rootTag);
+            //Debug.Log("Loaded loaded spawns");
             MapLoader.LoadCollisions(map, rootTag);
+          //  Debug.Log("Loaded collisions");
             MapLoader.LoadTileGroups(map, rootTag);
+           // Debug.Log("Loaded groups");
             MapLoader.LoadParallax(map, rootTag);
             Debug.LDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;
