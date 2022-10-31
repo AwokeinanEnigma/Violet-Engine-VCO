@@ -83,6 +83,9 @@
     <Compile Include="GUI\WindowBox.cs" />
     <Compile Include="Input\Button.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Lua\LuaHandler.cs" />
+    <Compile Include="Lua\LuaConfiguration.cs" />
+    <Compile Include="Lua\LUAManager.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -23,6 +23,7 @@ using Violet.Collision;
 using Violet.Flags;
 using Violet.Graphics;
 using Violet.Input;
+using Violet.Lua;
 using Violet.Maps;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
@@ -31,7 +32,7 @@ using Violet.Utility;
 
 namespace VCO.Scenes
 {
-    internal class OverworldScene : StandardScene
+	internal class OverworldScene : StandardScene
 	{
 		public ScreenDimmer Dimmer
 		{
@@ -233,20 +234,32 @@ namespace VCO.Scenes
 
 		}
 
+		public void LuaTest()
+        {
+			Debug.Log("called by lua");
+        }
 
 		double MoonSharpFactorial2()
 		{ 
 			string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
-			
-			Script script = new Script();
 
-			script.Globals["PopText"] = (Func<string, string, string>)PopText;
+			LuaConfiguration config = new LuaConfiguration();
+			config.Globals.Add("overworldScene", this);
 
-			script.DoString(scriptcode);
+			LuaHandler handler = new LuaHandler(scriptcode, config);
+			handler.Do();
 
-			DynValue res = script.Call(script.Globals["fact"], 4);
 
-			return res.Number;
+			//Script script = new Script();
+
+			//script.Globals["PopText"] = (Func<string, string, string>)PopText;
+			//script.Globals["thing"] = this;
+			//script.DoString(scriptcode);
+
+			//DynValue res = script.Call(script.Globals["fact"], 4);
+
+
+			return 1;
 		}
 		private void ButtonPressed(InputManager sender, Button b)
 		{

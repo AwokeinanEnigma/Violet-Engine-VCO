@@ -116,7 +116,6 @@
     <Compile Include="Battle\EnemyAI\InfestedLegsAI.cs" />
     <Compile Include="Battle\EnemyAI\HermitCanAI.cs" />
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />
-    <Compile Include="Lua\LUAManager.cs" />
     <Compile Include="Scenes\DebugScene.cs" />
     <Compile Include="SOMETHINGSKILLS\AUXBase.cs" />
     <Compile Include="Battle\Actions\ActionParams.cs" />

@@ -117,7 +117,7 @@ namespace Violet.GUI
 
 			// abbrievated as
 			if (string.IsNullOrEmpty(newStyle)) {
-				Debug.LWarning("WindowBox with no style tried to be initiated!");
+				Debug.LogW("WindowBox with no style tried to be initiated!");
 
 				// if we have no style :^)
 				newStyle = "Data/Graphics/window1.dat";

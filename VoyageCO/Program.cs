@@ -9,6 +9,8 @@ using VCO.Scenes;
 using VCO.Scenes.Transitions;
 using Violet.Scenes.Transitions;
 using VCO.Lua;
+using System.Reflection;
+using MoonSharp.Interpreter;
 
 namespace VCO
 {
@@ -22,9 +24,15 @@ namespace VCO
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
             Scene newScene = new TitleScene();
             EnemyFile.Load();
-            LUAManager.Initialize();
-            
 
+            // this is totally and utterly fucking worthless
+            //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
+
+            LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+
+         //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
+            
             //Debug.DumpLogs();
             try
             {

@@ -46,7 +46,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LSystem(
+        public static void LogS(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -76,7 +76,7 @@ namespace Violet
         /// <param name="message">The message to display if the condition is false. Is "Assertion failed." by default.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LAssert(
+        public static void LogA(
         bool condition,
         string message = "Assertion failed.",
         [CallerFilePath] string callerFilePath = "",
@@ -99,7 +99,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LError(
+        public static void LogE(
         object message,
         bool throwException,
         [CallerFilePath] string callerFilePath = "",
@@ -122,7 +122,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LWarning(
+        public static void LogW(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -136,7 +136,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LInfo(
+        public static void LogI(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -150,7 +150,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LDebug(
+        public static void LogD(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)

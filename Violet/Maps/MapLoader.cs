@@ -59,7 +59,7 @@ namespace Violet.Maps
             MapLoader.LoadTileGroups(map, rootTag);
            // Debug.Log("Loaded groups");
             MapLoader.LoadParallax(map, rootTag);
-            Debug.LDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
+            Debug.LogD($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;
         }
 
