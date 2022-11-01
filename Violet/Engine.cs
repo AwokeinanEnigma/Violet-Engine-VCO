@@ -262,7 +262,8 @@ namespace Violet
 
             // for now, register empty
             LUAManager.Initialize(string.Empty);
-
+            Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
+            
             LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();

@@ -21,6 +21,8 @@ namespace Violet.Input
 
         public event InputManager.ButtonPressedHandler ButtonPressed;
 
+        public event EventHandler OnButtonPressed;
+
         public event InputManager.ButtonReleasedHandler ButtonReleased;
 
         public event InputManager.AxisPressedHandler AxisPressed;
@@ -99,6 +101,9 @@ namespace Violet.Input
                 if (this.enabled && !this.currentState[button] && this.ButtonPressed != null)
                 {
                     this.ButtonPressed(this, button);
+                    
+                    // nullable! 
+                    OnButtonPressed?.Invoke(this, EventArgs.Empty);
                 }
                 this.currentState[button] = true;
                 return;

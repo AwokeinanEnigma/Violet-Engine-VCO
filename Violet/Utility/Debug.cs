@@ -26,6 +26,7 @@ namespace Violet
             Warning,
             Info,
             Debug,
+            Lua,
             Trace
         }
 
@@ -37,6 +38,7 @@ namespace Violet
             [LogLevel.Warning] = ConsoleColor.Yellow,
             [LogLevel.Info] = ConsoleColor.White,
             [LogLevel.Debug] = ConsoleColor.Green,
+            [LogLevel.Lua] = ConsoleColor.Magenta,
             [LogLevel.Trace] = ConsoleColor.Cyan,
         };
 
@@ -145,6 +147,20 @@ namespace Violet
         }
 
         /// <summary>
+        /// Used to send Lua info messages to the console.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="callerFilePath">Ignore this.</param>
+        /// <param name="callerLineNumber">Ignore this.</param>
+        public static void LogL(
+        object message,
+        [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0)
+        {
+            LogInternal(LogLevel.Lua, message, callerFilePath, callerLineNumber);
+        }
+
+        /// <summary>
         /// Used to send debug messages to the console.
         /// </summary>
         /// <param name="message">The message to display.</param>
@@ -193,6 +209,7 @@ namespace Violet
 
         public static void Initialize()
         {
+            SetVerbosity(LogLevel.Trace);
         }
     }
 }

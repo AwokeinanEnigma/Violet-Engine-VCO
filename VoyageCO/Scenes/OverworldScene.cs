@@ -226,11 +226,10 @@ namespace VCO.Scenes
 			return 0;
 		}
 
-		private string PopText(string a, string b)
+		public void PopText(string a, string b)
 		{
 			textbox.Reset(a, b, false, false);
 			textbox.Show();
-			return string.Empty;
 
 		}
 
@@ -245,6 +244,8 @@ namespace VCO.Scenes
 
 			LuaConfiguration config = new LuaConfiguration();
 			config.Globals.Add("overworldScene", this);
+			config.Globals.Add("player", player);
+			config.Globals.Add("inputHandler", InputManager.Instance);
 
 			LuaHandler handler = new LuaHandler(scriptcode, config);
 			handler.Do();

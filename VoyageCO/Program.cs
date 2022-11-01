@@ -28,6 +28,7 @@ namespace VCO
             // this is totally and utterly fucking worthless
             //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
 
+            UserData.RegisterType<EventArgs>();
             LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
 
