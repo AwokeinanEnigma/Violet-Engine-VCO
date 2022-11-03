@@ -31,7 +31,7 @@ namespace VCO
             UserData.RegisterType<EventArgs>();
             LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
-
+            
          //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
             
             //Debug.DumpLogs();

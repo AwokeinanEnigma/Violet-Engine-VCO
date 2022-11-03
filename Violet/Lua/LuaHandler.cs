@@ -22,6 +22,7 @@ namespace Violet.Lua
 
             // set config
             SetConfig(conf);
+
         }
 
         #region Do Methods
@@ -58,28 +59,17 @@ namespace Violet.Lua
         /// Calls a function within the lua script 
         /// </summary>
         /// <param name="func">The lua function you want to call</param>
-        public void CallLuaFunc(string func) {
-            _lua.Call("");
+        public DynValue CallLuaFunc(string func) {
+            return _lua.Call(func);
         }
 
         /// <summary>
         /// Calls a function within the lua script 
         /// </summary>
         /// <param name="func">The lua function you want to call</param>
-        public void CallLuaFunc(string func, object args)
+        public DynValue CallLuaFunc(string func, object args)
         {
-            _lua.Call("", args);
-        }
-        #endregion
-
-        #region GetFunc
-        /// <summary>
-        /// Returns a value from a (without args) within the lua script 
-        /// </summary>
-        /// <param name="func">The lua function you want to call</param>
-        public DynValue GetLuaFuncValue(string func)
-        {
-            return _lua.Call("");
+            return _lua.Call(func, args);
         }
         #endregion
 

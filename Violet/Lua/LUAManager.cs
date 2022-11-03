@@ -28,15 +28,33 @@ namespace VCO.Lua
         /// </summary>
         /// <param name="asm">The assembly containing the types you want to register</param>
         /// <param name="mode">The interop access mode for the types you want to register</param>
-        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default) {
+        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default, List<Type> forbiddenTypes = null) {
             Type[] typesInAsm = asm.GetTypes();
 
             // the weakness of this is that you cannot manually pick and choose the InteropAccessMode for specific types
             // but that'll probably never be a problem.
 
-            for (int i = 0; i < typesInAsm.Length; i++) {
-                // Change this later
-                UserData.RegisterType(typesInAsm[i], mode);
+            if (forbiddenTypes == null)
+            {
+                for (int i = 0; i < typesInAsm.Length; i++)
+                {
+                    // Change this later
+                    UserData.RegisterType(typesInAsm[i], mode);
+                }
+            }
+            else {
+                for (int i = 0; i < typesInAsm.Length; i++)
+                {
+                    if (forbiddenTypes.Contains(typesInAsm[i]))
+                    {
+                        // warn
+                        Debug.LogW($"Type '{typesInAsm[i]}' excluded from being registered with MoonSharp! Assembly: {asm.FullName}");
+                        // skip
+                        continue; 
+                    }
+                    // register if it's not excluded.
+                    UserData.RegisterType(typesInAsm[i], mode);
+                }
             }
         }
 

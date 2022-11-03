@@ -11,6 +11,10 @@ namespace Violet.Lua
 {
     public class LuaConfiguration
     {
+        /// <summary>
+        /// Refer to the official MoonSharp documentation for this one.
+        /// https://www.moonsharp.org/scriptoptions.html
+        /// </summary>
         public struct ScriptOptions {
             public bool CheckThreadAccess;
             public ColonOperatorBehaviour ColonOperatorClrCallbackBehaviour;

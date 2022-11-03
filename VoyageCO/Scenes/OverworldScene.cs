@@ -238,6 +238,7 @@ namespace VCO.Scenes
 			Debug.Log("called by lua");
         }
 
+		public LuaHandler handler;
 		double MoonSharpFactorial2()
 		{ 
 			string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
@@ -247,9 +248,11 @@ namespace VCO.Scenes
 			config.Globals.Add("player", player);
 			config.Globals.Add("inputHandler", InputManager.Instance);
 
-			LuaHandler handler = new LuaHandler(scriptcode, config);
+		    handler = new LuaHandler(scriptcode, config);
 			handler.Do();
+			handler.CallLuaFunc("mortis", 24);
 
+			//handler
 
 			//Script script = new Script();
 
@@ -309,7 +312,7 @@ namespace VCO.Scenes
 			{
 				if (b == Button.One)
 				{
-					throw new Exception("triggered");
+					//throw new Exception("triggered");
 				}
 			}
 			/*else if (b == Button.Two)
@@ -989,6 +992,7 @@ namespace VCO.Scenes
 				this.footstepPlayer = null;
 				this.player.OnCollision -= this.OnPlayerCollision;
 				this.player = null;
+
 			}
 			base.Dispose(disposing);
 		}
