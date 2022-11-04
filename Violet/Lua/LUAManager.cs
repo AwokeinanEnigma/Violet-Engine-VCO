@@ -9,7 +9,7 @@ namespace VCO.Lua
     /// <summary>
     /// Handles all 
     /// </summary>
-    public class LUAManager
+    public class LUAManager 
     {
         public static LUAManager instance;
 

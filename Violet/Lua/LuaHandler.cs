@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Violet.Lua
 {
-    public class LuaHandler
+    public class LuaHandler : IDisposable
     {
         private LuaConfiguration _config;
         private Script _lua;
         private string _luaScriptString;
+        private bool disposed;
+
+        // this is kinda stupid but i can't think of a better way to implement this other than giving raw access to the script field
+        public object this[string name]
+        {
+            get => _lua.Globals[name];
+        }
 
         public LuaHandler(string luaScriptString, LuaConfiguration conf) {
             // initiate script
@@ -23,6 +30,26 @@ namespace Violet.Lua
             // set config
             SetConfig(conf);
 
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _luaScriptString = null;
+                    _lua = null;
+                    _config = null;
+                }
+                this.disposed = true;
+            }
         }
 
         #region Do Methods
@@ -59,17 +86,17 @@ namespace Violet.Lua
         /// Calls a function within the lua script 
         /// </summary>
         /// <param name="func">The lua function you want to call</param>
-        public DynValue CallLuaFunc(string func) {
-            return _lua.Call(func);
+        public DynValue CallLuaFunc(object function) {
+            return _lua.Call(function);
         }
 
         /// <summary>
         /// Calls a function within the lua script 
         /// </summary>
         /// <param name="func">The lua function you want to call</param>
-        public DynValue CallLuaFunc(string func, object args)
+        public DynValue CallLuaFunc(object function, object args)
         {
-            return _lua.Call(func, args);
+            return _lua.Call(function, args);
         }
         #endregion
 

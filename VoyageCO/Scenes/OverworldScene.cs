@@ -250,11 +250,11 @@ namespace VCO.Scenes
 
 		    handler = new LuaHandler(scriptcode, config);
 			handler.Do();
-			handler.CallLuaFunc("mortis", 24);
+			// i mean it works but part of me feels like this is actually very bad
+			;
 
 			//handler
 
-			//Script script = new Script();
 
 			//script.Globals["PopText"] = (Func<string, string, string>)PopText;
 			//script.Globals["thing"] = this;
@@ -981,6 +981,10 @@ namespace VCO.Scenes
 					{
 						this.iris.Dispose();
 					}
+					if (handler != null)
+					{
+						handler.CallLuaFunc(handler["dispose"]);
+					}
 				}
 				this.actorManager = null;
 				this.mapGroups = null;
@@ -992,6 +996,7 @@ namespace VCO.Scenes
 				this.footstepPlayer = null;
 				this.player.OnCollision -= this.OnPlayerCollision;
 				this.player = null;
+				handler = null;
 
 			}
 			base.Dispose(disposing);
