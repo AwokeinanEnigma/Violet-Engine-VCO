@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: VCO.Scripts.Text.TextProcessor
-// Assembly: VCO, Version=0.6.6072.35821, Culture=neutral, PublicKeyToken=null
-// MVID: 75372462-4B0E-4582-8CEA-2817B7024D27
-// Assembly location: D:\OddityPrototypes\VCO - Copy (2).exe
-
-using Violet.GUI;
+﻿using Violet.GUI;
 using VCO.Data;
 using System;
 using System.Collections.Generic;

@@ -38,7 +38,7 @@ namespace VCO.Overworld
 					IndexedColorGraphic splash = this.splashes[i];
 				//	Console.WriteLine(OverworldScene.instance.MapGroups[0].(splash.Position));
 					splash.Position = VectorMath.Truncate(this.drops[i].Position);
-					splash.Depth = (int)this.drops[i].Position.Y;
+					splash.Depth =24;
 					splash.Frame = 0f;
 					splash.Visible = true;
 					splash.OnAnimationComplete += this.OnAnimationComplete;

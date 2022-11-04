@@ -36,7 +36,7 @@ namespace Violet.Maps
             {
                 arg = this.Head.Tilesets[0].Name;
             }
-            string resource = string.Format("{0}{1}.dat", graphicDirectory, arg);
+            string resource = string.Format("{0}{1}.mtdat", graphicDirectory, arg);
             IList<TileGroup> list = new List<TileGroup>(this.Groups.Count);
             long ticks = DateTime.Now.Ticks;
             for (int i = 0; i < this.Groups.Count; i++)
@@ -74,7 +74,7 @@ namespace Violet.Maps
                 TileGroup item2 = new TileGroup(list2, resource, group.Depth, new Vector2f((float)group.X, (float)group.Y), palette);
                 list.Add(item2);
             }
-            Debug.LInfo($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
+            Debug.LogI($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return list;
         }
 

@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using MoonSharp.Interpreter;
+using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using System;
@@ -6,9 +7,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using VCO.Lua;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.GUI;
@@ -186,6 +189,8 @@ namespace Violet
         /// <param name="args">Parameters that the game was initialized with.</param>
         public static void Initialize(string[] args)
         {
+           // UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
+
             frameStopwatch = Stopwatch.StartNew();
             startTicks = DateTime.Now.Ticks;
 
@@ -237,7 +242,7 @@ namespace Violet
                 frameBufferVertArray[2U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
                 frameBufferVertArray[3U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(0f, SCREEN_HEIGHT));
             }
-
+            
 
             SetScreenMode();
             SetFrameBuffer();
@@ -250,9 +255,16 @@ namespace Violet
             rand = new Random();
             defaultFont = new FontData();
             debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
+            debugText.Color = SFML.Graphics.Color.Blue;
             ClearColor = SFML.Graphics.Color.Black;
           
             Debug.Initialize();
+
+            // for now, register empty
+            LUAManager.Initialize(string.Empty);
+            Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
+            
+            LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < REQUIRED_OPENGL_VERSION)
@@ -260,7 +272,7 @@ namespace Violet
                 string message = $"OpenGL version {REQUIRED_OPENGL_VERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
-            Debug.LDebug($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
             SetCursorTimer(90);
             Running = true;
@@ -380,7 +392,7 @@ namespace Violet
             SFML.Graphics.Image image3 = frameBuffer.Texture.CopyToImage();
             string text = string.Format("screenshot{0}.png", Directory.GetFiles("./", "screenshot*.png").Length);
             image3.SaveToFile(text);
-            Debug.LInfo("Screenshot saved as \"{0}\"", text);
+            Debug.LogI("Screenshot saved as \"{0}\"", text);
         }
          
         public static unsafe void TakeScreenshot()
@@ -401,7 +413,7 @@ namespace Violet
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
                 Clipboard.SetImage(image2);
             }
-            Debug.LInfo("Screenshot copied to clipboard");
+            Debug.LogI("Screenshot copied to clipboard");
         }
 
         public static void OnButtonPressed(InputManager sender, Violet.Input.Button b)
@@ -432,7 +444,7 @@ namespace Violet
                     return;
                 case Violet.Input.Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
-                    Debug.LInfo($"frame buffer scale is {frameBufferScale}");
+                    Debug.LogI($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
                 case Violet.Input.Button.F8:

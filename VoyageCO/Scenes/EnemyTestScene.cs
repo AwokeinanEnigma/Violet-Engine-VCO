@@ -54,7 +54,7 @@ namespace VCO.Scenes
 		// Token: 0x06000623 RID: 1571 RVA: 0x00024414 File Offset: 0x00022614
 		private void SetEnemySprite(string spriteName)
 		{
-            string text = Paths.GRAPHICSENEMIES + spriteName + ".dat";
+            string text = Paths.GRAPHICS_ENEMIES + spriteName + ".dat";
 			if (this.enemySprite != null)
 			{
 				this.pipeline.Remove(this.enemySprite);

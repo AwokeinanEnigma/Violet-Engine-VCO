@@ -22,7 +22,7 @@ namespace Rufini.Actions.Types
 		public override ActionReturnContext Execute(ExecutionContext context)
 		{
 			string value = base.GetValue<string>("scr");
-			Script? script = ScriptLoader.Load(value);
+			RufiniScript? script = ScriptLoader.Load(value);
 			if (script != null)
 			{
 				context.Executor.PushScript(script.Value);

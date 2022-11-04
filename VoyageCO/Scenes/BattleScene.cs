@@ -50,7 +50,7 @@ namespace VCO.Scenes
 		//	Console.WriteLine($"MUSIC - { music } // ENEMY - {enemyCombatant.Enemy}");
 			ComboSet combos = ComboLoader.Load(music);
 
-			AudioManager.Instance.SetBGM(Paths.BGMBATTLE +  $"{music}.wav");
+			AudioManager.Instance.SetBGM(Paths.BGM_BATTLE +  $"{music}.wav");
 			this.comboControl = new ComboController(combos, party);
 			this.uiController = new BattleInterfaceController(this.pipeline, this.actorManager, this.combatantController, this.letterboxing);
            // Console.WriteLine("init btc");

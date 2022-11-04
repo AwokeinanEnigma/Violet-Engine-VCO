@@ -43,8 +43,8 @@ namespace VCO.Battle.UI
 			InputManager.Instance.ButtonPressed += this.ButtonPressed;
 		}
 
-		public void ChangeStyle(WindowBox.Style style) {
-			window.FrameStyle = style;
+		public void ChangeStyle(string style) {
+			window.FramePath = style;
 		}
 
 		private void TypewriterComplete()

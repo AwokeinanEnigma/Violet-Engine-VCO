@@ -11,7 +11,7 @@ namespace VCO.GUI.ProfileMenu
 {
 	internal class ProfilePanel : MenuPanel
 	{
-		public ProfilePanel(Vector2f position, Vector2f size, int index, SaveProfile profile) : base(position, size, 0, WindowBox.Style.Normal, (uint)profile.Flavor)
+		public ProfilePanel(Vector2f position, Vector2f size, int index, SaveProfile profile) : base(position, size, 0, "Data/Graphics/window1.dat", (uint)profile.Flavor)
 		{
 			TextRegion control = new TextRegion(new Vector2f(1f, -3f), 0, Fonts.Main, string.Format("#{0}", index + 1));
 			base.Add(control);

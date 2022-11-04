@@ -196,7 +196,7 @@ namespace VCO.Battle.UI
 			this.nameTag.Color = Color.Black;
 			this.nametagX = (int)((float)(this.card.TextureRect.Width / 2) - this.nameTag.Size.X / 2f);
 			this.nameTag.Position = position + new Vector2f((float)this.nametagX, 4f) + BattleCard.NAME_POSITION;
-			this.uhohsound = AudioManager.Instance.Use(Paths.SFXBATTLE + "smaaash.wav", AudioType.Sound);
+			this.uhohsound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "smaaash.wav", AudioType.Sound);
 
 
 			pipeline.Add(this.card);
@@ -427,7 +427,7 @@ namespace VCO.Battle.UI
 
 		private const float DAMP_HIGHPASS = 0.5f;
 
-		private static readonly string BATTLEUI_DAT = Paths.GRAPHICS + "battleui2.dat";
+		private static readonly string BATTLEUI_DAT = Paths.GRAPHICS_BATTLE + "battleui2.dat";
 
 
 		// these determine where the odometer and the label for the PP bar is.

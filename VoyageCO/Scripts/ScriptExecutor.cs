@@ -35,7 +35,7 @@ namespace VCO.Scripts
 			this.context.QuestionBox.OnTypewriterComplete += this.AfterTextboxTypewriter;
 		}
 
-		public void PushScript(Script script)
+		public void PushScript(RufiniScript script)
 		{
 			if (this.waitMode != ScriptExecutor.WaitType.None)
 			{
@@ -49,7 +49,7 @@ namespace VCO.Scripts
 					this.Reset();
 					this.context = new ExecutionContext(this.context);
 				}
-				this.script = new Script?(script);
+				this.script = new RufiniScript?(script);
 				this.actions = this.script.Value.Actions;
 				this.programCounter = 0;
 				this.pushedScript = true;
@@ -88,7 +88,7 @@ namespace VCO.Scripts
 		{
 			if (this.script != null)
 			{
-				Script value = this.script.Value;
+				RufiniScript value = this.script.Value;
 				int num = value.Actions.Length;
 				int num2 = 0;
 				for (int i = this.programCounter; i < num; i++)
@@ -139,7 +139,7 @@ namespace VCO.Scripts
 			{
 				ScriptExecutor.ScriptContext scriptContext = this.contextStack.Pop();
 				this.context = scriptContext.ExecutionContext;
-				this.script = new Script?(scriptContext.Script);
+				this.script = new RufiniScript?(scriptContext.Script);
 				this.actions = this.script.Value.Actions;
 				this.pausedInstruction = scriptContext.ProgramCounter + 1;
 			}
@@ -198,7 +198,7 @@ namespace VCO.Scripts
 
 		private ExecutionContext context;
 
-		private Script? script;
+		private RufiniScript? script;
 
 		private RufiniAction[] actions;
 
@@ -229,7 +229,7 @@ namespace VCO.Scripts
 				}
 			}
 
-			public Script Script
+			public RufiniScript Script
 			{
 				get
 				{
@@ -245,7 +245,7 @@ namespace VCO.Scripts
 				}
 			}
 
-			public ScriptContext(ExecutionContext context, Script script, int programCounter)
+			public ScriptContext(ExecutionContext context, RufiniScript script, int programCounter)
 			{
 				this.context = context;
 				this.script = script;
@@ -254,7 +254,7 @@ namespace VCO.Scripts
 
 			private ExecutionContext context;
 
-			private Script script;
+			private RufiniScript script;
 
 			private int programCounter;
 		}

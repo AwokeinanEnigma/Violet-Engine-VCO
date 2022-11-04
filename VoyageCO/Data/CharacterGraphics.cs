@@ -22,7 +22,7 @@ namespace VCO.Data
                 return CharacterGraphics.graphics[character];
             }
 
-            return Paths.GRAPHICSPARTYMEMBERS + CharacterGraphics.graphics[character] + ".dat";
+            return Paths.GRAPHICS_PARTYMEMBERS + CharacterGraphics.graphics[character] + ".dat";
         }
 
 

@@ -181,7 +181,7 @@ namespace VCO.Battle
 						{
 							EnemyCombatant enemyCombatant = (EnemyCombatant)combatant;
 							enemyCombatant.OnStatusEffectChange += this.OnEnemyStatusEffectChange;
-							IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICSENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
+							IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
 							indexedColorGraphic.CurrentPalette = uint.MaxValue;
 							indexedColorGraphic.CurrentPalette = 0U;
 							this.enemyGraphics.Add(enemyCombatant.ID, indexedColorGraphic);
@@ -206,22 +206,22 @@ namespace VCO.Battle
 			this.selectedTargetId = -1;
 			this.comboCircle = new ComboAnimator(pipeline, 0);
 
-			this.moveBeepX = AudioManager.Instance.Use(Paths.SFXMENU + "cursorx.wav", AudioType.Sound);
-			this.moveBeepY = AudioManager.Instance.Use(Paths.SFXMENU + "cursory.wav", AudioType.Sound);
-			this.selectBeep = AudioManager.Instance.Use(Paths.SFXMENU + "confirm.wav", AudioType.Sound);
-			this.cancelBeep = AudioManager.Instance.Use(Paths.SFXMENU + "cancel.wav", AudioType.Sound);
+			this.moveBeepX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
+			this.moveBeepY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
+			this.selectBeep = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+			this.cancelBeep = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
 
-			this.prePlayerAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "prePlayerAttack.wav", AudioType.Sound);
-			this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFXBATTLE + "preEnemyAttack.wav", AudioType.Sound);
+			this.prePlayerAttack = AudioManager.Instance.Use(Paths.SFX_BATTLE + "prePlayerAttack.wav", AudioType.Sound);
+			this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFX_BATTLE + "preEnemyAttack.wav", AudioType.Sound);
 
-			this.preAUXSound = AudioManager.Instance.Use(Paths.SFXBATTLEAUX + "prePSI.wav", AudioType.Sound);
+			this.preAUXSound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "prePSI.wav", AudioType.Sound);
 
-			this.talkSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "floydTalk.wav", AudioType.Sound);
-			this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "enemyDeath.wav", AudioType.Sound);
-			this.smashSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "smaaash.wav", AudioType.Sound);
-			this.comboHitA = AudioManager.Instance.Use(Paths.SFXBATTLE + "hitA.wav", AudioType.Sound);
-			this.comboHitB = AudioManager.Instance.Use(Paths.SFXBATTLE + "hitB.wav", AudioType.Sound);
-			this.comboSuccess = AudioManager.Instance.Use(Paths.SFXBATTLE + "Combo16.wav", AudioType.Sound);
+			this.talkSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "floydTalk.wav", AudioType.Sound);
+			this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "enemyDeath.wav", AudioType.Sound);
+			this.smashSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "smaaash.wav", AudioType.Sound);
+			this.comboHitA = AudioManager.Instance.Use(Paths.SFX_BATTLE + "hitA.wav", AudioType.Sound);
+			this.comboHitB = AudioManager.Instance.Use(Paths.SFX_BATTLE + "hitB.wav", AudioType.Sound);
+			this.comboSuccess = AudioManager.Instance.Use(Paths.SFX_BATTLE + "Combo16.wav", AudioType.Sound);
 			Console.WriteLine("combo");
 
 			this.comboSoundMap = new Dictionary<CharacterType, List<VioletSound>>();
@@ -240,19 +240,19 @@ namespace VCO.Battle
 				for (int l = 0; l < 3; l++)
 				{
 					string str = CharacterComboSounds.Get(array[k], 0, l, 120);
-					VioletSound item = AudioManager.Instance.Use(Paths.SFXBATTLECOMBO + str, AudioType.Sound);
+					VioletSound item = AudioManager.Instance.Use(Paths.SFX_BATTLE_COMBO + str, AudioType.Sound);
 					list.Add(item);
 				}
 			}
 			this.winSounds = new Dictionary<int, VioletSound>();
 
-			this.winSounds.Add(0, AudioManager.Instance.Use(Paths.SFXBATTLE + "win1.wav", AudioType.Stream));
-			this.winSounds.Add(1, AudioManager.Instance.Use(Paths.SFXBATTLE + "win2.wav", AudioType.Stream));
-			this.winSounds.Add(2, AudioManager.Instance.Use(Paths.SFXBATTLE + "win3.wav", AudioType.Stream));
-			this.winSounds.Add(3, AudioManager.Instance.Use(Paths.SFXBATTLE + "win4.wav", AudioType.Stream));
+			this.winSounds.Add(0, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win1.wav", AudioType.Stream));
+			this.winSounds.Add(1, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win2.wav", AudioType.Stream));
+			this.winSounds.Add(2, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win3.wav", AudioType.Stream));
+			this.winSounds.Add(3, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win4.wav", AudioType.Stream));
 
-			this.groovySound = AudioManager.Instance.Use(Paths.SFXBATTLE + "Groovy.wav", AudioType.Sound);
-			this.reflectSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "homerun.wav", AudioType.Sound);
+			this.groovySound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "Groovy.wav", AudioType.Sound);
+			this.reflectSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "homerun.wav", AudioType.Sound);
 			this.jingler = new LevelUpJingler(array, true);
 			this.graphicModifiers = new List<IGraphicModifier>();
 			this.damageNumbers = new List<DamageNumber>();
@@ -1423,7 +1423,7 @@ namespace VCO.Battle
 			this.textbox.Show();
 		}
 
-		public void ShowStyledMessage(string message, bool useButton, WindowBox.Style style)
+		public void ShowStyledMessage(string message, bool useButton, string style)
 		{
 			this.textbox.Reset(message, useButton);
 			this.textbox.ChangeStyle(style);
@@ -1445,7 +1445,7 @@ namespace VCO.Battle
 		{
 			EnemyCombatant enemyCombatant = (EnemyCombatant)this.combatantController[id];
 			this.enemyIDs.Add(id);
-			new IndexedColorGraphic(Paths.GRAPHICSENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
+			new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
 			this.AlignEnemyGraphics();
 		}
 

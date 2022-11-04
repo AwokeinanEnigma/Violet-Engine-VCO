@@ -44,7 +44,7 @@ namespace VCO.GUI.NamingMenu
 			}
 		}
 
-		public NamingPanel(Vector2f position, Vector2f size) : base(position, size, 1, WindowBox.Style.Normal, 0U)
+		public NamingPanel(Vector2f position, Vector2f size) : base(position, size, 1, "Data/Graphics/window1.dat", 0U)
 		{
 			this.descriptionText = new TextRegion(new Vector2f(2f, 0f), 1, Fonts.Main, string.Empty);
 			base.Add(this.descriptionText);

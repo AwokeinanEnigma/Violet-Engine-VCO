@@ -4,8 +4,8 @@ uniform vec4 blend;
 uniform float blendMode;
 uniform float palSize;
 // uniform float delta;
-// uniform float time;
-
+ uniform float time;
+ 
 void main() {
 	vec4 index = texture2D(image, gl_TexCoord[0].xy);
 	vec4 baseColor = texture2D(palette, vec2(((index.r * 255.0) + 0.5) / palSize, palIndex));
@@ -29,7 +29,7 @@ void main() {
 
 	//these make the sprites fade in and out	
 	// vec2 coord = gl_TexCoord[0].xy;   
-    // vec4 pixel_color = texture2D(image, coord);
+	// vec4 pixel_color = texture2D(image, coord);
     // float alpha=0.5+0.5*cos(2*time);
 
     // gl_FragColor = vec4 (pixel_color.xyz,min(alpha,pixel_color.w));

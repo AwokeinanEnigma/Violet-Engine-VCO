@@ -8,6 +8,9 @@ using VCO.Data.Enemies;
 using VCO.Scenes;
 using VCO.Scenes.Transitions;
 using Violet.Scenes.Transitions;
+using VCO.Lua;
+using System.Reflection;
+using MoonSharp.Interpreter;
 
 namespace VCO
 {
@@ -22,7 +25,15 @@ namespace VCO
             Scene newScene = new TitleScene();
             EnemyFile.Load();
 
+            // this is totally and utterly fucking worthless
+            //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
 
+            UserData.RegisterType<EventArgs>();
+            LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+            
+         //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
+            
             //Debug.DumpLogs();
             try
             {

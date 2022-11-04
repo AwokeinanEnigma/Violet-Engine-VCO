@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using MoonSharp.Interpreter;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using Violet.Collision;
 using Violet.Flags;
 using Violet.Graphics;
 using Violet.Input;
+using Violet.Lua;
 using Violet.Maps;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
@@ -30,7 +32,7 @@ using Violet.Utility;
 
 namespace VCO.Scenes
 {
-    internal class OverworldScene : StandardScene
+	internal class OverworldScene : StandardScene
 	{
 		public ScreenDimmer Dimmer
 		{
@@ -104,10 +106,10 @@ namespace VCO.Scenes
 
 		private void SetExecutorScript(string scriptName, bool isTelepathy)
 		{
-			Script? script = ScriptLoader.Load(scriptName);
+			RufiniScript? script = ScriptLoader.Load(scriptName);
 			if (script != null)
 			{
-				Script value = script.Value;
+				RufiniScript value = script.Value;
 				if (isTelepathy)
 				{
 					RufiniAction[] array = new RufiniAction[value.Actions.Length + 2];
@@ -146,11 +148,11 @@ namespace VCO.Scenes
 					num3 += 8;
 				}
 				npc.Direction = num3;
-				Script? script = ScriptLoader.Load(npctext.ID);
+				RufiniScript? script = ScriptLoader.Load(npctext.ID);
 				if (script != null)
 				{
 					result = true;
-					Script value = script.Value;
+					RufiniScript value = script.Value;
 					if (isTelepathy)
 					{
 						RufiniAction[] array = new RufiniAction[value.Actions.Length + 2];
@@ -218,11 +220,56 @@ namespace VCO.Scenes
 				this.SetExecutorScript("Default", isTelepathy);
 			}
 		}
+		private int ShareText(string txt, string name, bool suppressin, bool suppressout) {
 
+			textbox.Reset(txt, name, suppressin, suppressout);
+			return 0;
+		}
+
+		public void PopText(string a, string b)
+		{
+			textbox.Reset(a, b, false, false);
+			textbox.Show();
+
+		}
+
+		public void LuaTest()
+        {
+			Debug.Log("called by lua");
+        }
+
+		public LuaHandler handler;
+		double MoonSharpFactorial2()
+		{ 
+			string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
+
+			LuaConfiguration config = new LuaConfiguration();
+			config.Globals.Add("overworldScene", this);
+			config.Globals.Add("player", player);
+			config.Globals.Add("inputHandler", InputManager.Instance);
+
+		    handler = new LuaHandler(scriptcode, config);
+			handler.Do();
+			// i mean it works but part of me feels like this is actually very bad
+			;
+
+			//handler
+
+
+			//script.Globals["PopText"] = (Func<string, string, string>)PopText;
+			//script.Globals["thing"] = this;
+			//script.DoString(scriptcode);
+
+			//DynValue res = script.Call(script.Globals["fact"], 4);
+
+
+			return 1;
+		}
 		private void ButtonPressed(InputManager sender, Button b)
 		{
 			if (b == Button.F1)
 			{
+				Debug.Log(MoonSharpFactorial2());
 				Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
 			}
 
@@ -265,7 +312,7 @@ namespace VCO.Scenes
 			{
 				if (b == Button.One)
 				{
-					throw new Exception("triggered");
+					//throw new Exception("triggered");
 				}
 			}
 			/*else if (b == Button.Two)
@@ -519,7 +566,7 @@ namespace VCO.Scenes
 			this.actorManager.Add(this.textbox);
 			this.questionbox = new QuestionBox(this.pipeline, colorIndex);
 			this.actorManager.Add(this.questionbox);
-			Map map = MapLoader.Load(Paths.MAPS + this.mapName, Paths.GRAPHICS);
+			Map map = MapLoader.Load(Paths.MAPS + this.mapName, string.Empty);
 			if (this.initialPosition == VectorMath.ZERO_VECTOR)
 			{
 				this.initialPosition = new Vector2f((float)(map.Head.Width / 2), (float)(map.Head.Height / 2));
@@ -538,7 +585,9 @@ namespace VCO.Scenes
 				this.partyTrain.Add(partyFollower);
 				this.collisionManager.Add(partyFollower);
 			}
+			Debug.Log("1");
 			List<NPC> addActors = MapPopulator.GenerateNPCs(this.pipeline, this.collisionManager, map);
+			Debug.Log("2");
 			this.actorManager.AddAll<NPC>(addActors.ToArray());
 			IList<ICollidable> collidables = MapPopulator.GeneratePortals(map);
 			this.collisionManager.AddAll<ICollidable>(collidables);
@@ -557,7 +606,7 @@ namespace VCO.Scenes
 				this.collisionManager.Add(new SolidStatic(mesh));
 			}
 			bool flag = FlagManager.Instance[1];
-			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS, flag ? 1U : 0U);
+			this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS_MAPGRAPHICS, flag ? 1U : 0U);
 			
 
 			this.pipeline.AddAll<TileGroup>(this.mapGroups);
@@ -576,7 +625,7 @@ namespace VCO.Scenes
 			this.executor = new ScriptExecutor(context);
 			if (map.Head.Script != null && this.enableLoadScripts)
 			{
-				Script? script = ScriptLoader.Load(map.Head.Script);
+				RufiniScript? script = ScriptLoader.Load(map.Head.Script);
 				if (script != null)
 				{
 					Console.WriteLine("Executing script on load: {0}", script.Value.Name);
@@ -611,7 +660,7 @@ namespace VCO.Scenes
 			{
 				Console.WriteLine((map.Music.Count > 0) ? "No BGM flags were enabled for any BGM for this map." : "This map has no BGMs set.");
 			}
-			this.battleStartSound = AudioManager.Instance.Use(Paths.SFXBATTLE + "battleIntro.mp3", AudioType.Sound);
+			this.battleStartSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "battleIntro.mp3", AudioType.Sound);
 			this.initialized = true;
 		}
 
@@ -932,6 +981,10 @@ namespace VCO.Scenes
 					{
 						this.iris.Dispose();
 					}
+					if (handler != null)
+					{
+						handler.CallLuaFunc(handler["dispose"]);
+					}
 				}
 				this.actorManager = null;
 				this.mapGroups = null;
@@ -943,6 +996,8 @@ namespace VCO.Scenes
 				this.footstepPlayer = null;
 				this.player.OnCollision -= this.OnPlayerCollision;
 				this.player = null;
+				handler = null;
+
 			}
 			base.Dispose(disposing);
 		}

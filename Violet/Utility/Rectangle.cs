@@ -13,6 +13,13 @@
 
         public float Height { get; set; }
 
+        /// <summary>
+        /// Creates a new rectangle
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public Rectangle(float x, float y, float width, float height)
         { 
             this.X = x;

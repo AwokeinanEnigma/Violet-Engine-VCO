@@ -124,17 +124,17 @@ namespace VCO.Actors.NPCs
                 }*/
 
             }
-            /*if (collisionObjects[0] is EnemyNPC)
-            {
-                if (!collisionManager.PlaceFree(this, position))
-                {
-                    Console.WriteLine($"the phantom exterior like fish eggs interior like suicide wrist-red. I could exercise you, this could be your phys-ed. Cheat on your man homie AAGH I tried to sneak through the door man! Can't make it. Can't make it. Shit's stuck. Outta my way son! DOOR STUCK! DOOR STUCK! PLEASE! I BEG YOU! We're dead. You're a genuine dick sucker.");
-                    this.position += new Vector2f(direction, direction);
-                }
-            }*/
+			/*if (collisionObjects[0] is EnemyNPC)
+{
+	if (!collisionManager.PlaceFree(this, position))
+	{
+		Console.WriteLine($"the phantom exterior like fish eggs interior like suicide wrist-red. I could exercise you, this could be your phys-ed. Cheat on your man homie AAGH I tried to sneak through the door man! Can't make it. Can't make it. Shit's stuck. Outta my way son! DOOR STUCK! DOOR STUCK! PLEASE! I BEG YOU! We're dead. You're a genuine dick sucker.");
+		this.position += new Vector2f(direction, direction);
+	}
+}*/
 		}
 
-        public delegate void OnDestroyed(EnemyNPC npc);
+		public delegate void OnDestroyed(EnemyNPC npc);
         public event OnDestroyed onDestroy;
 		
         public void Destroy()

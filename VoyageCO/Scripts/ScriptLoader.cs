@@ -9,13 +9,13 @@ namespace VCO.Scripts
 {
 	internal class ScriptLoader
 	{
-		public static Script? Load(string name)
+		public static RufiniScript? Load(string name)
 		{
 			NbtFile nbtFile = new NbtFile(ScriptLoader.SCRIPT_FILE);
 			NbtCompound rootTag = nbtFile.RootTag;
 			NbtTag nbtTag = rootTag.Get<NbtTag>(name);
 			ICollection<NbtTag> collection = null;
-			Script? result = null;
+			RufiniScript? result = null;
 			if (nbtTag != null)
 			{
 				if (nbtTag is NbtList)
@@ -37,7 +37,7 @@ namespace VCO.Scripts
 						array[num++] = ActionFactory.FromNbt((NbtCompound)nbtTag2);
 					}
 				}
-				result = new Script?(new Script
+				result = new RufiniScript?(new RufiniScript
 				{
 					Name = name,
 					Actions = array

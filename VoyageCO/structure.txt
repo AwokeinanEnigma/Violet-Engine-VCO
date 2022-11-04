@@ -1,30 +1,35 @@
-Resources ->
+.mdat = Map file, contains map data. Is opened by game only. If you need to manually edit it, use NBTExplorer.
+.gdat = Graphic file, contains SpriteSheet with various animations. Opened with SpriteMan
+.edat = Enemy file, contains enemy data, like AIName, name of the enemy, and enemy states. Opened with M4EC
+.mtdat = MapTileset file, basically a .gdat file but it does not contain any animations. Opened with SpriteMan 
+
+Data ->
 			->Audio
 				-> SFX
-					-> Menu
-					-> Battle
-						-> PSI
-						-> Combos
-						-> Jingles
-					-> Text
+					-> Menu : Contains menu SFX
+					-> Battle : Contains battle SFX
+						-> PSI : Contains PSI SFX
+						-> Combos : Contains combo SFX
+						-> Jingles : Contains jingle SFX
+					-> Text : Contains scripts from the Rufini script.dat file.
+			
 				-> BGM
-					-> Overworld
-					-> Battle
+					-> Overworld : Contains overworld background music
+					-> Battle : Contains battle background music
 			-> Data
-				-> Enemies
+				-> Enemies : Contains .edat files.
 			
 			-> Graphics
-				-> Party Members
-				-> NPCs
-				-> MapGraphics
-				-> EnemiesOverworld
-				-> EnemiesBattle
+				-> PartyMembers : Contains graphics for all party members
+				-> NPCs : Contains .gdat files for every NPC.
+				-> MapTilesets : Contains .mptdat files for maps.
+				-> EnemiesOverworld : Contains .gdat files for enemies in the overworld. 
+				-> EnemiesBattle : Contains .gdat files for enemies during battle.
 			-> Scripts
 				-> EN_US
 				-> SPANISH
 				-> GERMAN
 				-> Any other language
-
 
 EnemyFile
 		

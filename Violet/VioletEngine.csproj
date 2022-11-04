@@ -83,6 +83,9 @@
     <Compile Include="GUI\WindowBox.cs" />
     <Compile Include="Input\Button.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Lua\LuaHandler.cs" />
+    <Compile Include="Lua\LuaConfiguration.cs" />
+    <Compile Include="Lua\LUAManager.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +125,9 @@
     <Reference Include="fNbt">
       <HintPath>..\SunsetRhapsody\RequiredLibaries\fNbt.dll</HintPath>
     </Reference>
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+    </Reference>
     <Reference Include="sfmlnet-graphics-2, Version=2.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SunsetRhapsody\bin\Debug\sfmlnet-graphics-2.dll</HintPath>
@@ -142,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
