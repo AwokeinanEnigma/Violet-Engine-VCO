@@ -171,7 +171,7 @@ namespace VCO.Scenes
 								break;
 							}
 						case Button.Seven:
-							Base64DebugTest scene = new Base64DebugTest();
+							DiebackTestScene scene = new DiebackTestScene();
 							SceneManager.Instance.Push(scene);
 							break;
 						default:
