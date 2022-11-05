@@ -200,7 +200,6 @@
     <Compile Include="Data\EnemyBattleActions.cs" />
     <Compile Include="Data\LevelUpBuilder.cs" />
     <Compile Include="Data\PartyManager.cs" />
-    <Compile Include="Data\Paths.cs" />
     <Compile Include="Data\PsiAnimations.cs" />
     <Compile Include="Data\PsiLetters.cs" />
     <Compile Include="Data\SaveFileManager.cs" />

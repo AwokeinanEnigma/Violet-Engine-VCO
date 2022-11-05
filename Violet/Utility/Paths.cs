@@ -1,35 +1,34 @@
 ﻿using System;
 using System.IO;
 
-namespace VCO.Data
-{
-	internal static class Paths
-	{
+
+    public static class Paths
+    {
         // this class is a clusterfuck, and by adding onto it i'm making it worse
         // however, that can be handled later!
 
 
-        public static readonly string RESOURCES = "Data" + Path.DirectorySeparatorChar;
+        public static readonly string DATA = "Data" + Path.DirectorySeparatorChar;
 
-        public static readonly string SFX = Path.Combine(Paths.RESOURCES, "Audio", "SFX") + Path.DirectorySeparatorChar;
+        public static readonly string SFX = Path.Combine(Paths.DATA, "Audio", "SFX") + Path.DirectorySeparatorChar;
 
-		public static readonly string BGM = Path.Combine(Paths.RESOURCES, "Audio", "BGM") + Path.DirectorySeparatorChar;
+        public static readonly string BGM = Path.Combine(Paths.DATA, "Audio", "BGM") + Path.DirectorySeparatorChar;
 
-        public static readonly string AUDIO = Path.Combine(Paths.RESOURCES, "Audio", "") + Path.DirectorySeparatorChar;
+        public static readonly string AUDIO = Path.Combine(Paths.DATA, "Audio", "") + Path.DirectorySeparatorChar;
 
-        public static readonly string DATA = Path.Combine(Paths.RESOURCES, "Content", "") + Path.DirectorySeparatorChar;
+        public static readonly string DATA_CONTENT = Path.Combine(Paths.DATA, "Content", "") + Path.DirectorySeparatorChar;
 
-        public static readonly string GRAPHICS = Path.Combine(Paths.RESOURCES, "Graphics", "") + Path.DirectorySeparatorChar;
+        public static readonly string GRAPHICS = Path.Combine(Paths.DATA, "Graphics", "") + Path.DirectorySeparatorChar;
 
         /// <summary>
         /// Corresponds to Resources/Data/LUA/
         /// </summary>
-        public static readonly string DATA_LUA = DATA + "LUA" + Path.DirectorySeparatorChar;
+        public static readonly string DATA_LUA = DATA_CONTENT + "LUAScripts" + Path.DirectorySeparatorChar;
 
         /// <summary>
         /// Corresponds to Resources/Data/Enemies
         /// </summary>
-        public static readonly string DATA_ENEMIES = DATA + "Enemies" + Path.DirectorySeparatorChar;
+        public static readonly string DATA_ENEMIES = DATA_CONTENT + "Enemies" + Path.DirectorySeparatorChar;
 
         #region  Generic SFX
         /// <summary>
@@ -117,13 +116,12 @@ namespace VCO.Data
         #region Root Paths
         public static readonly string AUX_GRAPHICS = Path.Combine(Paths.GRAPHICS, "_AUX", "") + Path.DirectorySeparatorChar;
 
-		public static readonly string MAPS = Path.Combine(Paths.RESOURCES, "Maps", "") + Path.DirectorySeparatorChar;
+        public static readonly string MAPS = Path.Combine(Paths.DATA, "Maps", "") + Path.DirectorySeparatorChar;
 
-		public static readonly string AUXFILES = Path.Combine(Paths.RESOURCES, "AUXFiles", "") + Path.DirectorySeparatorChar;
+        public static readonly string AUXFILES = Path.Combine(Paths.DATA, "AUXFiles", "") + Path.DirectorySeparatorChar;
 
-		public static readonly string TEXT = Path.Combine(Paths.RESOURCES, "Text", "") + Path.DirectorySeparatorChar;
+        public static readonly string TEXT = Path.Combine(Paths.DATA, "Text", "") + Path.DirectorySeparatorChar;
 
-		public static readonly string BATTLE_SWIRL = Path.Combine(Paths.GRAPHICS, "swirl", "") + Path.DirectorySeparatorChar;
+        public static readonly string BATTLE_SWIRL = Path.Combine(Paths.GRAPHICS, "swirl", "") + Path.DirectorySeparatorChar;
         #endregion
     }
-}
