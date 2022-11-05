@@ -270,7 +270,9 @@ namespace VCO.Scenes
 			if (b == Button.F1)
 			{
 				Debug.Log(MoonSharpFactorial2());
-				Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
+				
+
+				Debug.LogL($"View position: ({ViewManager.Instance.FinalCenter.X},{ViewManager.Instance.FinalCenter.Y})");
 			}
 
             if (!executor.Running)
@@ -661,6 +663,7 @@ namespace VCO.Scenes
 				Console.WriteLine((map.Music.Count > 0) ? "No BGM flags were enabled for any BGM for this map." : "This map has no BGMs set.");
 			}
 			this.battleStartSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "battleIntro.mp3", AudioType.Sound);
+
 			this.initialized = true;
 		}
 

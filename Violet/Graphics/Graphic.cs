@@ -95,6 +95,38 @@ namespace Violet.Graphics
             this.speedIndex = 0f;
             this.Visible = true;
         }
+
+        /// <summary>
+        /// Creates a new graphic
+        /// </summary>
+        /// <param name="resource">The name of the IVioletTexture to pull from the TextureManager</param>
+        /// <param name="position">the position of the sprite relative to the graphic</param>
+        /// <param name="textureRect">Information about the texture's integer coordinates</param>
+        /// <param name="origin">Origin of the texture relative to the graphic</param>
+        /// <param name="depth">The depth of this object</param>
+        public Graphic(byte[] resource, Vector2f position, IntRect textureRect, Vector2f origin, int depth)
+        {
+            this.texture = TextureManager.Instance.UseUnprocessed(resource);
+            this.sprite = new Sprite(this.texture.Image);
+            this.sprite.TextureRect = textureRect;
+            this.startTextureRect = textureRect;
+            this.Position = position;
+            this.Origin = origin;
+            this.Size = new Vector2f(textureRect.Width, textureRect.Height);
+            this.Depth = depth;
+            this.Rotation = 0f;
+            this.scale = new Vector2f(1f, 1f);
+            this.finalScale = this.scale;
+            this.speedModifier = 1f;
+            this.sprite.Position = this.Position;
+            this.sprite.Origin = this.Origin;
+            this.speeds = new float[]
+            {
+                1f
+            };
+            this.speedIndex = 0f;
+            this.Visible = true;
+        }
         protected Graphic()
         {
         }

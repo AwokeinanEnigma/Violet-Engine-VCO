@@ -218,6 +218,26 @@ namespace Violet.Graphics
             }
             return fullColorTexture;
         }
+        public FullColorTexture UseUnprocessed(byte[] bytes)
+        {
+            int hashCode = bytes.GetHashCode();
+            FullColorTexture fullColorTexture;
+            if (!this.textures.ContainsKey(hashCode))
+            {
+                Image image = new Image(bytes);
+                fullColorTexture = new FullColorTexture(image);
+                this.instances.Add(hashCode, 1);
+                this.textures.Add(hashCode, fullColorTexture);
+            }
+            else
+            {
+                fullColorTexture = (FullColorTexture)this.textures[hashCode];
+                Dictionary<int, int> dictionary;
+                int key;
+                (dictionary = this.instances)[key = hashCode] = dictionary[key] + 1;
+            }
+            return fullColorTexture;
+        }
 
         public FullColorTexture UseFramebuffer()
         {

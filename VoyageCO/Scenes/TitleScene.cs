@@ -171,13 +171,7 @@ namespace VCO.Scenes
 								break;
 							}
 						case Button.Seven:
-							PartyManager.Instance.Clear();
-							PartyManager.Instance.Add(CharacterType.Travis);
-							PartyManager.Instance.Add(CharacterType.Zack);
-							PartyManager.Instance.Add(CharacterType.Floyd);
-							PartyManager.Instance.Add(CharacterType.Meryl);
-							PartyManager.Instance.Add(CharacterType.Leo);
-							BattleScene scene = new BattleScene(new EnemyData[3] { EnemyFile.Instance.GetEnemyData("Hermit Can"), EnemyFile.Instance.GetEnemyData("Modern Mind"), EnemyFile.Instance.GetEnemyData("Snagtagious Froog") }, true);
+							Base64DebugTest scene = new Base64DebugTest();
 							SceneManager.Instance.Push(scene);
 							break;
 						default:
