@@ -11,11 +11,11 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using VCO.Lua;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
+using Violet.Lua;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
 using Violet.Utility;
@@ -261,10 +261,10 @@ namespace Violet
             Debug.Initialize();
 
             // for now, register empty
-            LUAManager.Initialize(string.Empty);
+            LuaManager.Initialize(Paths.DATA_LUA);
             Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
-            
-            LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < REQUIRED_OPENGL_VERSION)

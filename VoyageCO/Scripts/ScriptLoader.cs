@@ -46,6 +46,6 @@ namespace VCO.Scripts
 			return result;
 		}
 
-		private static readonly string SCRIPT_FILE = Paths.RESOURCES + "script.dat";
+		private static readonly string SCRIPT_FILE = Paths.DATA + "script.dat";
 	}
 }

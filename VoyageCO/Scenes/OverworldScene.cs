@@ -241,14 +241,16 @@ namespace VCO.Scenes
 		public LuaHandler handler;
 		double MoonSharpFactorial2()
 		{ 
-			string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
+			//string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
 
 			LuaConfiguration config = new LuaConfiguration();
 			config.Globals.Add("overworldScene", this);
 			config.Globals.Add("player", player);
 			config.Globals.Add("inputHandler", InputManager.Instance);
 
-		    handler = new LuaHandler(scriptcode, config);
+
+			handler = LuaManager.instance.CreateLuaHandler("test.lua", config);
+
 			handler.Do();
 			// i mean it works but part of me feels like this is actually very bad
 			;
