@@ -10,7 +10,7 @@ namespace Violet.Graphics
     public class IndexedTexture : IVioletTexture, IDisposable
     {
         [SuppressUnmanagedCodeSecurity]
-        [DllImport("csfml-graphics-2", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("csfml-graphics", CallingConvention = CallingConvention.Cdecl)]
         private unsafe static extern void sfTexture_updateFromPixels(IntPtr texture, byte* pixels, uint width, uint height, uint x, uint y);
 
         public Texture Image

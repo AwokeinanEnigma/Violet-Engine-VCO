@@ -121,13 +121,13 @@ namespace Violet.GUI
 
             ((IndexedTexture)this.frame.Texture).CurrentPalette = this.palette;
 
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
-            this.shader.SetParameter("image", this.frame.Texture.Image);
-            this.shader.SetParameter("palette", ((IndexedTexture)this.frame.Texture).Palette);
-            this.shader.SetParameter("palIndex", ((IndexedTexture)this.frame.Texture).CurrentPaletteFloat);
-            this.shader.SetParameter("palSize", ((IndexedTexture)this.frame.Texture).PaletteSize);
-            this.shader.SetParameter("blend", Color.White);
-            this.shader.SetParameter("blendMode", 1f);
+            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+            this.shader.SetUniform("image", this.frame.Texture.Image);
+            this.shader.SetUniform("palette", ((IndexedTexture)this.frame.Texture).Palette);
+            this.shader.SetUniform("palIndex", ((IndexedTexture)this.frame.Texture).CurrentPaletteFloat);
+            this.shader.SetUniform("palSize", ((IndexedTexture)this.frame.Texture).PaletteSize);
+            this.shader.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(Color.White));
+            this.shader.SetUniform("blendMode", 1f);
 
             this.states = new RenderStates(BlendMode.Alpha, this.transform, this.frame.Texture.Image, this.shader);
             this.verts = new VertexArray(PrimitiveType.Quads);

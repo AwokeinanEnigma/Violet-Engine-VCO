@@ -72,9 +72,9 @@ namespace VCO.Battle.Background
 
         public void Draw(RenderTexture oldFrame, RenderTexture newFrame)
         {
-            this.shader.SetParameter("layerTex", this.texture.Image);
-            this.shader.SetParameter("bottomTex", oldFrame.Texture);
-            this.shader.SetParameter("height", 180f);
+            this.shader.SetUniform("layerTex", this.texture.Image);
+            this.shader.SetUniform("bottomTex", oldFrame.Texture);
+            this.shader.SetUniform("height", 180f);
             int num = this.factors.Length;
             for (int i = 0; i < num; i++)
             {
@@ -96,28 +96,28 @@ namespace VCO.Battle.Background
                         break;
                 }
             }
-            this.shader.SetParameter("time", this.time);
-            this.shader.SetParameter("amp", this.parameters.Amplitude * this.factors[3]);
-            this.shader.SetParameter("freq", this.parameters.Frequency * this.factors[0]);
-            this.shader.SetParameter("scale", this.parameters.Scale * this.factors[1]);
-            this.shader.SetParameter("comp", this.parameters.Compression * this.factors[2]);
-            this.shader.SetParameter("blend", parameters.Blend);
-            this.shader.SetParameter("mode", parameters.Mode);
-            this.shader.SetParameter("opacity", this.parameters.Opacity * this.factors[5]);
+            this.shader.SetUniform("time", this.time);
+            this.shader.SetUniform("amp", this.parameters.Amplitude * this.factors[3]);
+            this.shader.SetUniform("freq", this.parameters.Frequency * this.factors[0]);
+            this.shader.SetUniform("scale", this.parameters.Scale * this.factors[1]);
+            this.shader.SetUniform("comp", this.parameters.Compression * this.factors[2]);
+            this.shader.SetUniform("blend", parameters.Blend);
+            this.shader.SetUniform("mode", parameters.Mode);
+            this.shader.SetUniform("opacity", this.parameters.Opacity * this.factors[5]);
             float num2 = this.parameters.Speed * this.factors[4];
             this.xTrans += this.parameters.Xtrans * this.factors[6] * num2;
             this.yTrans += this.parameters.Ytrans * this.factors[7] * num2;
             this.xTrans %= 320f;
             this.yTrans %= 180f;
-            this.shader.SetParameter("xTrans", this.xTrans);
-            this.shader.SetParameter("yTrans", this.yTrans);
-            this.shader.SetParameter("palette", this.texture.Palette);
+            this.shader.SetUniform("xTrans", this.xTrans);
+            this.shader.SetUniform("yTrans", this.yTrans);
+            this.shader.SetUniform("palette", this.texture.Palette);
             if (this.parameters.Palette.Length > 0 && this.palChangeIndex < this.parameters.Palette.Length)
             {
                 this.texture.CurrentPalette = (uint)this.parameters.Palette[this.palChangeIndex].Index;
-                this.shader.SetParameter("palIndex", this.texture.CurrentPaletteFloat);
-                this.shader.SetParameter("palSize", this.texture.PaletteSize);
-                this.shader.SetParameter("palShift", (float)this.parameters.Palette[this.palChangeIndex].Shift / this.texture.PaletteSize);
+                this.shader.SetUniform("palIndex", this.texture.CurrentPaletteFloat);
+                this.shader.SetUniform("palSize", this.texture.PaletteSize);
+                this.shader.SetUniform("palShift", (float)this.parameters.Palette[this.palChangeIndex].Shift / this.texture.PaletteSize);
                 if (this.palFrame < this.parameters.Palette[this.palChangeIndex].Duration)
                 {
                     this.palFrame++;
@@ -132,9 +132,9 @@ namespace VCO.Battle.Background
             {
                 this.palChangeIndex = 0;
                 this.palFrame = 0;
-                this.shader.SetParameter("palIndex", 0f);
-                this.shader.SetParameter("palSize", this.texture.PaletteSize);
-                this.shader.SetParameter("palShift", 0f);
+                this.shader.SetUniform("palIndex", 0f);
+                this.shader.SetUniform("palSize", this.texture.PaletteSize);
+                this.shader.SetUniform("palShift", 0f);
             }
             newFrame.Draw(this.verts, this.states);
             this.time += num2;

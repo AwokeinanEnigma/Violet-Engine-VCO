@@ -45,15 +45,15 @@ namespace VCO.Overworld
             this.depth = depth;
             this.size = Engine.SCREEN_SIZE;
             this.blend = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 160);
-            this.shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), EmbeddedResources.GetStream("VCO.Resources.gradmap.frag"));
-            this.shader.SetParameter("gradmap", this.gradMap.Image);
-            this.shader.SetParameter("image", this.textures[1].Image);
-            this.shader.SetParameter("palette", this.textures[1].Palette);
-            this.shader.SetParameter("palIndex", this.textures[1].CurrentPaletteFloat);
-            this.shader.SetParameter("palSize", this.textures[1].PaletteSize);
-            this.shader.SetParameter("blend", this.blend);
-            this.shader.SetParameter("blendMode", 1f);
-            this.shader.SetParameter("delta", 0f);
+            this.shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), null, EmbeddedResources.GetStream("VCO.Resources.gradmap.frag"));
+            this.shader.SetUniform("gradmap", this.gradMap.Image);
+            this.shader.SetUniform("image", this.textures[1].Image);
+            this.shader.SetUniform("palette", this.textures[1].Palette);
+            this.shader.SetUniform("palIndex", this.textures[1].CurrentPaletteFloat);
+            this.shader.SetUniform("palSize", this.textures[1].PaletteSize);
+            this.shader.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(this.blend));
+            this.shader.SetUniform("blendMode", 1f);
+            this.shader.SetUniform("delta", 0f);
             this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
             this.UpdatePosition(ViewManager.Instance.FinalCenter);
         }
@@ -86,13 +86,13 @@ namespace VCO.Overworld
                     if (!this.isComplete)
                     {
                         this.delta[i] = Math.Min(1f, this.delta[i] + this.speed[i]);
-                        this.shader.SetParameter("delta", this.delta[i]);
+                        this.shader.SetUniform("delta", this.delta[i]);
                     }
                     flag &= (this.delta[i] >= 1f);
-                    this.shader.SetParameter("image", this.textures[1 + i].Image);
-                    this.shader.SetParameter("palette", this.textures[1 + i].Palette);
-                    this.shader.SetParameter("palIndex", this.textures[1 + i].CurrentPaletteFloat);
-                    this.shader.SetParameter("palSize", this.textures[1 + i].PaletteSize);
+                    this.shader.SetUniform("image", this.textures[1 + i].Image);
+                    this.shader.SetUniform("palette", this.textures[1 + i].Palette);
+                    this.shader.SetUniform("palIndex", this.textures[1 + i].CurrentPaletteFloat);
+                    this.shader.SetUniform("palSize", this.textures[1 + i].PaletteSize);
                     target.Draw(this.layers[i], this.renderStates);
                 }
                 if (!this.isComplete && flag)

@@ -76,7 +76,7 @@ namespace Violet.GUI
         {
             this.font = new Font(EmbeddedResources.GetStream("Violet.Resources.openSansPX.ttf"));
             this.fontSize = 16U;
-            this.wHeight = font.GetGlyph(41U, fontSize, false).Bounds.Height;
+            this.wHeight = (int)font.GetGlyph(41U, fontSize, false, 1).Bounds.Height;
             this.lineHeight = (int)(wHeight * 1.20000004768372);
             this.alphaThreshold = 0.0f;
         }
@@ -88,7 +88,7 @@ namespace Violet.GUI
             this.lineHeight = lineHeight;
             this.xComp = xComp;
             this.yComp = yComp;
-            this.wHeight = this.font.GetGlyph(41U, this.fontSize, false).Bounds.Height;
+            this.wHeight = (int)this.font.GetGlyph(41U, this.fontSize, false, 1).Bounds.Height;
             // Console.WriteLine($"wHeight = {wHeight}");
             this.alphaThreshold = 0.8f;
         }

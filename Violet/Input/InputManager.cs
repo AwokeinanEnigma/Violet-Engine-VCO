@@ -304,11 +304,11 @@ namespace Violet.Input
                 Button.R
             },
             {
-                Keyboard.Key.Return,
+                Keyboard.Key.Enter,
                 Button.Start
             },
             {
-                Keyboard.Key.BackSpace,
+                Keyboard.Key.Backspace,
                 Button.Select
             },
             {

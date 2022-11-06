@@ -65,12 +65,12 @@ namespace Violet.GUI
         {
             get
             {
-                return this.drawText.Color;
+                return this.drawText.FillColor;
             }
             set
             {
-                this.drawText.Color = value;
-                this.dirtyColor = true;
+                this.drawText.FillColor = value;
+                this.dirtyFillColor = true;
             }
         }
 
@@ -90,9 +90,9 @@ namespace Violet.GUI
             this.drawText = new Text(string.Empty, font.Font, font.Size);
             this.drawText.Position = new Vector2f(position.X + xCompensate, position.Y + yCompensate);
             this.UpdateText(index, length);
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), EmbeddedResources.GetStream("Violet.Resources.text.frag"));
-            this.shader.SetParameter("color", this.drawText.Color);
-            this.shader.SetParameter("threshold", font.AlphaThreshold);
+            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), null, EmbeddedResources.GetStream("Violet.Resources.text.frag"));
+            this.shader.SetUniform("color", new SFML.Graphics.Glsl.Vec4(this.drawText.FillColor));
+            this.shader.SetUniform("threshold", font.AlphaThreshold);
             this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
         }
 
@@ -118,9 +118,9 @@ namespace Violet.GUI
                 this.UpdateText(this.Index, this.Length);
                 this.dirtyText = false;
             }
-            if (this.dirtyColor)
+            if (this.dirtyFillColor)
             {
-                this.shader.SetParameter("color", this.drawText.Color);
+                this.shader.SetUniform("color", new SFML.Graphics.Glsl.Vec4(this.drawText.FillColor));
             }
             target.Draw(this.drawText, this.renderStates);
         }
@@ -148,7 +148,7 @@ namespace Violet.GUI
 
         private bool dirtyText;
 
-        private bool dirtyColor;
+        private bool dirtyFillColor;
 
         private int xCompensate;
 

@@ -39,7 +39,7 @@ namespace VCO.Overworld
             this.flag = flag;
             this.script = script;
             this.solid = true;
-            VertexArray vertexArray = new VertexArray(PrimitiveType.LinesStrip, (uint)(this.mesh.Vertices.Count + 1));
+            VertexArray vertexArray = new VertexArray(PrimitiveType.LineStrip, (uint)(this.mesh.Vertices.Count + 1));
             for (int i = 0; i < this.mesh.Vertices.Count; i++)
             {
                 vertexArray[(uint)i] = new Vertex(this.mesh.Vertices[i], Color.Magenta);

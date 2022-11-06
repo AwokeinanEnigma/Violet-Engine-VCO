@@ -180,7 +180,7 @@ namespace Violet
         /// <returns>Returns the OpenGL version as a decimal</returns>
         public static decimal OpenGLVersion()
         {
-            return decimal.Parse($"{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            return 3;//decimal.Parse($"{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Violet
             rand = new Random();
             defaultFont = new FontData();
             debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
-            debugText.Color = SFML.Graphics.Color.Blue;
+            debugText.FillColor = SFML.Graphics.Color.Blue;
             ClearColor = SFML.Graphics.Color.Black;
 
             Debug.Initialize();
@@ -272,7 +272,7 @@ namespace Violet
                 string message = $"OpenGL version {REQUIRED_OPENGL_VERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
-            Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
             SetCursorTimer(90);
             Running = true;
@@ -411,7 +411,7 @@ namespace Violet
 
                 IntPtr scan = new IntPtr(ptr);
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
-                Clipboard.SetImage(image2);
+                System.Windows.Forms.Clipboard.SetImage(image2);
             }
             Debug.LogI("Screenshot copied to clipboard");
         }
