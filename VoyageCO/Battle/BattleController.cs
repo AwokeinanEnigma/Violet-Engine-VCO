@@ -11,7 +11,7 @@ namespace VCO.Battle
 	internal class BattleController : IDisposable
 	{
 		//private VioletSound runawaySuccessful;
-
+		//everything is breakin
 		public BattleInterfaceController InterfaceController
 		{
 			get
