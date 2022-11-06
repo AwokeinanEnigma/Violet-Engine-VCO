@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace VCO.Battle.Background
+﻿namespace VCO.Battle.Background
 {
-	public struct PaletteChange
-	{
-		public int Index;
+    public struct PaletteChange
+    {
+        public int Index;
 
-		public int Duration;
+        public int Duration;
 
-		public int Shift;
-	}
+        public int Shift;
+    }
 }

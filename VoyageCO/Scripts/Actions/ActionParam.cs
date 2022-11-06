@@ -2,10 +2,10 @@
 
 namespace VCO.Scripts.Actions
 {
-	internal class ActionParam
-	{
-		public string Name;
+    internal class ActionParam
+    {
+        public string Name;
 
-		public Type Type;
-	}
+        public Type Type;
+    }
 }

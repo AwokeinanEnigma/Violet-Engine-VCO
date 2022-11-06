@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace VCO.Data
 {
-	internal static class CharacterGraphics
-	{
-		public static string  GetFile(CharacterType character)
-		{
-			return CharacterGraphics.GetFile(character, true);
-		}
+    internal static class CharacterGraphics
+    {
+        public static string GetFile(CharacterType character)
+        {
+            return CharacterGraphics.GetFile(character, true);
+        }
 
         public static string GetFile(CharacterType character, bool fullPath)
         {
@@ -26,36 +25,36 @@ namespace VCO.Data
         }
 
 
-        private static Dictionary<CharacterType, string> graphics = new Dictionary<CharacterType, string>
-		{
-			{
-				CharacterType.Travis,
-				"travis"
-			},
-			{
-				CharacterType.Meryl,
-				"meryl"
-			},
-			{
-				CharacterType.Floyd,
-				"floyd"
-			},
-			{
-				CharacterType.Leo,
-				"leo"
-			},
-			{
-				CharacterType.Zack,
-				"zack"
-			},
-			{
-				CharacterType.Renee,
-				"sensitivityinred"
-			},
-			{
-				CharacterType.Dog,
-				"mutt"
-			}
-		};
-	}
+        private static readonly Dictionary<CharacterType, string> graphics = new Dictionary<CharacterType, string>
+        {
+            {
+                CharacterType.Travis,
+                "travis"
+            },
+            {
+                CharacterType.Meryl,
+                "meryl"
+            },
+            {
+                CharacterType.Floyd,
+                "floyd"
+            },
+            {
+                CharacterType.Leo,
+                "leo"
+            },
+            {
+                CharacterType.Zack,
+                "zack"
+            },
+            {
+                CharacterType.Renee,
+                "sensitivityinred"
+            },
+            {
+                CharacterType.Dog,
+                "mutt"
+            }
+        };
+    }
 }

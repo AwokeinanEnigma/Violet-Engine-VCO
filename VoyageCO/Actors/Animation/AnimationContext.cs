@@ -1,6 +1,5 @@
-﻿using System;
+﻿using SFML.System;
 using VCO.Overworld;
-using SFML.System;
 
 namespace VCO.Actors.Animation
 {

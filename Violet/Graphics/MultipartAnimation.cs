@@ -38,13 +38,13 @@ namespace Violet.Graphics
             this.Size = new Vector2f(this.textures[0].Image.Size.X, this.textures[0].Image.Size.Y);
             this.Scale = new Vector2f(1f, 1f);
             this.blend = Color.White;
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
-            this.shader.SetParameter("image", this.textures[0].Image);
-            this.shader.SetParameter("palette", this.textures[0].Palette);
-            this.shader.SetParameter("palIndex", this.textures[0].CurrentPaletteFloat);
-            this.shader.SetParameter("palSize", this.textures[0].PaletteSize);
-            this.shader.SetParameter("blend", this.blend);
-            this.shader.SetParameter("blendMode", 1f);
+            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+            this.shader.SetUniform("image", this.textures[0].Image);
+            this.shader.SetUniform("palette", this.textures[0].Palette);
+            this.shader.SetUniform("palIndex", this.textures[0].CurrentPaletteFloat);
+            this.shader.SetUniform("palSize", this.textures[0].PaletteSize);
+            this.shader.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(this.blend));
+            this.shader.SetUniform("blendMode", 1f);
             this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
             this.Visible = true;
         }
@@ -59,7 +59,7 @@ namespace Violet.Graphics
             this.lastFrame = this.intFrame;
             this.sprite.Texture = this.textures[this.intFrame].Image;
             this.renderStates.Texture = this.sprite.Texture;
-            this.shader.SetParameter("image", this.sprite.Texture);
+            this.shader.SetUniform("image", this.sprite.Texture);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Violet.Graphics
             {
                 this.sprite.Texture = this.textures[this.intFrame].Image;
                 this.renderStates.Texture = this.sprite.Texture;
-                this.shader.SetParameter("image", this.sprite.Texture);
+                this.shader.SetUniform("image", this.sprite.Texture);
             }
         }
 

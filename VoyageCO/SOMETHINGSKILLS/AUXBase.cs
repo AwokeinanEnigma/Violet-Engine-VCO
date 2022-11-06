@@ -1,11 +1,6 @@
 ﻿using VCO.Battle;
 using VCO.Battle.Actions;
 using VCO.Battle.Combatants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VCO.SOMETHING
 {
@@ -25,13 +20,15 @@ namespace VCO.SOMETHING
         internal abstract void Finish(Combatant[] combatants, PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, int level);
         internal abstract void ShowUnavaliableMessage(PlayerCombatant combatant, BattleInterfaceController interfaceController);
         internal abstract void ScaleToLevel(PlayerCombatant combatant, int level);
-        internal void Update(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level) 
-        { 
+        internal void Update(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
+        {
             // do nothing
         }
 
-        internal virtual bool GetAvailiability(PlayerCombatant combantant, BattleInterfaceController interfaceController) {
-            if (combantant.Stats.PP < AUCost) {
+        internal virtual bool GetAvailiability(PlayerCombatant combantant, BattleInterfaceController interfaceController)
+        {
+            if (combantant.Stats.PP < AUCost)
+            {
                 return false;
             }
             return true;

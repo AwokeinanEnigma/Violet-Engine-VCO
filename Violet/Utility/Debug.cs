@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
 
@@ -19,7 +15,8 @@ namespace Violet
 
         private static List<string> log = new List<string>();
 
-        public enum LogLevel {
+        public enum LogLevel
+        {
             System,
             Assert,
             Error,
@@ -191,7 +188,7 @@ namespace Violet
                 return;
             }
 
-            var callsite = $"{Path.GetFileName(callerFilePath)}:{callerLineNumber}";
+            string callsite = $"{Path.GetFileName(callerFilePath)}:{callerLineNumber}";
             string dateTimeNow = DateTime.Now.ToString("HH:mm:ss");
 
             Console.ForegroundColor = logColors[logLevel];
@@ -201,7 +198,8 @@ namespace Violet
 
         }
 
-        public static void DumpLogs() {
+        public static void DumpLogs()
+        {
             StreamWriter streamWriter = new StreamWriter("Data/Logs/logs.log");
             log.ForEach(x => streamWriter.WriteLine(x));
             streamWriter.Close();

@@ -142,7 +142,7 @@ namespace Violet.Graphics
             this.DoRemovals();
             if (this.needToSort)
             {
-                this.renderables.Sort((IComparer<Renderable>)this.depthCompare);
+                this.renderables.Sort(depthCompare);
                 this.needToSort = false;
             }
             View view = this.target.GetView();

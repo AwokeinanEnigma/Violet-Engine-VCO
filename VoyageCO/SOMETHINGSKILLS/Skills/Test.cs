@@ -1,16 +1,10 @@
-﻿using SFML.System;
+﻿using System;
+using VCO.AUX;
 using VCO.Battle;
 using VCO.Battle.Actions;
 using VCO.Battle.Combatants;
-using VCO.Battle.AUXAnimation;
 using VCO.Battle.UI;
 using VCO.Data;
-using VCO.AUX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Violet.Graphics;
 
 namespace VCO.SOMETHING

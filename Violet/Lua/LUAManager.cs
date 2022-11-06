@@ -1,21 +1,36 @@
 ﻿using MoonSharp.Interpreter;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using Violet;
 
-namespace VCO.Lua
+namespace Violet.Lua
 {
     /// <summary>
     /// Handles all 
     /// </summary>
-    public class LUAManager 
+    public class LuaManager
     {
-        public static LUAManager instance;
+        public static LuaManager instance;
 
+        //key: name
+        //value: path
         private static Dictionary<string, string> luaFiles;
 
-        public LUAManager(string luaDir)
+        public LuaHandler CreateLuaHandler(string name, LuaConfiguration config)
+        {
+
+            // get path of our lua file
+            luaFiles.TryGetValue(name, out string path);
+
+            // read all text from the path of the lua file
+            string scriptcode = File.ReadAllText(path);
+
+            // create new luahandler
+            return new LuaHandler(scriptcode, config);
+        }
+
+        public LuaManager(string luaDir)
         {
             Debug.LogS("LuaManager initializing.");
 
@@ -28,7 +43,8 @@ namespace VCO.Lua
         /// </summary>
         /// <param name="asm">The assembly containing the types you want to register</param>
         /// <param name="mode">The interop access mode for the types you want to register</param>
-        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default, List<Type> forbiddenTypes = null) {
+        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default, List<Type> forbiddenTypes = null)
+        {
             Type[] typesInAsm = asm.GetTypes();
 
             // the weakness of this is that you cannot manually pick and choose the InteropAccessMode for specific types
@@ -42,7 +58,8 @@ namespace VCO.Lua
                     UserData.RegisterType(typesInAsm[i], mode);
                 }
             }
-            else {
+            else
+            {
                 for (int i = 0; i < typesInAsm.Length; i++)
                 {
                     if (forbiddenTypes.Contains(typesInAsm[i]))
@@ -50,7 +67,7 @@ namespace VCO.Lua
                         // warn
                         Debug.LogW($"Type '{typesInAsm[i]}' excluded from being registered with MoonSharp! Assembly: {asm.FullName}");
                         // skip
-                        continue; 
+                        continue;
                     }
                     // register if it's not excluded.
                     UserData.RegisterType(typesInAsm[i], mode);
@@ -67,12 +84,43 @@ namespace VCO.Lua
                 return;
             }
             // initialize
-            instance = new LUAManager(luaDir);
+            instance = new LuaManager(luaDir);
         }
 
-        private void BuildLuaScripts(string luaDir) { 
+        private void BuildLuaScripts(string luaDir)
+        {
             // in the future this will collect all lua scripts in the specified directory
-        
+            // and the future is now
+            luaFiles = new Dictionary<string, string>();
+            ProcessDirectory(luaDir);
+        }
+
+        // stolen from
+        // https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=net-7.0
+        public static void ProcessDirectory(string targetDirectory)
+        {
+            // Process the list of files found in the directory.
+            string[] fileEntries = Directory.GetFiles(targetDirectory);
+            foreach (string fileName in fileEntries)
+            {
+                ProcessFile(fileName);
+            }
+
+            // Recurse into subdirectories of this directory.
+            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            foreach (string subdirectory in subdirectoryEntries)
+            {
+                ProcessDirectory(subdirectory);
+
+            }
+        }
+
+        // Insert logic for processing found files here.
+        public static void ProcessFile(string path)
+        {
+            //;
+            luaFiles.Add(Path.GetFileName(path), path);
+            Debug.LogL($"Processed LUA file '{Path.GetFileName(path)}'");
         }
     }
 }

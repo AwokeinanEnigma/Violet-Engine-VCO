@@ -1,10 +1,10 @@
-﻿using Violet.GUI;
-using VCO.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using VCO.Data;
+using Violet.GUI;
 
 namespace VCO.Scripts.Text
 {
@@ -26,7 +26,7 @@ namespace VCO.Scripts.Text
         private const string CMD_LEO = "leo";
         private const string CMD_ZACK = "zack";
         private const string CMD_RENEE = "renee";
-        private static char[] PAUSE_CHARS = new char[2]
+        private static readonly char[] PAUSE_CHARS = new char[2]
         {
       ',',
       '?'
@@ -64,7 +64,7 @@ namespace VCO.Scripts.Text
                     case "p":
                         int result1;
                         int.TryParse(s, out result1);
-                        commands.Add((ITextCommand)new TextPause(num2, result1));
+                        commands.Add(new TextPause(num2, result1));
                         continue;
                     case "cn":
                         CharacterType result2;
@@ -77,8 +77,8 @@ namespace VCO.Scripts.Text
                         int result3;
                         int.TryParse(sourceArray[0], out result3);
                         string[] strArray = new string[sourceArray.Length - 1];
-                        Array.Copy((Array)sourceArray, 1, (Array)strArray, 0, strArray.Length);
-                        commands.Add((ITextCommand)new TextTrigger(num2, result3, strArray));
+                        Array.Copy(sourceArray, 1, strArray, 0, strArray.Length);
+                        commands.Add(new TextTrigger(num2, result3, strArray));
                         continue;
                     case "travis":
                         string name2 = CharacterNames.GetName(CharacterType.Travis);
@@ -127,7 +127,7 @@ namespace VCO.Scripts.Text
                 char ch = stringBuilder[index];
                 if (((IEnumerable<char>)TextProcessor.PAUSE_CHARS).Contains<char>(ch))
                 {
-                    commands.Add((ITextCommand)new TextPause(index + 1, 10));
+                    commands.Add(new TextPause(index + 1, 10));
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace VCO.Scripts.Text
                             --index;
                             flag1 = index > startIndex;
                             if (flag2)
-                                commands.Add((ITextCommand)new TextWait(index));
+                                commands.Add(new TextWait(index));
                             dictionary.Add(stringList.Count + (flag1 ? 1 : 0), true);
                             flag2 = true;
                             continue;
@@ -160,7 +160,7 @@ namespace VCO.Scripts.Text
                 float num7 = x - num4;
                 num3 += num7;
                 num4 = x;
-                if ((double)num3 > (double)frameWidth)
+                if (num3 > (double)frameWidth)
                 {
                     num6 = num5;
                     flag1 = true;

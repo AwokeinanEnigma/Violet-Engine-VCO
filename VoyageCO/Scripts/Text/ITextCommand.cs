@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace VCO.Scripts.Text
+﻿namespace VCO.Scripts.Text
 {
-	internal interface ITextCommand
-	{
-		int Position { get; set; }
-	}
+    internal interface ITextCommand
+    {
+        int Position { get; set; }
+    }
 }

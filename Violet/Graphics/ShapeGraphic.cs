@@ -8,10 +8,10 @@ namespace Violet.Graphics
     /// </summary>
     public class ShapeGraphic : Renderable
     {
-		/// <summary>
-		/// The shape of the graphic
-		/// </summary>
-		public Shape Shape
+        /// <summary>
+        /// The shape of the graphic
+        /// </summary>
+        public Shape Shape
         {
             get
             {
@@ -67,15 +67,15 @@ namespace Violet.Graphics
             }
         }
 
-		/// <summary>
-		/// Creates a new shaped graphic 
-		/// </summary>
-		/// <param name="shape">The shape of this Shapegraphic</param>
-		/// <param name="position">The position of the ShapeGraphic</param>
-		/// <param name="origin">The origin of the ShapeGraphic</param>
-		/// <param name="size">The size of the ShapeGraphoc</param>
-		/// <param name="depth">The depth of the ShapeGraphic</param>
-		public ShapeGraphic(Shape shape, Vector2f position, Vector2f origin, Vector2f size, int depth)
+        /// <summary>
+        /// Creates a new shaped graphic 
+        /// </summary>
+        /// <param name="shape">The shape of this Shapegraphic</param>
+        /// <param name="position">The position of the ShapeGraphic</param>
+        /// <param name="origin">The origin of the ShapeGraphic</param>
+        /// <param name="size">The size of the ShapeGraphoc</param>
+        /// <param name="depth">The depth of the ShapeGraphic</param>
+        public ShapeGraphic(Shape shape, Vector2f position, Vector2f origin, Vector2f size, int depth)
         {
             this.size = size;
             this.depth = depth;

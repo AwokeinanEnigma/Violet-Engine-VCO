@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Text;
-using Violet;
-using Violet.Utility;
 using VCO.Battle.Combatants;
 using VCO.Data;
 using VCO.Utility;
+using Violet;
+using Violet.Utility;
 
 namespace VCO.Battle.Actions
 {
@@ -22,7 +21,7 @@ namespace VCO.Battle.Actions
             string subjective = this.target.Enemy.GetStringQualifiedName("subjective");
 
             StringBuilder stringBuilder = new StringBuilder();
-            if (like == String.Empty)
+            if (like == string.Empty)
             {
                 stringBuilder.AppendFormat("@{0} tried chatting up {1}{2}.", CharacterNames.GetName(this.combatant.Character), article, name);
                 stringBuilder.Append($"@[p:10].[p:10].[p:30].But... the {name} wouldn't respond!");
@@ -115,9 +114,9 @@ namespace VCO.Battle.Actions
 
         private FloydTalkAction.State state;
 
-        private string message;
+        private readonly string message;
 
-        private PlayerCombatant combatant;
+        private readonly PlayerCombatant combatant;
 
         private EnemyCombatant target;
 

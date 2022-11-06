@@ -73,23 +73,20 @@ namespace Violet.Graphics
                     {
                         NbtCompound nbtCompound2 = (NbtCompound)nbtTag3;
                         string text = nbtCompound2.Name.ToLowerInvariant();
-                        NbtIntArray nbtIntArray = null;
-                        NbtByteArray nbtByteArray = null;
-                        NbtInt nbtInt = null;
-                        int[] array = nbtCompound2.TryGet<NbtIntArray>("crd", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
+                        int[] array = nbtCompound2.TryGet<NbtIntArray>("crd", out NbtIntArray nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
                         int[] array2 = nbtCompound2.TryGet<NbtIntArray>("bnd", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
                         int[] org = nbtCompound2.TryGet<NbtIntArray>("org", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        byte[] opt = nbtCompound2.TryGet<NbtByteArray>("opt", out nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
+                        byte[] opt = nbtCompound2.TryGet<NbtByteArray>("opt", out NbtByteArray nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
                         IList<NbtTag> spd = nbtCompound2.Get<NbtList>("spd");
-                        int frames = nbtCompound2.TryGet<NbtInt>("frm", out nbtInt) ? nbtInt.IntValue : 1;
+                        int frames = nbtCompound2.TryGet<NbtInt>("frm", out NbtInt nbtInt) ? nbtInt.IntValue : 1;
                         NbtIntArray nbtIntArray2 = nbtCompound2.Get<NbtIntArray>("d");
                         int[] data = (nbtIntArray2 == null) ? null : nbtIntArray2.IntArrayValue;
                         Vector2i coords = new Vector2i(array[0], array[1]);
                         Vector2i bounds = new Vector2i(array2[0], array2[1]);
-                        Vector2f origin = new Vector2f((float)org[0], (float)org[1]);
+                        Vector2f origin = new Vector2f(org[0], org[1]);
                         bool flipX = opt[0] == 1;
                         bool flipY = opt[1] == 1;
-                        int mode = (int)opt[2];
+                        int mode = opt[2];
                         float[] array5 = (spd != null) ? new float[spd.Count] : new float[0];
                         for (int i = 0; i < array5.Length; i++)
                         {
@@ -311,9 +308,11 @@ namespace Violet.Graphics
             Debug.LogI($"textures length is {textures.Count} ");
         }
 
-        public void DumpEveryLoadedTexture() {
+        public void DumpEveryLoadedTexture()
+        {
             List<string> textures = new List<string>();
-            foreach (KeyValuePair<string, int> keyntex in this.allFilenameHashes) {
+            foreach (KeyValuePair<string, int> keyntex in this.allFilenameHashes)
+            {
                 textures.Add($"name == '{ keyntex.Key}' :: hash == '{keyntex.Value}'");
             }
 
@@ -322,9 +321,11 @@ namespace Violet.Graphics
             streamWriter.Close();
         }
 
-         public void DumpLoadedTextures() {
+        public void DumpLoadedTextures()
+        {
             List<string> textures = new List<string>();
-            foreach (KeyValuePair<int, string> keyntex in this.activeFilenameHashes) {
+            foreach (KeyValuePair<int, string> keyntex in this.activeFilenameHashes)
+            {
                 textures.Add($"name == '{ keyntex.Value}' :: hash == '{keyntex.Key}'");
             }
 

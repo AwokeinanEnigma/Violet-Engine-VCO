@@ -1,56 +1,54 @@
-﻿using System;
+﻿using Rufini.Strings;
+using SFML.System;
 using Violet.Graphics;
 using Violet.Input;
-using VCO.Data;
-using Rufini.Strings;
-using SFML.System;
 
 namespace VCO.GUI.OverworldMenu
 {
-	internal class MainMenu : MenuPanel
-	{
-		public MainMenu() : base(ViewManager.Instance.FinalTopLeft + MainMenu.PANEL_POSITION, MainMenu.PANEL_SIZE, 0)
-		{
-            this.mainList = new ScrollingList(new Vector2f(8f, 0f), 1, MainMenu.MAIN_ITEMS, MainMenu.MAIN_ITEMS.Length, 14f, MainMenu.PANEL_SIZE.X - 14f, MainMenu.CURSOR_PATH); 
+    internal class MainMenu : MenuPanel
+    {
+        public MainMenu() : base(ViewManager.Instance.FinalTopLeft + MainMenu.PANEL_POSITION, MainMenu.PANEL_SIZE, 0)
+        {
+            this.mainList = new ScrollingList(new Vector2f(8f, 0f), 1, MainMenu.MAIN_ITEMS, MainMenu.MAIN_ITEMS.Length, 14f, MainMenu.PANEL_SIZE.X - 14f, MainMenu.CURSOR_PATH);
             base.Add(this.mainList);
-		}
+        }
 
-		public override void AxisPressed(Vector2f axis)
-		{
-			if (axis.Y < 0f)
-			{
-				this.mainList.SelectPrevious();
-				return;
-			}
-			if (axis.Y > 0f)
-			{
-				this.mainList.SelectNext();
-			}
-		}
+        public override void AxisPressed(Vector2f axis)
+        {
+            if (axis.Y < 0f)
+            {
+                this.mainList.SelectPrevious();
+                return;
+            }
+            if (axis.Y > 0f)
+            {
+                this.mainList.SelectNext();
+            }
+        }
 
-		public override object ButtonPressed(Button button)
-		{
-			int? num = null;
-			if (button == Button.A)
-			{
-				num = new int?(this.mainList.SelectedIndex);
-			}
-			else if (button == Button.B || button == Button.Start)
-			{
-				num = new int?(-1);
-			}
-			return num;
-		}
+        public override object ButtonPressed(Button button)
+        {
+            int? num = null;
+            if (button == Button.A)
+            {
+                num = new int?(this.mainList.SelectedIndex);
+            }
+            else if (button == Button.B || button == Button.Start)
+            {
+                num = new int?(-1);
+            }
+            return num;
+        }
 
-		public override void Focus()
-		{
-			this.mainList.Focused = true;
-		}
+        public override void Focus()
+        {
+            this.mainList.Focused = true;
+        }
 
-		public override void Unfocus()
-		{
-			this.mainList.Focused = false;
-		}
+        public override void Unfocus()
+        {
+            this.mainList.Focused = false;
+        }
 
         public const int PANEL_DEPTH = 0;
 
@@ -68,6 +66,6 @@ namespace VCO.GUI.OverworldMenu
             StringFile.Instance.Get("menu.map").Value
         };
 
-        private ScrollingList mainList;
-	}
+        private readonly ScrollingList mainList;
+    }
 }

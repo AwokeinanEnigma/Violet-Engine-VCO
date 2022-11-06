@@ -1,14 +1,13 @@
-﻿using System;
-using Violet.Graphics;
+﻿using Violet.Graphics;
 
 namespace VCO.GUI.Modifiers
 {
-	internal interface IGraphicModifier
-	{
-		bool Done { get; }
+    internal interface IGraphicModifier
+    {
+        bool Done { get; }
 
-		Graphic Graphic { get; }
+        Graphic Graphic { get; }
 
-		void Update();
-	}
+        void Update();
+    }
 }

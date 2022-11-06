@@ -10,15 +10,15 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
-using VCO.Lua;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
+using Violet.Lua;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
 using Violet.Utility;
+using Button = Violet.Input.Button;
 
 namespace Violet
 {
@@ -91,7 +91,7 @@ namespace Violet
                 switchScreenMode = true;
             }
         }
-        
+
         public static float FPS
         {
             get
@@ -99,7 +99,7 @@ namespace Violet
                 return fps;
             }
         }
-        
+
         public static long Frame
         {
             get
@@ -107,9 +107,9 @@ namespace Violet
                 return frameIndex;
             }
         }
-        
+
         public static SFML.Graphics.Color ClearColor { get; set; }
-        
+
         public static int SessionTime
         {
             get
@@ -180,7 +180,7 @@ namespace Violet
         /// <returns>Returns the OpenGL version as a decimal</returns>
         public static decimal OpenGLVersion()
         {
-            return decimal.Parse($"{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            return 3;//decimal.Parse($"{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Violet
         /// <param name="args">Parameters that the game was initialized with.</param>
         public static void Initialize(string[] args)
         {
-           // UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
+            // UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
 
             frameStopwatch = Stopwatch.StartNew();
             startTicks = DateTime.Now.Ticks;
@@ -242,7 +242,7 @@ namespace Violet
                 frameBufferVertArray[2U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
                 frameBufferVertArray[3U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(0f, SCREEN_HEIGHT));
             }
-            
+
 
             SetScreenMode();
             SetFrameBuffer();
@@ -255,16 +255,16 @@ namespace Violet
             rand = new Random();
             defaultFont = new FontData();
             debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
-            debugText.Color = SFML.Graphics.Color.Blue;
+            debugText.FillColor = SFML.Graphics.Color.Blue;
             ClearColor = SFML.Graphics.Color.Black;
-          
+
             Debug.Initialize();
 
             // for now, register empty
-            LUAManager.Initialize(string.Empty);
+            LuaManager.Initialize(Paths.DATA_LUA);
             Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
-            
-            LUAManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < REQUIRED_OPENGL_VERSION)
@@ -272,7 +272,7 @@ namespace Violet
                 string message = $"OpenGL version {REQUIRED_OPENGL_VERSION} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
-            Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
             SetCursorTimer(90);
             Running = true;
@@ -295,7 +295,7 @@ namespace Violet
                 window.Closed -= OnWindowClose;
                 window.MouseMoved -= MouseMoved;
                 InputManager.Instance.DetachFromWindow(window);
-                
+
                 // Kill it!
                 window.Close();
                 window.Dispose();
@@ -310,11 +310,11 @@ namespace Violet
             {
                 style = Styles.Fullscreen;
                 desktopMode = VideoMode.DesktopMode;
-               
+
                 float fullScreenMin = Math.Min(desktopMode.Width / SCREEN_WIDTH, desktopMode.Height / SCREEN_HEIGHT);
                 float num4 = (desktopMode.Width - SCREEN_WIDTH * fullScreenMin) / 2f;
                 float num5 = (desktopMode.Height - SCREEN_HEIGHT * fullScreenMin) / 2f;
-             
+
                 int width = (int)(HALF_SCREEN_WIDTH * fullScreenMin);
                 int height = (int)(HALF_SCREEN_HEIGHT * fullScreenMin);
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
@@ -329,7 +329,7 @@ namespace Violet
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);
             }
 
-           
+
             window = new RenderWindow(desktopMode, "Voyage: Carpe Omnia", style);
             window.Closed += OnWindowClose;
             window.MouseMoved += MouseMoved;
@@ -346,9 +346,9 @@ namespace Violet
             else
             {
                 window.SetFramerateLimit(TARGET_FRAMERATE);
-            
+
             }
-            
+
             if (iconFile != null)
             {
                 window.SetIcon(32U, 32U, iconFile.GetBytesForSize(32));
@@ -386,7 +386,7 @@ namespace Violet
             renderWindow.Close();
             quit = true;
         }
-        
+
         public static void RenderPNG()
         {
             SFML.Graphics.Image image3 = frameBuffer.Texture.CopyToImage();
@@ -394,7 +394,7 @@ namespace Violet
             image3.SaveToFile(text);
             Debug.LogI("Screenshot saved as \"{0}\"", text);
         }
-         
+
         public static unsafe void TakeScreenshot()
         {
             SFML.Graphics.Image image = frameBuffer.Texture.CopyToImage();
@@ -411,16 +411,16 @@ namespace Violet
 
                 IntPtr scan = new IntPtr(ptr);
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
-                Clipboard.SetImage(image2);
+                System.Windows.Forms.Clipboard.SetImage(image2);
             }
             Debug.LogI("Screenshot copied to clipboard");
         }
 
-        public static void OnButtonPressed(InputManager sender, Violet.Input.Button b)
+        public static void OnButtonPressed(InputManager sender, Button b)
         {
             switch (b)
             {
-                case Violet.Input.Button.Escape:
+                case Button.Escape:
                     if (!isFullscreen)
                     {
                         quit = true;
@@ -429,36 +429,36 @@ namespace Violet
                     switchScreenMode = true;
                     isFullscreen = !isFullscreen;
                     return;
-                case Violet.Input.Button.Tilde:
+                case Button.Tilde:
                     debugDisplay = !debugDisplay;
                     return;
-                case Violet.Input.Button.F1:
-                case Violet.Input.Button.F2:
-                case Violet.Input.Button.F3:
-                case Violet.Input.Button.F6:
-                case Violet.Input.Button.F7:
+                case Button.F1:
+                case Button.F2:
+                case Button.F3:
+                case Button.F6:
+                case Button.F7:
                     break;
-                case Violet.Input.Button.F4:
+                case Button.F4:
                     switchScreenMode = true;
                     isFullscreen = !isFullscreen;
                     return;
-                case Violet.Input.Button.F5:
+                case Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
                     Debug.LogI($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
-                case Violet.Input.Button.F8:
-                {
-                    TakeScreenshot();
-                    return;
-                }
-                case Violet.Input.Button.F9:
-                {
-                    RenderPNG();
-                    return;
-                }
+                case Button.F8:
+                    {
+                        TakeScreenshot();
+                        return;
+                    }
+                case Button.F9:
+                    {
+                        RenderPNG();
+                        return;
+                    }
                 default:
-                    if (b != Violet.Input.Button.F12)
+                    if (b != Button.F12)
                     {
                         return;
                     }
@@ -495,11 +495,11 @@ namespace Violet
             }
 
             // This is wrapped in a try catch statement to detect errors and such.
-			try
-			{
+            try
+            {
                 // Update our audio as soon as possible
                 AudioManager.Instance.Update();
-                
+
                 // This makes input and other events from the window work
                 window.DispatchEvents();
 
@@ -513,13 +513,13 @@ namespace Violet
                 SceneManager.Instance.Draw();
             }
             // If we catch an empty stack exception, we just quit. This is because there's no next scene to go to, the game is finished!
-			catch (EmptySceneStackException)
-			{
-				quit = true;
-			}
+            catch (EmptySceneStackException)
+            {
+                quit = true;
+            }
             // If the exception is NOT an empty scene stack exception, we'll go to the error scene.
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
                 SceneManager.Instance.AbortTransition();
                 SceneManager.Instance.Clear();
                 SceneManager.Instance.Transition = new InstantTransition();
@@ -534,7 +534,7 @@ namespace Violet
                     //megabytesUsed *= 0.001;
                     fpsString.Clear();
                     fpsString.AppendFormat("GC: {0:D5} KB\n", GC.GetTotalMemory(false) / 1024L);
-                   // fpsString.AppendFormat("FGC: {0:D5} KB\n", GC.GetTotalMemory(true) / 1024L);
+                    // fpsString.AppendFormat("FGC: {0:D5} KB\n", GC.GetTotalMemory(true) / 1024L);
                     fpsString.Append($"MGC: {(GC.GetTotalMemory(true) / 1024L) * 0.001}MB\n");
                     fpsString.AppendFormat("FPS: {0:F1}", fpsAverage);
                     debugText.DisplayedString = fpsString.ToString();

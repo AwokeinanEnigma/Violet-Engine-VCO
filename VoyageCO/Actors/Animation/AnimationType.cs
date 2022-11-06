@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VCO.Actors.Animation
+﻿namespace VCO.Actors.Animation
 {
     // Token: 0x02000003 RID: 3
     internal enum AnimationType

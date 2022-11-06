@@ -3,7 +3,6 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Violet.Utility;
 
 namespace Violet.Collision
@@ -72,7 +71,7 @@ namespace Violet.Collision
 
         public void Filter()
         {
-            var itemToRemove = collidables.FindAll(r => r == null);
+            List<ICollidable> itemToRemove = collidables.FindAll(r => r == null);
             itemToRemove.ForEach(x => spatialHash.Remove(x));
             List<ICollidable> result = collidables.Except(itemToRemove).ToList();
             collidables = result;
@@ -103,7 +102,7 @@ namespace Violet.Collision
                 Array.Clear(collisionResults, 0, collisionResults.Length);
             }
             bool flag = false;
-            
+
             Vector2f offset = obj.Position - position;
             this.resultList.Clear();
             this.spatialHash.Query(obj, offset, this.resultStack);

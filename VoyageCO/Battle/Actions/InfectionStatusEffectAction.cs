@@ -2,12 +2,11 @@
 using VCO.Battle.Combatants;
 using VCO.Battle.UI;
 using VCO.Data;
-using VCO.Utility;
 
 namespace VCO.Battle.Actions
 {
-	internal class InfectionStatusEffectAction : StatusEffectAction
-	{
+    internal class InfectionStatusEffectAction : StatusEffectAction
+    {
         public InfectionStatusEffectAction(ActionParams aparams) : base(aparams)
         {
             if (this.effect.TurnsRemaining > 1)

@@ -86,7 +86,7 @@
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Lua\LuaHandler.cs" />
     <Compile Include="Lua\LuaConfiguration.cs" />
-    <Compile Include="Lua\LUAManager.cs" />
+    <Compile Include="Lua\LuaManager.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,14 +99,14 @@
     <Compile Include="Scenes\Transitions\ITransition.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileGroup.cs" />
-    <Compile Include="Utility\SCHIZOCode.cs" />
+    <Compile Include="Utility\Paths.cs" />
     <Compile Include="Utility\Debug.cs" />
-    <Compile Include="Utility\Class2.cs" />
     <Compile Include="Utility\ColorHelper.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />
     <Compile Include="Utility\Digits.cs" />
     <Compile Include="Utility\EmbeddedResources.cs" />
     <Compile Include="Utility\GaussianRandom.cs" />
+    <Compile Include="Utility\Hash.cs" />
     <Compile Include="Utility\IconFile.cs" />
     <Compile Include="Utility\Quadtree.cs" />
     <Compile Include="Utility\Rectangle.cs" />
@@ -129,9 +129,6 @@
     </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>

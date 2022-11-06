@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VCO.Battle
+﻿namespace VCO.Battle
 {
     // Token: 0x0200006D RID: 109
     internal enum StatusEffect
