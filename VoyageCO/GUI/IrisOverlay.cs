@@ -37,9 +37,9 @@ namespace VCO.GUI
             this.verts[1U] = new Vertex(new Vector2f(num, -num2), new Vector2f(1f, 0f));
             this.verts[2U] = new Vertex(new Vector2f(num, num2), new Vector2f(1f, 1f));
             this.verts[3U] = new Vertex(new Vector2f(-num, num2), new Vector2f(0f, 1f));
-            this.shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), EmbeddedResources.GetStream("VCO.Resources.iris.frag"));
-            this.shader.SetParameter("progress", this.progress);
-            this.shader.SetParameter("size", this.size);
+            this.shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), null, EmbeddedResources.GetStream("VCO.Resources.iris.frag"));
+            this.shader.SetUniform("progress", this.progress);
+            this.shader.SetUniform("size", this.size);
             this.transform = Transform.Identity;
             this.transform.Translate(this.position);
             this.states = new RenderStates(BlendMode.Alpha, this.transform, null, this.shader);
@@ -59,7 +59,7 @@ namespace VCO.GUI
             this.progress = progress;
             if (this.progress != num)
             {
-                this.shader.SetParameter("progress", this.progress);
+                this.shader.SetUniform("progress", this.progress);
             }
         }
 

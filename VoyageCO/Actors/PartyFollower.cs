@@ -116,7 +116,7 @@ namespace VCO.Actors
             if (this.debugVerts == null)
             {
                 Color color = new Color(61, 129, 166);
-                VertexArray vertexArray = new VertexArray(PrimitiveType.LinesStrip, (uint)(this.mesh.Vertices.Count + 1));
+                VertexArray vertexArray = new VertexArray(PrimitiveType.LineStrip, (uint)(this.mesh.Vertices.Count + 1));
                 for (int i = 0; i < this.mesh.Vertices.Count; i++)
                 {
                     vertexArray[(uint)i] = new Vertex(this.mesh.Vertices[i], color);

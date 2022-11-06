@@ -58,7 +58,7 @@ namespace VCO.Battle.Background
 
         private void CreateLayers(LayerParams[] parameters)
         {
-            Shader shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), EmbeddedResources.GetStream("VCO.Resources.bbg.frag"));
+            Shader shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), null, EmbeddedResources.GetStream("VCO.Resources.bbg.frag"));
             this.layers = new BackgroundLayer[parameters.Length];
             int num = this.layers.Length;
             for (int i = 0; i < num; i++)

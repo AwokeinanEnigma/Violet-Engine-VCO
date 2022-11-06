@@ -164,13 +164,13 @@ namespace Violet.Graphics
                 this.finalScale.Y = (this.flipY ? (-this.scale.Y) : this.scale.Y);
                 this.sprite.Scale = this.finalScale;
                 ((IndexedTexture)this.texture).CurrentPalette = this.currentPalette;
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("image", this.texture.Image);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palette", ((IndexedTexture)this.texture).Palette);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palIndex", ((IndexedTexture)this.texture).CurrentPaletteFloat);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("palSize", ((IndexedTexture)this.texture).PaletteSize);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blend", this.blend);
-                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("blendMode", (float)this.blendMode);
-                //IndexedColorGraphic.INDEXED_COLOR_SHADER.SetParameter("time", time.ElapsedTime.AsSeconds());
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("image", this.texture.Image);
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palette", ((IndexedTexture)this.texture).Palette);
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palIndex", ((IndexedTexture)this.texture).CurrentPaletteFloat);
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palSize", ((IndexedTexture)this.texture).PaletteSize);
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(this.blend));
+                IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("blendMode", (float)this.blendMode);
+                //IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("time", time.ElapsedTime.AsSeconds());
                 if (!this.disposed)
                 {
                     target.Draw(this.sprite, this.renderStates);
@@ -197,7 +197,7 @@ namespace Violet.Graphics
             2
         };
 
-        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
 
         private RenderStates renderStates;
 

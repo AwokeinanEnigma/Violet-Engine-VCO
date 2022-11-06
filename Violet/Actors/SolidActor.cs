@@ -94,8 +94,7 @@ namespace Violet.Actors
         {
             if (debugVerts == null)
             {
-                VertexArray vertexArray = new VertexArray(PrimitiveType.LinesStrip, (uint)(mesh.Vertices.Count + 1));
-
+                VertexArray vertexArray = new VertexArray(PrimitiveType.LineStrip, (uint)(mesh.Vertices.Count + 1));
                 for (int i = 0; i < mesh.Vertices.Count; i++)
                 {
                     vertexArray[(uint)i] = new Vertex(mesh.Vertices[i], Color.Green);

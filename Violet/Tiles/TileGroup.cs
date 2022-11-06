@@ -265,12 +265,12 @@ namespace Violet.Tiles
 
         public override void Draw(RenderTarget target)
         {
-            TileGroup.TILE_GROUP_SHADER.SetParameter("image", this.tileset.Image);
-            TileGroup.TILE_GROUP_SHADER.SetParameter("palette", this.tileset.Palette);
-            TileGroup.TILE_GROUP_SHADER.SetParameter("palIndex", this.tileset.CurrentPaletteFloat);
-            TileGroup.TILE_GROUP_SHADER.SetParameter("palSize", this.tileset.PaletteSize);
-            TileGroup.TILE_GROUP_SHADER.SetParameter("blend", Color.White);
-            TileGroup.TILE_GROUP_SHADER.SetParameter("blendMode", 1f);
+            TileGroup.TILE_GROUP_SHADER.SetUniform("image", this.tileset.Image);
+            TileGroup.TILE_GROUP_SHADER.SetUniform("palette", this.tileset.Palette);
+            TileGroup.TILE_GROUP_SHADER.SetUniform("palIndex", this.tileset.CurrentPaletteFloat);
+            TileGroup.TILE_GROUP_SHADER.SetUniform("palSize", this.tileset.PaletteSize);
+            TileGroup.TILE_GROUP_SHADER.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(Color.White));
+            TileGroup.TILE_GROUP_SHADER.SetUniform("blendMode", 1f);
             this.UpdateAnimations();
             target.Draw(this.vertices, PrimitiveType.Quads, this.renderState);
         }
@@ -299,7 +299,7 @@ namespace Violet.Tiles
             this.disposed = true;
         }
 
-        private static readonly Shader TILE_GROUP_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+        private static readonly Shader TILE_GROUP_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
 
 
     }
