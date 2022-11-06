@@ -5,15 +5,9 @@ namespace VCO.Battle.Combatants
 {
     internal class EnemyCombatant : Combatant
     {
-        public EnemyData Enemy
-        {
-            get
-            {
-                return this.enemy;
-            }
-        }
+        public EnemyData Enemy => this.enemy;
 
-        private EnemyDecisionAction action;
+        private readonly EnemyDecisionAction action;
 
 
         public EnemyCombatant(EnemyData enemy) : base(BattleFaction.EnemyTeam)
@@ -44,6 +38,6 @@ namespace VCO.Battle.Combatants
             //	return action;
         }
 
-        private EnemyData enemy;
+        private readonly EnemyData enemy;
     }
 }

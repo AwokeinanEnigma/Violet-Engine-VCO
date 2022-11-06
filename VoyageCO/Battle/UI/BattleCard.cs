@@ -32,14 +32,8 @@ namespace VCO.Battle.UI
         }
         public BattleCard.GlowType Glow
         {
-            get
-            {
-                return this.glowType;
-            }
-            set
-            {
-                this.SetGlow(value);
-            }
+            get => this.glowType;
+            set => this.SetGlow(value);
         }
 
         // Token: 0x04000695 RID: 1685
@@ -108,21 +102,9 @@ namespace VCO.Battle.UI
             // Token: 0x040006C9 RID: 1737
             Eraser
         }
-        public Vector2f Position
-        {
-            get
-            {
-                return this.position;
-            }
-        }
+        public Vector2f Position => this.position;
 
-        public Graphic CardGraphic
-        {
-            get
-            {
-                return this.card;
-            }
-        }
+        public Graphic CardGraphic => this.card;
 
         private void UpdateGlow()
         {
@@ -142,8 +124,10 @@ namespace VCO.Battle.UI
             this.hitsparks = new Graphic[16];
             for (int j = 0; j < this.hitsparks.Length; j++)
             {
-                this.hitsparks[j] = new IndexedColorGraphic(Paths.GRAPHICS + "hitsparks.dat", "combohitspark", new Vector2f(-320f, -180f), 2003);
-                this.hitsparks[j].Visible = false;
+                this.hitsparks[j] = new IndexedColorGraphic(Paths.GRAPHICS + "hitsparks.dat", "combohitspark", new Vector2f(-320f, -180f), 2003)
+                {
+                    Visible = false
+                };
                 pipeline.Add(this.hitsparks[j]);
             }
         }
@@ -176,7 +160,7 @@ namespace VCO.Battle.UI
         public CardBar index;
 
         public RenderPipeline pipeline;
-        private VioletSound uhohsound;
+        private readonly VioletSound uhohsound;
 
         public BattleCard(RenderPipeline pipeline, Vector2f position, int depth, string name, int hp, int maxHp, int pp, int maxPp, float meterFill, CharacterType type, CardBar index)
         {
@@ -188,12 +172,18 @@ namespace VCO.Battle.UI
             this.card = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "altcard", position, depth);
             this.deadCard = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "carddead", position, depth);
             this.card.CurrentPalette = Settings.WindowFlavor;
-            this.hpLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "hp", position + BattleCard.HPLABEL_POSITION, depth + 2);
-            this.hpLabel.CurrentPalette = Settings.WindowFlavor;
-            this.ppLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "pp", position + BattleCard.PPLABEL_POSITION, depth + 2);
-            this.ppLabel.CurrentPalette = Settings.WindowFlavor;
-            this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, "Sean");/* "tom");  name);*/
-            this.nameTag.Color = Color.Black;
+            this.hpLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "hp", position + BattleCard.HPLABEL_POSITION, depth + 2)
+            {
+                CurrentPalette = Settings.WindowFlavor
+            };
+            this.ppLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "pp", position + BattleCard.PPLABEL_POSITION, depth + 2)
+            {
+                CurrentPalette = Settings.WindowFlavor
+            };
+            this.nameTag = new TextRegion(position, depth + 2, Fonts.Main, "Sean")
+            {
+                Color = Color.Black
+            };/* "tom");  name);*/
             this.nametagX = (int)(this.card.TextureRect.Width / 2 - this.nameTag.Size.X / 2f);
             this.nameTag.Position = position + new Vector2f(nametagX, 4f) + BattleCard.NAME_POSITION;
             this.uhohsound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "smaaash.wav", AudioType.Sound);
@@ -449,22 +439,22 @@ namespace VCO.Battle.UI
 
         private bool disposed;
 
-        private IndexedColorGraphic card;
-        private IndexedColorGraphic deadCard;
+        private readonly IndexedColorGraphic card;
+        private readonly IndexedColorGraphic deadCard;
 
-        private IndexedColorGraphic hpLabel;
+        private readonly IndexedColorGraphic hpLabel;
 
-        private IndexedColorGraphic ppLabel;
+        private readonly IndexedColorGraphic ppLabel;
 
-        private TextRegion nameTag;
+        private readonly TextRegion nameTag;
 
-        private int nametagX;
+        private readonly int nametagX;
 
-        private BattleMeter meter;
+        private readonly BattleMeter meter;
 
-        private Odometer odoHP;
+        private readonly Odometer odoHP;
 
-        private Odometer odoPP;
+        private readonly Odometer odoPP;
 
         private BattleCard.SpringMode springMode;
 

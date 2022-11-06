@@ -8,8 +8,8 @@ namespace VCO.Battle.Actions
 {
     internal class EnemyProjectileAction : BattleAction
     {
-        private bool useCustomText;
-        private string customText;
+        private readonly bool useCustomText;
+        private readonly string customText;
         public EnemyProjectileAction(ActionParams aparams) : base(aparams)
         {
             this.enemySender = (this.sender as EnemyCombatant);
@@ -181,15 +181,15 @@ namespace VCO.Battle.Actions
 
         private EnemyProjectileAction.State previousState;
 
-        private EnemyCombatant enemySender;
+        private readonly EnemyCombatant enemySender;
 
-        private PlayerCombatant playerTarget;
+        private readonly PlayerCombatant playerTarget;
 
-        private string projectileName;
+        private readonly string projectileName;
 
-        private bool isReflected;
+        private readonly bool isReflected;
 
-        private int targetDamage;
+        private readonly int targetDamage;
 
         private enum State
         {

@@ -17,35 +17,14 @@ namespace VCO.Actors.NPCs
 {
     internal class NPC : SolidActor
     {
-        public List<Map.NPCtext> Text
-        {
-            get
-            {
-                return this.text;
-            }
-        }
-        public List<Map.NPCtext> TeleText
-        {
-            get
-            {
-                return this.teleText;
-            }
-        }
+        public List<Map.NPCtext> Text => this.text;
+        public List<Map.NPCtext> TeleText => this.teleText;
 
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
+        public string Name => this.name;
 
         public int Direction
         {
-            get
-            {
-                return this.direction;
-            }
+            get => this.direction;
             set
             {
                 this.direction = value;
@@ -58,10 +37,7 @@ namespace VCO.Actors.NPCs
         // (set) Token: 0x06000371 RID: 881 RVA: 0x000160C5 File Offset: 0x000142C5
         public float HopFactor
         {
-            get
-            {
-                return this.hopFactor;
-            }
+            get => this.hopFactor;
             set
             {
                 this.hopFactor = value;
@@ -71,23 +47,11 @@ namespace VCO.Actors.NPCs
 
         // Token: 0x17000099 RID: 153
         // (get) Token: 0x06000372 RID: 882 RVA: 0x000160D9 File Offset: 0x000142D9
-        public int Depth
-        {
-            get
-            {
-                return this.depth;
-            }
-        }
+        public int Depth => this.depth;
 
         // Token: 0x1700009A RID: 154
         // (get) Token: 0x06000373 RID: 883 RVA: 0x000160E1 File Offset: 0x000142E1
-        public Vector2f EmoticonPoint
-        {
-            get
-            {
-                return new Vector2f(this.position.X, this.position.Y - this.npcGraphic.Origin.Y);
-            }
-        }
+        public Vector2f EmoticonPoint => new Vector2f(this.position.X, this.position.Y - this.npcGraphic.Origin.Y);
 
         // Token: 0x06000374 RID: 884 RVA: 0x00016110 File Offset: 0x00014310
         public NPC(RenderPipeline pipeline, CollisionManager colman, Map.NPC npcData, object moverData) : base(null)
@@ -122,7 +86,7 @@ namespace VCO.Actors.NPCs
                 }
                 int width = this.npcGraphic.TextureRect.Width;
                 int height = this.npcGraphic.TextureRect.Height;
-                this.mesh = new Mesh(new FloatRect((float)(-(width / 2)), -3f, width, 6f));
+                this.mesh = new Mesh(new FloatRect(-(width / 2), -3f, width, 6f));
             }
             else
             {
@@ -435,7 +399,7 @@ namespace VCO.Actors.NPCs
         }
 
         // Token: 0x0400050C RID: 1292
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x0400050D RID: 1293
         private IndexedColorGraphic npcGraphic;
@@ -447,7 +411,7 @@ namespace VCO.Actors.NPCs
         private IndexedColorGraphic effectGraphic;
 
         // Token: 0x04000510 RID: 1296
-        private string name;
+        private readonly string name;
 
         // Token: 0x04000511 RID: 1297
         private int direction;
@@ -483,13 +447,13 @@ namespace VCO.Actors.NPCs
         private float lastZOffset;
 
         // Token: 0x0400051C RID: 1308
-        private float speed;
+        private readonly float speed;
 
         // Token: 0x0400051D RID: 1309
-        private int delay;
+        private readonly int delay;
 
         // Token: 0x0400051E RID: 1310
-        private int distance;
+        private readonly int distance;
 
         // Token: 0x0400051F RID: 1311
         private float hopFactor;
@@ -504,10 +468,10 @@ namespace VCO.Actors.NPCs
         private bool changed;
 
         // Token: 0x04000523 RID: 1315
-        private bool shadow;
+        private readonly bool shadow;
 
         // Token: 0x04000524 RID: 1316
-        private bool sticky;
+        private readonly bool sticky;
 
         // Token: 0x04000525 RID: 1317
         private int depth;

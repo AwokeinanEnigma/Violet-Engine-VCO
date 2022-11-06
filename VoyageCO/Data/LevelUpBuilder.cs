@@ -38,6 +38,6 @@ namespace VCO.Data
             return stringBuilder.ToString();
         }
 
-        private Dictionary<CharacterType, StatSet> increases;
+        private readonly Dictionary<CharacterType, StatSet> increases;
     }
 }

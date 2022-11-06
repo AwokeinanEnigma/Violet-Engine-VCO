@@ -4,70 +4,34 @@
     {
         public static string Locale
         {
-            get
-            {
-                return Settings.language;
-            }
-            set
-            {
-                Settings.language = value;
-            }
+            get => Settings.language;
+            set => Settings.language = value;
         }
 
         public static uint WindowFlavor
         {
-            get
-            {
-                return Settings.windowFlavor;
-            }
-            set
-            {
-                Settings.windowFlavor = value;
-            }
+            get => Settings.windowFlavor;
+            set => Settings.windowFlavor = value;
         }
 
-        public static string WindowStyle
-        {
-            get
-            {
-                return "Data/Graphics/window1.dat";
-            }
-        }
+        public static string WindowStyle => "Data/Graphics/window1.dat";
 
         public static float EffectsVolume
         {
-            get
-            {
-                return Settings.sfxVolume;
-            }
-            set
-            {
-                Settings.sfxVolume = value;
-            }
+            get => Settings.sfxVolume;
+            set => Settings.sfxVolume = value;
         }
 
         public static float MusicVolume
         {
-            get
-            {
-                return Settings.bgmVolume;
-            }
-            set
-            {
-                Settings.bgmVolume = value;
-            }
+            get => Settings.bgmVolume;
+            set => Settings.bgmVolume = value;
         }
 
         public static int TextSpeed
         {
-            get
-            {
-                return Settings.textSpeed;
-            }
-            set
-            {
-                Settings.textSpeed = value;
-            }
+            get => Settings.textSpeed;
+            set => Settings.textSpeed = value;
         }
 
         private static string language = "en_US";

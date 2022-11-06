@@ -51,7 +51,7 @@ namespace VCO.GUI.OverworldMenu
 
         public static readonly Vector2f PANEL_SIZE = new Vector2f(MainMenu.PANEL_SIZE.X, 10f);
 
-        private TextRegion dollarText;
+        private readonly TextRegion dollarText;
 
         private TextRegion moneyText;
     }

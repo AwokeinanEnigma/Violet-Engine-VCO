@@ -61,7 +61,7 @@ namespace VCO.Data
 
         public const string NBT_TAG_NAME = "names";
 
-        private static Dictionary<CharacterType, string> names = new Dictionary<CharacterType, string>
+        private static readonly Dictionary<CharacterType, string> names = new Dictionary<CharacterType, string>
         {
             {
                 CharacterType.Travis,

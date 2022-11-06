@@ -155,7 +155,7 @@ namespace VCO.Battle.Actions
 
         public PlayerAUXAction.State state;
 
-        private PlayerCombatant combatant;
+        private readonly PlayerCombatant combatant;
 
         public IAUX AUX;
 

@@ -4,14 +4,8 @@
     {
         public int Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            get => this.position;
+            set => this.position = value;
         }
 
         public TextWait(int position)

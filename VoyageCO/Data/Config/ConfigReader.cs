@@ -18,11 +18,11 @@ namespace VCO.Data.Config
         private const string ATTR_NAME_X = "x";
         private const string ATTR_NAME_Y = "y";
         private static ConfigReader instance;
-        private Stack<ConfigReader.ReadState> stateStack;
+        private readonly Stack<ConfigReader.ReadState> stateStack;
         private string startingMap;
         private string debugMap;
         private Vector2i startingPosition;
-        private List<CharacterType> partyList;
+        private readonly List<CharacterType> partyList;
 
         public static ConfigReader Instance
         {

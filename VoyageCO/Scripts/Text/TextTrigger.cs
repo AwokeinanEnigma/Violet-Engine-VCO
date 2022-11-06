@@ -4,31 +4,13 @@
     {
         public int Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            get => this.position;
+            set => this.position = value;
         }
 
-        public int Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
+        public int Type => this.type;
 
-        public string[] Data
-        {
-            get
-            {
-                return this.data;
-            }
-        }
+        public string[] Data => this.data;
 
         public TextTrigger(int position, int type, string[] data)
         {
@@ -39,8 +21,8 @@
 
         private int position;
 
-        private int type;
+        private readonly int type;
 
-        private string[] data;
+        private readonly string[] data;
     }
 }

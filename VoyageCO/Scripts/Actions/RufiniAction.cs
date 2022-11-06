@@ -5,13 +5,7 @@ namespace VCO.Scripts.Actions
 {
     internal abstract class RufiniAction
     {
-        public List<ActionParam> Params
-        {
-            get
-            {
-                return this.paramList;
-            }
-        }
+        public List<ActionParam> Params => this.paramList;
 
         public RufiniAction()
         {
@@ -79,6 +73,6 @@ namespace VCO.Scripts.Actions
 
         protected List<ActionParam> paramList;
 
-        private Dictionary<string, object> paramValues;
+        private readonly Dictionary<string, object> paramValues;
     }
 }

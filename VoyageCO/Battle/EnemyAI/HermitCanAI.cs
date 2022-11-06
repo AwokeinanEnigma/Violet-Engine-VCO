@@ -29,7 +29,7 @@ namespace VCO.Battle.EnemyAI
             return BattleAction.GetInstance(aparams);
         }
 
-        private List<ActionParams> battleActionParams = new List<ActionParams>() {
+        private readonly List<ActionParams> battleActionParams = new List<ActionParams>() {
                         new ActionParams
                         {
                             actionType = typeof(EnemyTurnWasteAction),
@@ -50,8 +50,8 @@ namespace VCO.Battle.EnemyAI
 
         };
 
-        private BattleController controller;
+        private readonly BattleController controller;
 
-        private Combatant sender;
+        private readonly Combatant sender;
     }
 }

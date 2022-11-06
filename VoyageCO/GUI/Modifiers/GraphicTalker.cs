@@ -10,23 +10,11 @@ namespace VCO.Battle.UI.Modifiers
     {
         // Token: 0x1700008B RID: 139
         // (get) Token: 0x060002FC RID: 764 RVA: 0x00013166 File Offset: 0x00011366
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
         // Token: 0x1700008C RID: 140
         // (get) Token: 0x060002FD RID: 765 RVA: 0x0001316E File Offset: 0x0001136E
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         // Token: 0x060002FE RID: 766 RVA: 0x00013178 File Offset: 0x00011378
         public GraphicTalker(RenderPipeline pipeline, Graphic graphic)
@@ -98,13 +86,13 @@ namespace VCO.Battle.UI.Modifiers
         private bool disposed;
 
         // Token: 0x0400046C RID: 1132
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x0400046D RID: 1133
-        private Graphic graphic;
+        private readonly Graphic graphic;
 
         // Token: 0x0400046E RID: 1134
-        private IndexedColorGraphic talker;
+        private readonly IndexedColorGraphic talker;
 
         // Token: 0x0400046F RID: 1135
         private Vector2f rightOffset;
@@ -116,6 +104,6 @@ namespace VCO.Battle.UI.Modifiers
         private bool right;
 
         // Token: 0x04000472 RID: 1138
-        private bool done;
+        private readonly bool done;
     }
 }

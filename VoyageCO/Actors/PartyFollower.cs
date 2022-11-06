@@ -18,55 +18,28 @@ namespace VCO.Actors
         // (set) Token: 0x06000389 RID: 905 RVA: 0x00016AF4 File Offset: 0x00014CF4
         public int Place
         {
-            get
-            {
-                return this.place;
-            }
-            set
-            {
-                this.place = value;
-            }
+            get => this.place;
+            set => this.place = value;
         }
 
         // Token: 0x1700009C RID: 156
         // (get) Token: 0x0600038A RID: 906 RVA: 0x00016AFD File Offset: 0x00014CFD
-        public float Width
-        {
-            get
-            {
-                return this.followerGraphic.Size.X;
-            }
-        }
+        public float Width => this.followerGraphic.Size.X;
 
         // Token: 0x1700009D RID: 157
         // (get) Token: 0x0600038B RID: 907 RVA: 0x00016B0F File Offset: 0x00014D0F
-        public CharacterType Character
-        {
-            get
-            {
-                return this.character;
-            }
-        }
+        public CharacterType Character => this.character;
 
         // Token: 0x1700009E RID: 158
         // (get) Token: 0x0600038C RID: 908 RVA: 0x00016B17 File Offset: 0x00014D17
-        public int Direction
-        {
-            get
-            {
-                return this.direction;
-            }
-        }
+        public int Direction => this.direction;
 
         // Token: 0x1700009F RID: 159
         // (get) Token: 0x0600038D RID: 909 RVA: 0x00016B1F File Offset: 0x00014D1F
         // (set) Token: 0x0600038E RID: 910 RVA: 0x00016B27 File Offset: 0x00014D27
         public Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
+            get => this.position;
             set
             {
             }
@@ -74,58 +47,28 @@ namespace VCO.Actors
 
         // Token: 0x170000A0 RID: 160
         // (get) Token: 0x0600038F RID: 911 RVA: 0x00016B29 File Offset: 0x00014D29
-        public Vector2f Velocity
-        {
-            get
-            {
-                return this.velocity;
-            }
-        }
+        public Vector2f Velocity => this.velocity;
 
         // Token: 0x170000A1 RID: 161
         // (get) Token: 0x06000390 RID: 912 RVA: 0x00016B31 File Offset: 0x00014D31
-        public AABB AABB
-        {
-            get
-            {
-                return this.aabb;
-            }
-        }
+        public AABB AABB => this.aabb;
 
         // Token: 0x170000A2 RID: 162
         // (get) Token: 0x06000391 RID: 913 RVA: 0x00016B39 File Offset: 0x00014D39
-        public Mesh Mesh
-        {
-            get
-            {
-                return this.mesh;
-            }
-        }
+        public Mesh Mesh => this.mesh;
 
         // Token: 0x170000A3 RID: 163
         // (get) Token: 0x06000392 RID: 914 RVA: 0x00016B41 File Offset: 0x00014D41
         // (set) Token: 0x06000393 RID: 915 RVA: 0x00016B49 File Offset: 0x00014D49
         public bool Solid
         {
-            get
-            {
-                return this.solid;
-            }
-            set
-            {
-                this.solid = value;
-            }
+            get => this.solid;
+            set => this.solid = value;
         }
 
         // Token: 0x170000A4 RID: 164
         // (get) Token: 0x06000394 RID: 916 RVA: 0x00016B52 File Offset: 0x00014D52
-        public VertexArray DebugVerts
-        {
-            get
-            {
-                return this.GetDebugVerts();
-            }
-        }
+        public VertexArray DebugVerts => this.GetDebugVerts();
 
         // Token: 0x06000395 RID: 917 RVA: 0x00016B5C File Offset: 0x00014D5C
         public PartyFollower(RenderPipeline pipeline, CollisionManager colman, PartyTrain recorder, CharacterType character, Vector2f position, int direction, bool useShadow)
@@ -140,9 +83,11 @@ namespace VCO.Actors
             this.velocity = VectorMath.ZERO_VECTOR;
             this.direction = direction;
             string file = CharacterGraphics.GetFile(character);
-            this.followerGraphic = new IndexedColorGraphic(file, "walk south", this.position, (int)this.position.Y - 1);
-            this.followerGraphic.SpeedModifier = 0f;
-            this.followerGraphic.Frame = 0f;
+            this.followerGraphic = new IndexedColorGraphic(file, "walk south", this.position, (int)this.position.Y - 1)
+            {
+                SpeedModifier = 0f,
+                Frame = 0f
+            };
             this.pipeline.Add(this.followerGraphic);
             if (this.useShadow)
             {
@@ -153,7 +98,7 @@ namespace VCO.Actors
             this.animator.UpdateSubsprite(this.GetAnimationContext());
             int width = this.followerGraphic.TextureRect.Width;
             int height = this.followerGraphic.TextureRect.Height;
-            this.mesh = new Mesh(new FloatRect((float)(-(width / 2)), -3f, width, 6f));
+            this.mesh = new Mesh(new FloatRect(-(width / 2), -3f, width, 6f));
             this.aabb = this.mesh.AABB;
             this.solid = true;
             this.collisionManager = colman;
@@ -269,13 +214,13 @@ namespace VCO.Actors
         private bool disposed;
 
         // Token: 0x04000538 RID: 1336
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x04000539 RID: 1337
-        private PartyTrain recorder;
+        private readonly PartyTrain recorder;
 
         // Token: 0x0400053A RID: 1338
-        private CharacterType character;
+        private readonly CharacterType character;
 
         // Token: 0x0400053B RID: 1339
         private int place;
@@ -296,10 +241,10 @@ namespace VCO.Actors
         private TerrainType terrain;
 
         // Token: 0x04000541 RID: 1345
-        private IndexedColorGraphic followerGraphic;
+        private readonly IndexedColorGraphic followerGraphic;
 
         // Token: 0x04000542 RID: 1346
-        private Graphic shadowGraphic;
+        private readonly Graphic shadowGraphic;
 
         // Token: 0x04000543 RID: 1347
         private bool isRunning;
@@ -314,10 +259,10 @@ namespace VCO.Actors
         private bool lastMoving;
 
         // Token: 0x04000547 RID: 1351
-        private bool useShadow;
+        private readonly bool useShadow;
 
         // Token: 0x04000548 RID: 1352
-        private bool isDead;
+        private readonly bool isDead;
 
         // Token: 0x04000549 RID: 1353
         private bool isCrouch;
@@ -326,7 +271,7 @@ namespace VCO.Actors
         private AABB aabb;
 
         // Token: 0x0400054B RID: 1355
-        private Mesh mesh;
+        private readonly Mesh mesh;
 
         // Token: 0x0400054C RID: 1356
         private bool solid;
@@ -335,9 +280,9 @@ namespace VCO.Actors
         private VertexArray debugVerts;
 
         // Token: 0x0400054E RID: 1358
-        private CollisionManager collisionManager;
+        private readonly CollisionManager collisionManager;
 
         // Token: 0x0400054F RID: 1359
-        private AnimationControl animator;
+        private readonly AnimationControl animator;
     }
 }

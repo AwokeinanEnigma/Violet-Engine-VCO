@@ -4,37 +4,13 @@ namespace VCO.Items
 {
     internal class Inventory
     {
-        public int MaxItems
-        {
-            get
-            {
-                return this.max;
-            }
-        }
+        public int MaxItems => this.max;
 
-        public int Count
-        {
-            get
-            {
-                return this.items.Count;
-            }
-        }
+        public int Count => this.items.Count;
 
-        public bool Full
-        {
-            get
-            {
-                return this.Count >= this.MaxItems;
-            }
-        }
+        public bool Full => this.Count >= this.MaxItems;
 
-        public Item this[int index]
-        {
-            get
-            {
-                return this.Get(index);
-            }
-        }
+        public Item this[int index] => this.Get(index);
 
         public Inventory(int max)
         {
@@ -88,8 +64,8 @@ namespace VCO.Items
             return null;
         }
 
-        private int max;
+        private readonly int max;
 
-        private List<Item> items;
+        private readonly List<Item> items;
     }
 }

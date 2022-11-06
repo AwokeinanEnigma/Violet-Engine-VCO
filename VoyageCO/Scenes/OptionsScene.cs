@@ -285,7 +285,7 @@ namespace VCO.Scenes
 
         private const int LIST_WIDTH = 80;
 
-        private TextRegion titleText;
+        private readonly TextRegion titleText;
 
         private static readonly Vector2f MENU_POSITION = new Vector2f(32f, 32f);
 
@@ -293,27 +293,27 @@ namespace VCO.Scenes
 
         private ScrollingList focusedList;
 
-        private ScrollingList mainList;
+        private readonly ScrollingList mainList;
 
-        private ScrollingList bgmVolumeList;
+        private readonly ScrollingList bgmVolumeList;
 
-        private ScrollingList sfxVolumeList;
+        private readonly ScrollingList sfxVolumeList;
 
-        private ScrollingList flavorList;
+        private readonly ScrollingList flavorList;
 
-        private ScrollingList textSpeedList;
+        private readonly ScrollingList textSpeedList;
 
-        private ScrollingList scaleList;
+        private readonly ScrollingList scaleList;
 
-        private ScrollingList fullscreenList;
+        private readonly ScrollingList fullscreenList;
 
-        private VioletSound sfxCursorX;
+        private readonly VioletSound sfxCursorX;
 
-        private VioletSound sfxCursorY;
+        private readonly VioletSound sfxCursorY;
 
-        private VioletSound sfxConfirm;
+        private readonly VioletSound sfxConfirm;
 
-        private VioletSound sfxCancel;
+        private readonly VioletSound sfxCancel;
 
         private static readonly string[] MAIN_MENU = new string[]
         {

@@ -5,13 +5,7 @@ namespace VCO.Battle.AUXAnimation
 {
     internal class AUXElementList
     {
-        public bool HasElements
-        {
-            get
-            {
-                return this.elementCounter < this.elements.Count;
-            }
-        }
+        public bool HasElements => this.elementCounter < this.elements.Count;
 
         public AUXElementList(List<AUXElement> elements)
         {
@@ -31,7 +25,7 @@ namespace VCO.Battle.AUXAnimation
             return list;
         }
 
-        private List<AUXElement> elements;
+        private readonly List<AUXElement> elements;
 
         private int elementCounter;
     }

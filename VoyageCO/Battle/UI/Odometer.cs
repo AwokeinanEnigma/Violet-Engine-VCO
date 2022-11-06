@@ -10,10 +10,7 @@ namespace VCO.Battle.UI
     {
         public Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
+            get => this.position;
             set
             {
                 this.position = value;
@@ -21,13 +18,7 @@ namespace VCO.Battle.UI
             }
         }
 
-        public int TargetValue
-        {
-            get
-            {
-                return this.rollers[0].Number;
-            }
-        }
+        public int TargetValue => this.rollers[0].Number;
 
         public Odometer(RenderPipeline pipeline, Vector2f position, int depth, int places, int initialValue, int maxValue, BattleCard outer)
         {
@@ -66,7 +57,7 @@ namespace VCO.Battle.UI
 
         }
 
-        private BattleCard card;
+        private readonly BattleCard card;
 
         ~Odometer()
         {
@@ -158,11 +149,11 @@ namespace VCO.Battle.UI
 
         private bool disposed;
 
-        private Graphic rollerContainer;
+        private readonly Graphic rollerContainer;
 
-        private OdometerRoller[] rollers;
+        private readonly OdometerRoller[] rollers;
 
-        private int places;
+        private readonly int places;
 
         private int holdPlaces;
 
@@ -170,6 +161,6 @@ namespace VCO.Battle.UI
 
         private bool posDirty;
 
-        private bool[] hidden;
+        private readonly bool[] hidden;
     }
 }

@@ -9,29 +9,11 @@ namespace VCO.Scenes.Transitions
 {
     internal class IrisTransition : ITransition
     {
-        public bool IsComplete
-        {
-            get
-            {
-                return this.isComplete;
-            }
-        }
+        public bool IsComplete => this.isComplete;
 
-        public float Progress
-        {
-            get
-            {
-                return this.progress;
-            }
-        }
+        public float Progress => this.progress;
 
-        public bool ShowNewScene
-        {
-            get
-            {
-                return this.progress > 0.5f;
-            }
-        }
+        public bool ShowNewScene => this.progress > 0.5f;
 
         public bool Blocking { get; set; }
 
@@ -94,12 +76,12 @@ namespace VCO.Scenes.Transitions
 
         private float progress;
 
-        private float speed;
+        private readonly float speed;
 
         private int holdTimer;
 
-        private int holdFrames;
+        private readonly int holdFrames;
 
-        private IrisOverlay overlay;
+        private readonly IrisOverlay overlay;
     }
 }

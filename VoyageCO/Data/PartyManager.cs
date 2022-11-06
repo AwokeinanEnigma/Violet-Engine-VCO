@@ -16,24 +16,12 @@ namespace VCO.Data
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return this.party.Count;
-            }
-        }
+        public int Count => this.party.Count;
 
         public CharacterType this[int i]
         {
-            get
-            {
-                return this.party[i];
-            }
-            set
-            {
-                this.party[i] = value;
-            }
+            get => this.party[i];
+            set => this.party[i] = value;
         }
 
         public event PartyManager.OnPartyChangeHandler OnPartyChange;
@@ -107,7 +95,7 @@ namespace VCO.Data
 
         private static PartyManager instance;
 
-        private List<CharacterType> party;
+        private readonly List<CharacterType> party;
 
         public struct PartyChangeArgs
         {

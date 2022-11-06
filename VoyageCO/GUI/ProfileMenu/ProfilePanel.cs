@@ -30,8 +30,10 @@ namespace VCO.GUI.ProfileMenu
             int num2 = Math.Min(4, profile.Party.Length);
             for (int i = 0; i < num2; i++)
             {
-                Graphic graphic = new IndexedColorGraphic(CharacterGraphics.GetFile(profile.Party[i]), "walk south", new Vector2f(24 + num, this.size.Y - 2f), 0);
-                graphic.SpeedModifier = 0f;
+                Graphic graphic = new IndexedColorGraphic(CharacterGraphics.GetFile(profile.Party[i]), "walk south", new Vector2f(24 + num, this.size.Y - 2f), 0)
+                {
+                    SpeedModifier = 0f
+                };
                 num += 4 + (int)graphic.Size.X;
                 base.Add(graphic);
             }

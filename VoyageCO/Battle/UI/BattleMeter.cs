@@ -11,22 +11,18 @@ namespace VCO.Battle.UI
     {
         public Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            get => this.position;
+            set => this.position = value;
         }
 
         public BattleMeter(RenderPipeline pipeline, Vector2f position, float initialFill, int depth)
         {
             this.targetFill = initialFill;
             this.fill = this.targetFill;
-            this.meter = new IndexedColorGraphic(Paths.GRAPHICS_BATTLE + "battleui2.dat", "meter2", default(Vector2f), depth);
-            this.meter.CurrentPalette = Settings.WindowFlavor;
+            this.meter = new IndexedColorGraphic(Paths.GRAPHICS_BATTLE + "battleui2.dat", "meter2", default(Vector2f), depth)
+            {
+                CurrentPalette = Settings.WindowFlavor
+            };
             this.initialTextureRect = this.meter.TextureRect;
             this.hOffset = this.initialTextureRect.Height - (int)(initialTextureRect.Height * this.fill);
             this.position = position;
@@ -126,13 +122,13 @@ namespace VCO.Battle.UI
 
         private IntRect initialTextureRect;
 
-        private IndexedColorGraphic meter;
+        private readonly IndexedColorGraphic meter;
 
         private float fill;
 
         private float targetFill;
 
-        private float fillMaxThreshold;
+        private readonly float fillMaxThreshold;
 
         private int hOffset;
 

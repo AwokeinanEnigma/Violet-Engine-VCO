@@ -51,9 +51,9 @@ namespace VCO.Battle.Actions
 
         private EnemyTurnWasteAction.State state;
 
-        private string message;
+        private readonly string message;
 
-        private bool useButton;
+        private readonly bool useButton;
 
         private enum State
         {

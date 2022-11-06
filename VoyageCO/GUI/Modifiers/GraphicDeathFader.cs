@@ -6,21 +6,9 @@ namespace VCO.GUI.Modifiers
 {
     internal class GraphicDeathFader : IGraphicModifier
     {
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         public GraphicDeathFader(IndexedColorGraphic graphic, int frames)
         {
@@ -57,10 +45,10 @@ namespace VCO.GUI.Modifiers
 
         private bool done;
 
-        private IndexedColorGraphic graphic;
+        private readonly IndexedColorGraphic graphic;
 
         private float progress;
 
-        private float speed;
+        private readonly float speed;
     }
 }

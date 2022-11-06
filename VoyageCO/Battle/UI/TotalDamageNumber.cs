@@ -9,13 +9,7 @@ namespace VCO.Battle.UI
     {
         public event TotalDamageNumber.CompletionHandler OnComplete;
 
-        public bool Done
-        {
-            get
-            {
-                return this.state == TotalDamageNumber.State.Finished;
-            }
-        }
+        public bool Done => this.state == TotalDamageNumber.State.Finished;
 
         public TotalDamageNumber(RenderPipeline pipeline, Vector2f position, int number)
         {
@@ -55,9 +49,11 @@ namespace VCO.Battle.UI
             int num3 = 0;
             for (int j = 0; j < this.numbers.Length; j++)
             {
-                this.numbers[j] = new IndexedColorGraphic(TotalDamageNumber.YELLOW_RESOURCE, "numbers", default(Vector2f), 32767);
-                this.numbers[j].Frame = Digits.Get(number, this.numbers.Length - j);
-                this.numbers[j].Visible = false;
+                this.numbers[j] = new IndexedColorGraphic(TotalDamageNumber.YELLOW_RESOURCE, "numbers", default(Vector2f), 32767)
+                {
+                    Frame = Digits.Get(number, this.numbers.Length - j),
+                    Visible = false
+                };
                 num2 += this.numbers[j].TextureRect.Width + -1;
                 num3 = Math.Max(num3, this.numbers[j].TextureRect.Height);
                 this.pipeline.Add(this.numbers[j]);
@@ -197,7 +193,7 @@ namespace VCO.Battle.UI
 
         private static readonly Vector2f RIGHT_OFFSET = new Vector2f(320f, 0f);
 
-        private bool disposed;
+        private readonly bool disposed;
 
         private Vector2f position;
 
@@ -207,7 +203,7 @@ namespace VCO.Battle.UI
 
         private Graphic[] numbers;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private TotalDamageNumber.State state;
 

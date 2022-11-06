@@ -59,13 +59,13 @@ namespace VCO.Actors.NPCs.Movement
         private bool changed;
 
         // Token: 0x040000A3 RID: 163
-        private EnemyNPC enemy;
+        private readonly EnemyNPC enemy;
 
         // Token: 0x040000A4 RID: 164
-        private float chaseThreshold;
+        private readonly float chaseThreshold;
 
         // Token: 0x040000A5 RID: 165
-        private float speed;
+        private readonly float speed;
 
         // Token: 0x02000009 RID: 9
         private enum Mode

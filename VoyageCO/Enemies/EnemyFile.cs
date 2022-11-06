@@ -94,6 +94,6 @@ namespace VCO.Data.Enemies
         private static EnemyFile INSTANCE;
 
         // Token: 0x04000194 RID: 404
-        private Dictionary<int, EnemyData> enemyDataDict;
+        private readonly Dictionary<int, EnemyData> enemyDataDict;
     }
 }

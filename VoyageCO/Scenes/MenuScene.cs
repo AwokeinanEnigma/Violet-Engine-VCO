@@ -15,18 +15,26 @@ namespace VCO.Scenes
     {
         public MenuScene()
         {
-            this.mainPanel = new MainMenu();
-            this.mainPanel.Visible = false;
+            this.mainPanel = new MainMenu
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.mainPanel);
             this.activePanel = this.mainPanel;
-            this.moneyPanel = new MoneyMenu();
-            this.moneyPanel.Visible = false;
+            this.moneyPanel = new MoneyMenu
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.moneyPanel);
-            this.goodsPanel = new GoodsMenu();
-            this.goodsPanel.Visible = false;
+            this.goodsPanel = new GoodsMenu
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.goodsPanel);
-            this.AUXPanel = new AUXMenu();
-            this.AUXPanel.Visible = false;
+            this.AUXPanel = new AUXMenu
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.AUXPanel);
             this.cardBar = new CardBar(this.pipeline, PartyManager.Instance.ToArray(), null);
             this.cardBar.Hide(true);
@@ -204,14 +212,14 @@ namespace VCO.Scenes
 
         private MenuPanel activePanel;
 
-        private MenuPanel mainPanel;
+        private readonly MenuPanel mainPanel;
 
-        private MenuPanel moneyPanel;
+        private readonly MenuPanel moneyPanel;
 
-        private MenuPanel goodsPanel;
+        private readonly MenuPanel goodsPanel;
 
-        private MenuPanel AUXPanel;
+        private readonly MenuPanel AUXPanel;
 
-        private CardBar cardBar;
+        private readonly CardBar cardBar;
     }
 }

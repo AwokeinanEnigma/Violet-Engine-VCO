@@ -33,6 +33,6 @@ namespace VCO.Actors.NPCs.Movement
         }
 
         private bool changed;
-        private float speed;
+        private readonly float speed;
     }
 }

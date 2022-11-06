@@ -11,26 +11,14 @@ namespace VCO.Battle.UI
 
         public Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            get => this.position;
+            set => this.position = value;
         }
 
         public Vector2f Goal
         {
-            get
-            {
-                return this.goal;
-            }
-            set
-            {
-                this.goal = value;
-            }
+            get => this.goal;
+            set => this.goal = value;
         }
 
         public DamageNumber(RenderPipeline pipeline, Vector2f position, Vector2f offset, int hangTime, int number, string customNumberset = "")
@@ -78,9 +66,11 @@ namespace VCO.Battle.UI
             int num3 = 0;
             for (int j = 0; j < this.numbers.Length; j++)
             {
-                this.numbers[j] = new IndexedColorGraphic(numberSet, "numbers", default(Vector2f), 32767);
-                this.numbers[j].Frame = Digits.Get(number, this.numbers.Length - j);
-                this.numbers[j].Visible = false;
+                this.numbers[j] = new IndexedColorGraphic(numberSet, "numbers", default(Vector2f), 32767)
+                {
+                    Frame = Digits.Get(number, this.numbers.Length - j),
+                    Visible = false
+                };
                 num2 += this.numbers[j].TextureRect.Width + -1;
                 num3 = Math.Max(num3, this.numbers[j].TextureRect.Height);
                 this.pipeline.Add(this.numbers[j]);
@@ -180,13 +170,13 @@ namespace VCO.Battle.UI
 
         private static readonly string RESOURCE = Paths.GRAPHICS + "numberset1.dat";
 
-        private bool disposed;
+        private readonly bool disposed;
 
         private int number;
 
         private int timer;
 
-        private int hangTime;
+        private readonly int hangTime;
 
         private Vector2f position;
 
@@ -196,7 +186,7 @@ namespace VCO.Battle.UI
 
         private Graphic[] numbers;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private DamageNumber.State state;
 

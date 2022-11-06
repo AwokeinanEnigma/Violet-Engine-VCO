@@ -9,33 +9,15 @@ namespace VCO.Scenes.Transitions
 {
     internal class BattleFadeTransition : ITransition
     {
-        public bool IsComplete
-        {
-            get
-            {
-                return this.isComplete;
-            }
-        }
+        public bool IsComplete => this.isComplete;
 
-        public float Progress
-        {
-            get
-            {
-                return this.progress;
-            }
-        }
+        public float Progress => this.progress;
 
-        public bool ShowNewScene
-        {
-            get
-            {
-                return this.progress > 1f - this.speed;
-            }
-        }
+        public bool ShowNewScene => this.progress > 1f - this.speed;
 
         public bool Blocking { get; set; }
 
-        private float duration;
+        private readonly float duration;
         private Color givenColor;
         public BattleFadeTransition(float duration, Color color)
         {

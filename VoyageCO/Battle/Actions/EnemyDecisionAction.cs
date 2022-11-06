@@ -92,6 +92,6 @@ namespace VCO.Battle.Actions
 
         private EnemyData enemyType;
         private ActionParams aparams;
-        private IEnemyAI aicontrol;
+        private readonly IEnemyAI aicontrol;
     }
 }

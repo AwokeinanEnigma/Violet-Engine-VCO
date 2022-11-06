@@ -84,10 +84,10 @@ namespace VCO.Battle.EnemyAI
             return BattleAction.GetInstance(aparams);
         }
 
-        private List<ActionParams> battleActionParams;
+        private readonly List<ActionParams> battleActionParams;
 
-        private BattleController controller;
+        private readonly BattleController controller;
 
-        private Combatant sender;
+        private readonly Combatant sender;
     }
 }

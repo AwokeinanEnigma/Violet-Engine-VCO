@@ -48,11 +48,11 @@ namespace VCO.Battle.Actions
 
         private PlayerDeathAction.State state;
 
-        private string message;
+        private readonly string message;
 
-        private PlayerCombatant target;
+        private readonly PlayerCombatant target;
 
-        private int damage;
+        private readonly int damage;
 
         private enum State
         {

@@ -31,85 +31,31 @@ namespace VCO.Battle
 
         public bool AllowUndo
         {
-            get
-            {
-                return this.isUndoAllowed;
-            }
-            set
-            {
-                this.isUndoAllowed = value;
-            }
+            get => this.isUndoAllowed;
+            set => this.isUndoAllowed = value;
         }
 
         public int ActiveCharacter
         {
-            get
-            {
-                return this.activeCharacter;
-            }
-            set
-            {
-                this.activeCharacter = value;
-            }
+            get => this.activeCharacter;
+            set => this.activeCharacter = value;
         }
 
         public bool RunAttempted { get; set; }
 
-        public VioletSound PrePlayerAttack
-        {
-            get
-            {
-                return this.prePlayerAttack;
-            }
-        }
+        public VioletSound PrePlayerAttack => this.prePlayerAttack;
 
-        public VioletSound PreEnemyAttack
-        {
-            get
-            {
-                return this.preEnemyAttack;
-            }
-        }
+        public VioletSound PreEnemyAttack => this.preEnemyAttack;
 
-        public VioletSound PreAUXSound
-        {
-            get
-            {
-                return this.preAUXSound;
-            }
-        }
+        public VioletSound PreAUXSound => this.preAUXSound;
 
-        public VioletSound TalkSound
-        {
-            get
-            {
-                return this.talkSound;
-            }
-        }
+        public VioletSound TalkSound => this.talkSound;
 
-        public VioletSound EnemyDeathSound
-        {
-            get
-            {
-                return this.enemyDeathSound;
-            }
-        }
+        public VioletSound EnemyDeathSound => this.enemyDeathSound;
 
-        public VioletSound GroovySound
-        {
-            get
-            {
-                return this.groovySound;
-            }
-        }
+        public VioletSound GroovySound => this.groovySound;
 
-        public VioletSound ReflectSound
-        {
-            get
-            {
-                return this.reflectSound;
-            }
-        }
+        public VioletSound ReflectSound => this.reflectSound;
 
         public BattleController controller;
 
@@ -122,16 +68,20 @@ namespace VCO.Battle
             this.pipeline = pipeline;
             this.actorManager = actorManager;
             this.combatantController = combatantController;
-            this.topLetterbox = new RectangleShape(new Vector2f(350f, 35f));
-            this.topLetterbox.FillColor = Color.Black;
-            this.topLetterbox.Rotation = 5.5f;
-            this.topLetterbox.Position = new Vector2f(4f, 14f);
+            this.topLetterbox = new RectangleShape(new Vector2f(350f, 35f))
+            {
+                FillColor = Color.Black,
+                Rotation = 5.5f,
+                Position = new Vector2f(4f, 14f)
+            };
             this.topLetterboxY = this.topLetterbox.Position.Y;
             this.topLetterboxTargetY = letterboxing ? -35L : -54;
-            this.bottomLetterbox = new RectangleShape(new Vector2f(350f, 35f));
-            this.bottomLetterbox.FillColor = Color.Black;
-            this.bottomLetterbox.Rotation = 5.5f;
-            this.bottomLetterbox.Position = new Vector2f(0f, 180f);
+            this.bottomLetterbox = new RectangleShape(new Vector2f(350f, 35f))
+            {
+                FillColor = Color.Black,
+                Rotation = 5.5f,
+                Position = new Vector2f(0f, 180f)
+            };
             this.bottomLetterboxY = this.bottomLetterbox.Position.Y;
             this.bottomLetterboxTargetY = 180L + (letterboxing ? -35L : 0L);
             this.buttonBar = new ButtonBar(pipeline);
@@ -152,8 +102,10 @@ namespace VCO.Battle
             for (int j = 0; j < array.Length; j++)
             {
                 Graphic cardGraphic = this.cardBar.GetCardGraphic(j);
-                Graphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(cardGraphic.Position - cardGraphic.Origin + new Vector2f(cardGraphic.Size.X / 2f, 4f)), cardGraphic.Depth + 10);
-                graphic.Visible = false;
+                Graphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(cardGraphic.Position - cardGraphic.Origin + new Vector2f(cardGraphic.Size.X / 2f, 4f)), cardGraphic.Depth + 10)
+                {
+                    Visible = false
+                };
                 this.pipeline.Add(graphic);
                 this.selectionMarkers.Add(cardGraphic, graphic);
             }
@@ -178,14 +130,18 @@ namespace VCO.Battle
                         {
                             EnemyCombatant enemyCombatant = (EnemyCombatant)combatant;
                             enemyCombatant.OnStatusEffectChange += this.OnEnemyStatusEffectChange;
-                            IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
-                            indexedColorGraphic.CurrentPalette = uint.MaxValue;
+                            IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0)
+                            {
+                                CurrentPalette = uint.MaxValue
+                            };
                             indexedColorGraphic.CurrentPalette = 0U;
                             this.enemyGraphics.Add(enemyCombatant.ID, indexedColorGraphic);
                             pipeline.Add(indexedColorGraphic);
                             this.enemyIDs.Add(enemyCombatant.ID);
-                            Graphic graphic2 = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(indexedColorGraphic.Position - indexedColorGraphic.Origin + new Vector2f(indexedColorGraphic.Size.X / 2f, 4f)), indexedColorGraphic.Depth + 10);
-                            graphic2.Visible = false;
+                            Graphic graphic2 = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(indexedColorGraphic.Position - indexedColorGraphic.Origin + new Vector2f(indexedColorGraphic.Size.X / 2f, 4f)), indexedColorGraphic.Depth + 10)
+                            {
+                                Visible = false
+                            };
                             this.pipeline.Add(graphic2);
                             this.selectionMarkers.Add(indexedColorGraphic, graphic2);
                             break;
@@ -241,12 +197,13 @@ namespace VCO.Battle
                     list.Add(item);
                 }
             }
-            this.winSounds = new Dictionary<int, VioletSound>();
-
-            this.winSounds.Add(0, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win1.wav", AudioType.Stream));
-            this.winSounds.Add(1, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win2.wav", AudioType.Stream));
-            this.winSounds.Add(2, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win3.wav", AudioType.Stream));
-            this.winSounds.Add(3, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win4.wav", AudioType.Stream));
+            this.winSounds = new Dictionary<int, VioletSound>
+            {
+                { 0, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win1.wav", AudioType.Stream) },
+                { 1, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win2.wav", AudioType.Stream) },
+                { 2, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win3.wav", AudioType.Stream) },
+                { 3, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win4.wav", AudioType.Stream) }
+            };
 
             this.groovySound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "Groovy.wav", AudioType.Sound);
             this.reflectSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "homerun.wav", AudioType.Sound);
@@ -663,7 +620,8 @@ namespace VCO.Battle
                 this.graphicModifiers.Add(new GraphicShielder(this.pipeline, graphic));
             }
         }
-        TextRegion region = new TextRegion(new Vector2f(3, 3), 32767, Fonts.Main, "thing");
+
+        private readonly TextRegion region = new TextRegion(new Vector2f(3, 3), 32767, Fonts.Main, "thing");
 
         private void SetSelectionMarkerVisibility(Graphic graphic, bool visible)
         {
@@ -1665,16 +1623,16 @@ namespace VCO.Battle
 
 
         // Token: 0x0400062C RID: 1580
-        private ActorManager actorManager;
+        private readonly ActorManager actorManager;
 
         // Token: 0x0400062D RID: 1581
-        private CombatantController combatantController;
+        private readonly CombatantController combatantController;
 
         // Token: 0x0400062E RID: 1582
-        private Shape topLetterbox;
+        private readonly Shape topLetterbox;
 
         // Token: 0x0400062F RID: 1583
-        private Shape bottomLetterbox;
+        private readonly Shape bottomLetterbox;
 
         // Token: 0x04000630 RID: 1584
         private float topLetterboxY;
@@ -1689,25 +1647,25 @@ namespace VCO.Battle
         private float bottomLetterboxTargetY;
 
         // Token: 0x04000634 RID: 1588
-        private ButtonBar buttonBar;
+        private readonly ButtonBar buttonBar;
 
         // Token: 0x04000635 RID: 1589
-        private SectionedAUXBox AUXMenu;
+        private readonly SectionedAUXBox AUXMenu;
 
         // Token: 0x04000636 RID: 1590
-        private CardBar cardBar;
+        private readonly CardBar cardBar;
 
         // Token: 0x04000637 RID: 1591
-        private Dictionary<int, IndexedColorGraphic> enemyGraphics;
+        private readonly Dictionary<int, IndexedColorGraphic> enemyGraphics;
 
         // Token: 0x04000638 RID: 1592
-        private BattleTextbox textbox;
+        private readonly BattleTextbox textbox;
 
         // Token: 0x04000639 RID: 1593
-        private ScreenDimmer dimmer;
+        private readonly ScreenDimmer dimmer;
 
         // Token: 0x0400063A RID: 1594
-        private ComboAnimator comboCircle;
+        private readonly ComboAnimator comboCircle;
 
         // Token: 0x0400063B RID: 1595
         private int selectedTargetId;
@@ -1719,10 +1677,10 @@ namespace VCO.Battle
         private int partySelectIndex;
 
         // Token: 0x0400063E RID: 1598
-        private List<int> enemyIDs;
+        private readonly List<int> enemyIDs;
 
         // Token: 0x0400063F RID: 1599
-        private List<int> partyIDs;
+        private readonly List<int> partyIDs;
 
         // Token: 0x04000640 RID: 1600
         public List<IGraphicModifier> graphicModifiers;
@@ -1730,7 +1688,7 @@ namespace VCO.Battle
 
 
         // Token: 0x04000641 RID: 1601
-        private List<AUXAnimator> AUXAnimators;
+        private readonly List<AUXAnimator> AUXAnimators;
 
         // Token: 0x04000642 RID: 1602
         private BattleInterfaceController.State state;
@@ -1742,70 +1700,70 @@ namespace VCO.Battle
         private Groovy groovy;
 
         // Token: 0x04000645 RID: 1605
-        private VioletSound moveBeepX;
+        private readonly VioletSound moveBeepX;
 
         // Token: 0x04000646 RID: 1606
-        private VioletSound moveBeepY;
+        private readonly VioletSound moveBeepY;
 
         // Token: 0x04000647 RID: 1607
-        private VioletSound selectBeep;
+        private readonly VioletSound selectBeep;
 
         // Token: 0x04000648 RID: 1608
-        private VioletSound cancelBeep;
+        private readonly VioletSound cancelBeep;
 
         // Token: 0x04000649 RID: 1609
-        private VioletSound prePlayerAttack;
+        private readonly VioletSound prePlayerAttack;
 
         // Token: 0x0400064A RID: 1610
-        private VioletSound preEnemyAttack;
+        private readonly VioletSound preEnemyAttack;
 
         // Token: 0x0400064B RID: 1611
-        private VioletSound preAUXSound;
+        private readonly VioletSound preAUXSound;
 
         // Token: 0x0400064C RID: 1612
-        private VioletSound talkSound;
+        private readonly VioletSound talkSound;
 
         // Token: 0x0400064D RID: 1613
-        private VioletSound enemyDeathSound;
+        private readonly VioletSound enemyDeathSound;
 
         // Token: 0x0400064E RID: 1614
-        private VioletSound smashSound;
+        private readonly VioletSound smashSound;
 
         // Token: 0x0400064F RID: 1615
-        private Dictionary<CharacterType, List<VioletSound>> comboSoundMap;
+        private readonly Dictionary<CharacterType, List<VioletSound>> comboSoundMap;
 
         // Token: 0x04000650 RID: 1616
-        private VioletSound comboHitA;
+        private readonly VioletSound comboHitA;
 
         // Token: 0x04000651 RID: 1617
-        private VioletSound comboHitB;
+        private readonly VioletSound comboHitB;
 
         // Token: 0x04000652 RID: 1618
         private VioletSound hitSound;
 
         // Token: 0x04000653 RID: 1619
-        private VioletSound comboSuccess;
+        private readonly VioletSound comboSuccess;
 
         // Token: 0x04000654 RID: 1620
-        private VioletSound groovySound;
+        private readonly VioletSound groovySound;
 
         // Token: 0x04000655 RID: 1621
-        private VioletSound reflectSound;
+        private readonly VioletSound reflectSound;
 
         // Token: 0x04000656 RID: 1622
-        private Dictionary<int, VioletSound> winSounds;
+        private readonly Dictionary<int, VioletSound> winSounds;
 
         // Token: 0x04000657 RID: 1623
         private YouWon youWon;
 
         // Token: 0x04000658 RID: 1624
-        private LevelUpJingler jingler;
+        private readonly LevelUpJingler jingler;
 
         // Token: 0x04000659 RID: 1625
-        private List<DamageNumber> damageNumbers;
+        private readonly List<DamageNumber> damageNumbers;
 
         // Token: 0x0400065A RID: 1626
-        private Dictionary<Graphic, Graphic> selectionMarkers;
+        private readonly Dictionary<Graphic, Graphic> selectionMarkers;
 
         // Token: 0x0400065B RID: 1627
         private bool textboxHideFlag;

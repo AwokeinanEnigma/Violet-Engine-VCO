@@ -48,11 +48,13 @@ namespace VCO.Scenes
                     "Quit"
                 };
             }
-            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
-            this.optionList.ShowSelectionRectangle = false;
-            this.optionList.UseHighlightTextColor = false;
-            this.optionList.ShowArrows = true;
-            this.optionList.ShowCursor = true;
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat")
+            {
+                ShowSelectionRectangle = false,
+                UseHighlightTextColor = false,
+                ShowArrows = true,
+                ShowCursor = true
+            };
             this.pipeline.Add(this.optionList);
             this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS_PARTYMEMBERS + "travis.dat", "Walk East", new Vector2f(160f, 44f), 100);
             Version version = Assembly.GetEntryAssembly().GetName().Version;
@@ -63,8 +65,10 @@ namespace VCO.Scenes
                 version.Build,
                 version.Revision,
                 StringFile.Instance.Get("AUX.symbols.alpha")
-            }));
-            this.versionText.Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128);
+            }))
+            {
+                Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128)
+            };
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
             this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
@@ -250,20 +254,20 @@ namespace VCO.Scenes
             base.Dispose(disposing);
         }
 
-        private TextRegion versionText;
+        private readonly TextRegion versionText;
 
-        private ScrollingList optionList;
+        private readonly ScrollingList optionList;
 
-        private IndexedColorGraphic titleImage;
+        private readonly IndexedColorGraphic titleImage;
 
-        private VioletSound sfxCursorY;
+        private readonly VioletSound sfxCursorY;
 
-        private VioletSound sfxConfirm;
+        private readonly VioletSound sfxConfirm;
 
-        private VioletSound sfxCancel;
+        private readonly VioletSound sfxCancel;
 
-        private IGraphicModifier mod;
+        private readonly IGraphicModifier mod;
 
-        private bool canContinue;
+        private readonly bool canContinue;
     }
 }

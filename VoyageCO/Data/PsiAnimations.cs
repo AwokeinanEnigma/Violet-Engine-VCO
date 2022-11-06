@@ -45,40 +45,44 @@ namespace VCO.Data
         private static AUXElementList GenerateBeamAlpha()
         {
             MultipartAnimation animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
-            MultipartAnimation multipartAnimation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
-            multipartAnimation.Scale = new Vector2f(-1f, 1f);
-            List<AUXElement> list = new List<AUXElement>();
-            list.Add(new AUXElement
+            MultipartAnimation multipartAnimation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767)
             {
-                Timestamp = 0,
-                Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
-                ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128)),
-                Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkBeamA.wav", AudioType.Sound)
-            });
-            list.Add(new AUXElement
+                Scale = new Vector2f(-1f, 1f)
+            };
+            List<AUXElement> list = new List<AUXElement>
             {
-                Timestamp = 50,
-                Animation = animation,
-                Offset = new Vector2f(-52f, -48f),
-                LockToTargetPosition = true,
-                PositionIndex = 0
-            });
-            list.Add(new AUXElement
-            {
-                Timestamp = 50,
-                Animation = multipartAnimation,
-                Offset = new Vector2f(52f, -48f),
-                LockToTargetPosition = true,
-                PositionIndex = 0
-            });
-            list.Add(new AUXElement
-            {
-                Timestamp = 80,
-                TargetFlashColor = new Color?(Color.Yellow),
-                TargetFlashBlendMode = ColorBlendMode.Screen,
-                TargetFlashFrames = 20,
-                TargetFlashCount = 1
-            });
+                new AUXElement
+                {
+                    Timestamp = 0,
+                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
+                    ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128)),
+                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkBeamA.wav", AudioType.Sound)
+                },
+                new AUXElement
+                {
+                    Timestamp = 50,
+                    Animation = animation,
+                    Offset = new Vector2f(-52f, -48f),
+                    LockToTargetPosition = true,
+                    PositionIndex = 0
+                },
+                new AUXElement
+                {
+                    Timestamp = 50,
+                    Animation = multipartAnimation,
+                    Offset = new Vector2f(52f, -48f),
+                    LockToTargetPosition = true,
+                    PositionIndex = 0
+                },
+                new AUXElement
+                {
+                    Timestamp = 80,
+                    TargetFlashColor = new Color?(Color.Yellow),
+                    TargetFlashBlendMode = ColorBlendMode.Screen,
+                    TargetFlashFrames = 20,
+                    TargetFlashCount = 1
+                }
+            };
             for (int i = 0; i < 6; i++)
             {
                 list.Add(new AUXElement
@@ -141,14 +145,16 @@ namespace VCO.Data
         private static List<AUXElement> GenerateExplosion(int startTimestamp)
         {
             Vector2f v = new Vector2f(160f, 90f);
-            List<AUXElement> list = new List<AUXElement>();
-            list.Add(new AUXElement
+            List<AUXElement> list = new List<AUXElement>
             {
-                Timestamp = startTimestamp,
-                ScreenDarkenColor = new Color?(Color.Cyan),
-                ScreenDarkenDepth = new int?(0),
-                Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "explosion.wav", AudioType.Sound)
-            });
+                new AUXElement
+                {
+                    Timestamp = startTimestamp,
+                    ScreenDarkenColor = new Color?(Color.Cyan),
+                    ScreenDarkenDepth = new int?(0),
+                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "explosion.wav", AudioType.Sound)
+                }
+            };
             int num = 98;
             int[] array = new int[]
             {

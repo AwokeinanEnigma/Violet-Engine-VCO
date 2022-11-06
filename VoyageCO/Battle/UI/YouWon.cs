@@ -61,11 +61,11 @@ namespace VCO.Battle.UI
 
         private bool disposed;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private IndexedColorGraphic youWon;
+        private readonly IndexedColorGraphic youWon;
 
-        private uint frameCount;
+        private readonly uint frameCount;
 
         private uint frame;
 

@@ -6,21 +6,9 @@ namespace VCO.GUI.Modifiers
 {
     internal class GraphicBouncer : IGraphicModifier, IDisposable
     {
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         public GraphicBouncer(Graphic graphic, GraphicBouncer.SpringMode mode, Vector2f amplitude, Vector2f speed, Vector2f decay)
         {
@@ -116,7 +104,7 @@ namespace VCO.GUI.Modifiers
 
         private bool done;
 
-        private Graphic graphic;
+        private readonly Graphic graphic;
 
         private GraphicBouncer.SpringMode springMode;
 

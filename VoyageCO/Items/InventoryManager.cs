@@ -17,13 +17,7 @@ namespace VCO.Items
             }
         }
 
-        public Inventory KeyInventory
-        {
-            get
-            {
-                return this.keyInventory;
-            }
-        }
+        public Inventory KeyInventory => this.keyInventory;
 
         private InventoryManager()
         {
@@ -66,8 +60,8 @@ namespace VCO.Items
 
         private static InventoryManager instance;
 
-        private Inventory keyInventory;
+        private readonly Inventory keyInventory;
 
-        private Dictionary<CharacterType, Inventory> inventories;
+        private readonly Dictionary<CharacterType, Inventory> inventories;
     }
 }

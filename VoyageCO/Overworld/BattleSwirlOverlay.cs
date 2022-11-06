@@ -31,10 +31,10 @@ namespace VCO.Overworld
                 this.speed[i] = speed + (float)((random.NextDouble() - 0.5) * 0.002);
                 this.delta[i] = 0f;
                 this.layers[i] = new VertexArray(PrimitiveType.Quads, 4U);
-                this.layers[i][0U] = new Vertex(new Vector2f((float)(-num3), (float)(-num4)), new Vector2f(0f, 0f));
-                this.layers[i][1U] = new Vertex(new Vector2f(num3, (float)(-num4)), new Vector2f(1f, 0f));
+                this.layers[i][0U] = new Vertex(new Vector2f(-num3, -num4), new Vector2f(0f, 0f));
+                this.layers[i][1U] = new Vertex(new Vector2f(num3, -num4), new Vector2f(1f, 0f));
                 this.layers[i][2U] = new Vertex(new Vector2f(num3, num4), new Vector2f(1f, 1f));
-                this.layers[i][3U] = new Vertex(new Vector2f((float)(-num3), num4), new Vector2f(0f, 1f));
+                this.layers[i][3U] = new Vertex(new Vector2f(-num3, num4), new Vector2f(0f, 1f));
                 this.textures[1 + i].CurrentPalette = BattleSwirlOverlay.PALETTES[style];
             }
             this.scale = new Vector2f(1f, 1f);
@@ -165,13 +165,13 @@ namespace VCO.Overworld
             }
         };
 
-        private VertexArray[] layers;
+        private readonly VertexArray[] layers;
 
-        private IndexedTexture[] textures;
+        private readonly IndexedTexture[] textures;
 
-        private FullColorTexture gradMap;
+        private readonly FullColorTexture gradMap;
 
-        private Shader shader;
+        private readonly Shader shader;
 
         private RenderStates renderStates;
 
@@ -181,9 +181,9 @@ namespace VCO.Overworld
 
         private Color blend;
 
-        private float[] speed;
+        private readonly float[] speed;
 
-        private float[] delta;
+        private readonly float[] delta;
 
         private bool isComplete;
 

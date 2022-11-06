@@ -13,14 +13,8 @@ namespace VCO.Overworld
         // (set) Token: 0x060005D2 RID: 1490 RVA: 0x00022B85 File Offset: 0x00020D85
         public TerrainType Terrain
         {
-            get
-            {
-                return this.terrainType;
-            }
-            set
-            {
-                this.terrainType = value;
-            }
+            get => this.terrainType;
+            set => this.terrainType = value;
         }
 
         // Token: 0x060005D3 RID: 1491 RVA: 0x00022B90 File Offset: 0x00020D90
@@ -162,7 +156,7 @@ namespace VCO.Overworld
         private bool disposed;
 
         // Token: 0x0400079E RID: 1950
-        private Dictionary<TerrainType, VioletSound[]> footstepMap;
+        private readonly Dictionary<TerrainType, VioletSound[]> footstepMap;
 
         // Token: 0x0400079F RID: 1951
         private int stepCount;

@@ -32,30 +32,12 @@ namespace VCO.Scenes
 {
     internal class OverworldScene : StandardScene
     {
-        public ScreenDimmer Dimmer
-        {
-            get
-            {
-                return this.screenDimmer;
-            }
-        }
+        public ScreenDimmer Dimmer => this.screenDimmer;
 
-        public PartyTrain PartyTrain
-        {
-            get
-            {
-                return this.partyTrain;
-            }
-        }
+        public PartyTrain PartyTrain => this.partyTrain;
 
-        public IrisOverlay IrisOverlay
-        {
-            get
-            {
-                return this.GetIrisOverlay();
-            }
-        }
-        private ICollidable[] collisionResults;
+        public IrisOverlay IrisOverlay => this.GetIrisOverlay();
+        private readonly ICollidable[] collisionResults;
 
 
         #region Private fields
@@ -95,21 +77,21 @@ namespace VCO.Scenes
 
         private IList<TileGroup> mapGroups;
 
-        private string mapName;
+        private readonly string mapName;
 
         private Vector2f initialPosition;
 
-        private int initialDirection;
+        private readonly int initialDirection;
 
-        private bool initialRunning;
+        private readonly bool initialRunning;
 
         private IrisOverlay iris;
 
         private bool initialized;
 
-        private bool enableLoadScripts;
+        private readonly bool enableLoadScripts;
 
-        private bool extendParty;
+        private readonly bool extendParty;
 
         private bool openingMenu;
 
@@ -198,7 +180,7 @@ namespace VCO.Scenes
             }
             if (npctext.Flag > -1)
             {
-                double num2 = Math.Atan2(npc.Position.Y - this.player.Position.Y, (double)(-(npc.Position.X - this.player.Position.X)));
+                double num2 = Math.Atan2(npc.Position.Y - this.player.Position.Y, -(npc.Position.X - this.player.Position.X));
                 int num3 = (int)Math.Round(num2 / 0.7853981633974483);
                 if (num3 < 0)
                 {
@@ -297,7 +279,8 @@ namespace VCO.Scenes
         }
 
         public LuaHandler handler;
-        double MoonSharpFactorial2()
+
+        private double MoonSharpFactorial2()
         {
             //string scriptcode = System.IO.File.ReadAllText(@"C:\Users\Tom\source\repos\VoyageCarpeOmnia\VoyageCO\bin\Release\Data\Content\LuaScripts\test.lua");
 
@@ -893,8 +876,10 @@ namespace VCO.Scenes
                 battleEnemies.Add(enemy);
                 battleEnemies.AddRange(nearby);
 
-                List<EnemyData> aaa = new List<EnemyData>();
-                aaa.Add(enemy.Type);
+                List<EnemyData> aaa = new List<EnemyData>
+                {
+                    enemy.Type
+                };
                 aaa.AddRange(allEnemyDatas);
 
                 Console.BackgroundColor = ConsoleColor.Red;

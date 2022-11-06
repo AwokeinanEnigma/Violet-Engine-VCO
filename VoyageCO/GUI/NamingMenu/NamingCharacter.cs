@@ -13,14 +13,8 @@ namespace VCO.GUI.NamingMenu
         // (set) Token: 0x0600014F RID: 335 RVA: 0x00008FF0 File Offset: 0x000071F0
         public CharacterType Character
         {
-            get
-            {
-                return this.character;
-            }
-            set
-            {
-                this.character = value;
-            }
+            get => this.character;
+            set => this.character = value;
         }
 
         // Token: 0x06000150 RID: 336 RVA: 0x00008FFC File Offset: 0x000071FC
@@ -205,7 +199,7 @@ namespace VCO.GUI.NamingMenu
         private NamingCharacter.State state;
 
         // Token: 0x0400024C RID: 588
-        private Graphic shadowGraphic;
+        private readonly Graphic shadowGraphic;
 
         // Token: 0x0400024D RID: 589
         private IndexedColorGraphic graphic;

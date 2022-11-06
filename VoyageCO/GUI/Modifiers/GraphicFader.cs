@@ -6,21 +6,9 @@ namespace VCO.GUI.Modifiers
 {
     internal class GraphicFader : IGraphicModifier
     {
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         public GraphicFader(IndexedColorGraphic graphic, Color color, ColorBlendMode blendMode, int duration, int count)
         {
@@ -62,23 +50,23 @@ namespace VCO.GUI.Modifiers
             this.timer = 0;
         }
 
-        private IndexedColorGraphic graphic;
+        private readonly IndexedColorGraphic graphic;
 
         private Color baseColor;
 
         private Color color;
 
-        private ColorBlendMode baseBlendMode;
+        private readonly ColorBlendMode baseBlendMode;
 
-        private ColorBlendMode blendMode;
+        private readonly ColorBlendMode blendMode;
 
         private int count;
 
-        private int total;
+        private readonly int total;
 
         private int timer;
 
-        private int duration;
+        private readonly int duration;
 
         private bool done;
 

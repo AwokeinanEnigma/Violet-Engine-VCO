@@ -34,9 +34,9 @@ namespace VCO.Battle.UI
             }
         }
 
-        private Graphic graphic;
+        private readonly Graphic graphic;
 
-        private int blinkCap;
+        private readonly int blinkCap;
 
         private float timer;
 

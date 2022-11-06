@@ -4,29 +4,11 @@ namespace VCO.Scripts.Actions.ParamTypes
 {
     internal struct RufiniString
     {
-        public string QualifiedName
-        {
-            get
-            {
-                return string.Join('.'.ToString(), this.nameParts);
-            }
-        }
+        public string QualifiedName => string.Join('.'.ToString(), this.nameParts);
 
-        public string[] Names
-        {
-            get
-            {
-                return this.nameParts;
-            }
-        }
+        public string[] Names => this.nameParts;
 
-        public string Value
-        {
-            get
-            {
-                return this.value;
-            }
-        }
+        public string Value => this.value;
 
         public RufiniString(string qualifiedName, string value)
         {
@@ -70,8 +52,8 @@ namespace VCO.Scripts.Actions.ParamTypes
 
         private const string TRAIL = "…";
 
-        private string[] nameParts;
+        private readonly string[] nameParts;
 
-        private string value;
+        private readonly string value;
     }
 }

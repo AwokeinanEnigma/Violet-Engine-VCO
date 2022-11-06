@@ -8,8 +8,10 @@ namespace VCO.Data
     {
         public static ButtonBar.Action[] GetActions(CharacterType character, bool showRun, bool lockedAUX = false)
         {
-            List<ButtonBar.Action> list = new List<ButtonBar.Action>();
-            list.Add(ButtonBar.Action.Bash);
+            List<ButtonBar.Action> list = new List<ButtonBar.Action>
+            {
+                ButtonBar.Action.Bash
+            };
             if (character != CharacterType.Floyd)
             {
                 if (character != CharacterType.Zack && AUXManager.Instance.CharacterHasAUX(character))

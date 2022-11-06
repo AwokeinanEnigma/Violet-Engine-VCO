@@ -146,7 +146,7 @@ namespace VCO.Scenes
 
         private IndexedColorGraphic cursorGraphic;
 
-        private IList<MenuPanel> panelList;
+        private readonly IList<MenuPanel> panelList;
 
         private int selectedIndex;
     }

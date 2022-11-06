@@ -10,10 +10,7 @@ namespace VCO.Battle.UI
     {
         public int SelectedIndex
         {
-            get
-            {
-                return this.selIndex;
-            }
+            get => this.selIndex;
             set
             {
                 this.lastSelIndex = this.selIndex;
@@ -155,7 +152,7 @@ namespace VCO.Battle.UI
 
         private const int IDLE_Y_OFFSET = 136;
 
-        private BattleCard[] cards;
+        private readonly BattleCard[] cards;
 
         private readonly int leftMargin;
 

@@ -10,13 +10,7 @@ namespace VCO.Battle.AUXAnimation
 {
     internal class AUXAnimator
     {
-        public bool Complete
-        {
-            get
-            {
-                return this.complete;
-            }
-        }
+        public bool Complete => this.complete;
 
         public event AUXAnimator.AnimationCompleteHandler OnAnimationComplete;
 
@@ -29,8 +23,10 @@ namespace VCO.Battle.AUXAnimation
             this.targetGraphics = targetGraphics;
             this.cardBar = cardBar;
             this.targetCardIds = targetCardIds;
-            this.screenShape = new RectangleShape(new Vector2f(320f, 180f));
-            this.screenShape.FillColor = new Color(0, 0, 0, 0);
+            this.screenShape = new RectangleShape(new Vector2f(320f, 180f))
+            {
+                FillColor = new Color(0, 0, 0, 0)
+            };
         }
 
         private void DarkenScreen(Color darkenColor, int depth)
@@ -188,17 +184,17 @@ namespace VCO.Battle.AUXAnimation
 
         private const float FADE_SPEED = 0.2f;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private AUXElementList animation;
+        private readonly AUXElementList animation;
 
-        private Graphic senderGraphic;
+        private readonly Graphic senderGraphic;
 
-        private Graphic[] targetGraphics;
+        private readonly Graphic[] targetGraphics;
 
-        private CardBar cardBar;
+        private readonly CardBar cardBar;
 
-        private Shape screenShape;
+        private readonly Shape screenShape;
 
         private ShapeGraphic screenDarkenShape;
 
@@ -212,9 +208,9 @@ namespace VCO.Battle.AUXAnimation
 
         private Dictionary<Graphic, int> depthMemory;
 
-        private List<IGraphicModifier> graphicModifiers;
+        private readonly List<IGraphicModifier> graphicModifiers;
 
-        private int[] targetCardIds;
+        private readonly int[] targetCardIds;
 
         private bool complete;
 

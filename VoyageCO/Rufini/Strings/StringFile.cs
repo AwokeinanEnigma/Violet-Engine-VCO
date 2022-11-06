@@ -86,6 +86,6 @@ namespace Rufini.Strings
 
         private NbtFile file;
 
-        private string filename;
+        private readonly string filename;
     }
 }

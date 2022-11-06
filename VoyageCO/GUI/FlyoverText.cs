@@ -23,8 +23,10 @@ namespace VCO.GUI
             this.duration = this.transitionDuration * 2 + this.holdDuration;
             this.backColor = backColor;
             this.backColorTrans = new Color(backColor.R, backColor.G, backColor.B, 0);
-            this.backgroundShape = new RectangleShape(Engine.SCREEN_SIZE);
-            this.backgroundShape.FillColor = Color.Transparent;
+            this.backgroundShape = new RectangleShape(Engine.SCREEN_SIZE)
+            {
+                FillColor = Color.Transparent
+            };
             this.background = new ShapeGraphic(this.backgroundShape, ViewManager.Instance.View.Center, Engine.HALF_SCREEN_SIZE, Engine.SCREEN_SIZE, 2147467264);
             this.pipeline.Add(this.background);
             this.font = font;
@@ -42,9 +44,11 @@ namespace VCO.GUI
             this.texts = new TextRegion[textBlock.Lines.Count];
             for (int i = 0; i < this.texts.Length; i++)
             {
-                this.texts[i] = new TextRegion(VectorMath.ZERO_VECTOR, 2147467265, this.font, textBlock.Lines[i].Text);
-                this.texts[i].Color = this.textColorTrans;
-                this.texts[i].Origin = new Vector2f(font.XCompensation, font.YCompensation);
+                this.texts[i] = new TextRegion(VectorMath.ZERO_VECTOR, 2147467265, this.font, textBlock.Lines[i].Text)
+                {
+                    Color = this.textColorTrans,
+                    Origin = new Vector2f(font.XCompensation, font.YCompensation)
+                };
                 this.pipeline.Add(this.texts[i]);
             }
         }
@@ -65,13 +69,13 @@ namespace VCO.GUI
                 switch (this.textPosition)
                 {
                     case FlyoverText.TextPosition.Center:
-                        zero_VECTOR = new Vector2f((float)(-(num / 2)), (float)(-(float)(num2 / 2) + lineHeight * j));
+                        zero_VECTOR = new Vector2f(-(num / 2), (float)(-(float)(num2 / 2) + lineHeight * j));
                         break;
                     case FlyoverText.TextPosition.TopLeft:
                         zero_VECTOR = new Vector2f(-144f, -74L + lineHeight * j);
                         break;
                     case FlyoverText.TextPosition.Top:
-                        zero_VECTOR = new Vector2f((float)(-(num / 2)), -74L + lineHeight * j);
+                        zero_VECTOR = new Vector2f(-(num / 2), -74L + lineHeight * j);
                         break;
                     case FlyoverText.TextPosition.TopRight:
                         zero_VECTOR = new Vector2f(144L - num, -74L + lineHeight * j);
@@ -86,7 +90,7 @@ namespace VCO.GUI
                         zero_VECTOR = new Vector2f(-144f, 74L - num2 + lineHeight * j);
                         break;
                     case FlyoverText.TextPosition.Bottom:
-                        zero_VECTOR = new Vector2f((float)(-(num / 2)), 74L - num2 + lineHeight * j);
+                        zero_VECTOR = new Vector2f(-(num / 2), 74L - num2 + lineHeight * j);
                         break;
                     case FlyoverText.TextPosition.BottomRight:
                         zero_VECTOR = new Vector2f(144L - num, 74L - num2 + lineHeight * j);
@@ -172,7 +176,7 @@ namespace VCO.GUI
 
         private const int HEIGHT = 148;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private Color textColor;
 
@@ -182,23 +186,23 @@ namespace VCO.GUI
 
         private int timer;
 
-        private int duration;
+        private readonly int duration;
 
-        private int transitionDuration;
+        private readonly int transitionDuration;
 
-        private int holdDuration;
+        private readonly int holdDuration;
 
-        private FlyoverText.TextPosition textPosition;
+        private readonly FlyoverText.TextPosition textPosition;
 
-        private FontData font;
+        private readonly FontData font;
 
         private Color backColor;
 
         private Color backColorTrans;
 
-        private Shape backgroundShape;
+        private readonly Shape backgroundShape;
 
-        private ShapeGraphic background;
+        private readonly ShapeGraphic background;
 
         public enum TextPosition
         {

@@ -4,37 +4,13 @@ namespace VCO.Battle.Combos
 {
     internal class ComboNode : IComparable
     {
-        public ComboType Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
+        public ComboType Type => this.type;
 
-        public uint Timestamp
-        {
-            get
-            {
-                return this.timestamp;
-            }
-        }
+        public uint Timestamp => this.timestamp;
 
-        public uint Duration
-        {
-            get
-            {
-                return this.duration;
-            }
-        }
+        public uint Duration => this.duration;
 
-        public float? BPM
-        {
-            get
-            {
-                return this.bpm;
-            }
-        }
+        public float? BPM => this.bpm;
 
         public ComboNode(ComboType type, uint timestamp, uint duration)
         {

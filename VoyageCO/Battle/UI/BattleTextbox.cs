@@ -16,23 +16,21 @@ namespace VCO.Battle.UI
 
         public event BattleTextbox.TextTriggerHandler OnTextTrigger;
 
-        public bool Visible
-        {
-            get
-            {
-                return this.visible;
-            }
-        }
+        public bool Visible => this.visible;
 
         public BattleTextbox(RenderPipeline pipeline, int colorIndex)
         {
             this.pipeline = pipeline;
-            this.typewriterbox = new TypewriterBox(pipeline, BattleTextbox.TEXT_POSITION, BattleTextbox.TEXT_SIZE, 2147450880, Button.A, false, new TextBlock(new List<TextLine>()));
-            this.typewriterbox.UseBeeps = false;
+            this.typewriterbox = new TypewriterBox(pipeline, BattleTextbox.TEXT_POSITION, BattleTextbox.TEXT_SIZE, 2147450880, Button.A, false, new TextBlock(new List<TextLine>()))
+            {
+                UseBeeps = false
+            };
             this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, BattleTextbox.BOX_POSITION, BattleTextbox.BOX_SIZE, 2147450879);
             pipeline.Add(this.window);
-            this.arrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", BattleTextbox.BUTTON_POSITION, 2147450880);
-            this.arrow.Visible = false;
+            this.arrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", BattleTextbox.BUTTON_POSITION, 2147450880)
+            {
+                Visible = false
+            };
             pipeline.Add(this.arrow);
             this.visible = false;
             this.showArrow = false;
@@ -207,13 +205,13 @@ namespace VCO.Battle.UI
 
         protected static Vector2f BUTTON_POSITION = new Vector2f(BattleTextbox.BOX_POSITION.X + BattleTextbox.BOX_SIZE.X - 14f, BattleTextbox.BOX_POSITION.Y + BattleTextbox.BOX_SIZE.Y - 8f);
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private TypewriterBox typewriterbox;
+        private readonly TypewriterBox typewriterbox;
 
-        private WindowBox window;
+        private readonly WindowBox window;
 
-        private Graphic arrow;
+        private readonly Graphic arrow;
 
         private bool visible;
 

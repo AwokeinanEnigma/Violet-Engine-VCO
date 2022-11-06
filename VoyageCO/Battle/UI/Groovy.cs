@@ -71,10 +71,10 @@ namespace VCO.Battle.UI
         private bool disposed;
 
         // Token: 0x040003DD RID: 989
-        private Graphic groovy;
+        private readonly Graphic groovy;
 
         // Token: 0x040003DE RID: 990
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x040003DF RID: 991
         private int timer;

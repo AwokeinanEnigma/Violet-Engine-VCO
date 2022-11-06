@@ -39,16 +39,24 @@ namespace VCO.Scenes
         {
             this.StartSave();
             this.cardFront = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "front " + SaveScene.LOCATION_STRINGS[this.location], Engine.HALF_SCREEN_SIZE, 0);
-            this.cardBack = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "back", Engine.HALF_SCREEN_SIZE, 0);
-            this.cardBack.Visible = false;
-            this.stamp = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "stamp " + SaveScene.LOCATION_STRINGS[this.location], Engine.HALF_SCREEN_SIZE + SaveScene.STAMP_OFFSET, 0);
-            this.stamp.Visible = false;
-            this.stamp.Rotation = 10f;
-            this.flagMark = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "flag stamp", Engine.HALF_SCREEN_SIZE + SaveScene.STAMP_OFFSET, 0);
-            this.flagMark.Visible = false;
-            this.writing = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "writing", Engine.HALF_SCREEN_SIZE + SaveScene.WRITING_OFFSET, 0);
-            this.writing.Visible = false;
-            this.writing.SpeedModifier = 0f;
+            this.cardBack = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "back", Engine.HALF_SCREEN_SIZE, 0)
+            {
+                Visible = false
+            };
+            this.stamp = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "stamp " + SaveScene.LOCATION_STRINGS[this.location], Engine.HALF_SCREEN_SIZE + SaveScene.STAMP_OFFSET, 0)
+            {
+                Visible = false,
+                Rotation = 10f
+            };
+            this.flagMark = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "flag stamp", Engine.HALF_SCREEN_SIZE + SaveScene.STAMP_OFFSET, 0)
+            {
+                Visible = false
+            };
+            this.writing = new IndexedColorGraphic(SaveScene.POSTCARD_PATH, "writing", Engine.HALF_SCREEN_SIZE + SaveScene.WRITING_OFFSET, 0)
+            {
+                Visible = false,
+                SpeedModifier = 0f
+            };
             this.writing.OnAnimationComplete += this.WritingAnimationDone;
             this.pipeline.Add(this.cardFront);
             this.pipeline.Add(this.cardBack);
@@ -206,7 +214,7 @@ namespace VCO.Scenes
         private static readonly Vector2f WRITING_OFFSET = new Vector2f(-44f, 0f);
 
         // Token: 0x04000883 RID: 2179
-        private SaveScene.Location location;
+        private readonly SaveScene.Location location;
 
         // Token: 0x04000884 RID: 2180
         private SaveProfile profile;

@@ -197,9 +197,9 @@ namespace VCO.Battle.Actions
 
         private PlayerBashAction.State state;
 
-        private float power;
+        private readonly float power;
 
-        private PlayerCombatant combatant;
+        private readonly PlayerCombatant combatant;
 
         private Combatant target;
 
@@ -209,7 +209,7 @@ namespace VCO.Battle.Actions
 
         private int firstHpDelta;
 
-        private Stack<string> messageStack;
+        private readonly Stack<string> messageStack;
 
         private bool buttonPressed;
 

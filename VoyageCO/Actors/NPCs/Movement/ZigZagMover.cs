@@ -94,15 +94,15 @@ namespace VCO.Actors.NPCs.Movement
 
         private Vector2f normalVector;
 
-        private CollisionManager collisionManager;
+        private readonly CollisionManager collisionManager;
 
-        private ICollidable collidable;
+        private readonly ICollidable collidable;
 
-        private float amplitude;
+        private readonly float amplitude;
 
-        private float chaseThreshold;
+        private readonly float chaseThreshold;
 
-        private float speed;
+        private readonly float speed;
 
         private FloatRect area;
 

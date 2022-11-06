@@ -21,34 +21,16 @@ namespace VCO.GUI
 
         public bool UseBeeps
         {
-            get
-            {
-                return this.useBeeps;
-            }
-            set
-            {
-                this.useBeeps = value;
-            }
+            get => this.useBeeps;
+            set => this.useBeeps = value;
         }
 
-        public int DisplayLines
-        {
-            get
-            {
-                return Math.Min(3, this.textBlock.Lines.Count);
-            }
-        }
+        public int DisplayLines => Math.Min(3, this.textBlock.Lines.Count);
 
         public override Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.Reposition(value);
-            }
+            get => this.position;
+            set => this.Reposition(value);
         }
 
         public TypewriterBox(RenderPipeline pipeline, Vector2f position, Vector2f size, int depth, Button advance, bool showBullets, TextBlock textBlock)
@@ -322,9 +304,9 @@ namespace VCO.GUI
 
         public const int BULLET_OFFSET_Y = 4;
 
-        private int depth;
+        private readonly int depth;
 
-        private Button advance;
+        private readonly Button advance;
 
         private int textPos;
 
@@ -336,11 +318,11 @@ namespace VCO.GUI
 
         private TextBlock textBlock;
 
-        private VioletSound textBeep;
+        private readonly VioletSound textBeep;
 
         private bool useBeeps;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private int topLineIndex;
 
@@ -350,13 +332,13 @@ namespace VCO.GUI
 
         private TextRegion currentText;
 
-        private TextRegion[] texts;
+        private readonly TextRegion[] texts;
 
         private Graphic[] bullets;
 
         private bool[] bulletVisibility;
 
-        private bool showBullets;
+        private readonly bool showBullets;
 
         private float totalCharCount;
 
@@ -372,7 +354,7 @@ namespace VCO.GUI
 
         private float textSpeed;
 
-        private float origTextSpeed;
+        private readonly float origTextSpeed;
 
         private float nextCharWaiter;
 

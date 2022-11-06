@@ -23,14 +23,8 @@ namespace VCO.Data
 
         public SaveProfile CurrentProfile
         {
-            get
-            {
-                return this.currentProfile;
-            }
-            set
-            {
-                this.currentProfile = value;
-            }
+            get => this.currentProfile;
+            set => this.currentProfile = value;
         }
 
         private SaveFileManager()
@@ -242,6 +236,6 @@ namespace VCO.Data
 
         private SaveProfile currentProfile;
 
-        private NbtFile file;
+        private readonly NbtFile file;
     }
 }

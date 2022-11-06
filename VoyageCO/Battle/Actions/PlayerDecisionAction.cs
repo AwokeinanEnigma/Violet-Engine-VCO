@@ -209,15 +209,15 @@ namespace VCO.Battle.Actions
 
         private const int CARD_POP_HEIGHT = 28;
 
-        private PlayerCombatant combatant;
+        private readonly PlayerCombatant combatant;
 
-        private CharacterType character;
+        private readonly CharacterType character;
 
         private PlayerDecisionAction.State state;
 
-        private bool isGroovy;
+        private readonly bool isGroovy;
 
-        private bool isFromUndo;
+        private readonly bool isFromUndo;
 
         private enum State
         {

@@ -5,21 +5,9 @@ namespace VCO.Battle.Combatants
 {
     internal class PlayerCombatant : Combatant
     {
-        public CharacterType Character
-        {
-            get
-            {
-                return this.character;
-            }
-        }
+        public CharacterType Character => this.character;
 
-        public int PartyIndex
-        {
-            get
-            {
-                return this.partyIndex;
-            }
-        }
+        public int PartyIndex => this.partyIndex;
 
         public PlayerCombatant(CharacterType character, int partyIndex) : base(BattleFaction.PlayerTeam)
         {
@@ -54,8 +42,8 @@ namespace VCO.Battle.Combatants
             }
         }
 
-        private CharacterType character;
+        private readonly CharacterType character;
 
-        private int partyIndex;
+        private readonly int partyIndex;
     }
 }

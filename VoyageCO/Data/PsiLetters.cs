@@ -16,7 +16,7 @@ namespace VCO.Data
 "γ",
 "Ω"
 };*/
-        private static Dictionary<int, char> letters = new Dictionary<int, char>
+        private static readonly Dictionary<int, char> letters = new Dictionary<int, char>
         {
             {
                 0,

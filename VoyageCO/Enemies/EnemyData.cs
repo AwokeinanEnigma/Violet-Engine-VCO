@@ -9,20 +9,8 @@ namespace VCO.Data.Enemies
     {
         // Token: 0x17000016 RID: 22
         // (get) Token: 0x06000086 RID: 134 RVA: 0x0000530A File Offset: 0x0000350Af
-        public string QualifiedName
-        {
-            get
-            {
-                return this.qualifiedName;
-            }
-        }
-        public string AIName
-        {
-            get
-            {
-                return this.aiName;
-            }
-        }
+        public string QualifiedName => this.qualifiedName;
+        public string AIName => this.aiName;
         public string GetStringQualifiedName(string stringName)
         {
             if (!this.strings.TryGetValue(stringName, out string empty))
@@ -32,228 +20,90 @@ namespace VCO.Data.Enemies
             return empty;
         }
 
-        public string BackgroundName
-        {
-            get
-            {
-                return this.bbgName;
-            }
-        }
+        public string BackgroundName => this.bbgName;
 
-        public string MusicName
-        {
-            get
-            {
-                return this.bgmName;
-            }
-        }
+        public string MusicName => this.bgmName;
 
-        public string SpriteName
-        {
-            get
-            {
-                return this.spriteName;
-            }
-        }
+        public string SpriteName => this.spriteName;
 
         // Token: 0x1700001A RID: 26
         // (get) Token: 0x0600008A RID: 138 RVA: 0x0000532A File Offset: 0x0000352A
-        public int Experience
-        {
-            get
-            {
-                return this.experience;
-            }
-        }
+        public int Experience => this.experience;
         // Token: 0x1700001D RID: 29
         // (get) Token: 0x0600008D RID: 141 RVA: 0x00005342 File Offset: 0x00003542
-        public EnemyOptions Options
-        {
-            get
-            {
-                return this.options;
-            }
-        }
+        public EnemyOptions Options => this.options;
 
         // Token: 0x1700001E RID: 30
         // (get) Token: 0x0600008E RID: 142 RVA: 0x0000534A File Offset: 0x0000354A
-        public EnemyImmunities Immunities
-        {
-            get
-            {
-                return this.immunities;
-            }
-        }
+        public EnemyImmunities Immunities => this.immunities;
 
         // Token: 0x1700001F RID: 31
         // (get) Token: 0x0600008F RID: 143 RVA: 0x00005352 File Offset: 0x00003552
-        public int Level
-        {
-            get
-            {
-                return this.level;
-            }
-        }
+        public int Level => this.level;
 
         // Token: 0x17000020 RID: 32
         // (get) Token: 0x06000090 RID: 144 RVA: 0x0000535A File Offset: 0x0000355A
-        public int HP
-        {
-            get
-            {
-                return this.hp;
-            }
-        }
+        public int HP => this.hp;
 
         // Token: 0x17000021 RID: 33
         // (get) Token: 0x06000091 RID: 145 RVA: 0x00005362 File Offset: 0x00003562
-        public int PP
-        {
-            get
-            {
-                return this.pp;
-            }
-        }
+        public int PP => this.pp;
 
         // Token: 0x17000022 RID: 34
         // (get) Token: 0x06000092 RID: 146 RVA: 0x0000536A File Offset: 0x0000356A
-        public int Offense
-        {
-            get
-            {
-                return this.offense;
-            }
-        }
+        public int Offense => this.offense;
 
         // Token: 0x17000023 RID: 35
         // (get) Token: 0x06000093 RID: 147 RVA: 0x00005372 File Offset: 0x00003572
-        public int Defense
-        {
-            get
-            {
-                return this.defense;
-            }
-        }
+        public int Defense => this.defense;
 
         // Token: 0x17000024 RID: 36
         // (get) Token: 0x06000094 RID: 148 RVA: 0x0000537A File Offset: 0x0000357A
-        public int Speed
-        {
-            get
-            {
-                return this.speed;
-            }
-        }
+        public int Speed => this.speed;
 
         // Token: 0x17000025 RID: 37
         // (get) Token: 0x06000095 RID: 149 RVA: 0x00005382 File Offset: 0x00003582
-        public int Guts
-        {
-            get
-            {
-                return this.guts;
-            }
-        }
+        public int Guts => this.guts;
 
         // Token: 0x17000026 RID: 38
         // (get) Token: 0x06000096 RID: 150 RVA: 0x0000538A File Offset: 0x0000358A
-        public int IQ
-        {
-            get
-            {
-                return this.iq;
-            }
-        }
+        public int IQ => this.iq;
 
         // Token: 0x17000027 RID: 39
         // (get) Token: 0x06000097 RID: 151 RVA: 0x00005392 File Offset: 0x00003592
-        public int Luck
-        {
-            get
-            {
-                return this.luck;
-            }
-        }
+        public int Luck => this.luck;
 
         // Token: 0x17000028 RID: 40
         // (get) Token: 0x06000098 RID: 152 RVA: 0x0000539A File Offset: 0x0000359A
-        public float ModifierElectric
-        {
-            get
-            {
-                return this.modElectric;
-            }
-        }
+        public float ModifierElectric => this.modElectric;
 
         // Token: 0x17000029 RID: 41
         // (get) Token: 0x06000099 RID: 153 RVA: 0x000053A2 File Offset: 0x000035A2
-        public float ModifierExplosive
-        {
-            get
-            {
-                return this.modExplosive;
-            }
-        }
+        public float ModifierExplosive => this.modExplosive;
 
         // Token: 0x1700002A RID: 42
         // (get) Token: 0x0600009A RID: 154 RVA: 0x000053AA File Offset: 0x000035AA
-        public float ModifierFire
-        {
-            get
-            {
-                return this.modFire;
-            }
-        }
+        public float ModifierFire => this.modFire;
 
         // Token: 0x1700002B RID: 43
         // (get) Token: 0x0600009B RID: 155 RVA: 0x000053B2 File Offset: 0x000035B2
-        public float ModifierIce
-        {
-            get
-            {
-                return this.modIce;
-            }
-        }
+        public float ModifierIce => this.modIce;
 
         // Token: 0x1700002C RID: 44
         // (get) Token: 0x0600009C RID: 156 RVA: 0x000053BA File Offset: 0x000035BA
-        public float ModifierNausea
-        {
-            get
-            {
-                return this.modNausea;
-            }
-        }
+        public float ModifierNausea => this.modNausea;
 
         // Token: 0x1700002D RID: 45
         // (get) Token: 0x0600009D RID: 157 RVA: 0x000053C2 File Offset: 0x000035C2
-        public float ModifierPhysical
-        {
-            get
-            {
-                return this.modPhysical;
-            }
-        }
+        public float ModifierPhysical => this.modPhysical;
 
         // Token: 0x1700002E RID: 46
         // (get) Token: 0x0600009E RID: 158 RVA: 0x000053CA File Offset: 0x000035CA
-        public float ModifierPoison
-        {
-            get
-            {
-                return this.modPoison;
-            }
-        }
+        public float ModifierPoison => this.modPoison;
 
         // Token: 0x1700002F RID: 47
         // (get) Token: 0x0600009F RID: 159 RVA: 0x000053D2 File Offset: 0x000035D2
-        public float ModifierWater
-        {
-            get
-            {
-                return this.modWater;
-            }
-        }
+        public float ModifierWater => this.modWater;
 
 
         public Dictionary<string, string> strings;
@@ -470,7 +320,7 @@ namespace VCO.Data.Enemies
         private string spriteName;
 
         // Token: 0x04000178 RID: 376
-        private Dictionary<string, object> aiProperties;
+        private readonly Dictionary<string, object> aiProperties;
 
         // Token: 0x0400017A RID: 378
         private int experience;

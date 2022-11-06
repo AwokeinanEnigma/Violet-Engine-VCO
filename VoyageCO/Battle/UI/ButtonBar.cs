@@ -10,10 +10,7 @@ namespace VCO.Battle.UI
     {
         public int SelectedIndex
         {
-            get
-            {
-                return this.selIndex;
-            }
+            get => this.selIndex;
             set
             {
                 this.lastSelIndex = this.selIndex;
@@ -22,24 +19,12 @@ namespace VCO.Battle.UI
             }
         }
 
-        public ButtonBar.Action SelectedAction
-        {
-            get
-            {
-                return this.buttonActions[this.selIndex];
-            }
-        }
+        public ButtonBar.Action SelectedAction => this.buttonActions[this.selIndex];
 
         public bool Visible
         {
-            get
-            {
-                return this.visible;
-            }
-            set
-            {
-                this.visible = value;
-            }
+            get => this.visible;
+            set => this.visible = value;
         }
 
         public ButtonBar(RenderPipeline pipeline)
@@ -214,7 +199,7 @@ namespace VCO.Battle.UI
 
         private int[] buttonHeights;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private int selIndex;
 

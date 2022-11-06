@@ -12,29 +12,11 @@ namespace VCO.Battle.UI
     {
         public event ComboAnimator.AnimationCompleteHandler OnAnimationComplete;
 
-        public Vector2f Position
-        {
-            get
-            {
-                return this.position;
-            }
-        }
+        public Vector2f Position => this.position;
 
-        public int Depth
-        {
-            get
-            {
-                return this.depth;
-            }
-        }
+        public int Depth => this.depth;
 
-        public bool Stopped
-        {
-            get
-            {
-                return this.state == ComboAnimator.State.Stopped;
-            }
-        }
+        public bool Stopped => this.state == ComboAnimator.State.Stopped;
 
         public ComboAnimator(RenderPipeline pipeline, int depth)
         {
@@ -49,8 +31,10 @@ namespace VCO.Battle.UI
 
             for (int i = 0; i < this.starGraphics.Length; i++)
             {
-                this.starGraphics[i] = new IndexedColorGraphic(HITSPARK_RESOURCE, "star", vector2f, depth);
-                this.starGraphics[i].Visible = false;
+                this.starGraphics[i] = new IndexedColorGraphic(HITSPARK_RESOURCE, "star", vector2f, depth)
+                {
+                    Visible = false
+                };
                 pipeline.Add(this.starGraphics[i]);
                 this.starVelocity[i] = new Vector2f(0f, 0f);
             }
@@ -61,8 +45,10 @@ namespace VCO.Battle.UI
             this.hitsparks = new Graphic[2];
             for (int j = 0; j < this.hitsparks.Length; j++)
             {
-                this.hitsparks[j] = new IndexedColorGraphic(HITSPARK_RESOURCE, "combohitspark", vector2f, depth + 20);
-                this.hitsparks[j].Visible = false;
+                this.hitsparks[j] = new IndexedColorGraphic(HITSPARK_RESOURCE, "combohitspark", vector2f, depth + 20)
+                {
+                    Visible = false
+                };
                 pipeline.Add(this.hitsparks[j]);
             }
             this.state = ComboAnimator.State.Stopped;
@@ -101,8 +87,10 @@ namespace VCO.Battle.UI
             this.starGraphics = new IndexedColorGraphic[16];
             for (int i = 0; i < this.starGraphics.Length; i++)
             {
-                this.starGraphics[i] = new IndexedColorGraphic(load, "star", vector2f, depth);
-                this.starGraphics[i].Visible = false;
+                this.starGraphics[i] = new IndexedColorGraphic(load, "star", vector2f, depth)
+                {
+                    Visible = false
+                };
                 pipeline.Add(this.starGraphics[i]);
                 this.starVelocity[i] = new Vector2f(0f, 0f);
             }
@@ -110,8 +98,10 @@ namespace VCO.Battle.UI
             this.hitsparks = new Graphic[2];
             for (int j = 0; j < this.hitsparks.Length; j++)
             {
-                this.hitsparks[j] = new IndexedColorGraphic(load, "combohitspark", vector2f, depth + 20);
-                this.hitsparks[j].Visible = false;
+                this.hitsparks[j] = new IndexedColorGraphic(load, "combohitspark", vector2f, depth + 20)
+                {
+                    Visible = false
+                };
                 pipeline.Add(this.hitsparks[j]);
             }
 
@@ -225,7 +215,7 @@ namespace VCO.Battle.UI
                     float num = (float)(6.283185307179586 / starCount * i);
                     int num2 = (int)(Math.Cos(this.rotAngle + num) * size.X);
                     int num3 = (int)(Math.Sin(this.rotAngle + num) * size.Y + Math.Sin(this.modAngle + num) * 10.0);
-                    Vector2f vector2f = this.position + new Vector2f(num2, (float)(-num3));
+                    Vector2f vector2f = this.position + new Vector2f(num2, -num3);
                     this.starGraphics[i].Position = vector2f;
                     this.starGraphics[i].Depth = this.depth - (int)(Math.Sin(this.rotAngle + num) * (float)(this.starCount + 1)) + 1;
                     Console.WriteLine($"Star depth {starGraphics[i].Depth}, Enemy Depth is '{enemyGraphic.Depth}'");
@@ -325,7 +315,7 @@ namespace VCO.Battle.UI
 
         private const float EXPLODE_FAIL_FACTOR = 100f;
 
-        private string HITSPARK_RESOURCE = Paths.GRAPHICS + "hitsparks.dat";
+        private readonly string HITSPARK_RESOURCE = Paths.GRAPHICS + "hitsparks.dat";
 
         private bool disposed;
 
@@ -335,7 +325,7 @@ namespace VCO.Battle.UI
 
         private int depth;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         private IndexedColorGraphic[] starGraphics;
 
@@ -347,15 +337,15 @@ namespace VCO.Battle.UI
 
         private float modAngle;
 
-        private bool[] bounceFlag;
+        private readonly bool[] bounceFlag;
 
-        private Vector2f[] starVelocity;
+        private readonly Vector2f[] starVelocity;
 
-        private List<DamageNumber> damageNumbers;
+        private readonly List<DamageNumber> damageNumbers;
 
-        private List<DamageNumber> damageNumbersToRemove;
+        private readonly List<DamageNumber> damageNumbersToRemove;
 
-        private TotalDamageNumber totalDamageNumber;
+        private readonly TotalDamageNumber totalDamageNumber;
 
         private Graphic[] hitsparks;
 

@@ -87,7 +87,7 @@ namespace VCO.Actors.NPCs.Movement
             return this.changed;
         }
 
-        private List<Vector2f> path;
+        private readonly List<Vector2f> path;
 
         private Vector2f target;
 
@@ -97,11 +97,11 @@ namespace VCO.Actors.NPCs.Movement
 
         private int timer;
 
-        private int timeOut;
+        private readonly int timeOut;
 
-        private float speed;
+        private readonly float speed;
 
-        private bool loop;
+        private readonly bool loop;
 
         private bool changed;
 

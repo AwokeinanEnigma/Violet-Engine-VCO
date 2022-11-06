@@ -11,33 +11,15 @@ namespace VCO.GUI
     {
         // Token: 0x17000053 RID: 83
         // (get) Token: 0x06000135 RID: 309 RVA: 0x0000876D File Offset: 0x0000696D
-        public static FontData Main
-        {
-            get
-            {
-                return Fonts.fonts[0];
-            }
-        }
+        public static FontData Main => Fonts.fonts[0];
 
         // Token: 0x17000054 RID: 84
         // (get) Token: 0x06000136 RID: 310 RVA: 0x00008776 File Offset: 0x00006976
-        public static FontData Title
-        {
-            get
-            {
-                return Fonts.fonts[1];
-            }
-        }
+        public static FontData Title => Fonts.fonts[1];
 
         // Token: 0x17000055 RID: 85
         // (get) Token: 0x06000137 RID: 311 RVA: 0x0000877F File Offset: 0x0000697F
-        public static FontData Saturn
-        {
-            get
-            {
-                return Fonts.fonts[2];
-            }
-        }
+        public static FontData Saturn => Fonts.fonts[2];
 
         // Token: 0x06000138 RID: 312 RVA: 0x00008788 File Offset: 0x00006988
         private static Font LoadFont(string locale, string fontFile)
@@ -98,6 +80,6 @@ namespace VCO.GUI
         };
 
         // Token: 0x04000233 RID: 563
-        private static FontData[] fonts = new FontData[Fonts.FONT_NAMES.Length];
+        private static readonly FontData[] fonts = new FontData[Fonts.FONT_NAMES.Length];
     }
 }

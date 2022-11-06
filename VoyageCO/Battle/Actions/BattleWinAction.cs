@@ -102,8 +102,10 @@ namespace VCO.Battle.Actions
                 else if (this.state == BattleWinAction.State.Done)
                 {
                     this.controller.InterfaceController.OnTextboxComplete -= this.InteractionComplete;
-                    ITransition transition = new ColorFadeTransition(1f, Color.Black);
-                    transition.Blocking = true;
+                    ITransition transition = new ColorFadeTransition(1f, Color.Black)
+                    {
+                        Blocking = true
+                    };
                     SceneManager.Instance.Transition = transition;
                     SceneManager.Instance.Pop();
                     this.complete = true;
@@ -135,13 +137,13 @@ namespace VCO.Battle.Actions
 
         private const int CARD_POP_HEIGHT = 28;
 
-        private static uint BATTLE_END_DELAY = 180U;
+        private static readonly uint BATTLE_END_DELAY = 180U;
 
         private BattleWinAction.State previousState;
 
         private BattleWinAction.State state;
 
-        private LevelUpBuilder levelup;
+        private readonly LevelUpBuilder levelup;
 
         private uint timer;
 

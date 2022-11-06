@@ -121,13 +121,13 @@ namespace VCO.Battle.UI
 
         private bool disposed;
 
-        private VioletSound baseJingle;
+        private readonly VioletSound baseJingle;
 
-        private VioletSound groupOutro;
+        private readonly VioletSound groupOutro;
 
-        private Dictionary<CharacterType, VioletSound> characterJingles;
+        private readonly Dictionary<CharacterType, VioletSound> characterJingles;
 
-        private bool useOutro;
+        private readonly bool useOutro;
 
         private LevelUpJingler.State state;
 

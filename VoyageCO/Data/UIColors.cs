@@ -4,15 +4,9 @@ namespace VCO.Data
 {
     internal static class UIColors
     {
-        public static Color HighlightColor
-        {
-            get
-            {
-                return new Color(255, 89, 209);
-            }
-        }
+        public static Color HighlightColor => new Color(255, 89, 209);
 
-        private static Color[] highlightColors = new Color[]
+        private static readonly Color[] highlightColors = new Color[]
         {
             new Color(66, 240, 15),
             new Color(142, 234, 172),

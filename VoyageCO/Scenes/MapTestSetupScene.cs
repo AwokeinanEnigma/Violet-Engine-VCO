@@ -35,23 +35,31 @@ namespace VCO.Scenes
                 "Start",
                 "Back"
             };
-            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "realcursor.dat");
-            this.optionList.ShowSelectionRectangle = false;
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "realcursor.dat")
+            {
+                ShowSelectionRectangle = false
+            };
             this.pipeline.Add(this.optionList);
             this.focusedList = this.optionList;
-            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat");
-            this.mapList.ShowSelectionRectangle = false;
+            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            {
+                ShowSelectionRectangle = false
+            };
             this.pipeline.Add(this.mapList);
             this.mapList.Hide();
             string[] names = Enum.GetNames(typeof(CharacterType));
             string[] array = new string[names.Length + 1];
             array[0] = "Remove";
             Array.Copy(names, 0, array, 1, names.Length);
-            this.selectedCharacters = new List<CharacterType>();
-            this.selectedCharacters.Add(CharacterType.Travis);
+            this.selectedCharacters = new List<CharacterType>
+            {
+                CharacterType.Travis
+            };
             this.ResetCharacterGraphics();
-            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat");
-            this.charactersList.ShowSelectionRectangle = false;
+            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            {
+                ShowSelectionRectangle = false
+            };
             this.pipeline.Add(this.charactersList);
             this.charactersList.Hide();
             string[] items2 = new string[]
@@ -60,8 +68,10 @@ namespace VCO.Scenes
                 string.Format("Start at night: {0}", FlagManager.Instance[1]),
                 "Back"
             };
-            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat");
-            this.settingsList.ShowSelectionRectangle = false;
+            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            {
+                ShowSelectionRectangle = false
+            };
             this.pipeline.Add(this.settingsList);
             this.settingsList.Hide();
             this.titleText = new TextRegion(new Vector2f(4f, 4f), 0, Fonts.Title, "Map Test Setup");
@@ -278,33 +288,33 @@ namespace VCO.Scenes
 
         private const string OPT_FORMAT_NIGHTTIME = "Start at night: {0}";
 
-        private TextRegion titleText;
+        private readonly TextRegion titleText;
 
         private ScrollingList focusedList;
 
-        private ScrollingList optionList;
+        private readonly ScrollingList optionList;
 
-        private ScrollingList mapList;
+        private readonly ScrollingList mapList;
 
-        private ScrollingList charactersList;
+        private readonly ScrollingList charactersList;
 
-        private ScrollingList settingsList;
+        private readonly ScrollingList settingsList;
 
-        private VioletSound sfxCursorX;
+        private readonly VioletSound sfxCursorX;
 
-        private VioletSound sfxCursorY;
+        private readonly VioletSound sfxCursorY;
 
-        private VioletSound sfxConfirm;
+        private readonly VioletSound sfxConfirm;
 
-        private VioletSound sfxCancel;
+        private readonly VioletSound sfxCancel;
 
         private string selectedMap;
 
-        private List<CharacterType> selectedCharacters;
+        private readonly List<CharacterType> selectedCharacters;
 
         private IndexedColorGraphic[] characterSprites;
 
-        private string[] mapItems;
+        private readonly string[] mapItems;
 
         private bool runScriptsOnLoad = true;
     }

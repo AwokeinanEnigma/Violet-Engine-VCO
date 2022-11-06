@@ -18,23 +18,11 @@ namespace VCO.Actors.NPCs
     {
         // Token: 0x17000074 RID: 116
         // (get) Token: 0x06000207 RID: 519 RVA: 0x0000C675 File Offset: 0x0000A875
-        public EnemyData Type
-        {
-            get
-            {
-                return this.enemyType;
-            }
-        }
+        public EnemyData Type => this.enemyType;
 
         // Token: 0x17000075 RID: 117
         // (get) Token: 0x06000208 RID: 520 RVA: 0x0000C67D File Offset: 0x0000A87D
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.npcGraphic;
-            }
-        }
+        public Graphic Graphic => this.npcGraphic;
 
         // Token: 0x06000209 RID: 521 RVA: 0x0000C688 File Offset: 0x0000A888x
         public EnemyNPC(RenderPipeline pipeline, CollisionManager colman, EnemyData enemyType, Vector2f position, FloatRect spawnArea) : base(colman)
@@ -61,7 +49,7 @@ namespace VCO.Actors.NPCs
             this.pipeline.Add(this.shadowGraphic);
             int width = this.npcGraphic.TextureRect.Width;
             int height = this.npcGraphic.TextureRect.Height;
-            this.mesh = new Mesh(new FloatRect((float)(-(width / 2)), -3f, width, 6f));
+            this.mesh = new Mesh(new FloatRect(-(width / 2), -3f, width, 6f));
             this.aabb = this.mesh.AABB;
             this.animator = new AnimationControl(this.npcGraphic, this.direction);
             this.animator.UpdateSubsprite(this.GetAnimationContext());
@@ -160,7 +148,7 @@ namespace VCO.Actors.NPCs
                 }
             }
         }*/
-        private static Type[] enemyofType =
+        private static readonly Type[] enemyofType =
             new Type[]
             {
                 typeof(EnemyNPC)
@@ -245,22 +233,22 @@ namespace VCO.Actors.NPCs
         private static readonly Vector2f HALO_OFFSET = new Vector2f(0f, -32f);
 
         // Token: 0x040002DF RID: 735
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x040002E0 RID: 736
-        private IndexedColorGraphic npcGraphic;
+        private readonly IndexedColorGraphic npcGraphic;
 
         // Token: 0x040002E1 RID: 737
-        private IndexedColorGraphic haloGraphic;
+        private readonly IndexedColorGraphic haloGraphic;
 
         // Token: 0x040002E2 RID: 738
-        private Graphic shadowGraphic;
+        private readonly Graphic shadowGraphic;
 
         // Token: 0x040002E3 RID: 739
         private Mover mover;
 
         // Token: 0x040002E4 RID: 740
-        private bool[] hasDirection;
+        private readonly bool[] hasDirection;
 
         // Token: 0x040002E5 RID: 741
         private Vector2f lastVelocity;
@@ -272,9 +260,9 @@ namespace VCO.Actors.NPCs
         private bool changed;
 
         // Token: 0x040002E8 RID: 744
-        private EnemyData enemyType;
+        private readonly EnemyData enemyType;
 
         // Token: 0x040002E9 RID: 745
-        private AnimationControl animator;
+        private readonly AnimationControl animator;
     }
 }

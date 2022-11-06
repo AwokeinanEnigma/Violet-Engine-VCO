@@ -42,7 +42,7 @@ namespace VCO.Actors.NPCs.Movement
 
         private Vector2f target;
 
-        private float speed;
+        private readonly float speed;
 
         private bool done;
 

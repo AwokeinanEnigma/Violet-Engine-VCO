@@ -17,7 +17,7 @@ namespace VCO.Data
             return result;
         }
 
-        private static Dictionary<StatusEffect, Type> types = new Dictionary<StatusEffect, Type>
+        private static readonly Dictionary<StatusEffect, Type> types = new Dictionary<StatusEffect, Type>
         {
             {
                 StatusEffect.Talking,

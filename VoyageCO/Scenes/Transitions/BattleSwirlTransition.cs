@@ -12,34 +12,16 @@ namespace VCO.Scenes.Transitions
 {
     internal class BattleSwirlTransition : ITransition
     {
-        public bool IsComplete
-        {
-            get
-            {
-                return this.isComplete;
-            }
-        }
+        public bool IsComplete => this.isComplete;
 
-        public float Progress
-        {
-            get
-            {
-                return this.progress;
-            }
-        }
+        public float Progress => this.progress;
 
-        public bool ShowNewScene
-        {
-            get
-            {
-                return this.isComplete;
-            }
-        }
+        public bool ShowNewScene => this.isComplete;
 
 
         public bool Blocking { get; set; }
 
-        private BattleSwirlOverlay.Style style;
+        private readonly BattleSwirlOverlay.Style style;
 
         public BattleSwirlTransition(BattleSwirlOverlay.Style style)
         {
@@ -54,13 +36,15 @@ namespace VCO.Scenes.Transitions
             int num = 160;
             int num2 = 90;
             this.fadeColor = BattleSwirlTransition.COLOR_MAP[style];
-            this.fadeStartColor = new Color(this.fadeColor);
-            this.fadeStartColor.A = 0;
+            this.fadeStartColor = new Color(this.fadeColor)
+            {
+                A = 0
+            };
             this.fadeVerts = new Vertex[4];
-            this.fadeVerts[0] = new Vertex(new Vector2f((float)(-num), (float)(-num2)), this.fadeStartColor);
-            this.fadeVerts[1] = new Vertex(new Vector2f(num, (float)(-num2)), this.fadeStartColor);
+            this.fadeVerts[0] = new Vertex(new Vector2f(-num, -num2), this.fadeStartColor);
+            this.fadeVerts[1] = new Vertex(new Vector2f(num, -num2), this.fadeStartColor);
             this.fadeVerts[2] = new Vertex(new Vector2f(num, num2), this.fadeStartColor);
-            this.fadeVerts[3] = new Vertex(new Vector2f((float)(-num), num2), this.fadeStartColor);
+            this.fadeVerts[3] = new Vertex(new Vector2f(-num, num2), this.fadeStartColor);
             this.fadeStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, null);
             this.UpdateTransform();
         }
@@ -126,7 +110,7 @@ namespace VCO.Scenes.Transitions
 
         private const float FADE_SPEED = 0.024f;
 
-        private static Dictionary<BattleSwirlOverlay.Style, Color> COLOR_MAP = new Dictionary<BattleSwirlOverlay.Style, Color>
+        private static readonly Dictionary<BattleSwirlOverlay.Style, Color> COLOR_MAP = new Dictionary<BattleSwirlOverlay.Style, Color>
         {
             {
                 BattleSwirlOverlay.Style.Green,

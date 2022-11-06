@@ -65,8 +65,10 @@ namespace VCO.SOMETHING
 
             pipeline = interfaceController.pipeline;
             graphicModifiers = interfaceController.graphicModifiers;
-            this.screenShape = new RectangleShape(new Vector2f(320f, 180f));
-            this.screenShape.FillColor = new Color(0, 0, 0, 128);
+            this.screenShape = new RectangleShape(new Vector2f(320f, 180f))
+            {
+                FillColor = new Color(0, 0, 0, 128)
+            };
             void OnTextboxComplete()
             {
                 interfaceController.OnTextboxComplete -= OnTextboxComplete;

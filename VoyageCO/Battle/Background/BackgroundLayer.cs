@@ -155,11 +155,7 @@ namespace VCO.Battle.Background
             this.disposed = true;
         }
 
-        public LayerParams Parameters
-        {
-            get { return parameters; }
-
-        }
+        public LayerParams Parameters => parameters;
 
         protected bool disposed;
 
@@ -177,7 +173,7 @@ namespace VCO.Battle.Background
 
         private int palFrame;
 
-        private Shader shader;
+        private readonly Shader shader;
 
         private RenderStates states;
 

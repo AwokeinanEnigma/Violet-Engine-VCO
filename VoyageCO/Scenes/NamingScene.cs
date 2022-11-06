@@ -27,8 +27,10 @@ namespace VCO.Scenes
             this.CreateNameWindow();
             this.SetupSounds();
             this.PopulateDontCareNames();
-            RectangleShape rectangleShape = new RectangleShape(new Vector2f(320f, this.namingPanel.Size.Y - 2f));
-            rectangleShape.FillColor = new Color(0, 0, 0, 68);
+            RectangleShape rectangleShape = new RectangleShape(new Vector2f(320f, this.namingPanel.Size.Y - 2f))
+            {
+                FillColor = new Color(0, 0, 0, 68)
+            };
             this.accentBar = new ShapeGraphic(rectangleShape, new Vector2f(0f, this.namingPanel.Position.Y + 12f), VectorMath.ZERO_VECTOR, rectangleShape.Size, -1);
             this.pipeline.Add(this.accentBar);
             this.namingCharacter = new NamingCharacter(NamingScene.CHARACTER_ORDER[this.characterIndex], 1);
@@ -321,9 +323,9 @@ namespace VCO.Scenes
 
         private TextInputPanel inputPanel;
 
-        private NamingCharacter namingCharacter;
+        private readonly NamingCharacter namingCharacter;
 
-        private ShapeGraphic accentBar;
+        private readonly ShapeGraphic accentBar;
 
         private VioletSound sfxConfirm;
 

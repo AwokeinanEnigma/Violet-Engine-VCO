@@ -15,39 +15,21 @@ namespace VCO.GUI
         // (set) Token: 0x060001DF RID: 479 RVA: 0x0000B7A3 File Offset: 0x000099A3
         public int SelectedIndex
         {
-            get
-            {
-                return this.selectedIndex;
-            }
-            set
-            {
-                this.Select(value);
-            }
+            get => this.selectedIndex;
+            set => this.Select(value);
         }
 
         // Token: 0x1700006A RID: 106
         // (get) Token: 0x060001E0 RID: 480 RVA: 0x0000B7AC File Offset: 0x000099AC
-        public string SelectedItem
-        {
-            get
-            {
-                return this.items[this.selectedIndex];
-            }
-        }
+        public string SelectedItem => this.items[this.selectedIndex];
 
         // Token: 0x1700006B RID: 107
         // (get) Token: 0x060001E1 RID: 481 RVA: 0x0000B7BB File Offset: 0x000099BB
         // (set) Token: 0x060001E2 RID: 482 RVA: 0x0000B7C3 File Offset: 0x000099C3
         public bool Enabled
         {
-            get
-            {
-                return this.enabled;
-            }
-            set
-            {
-                this.enabled = value;
-            }
+            get => this.enabled;
+            set => this.enabled = value;
         }
 
         // Token: 0x1700006C RID: 108
@@ -55,14 +37,8 @@ namespace VCO.GUI
         // (set) Token: 0x060001E4 RID: 484 RVA: 0x0000B7D4 File Offset: 0x000099D4
         public bool ShowArrows
         {
-            get
-            {
-                return this.showArrows;
-            }
-            set
-            {
-                this.showArrows = value;
-            }
+            get => this.showArrows;
+            set => this.showArrows = value;
         }
 
         // Token: 0x1700006D RID: 109
@@ -70,10 +46,7 @@ namespace VCO.GUI
         // (set) Token: 0x060001E6 RID: 486 RVA: 0x0000B7E5 File Offset: 0x000099E5
         public bool ShowSelectionRectangle
         {
-            get
-            {
-                return this.showSelectRect;
-            }
+            get => this.showSelectRect;
             set
             {
                 this.showSelectRect = value;
@@ -86,10 +59,7 @@ namespace VCO.GUI
         // (set) Token: 0x060001E8 RID: 488 RVA: 0x0000B7FC File Offset: 0x000099FC
         public bool UseHighlightTextColor
         {
-            get
-            {
-                return this.useHighlightTextColor;
-            }
+            get => this.useHighlightTextColor;
             set
             {
                 this.useHighlightTextColor = value;
@@ -102,10 +72,7 @@ namespace VCO.GUI
         // (set) Token: 0x060001EA RID: 490 RVA: 0x0000B813 File Offset: 0x00009A13
         public bool ShowCursor
         {
-            get
-            {
-                return this.showCursor;
-            }
+            get => this.showCursor;
             set
             {
                 this.showCursor = value;
@@ -118,10 +85,7 @@ namespace VCO.GUI
         // (set) Token: 0x060001EC RID: 492 RVA: 0x0000B82A File Offset: 0x00009A2A
         public bool Focused
         {
-            get
-            {
-                return this.focused;
-            }
+            get => this.focused;
             set
             {
                 this.focused = value;
@@ -132,23 +96,14 @@ namespace VCO.GUI
 
         // Token: 0x17000071 RID: 113
         // (get) Token: 0x060001ED RID: 493 RVA: 0x0000B83F File Offset: 0x00009A3F
-        public int Count
-        {
-            get
-            {
-                return this.items.Length;
-            }
-        }
+        public int Count => this.items.Length;
 
         // Token: 0x17000072 RID: 114
         // (get) Token: 0x060001EE RID: 494 RVA: 0x0000B849 File Offset: 0x00009A49
         // (set) Token: 0x060001EF RID: 495 RVA: 0x0000B854 File Offset: 0x00009A54
         public override Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
+            get => this.position;
             set
             {
                 this.position = value;
@@ -199,10 +154,14 @@ namespace VCO.GUI
             this.cursor = new IndexedColorGraphic(cursorGraphic, "right", this.texts[0].Position, depth);
             this.upArrow = new IndexedColorGraphic(cursorGraphic, "up", position + new Vector2f(width, 0f), depth);
             this.downArrow = new IndexedColorGraphic(cursorGraphic, "down", position + new Vector2f(width, lineHeight * displayCount + 1f), depth);
-            RectangleShape rectangleShape = new RectangleShape(new Vector2f(this.width, 11 * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f) - ScrollingList.SELECT_RECT_SIZE_OFFSET);
-            rectangleShape.FillColor = UIColors.HighlightColor;
-            this.selectRectangle = new ShapeGraphic(rectangleShape, this.texts[0].Position + ScrollingList.SELECT_RECT_OFFSET, VectorMath.ZERO_VECTOR, rectangleShape.Size, this.depth - 1);
-            this.selectRectangle.Visible = this.showSelectRect;
+            RectangleShape rectangleShape = new RectangleShape(new Vector2f(this.width, 11 * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f) - ScrollingList.SELECT_RECT_SIZE_OFFSET)
+            {
+                FillColor = UIColors.HighlightColor
+            };
+            this.selectRectangle = new ShapeGraphic(rectangleShape, this.texts[0].Position + ScrollingList.SELECT_RECT_OFFSET, VectorMath.ZERO_VECTOR, rectangleShape.Size, this.depth - 1)
+            {
+                Visible = this.showSelectRect
+            };
             this.cursorOffset = (Fonts.Main.WHeight - (int)this.lineHeight) / 2;
             this.UpdateCursor();
             this.UpdateScrollers();
@@ -411,10 +370,10 @@ namespace VCO.GUI
         private static readonly Color UNFOCUSED_TEXT_COLOR = new Color(128, 140, 138);
 
         // Token: 0x040002BA RID: 698
-        private string[] items;
+        private readonly string[] items;
 
         // Token: 0x040002BB RID: 699
-        private int displayCount;
+        private readonly int displayCount;
 
         // Token: 0x040002BC RID: 700
         private int selectedIndex;
@@ -423,25 +382,25 @@ namespace VCO.GUI
         private int topIndex;
 
         // Token: 0x040002BE RID: 702
-        private float lineHeight;
+        private readonly float lineHeight;
 
         // Token: 0x040002BF RID: 703
-        private float width;
+        private readonly float width;
 
         // Token: 0x040002C0 RID: 704
-        private TextRegion[] texts;
+        private readonly TextRegion[] texts;
 
         // Token: 0x040002C1 RID: 705
-        private IndexedColorGraphic cursor;
+        private readonly IndexedColorGraphic cursor;
 
         // Token: 0x040002C2 RID: 706
-        private IndexedColorGraphic upArrow;
+        private readonly IndexedColorGraphic upArrow;
 
         // Token: 0x040002C3 RID: 707
-        private IndexedColorGraphic downArrow;
+        private readonly IndexedColorGraphic downArrow;
 
         // Token: 0x040002C4 RID: 708
-        private ShapeGraphic selectRectangle;
+        private readonly ShapeGraphic selectRectangle;
 
         // Token: 0x040002C5 RID: 709
         private bool enabled;
@@ -465,6 +424,6 @@ namespace VCO.GUI
         private bool focused = true;
 
         // Token: 0x040002CC RID: 716
-        private int cursorOffset;
+        private readonly int cursorOffset;
     }
 }

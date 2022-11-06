@@ -10,38 +10,20 @@ namespace VCO.Overworld
     {
         public bool Running
         {
-            get
-            {
-                return this.running;
-            }
-            set
-            {
-                this.running = value;
-            }
+            get => this.running;
+            set => this.running = value;
         }
 
         public bool Crouching
         {
-            get
-            {
-                return this.crouching;
-            }
-            set
-            {
-                this.crouching = value;
-            }
+            get => this.crouching;
+            set => this.crouching = value;
         }
 
         public bool MovementLocked
         {
-            get
-            {
-                return this.movementLocked;
-            }
-            set
-            {
-                this.movementLocked = value;
-            }
+            get => this.movementLocked;
+            set => this.movementLocked = value;
         }
 
         public event PartyTrain.OnResetHandler OnReset;
@@ -258,7 +240,7 @@ namespace VCO.Overworld
 
         private bool movementLocked;
 
-        private List<PartyFollower> followers;
+        private readonly List<PartyFollower> followers;
 
         private struct RecordPoint
         {

@@ -79,7 +79,7 @@ namespace VCO.Battle.Actions
 
         private EnemyDeathAction.State state;
 
-        private EnemyCombatant combatant;
+        private readonly EnemyCombatant combatant;
 
         private int timer;
 

@@ -158,13 +158,13 @@ namespace VCO.Battle.Actions
 
         private EnemyBashAction.State state;
 
-        private float power;
+        private readonly float power;
 
-        private EnemyCombatant combatant;
+        private readonly EnemyCombatant combatant;
 
-        private Stack<string> messages;
+        private readonly Stack<string> messages;
 
-        private Stack<Tuple<Combatant, StatSet>> statSets;
+        private readonly Stack<Tuple<Combatant, StatSet>> statSets;
 
         private enum State
         {

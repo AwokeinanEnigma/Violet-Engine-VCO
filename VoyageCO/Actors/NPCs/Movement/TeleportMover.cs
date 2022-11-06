@@ -78,15 +78,15 @@ namespace VCO.Actors.NPCs.Movement
 
         private const int TIMER_LENGTH = 33;
 
-        private CollisionManager collisionManager;
+        private readonly CollisionManager collisionManager;
 
-        private ICollidable collidable;
+        private readonly ICollidable collidable;
 
         private FloatRect area;
 
-        private float maxDistance;
+        private readonly float maxDistance;
 
-        private float chaseThreshold;
+        private readonly float chaseThreshold;
 
         private long timerEnd;
 

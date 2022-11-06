@@ -12,13 +12,7 @@ namespace VCO.Actors.Animation
     {
         // Token: 0x17000073 RID: 115
         // (get) Token: 0x060001FE RID: 510 RVA: 0x0000C148 File Offset: 0x0000A348
-        public bool Overriden
-        {
-            get
-            {
-                return this.isOverriden;
-            }
-        }
+        public bool Overriden => this.isOverriden;
 
         // Token: 0x060001FF RID: 511 RVA: 0x0000C150 File Offset: 0x0000A350
         public AnimationControl(IndexedColorGraphic graphic, int initialDirection)
@@ -207,7 +201,7 @@ namespace VCO.Actors.Animation
             int num3;
             if (num > 0f)
             {
-                double num2 = Math.Atan2((double)(-context.Velocity.Y), context.Velocity.X);
+                double num2 = Math.Atan2(-context.Velocity.Y, context.Velocity.X);
                 num3 = (int)Math.Floor(num2 / 0.7853981633974483);
                 if (num3 < 0)
                 {
@@ -265,7 +259,7 @@ namespace VCO.Actors.Animation
         private AnimationType defaultStance;
 
         // Token: 0x040002D2 RID: 722
-        private Dictionary<AnimationType, byte> counts;
+        private readonly Dictionary<AnimationType, byte> counts;
 
         // Token: 0x040002D3 RID: 723
         private bool hasStand;

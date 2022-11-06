@@ -4,23 +4,11 @@
     {
         public int Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            get => this.position;
+            set => this.position = value;
         }
 
-        public int Duration
-        {
-            get
-            {
-                return this.duration;
-            }
-        }
+        public int Duration => this.duration;
 
         public TextPause(int position, int duration)
         {
@@ -30,6 +18,6 @@
 
         private int position;
 
-        private int duration;
+        private readonly int duration;
     }
 }

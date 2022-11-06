@@ -4,13 +4,7 @@ namespace VCO.Battle.Combos
 {
     internal class ComboSet
     {
-        public IList<ComboNode> ComboNodes
-        {
-            get
-            {
-                return this.combos;
-            }
-        }
+        public IList<ComboNode> ComboNodes => this.combos;
 
         public ComboSet(IList<ComboNode> nodes)
         {
@@ -49,6 +43,6 @@ namespace VCO.Battle.Combos
             return this.GetFirstCombo();
         }
 
-        private List<ComboNode> combos;
+        private readonly List<ComboNode> combos;
     }
 }

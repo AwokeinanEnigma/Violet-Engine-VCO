@@ -16,50 +16,26 @@ namespace VCO.GUI
     {
         public IEnumerable<OffenseAUX> OffenseAUXItems
         {
-            get
-            {
-                return this.offenseAUXItems;
-            }
-            set
-            {
-                this.offenseAUXItems = new List<OffenseAUX>(value);
-            }
+            get => this.offenseAUXItems;
+            set => this.offenseAUXItems = new List<OffenseAUX>(value);
         }
 
         public IEnumerable<DefensiveAUX> DefenseAUXItems
         {
-            get
-            {
-                return this.defenseAUXItems;
-            }
-            set
-            {
-                this.defenseAUXItems = new List<DefensiveAUX>(value);
-            }
+            get => this.defenseAUXItems;
+            set => this.defenseAUXItems = new List<DefensiveAUX>(value);
         }
 
         public IEnumerable<AssistiveAUX> AssistAUXItems
         {
-            get
-            {
-                return this.assistAUXItems;
-            }
-            set
-            {
-                this.assistAUXItems = new List<AssistiveAUX>(value);
-            }
+            get => this.assistAUXItems;
+            set => this.assistAUXItems = new List<AssistiveAUX>(value);
         }
 
         public IEnumerable<OtherAUX> OtherAUXItems
         {
-            get
-            {
-                return this.otherAUXItems;
-            }
-            set
-            {
-                this.otherAUXItems = new List<OtherAUX>(value);
-            }
+            get => this.otherAUXItems;
+            set => this.otherAUXItems = new List<OtherAUX>(value);
         }
 
         public SectionedAUXBox(RenderPipeline pipeline, int depth, float lineHeight)
@@ -86,12 +62,16 @@ namespace VCO.GUI
 
             //RectangleShape rectangleShape = new RectangleShape(new Vector2f(48f, lineHeight  ));
             //rectangleShape.FillColor = this.selectorFillColor;
-            RectangleShape rectangleShape = new RectangleShape(new Vector2f(48,/* 11 * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f*/ lineHeight) - ScrollingList.SELECT_RECT_SIZE_OFFSET);
-            rectangleShape.FillColor = UIColors.HighlightColor;
+            RectangleShape rectangleShape = new RectangleShape(new Vector2f(48,/* 11 * 1.3f - ScrollingList.SELECT_RECT_OFFSET.Y * 2f*/ lineHeight) - ScrollingList.SELECT_RECT_SIZE_OFFSET)
+            {
+                FillColor = UIColors.HighlightColor
+            };
 
             this.selectorBox = new ShapeGraphic(rectangleShape, default(Vector2f), default(Vector2f), rectangleShape.Size, 32767);
-            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(2f, 3f * lineHeight - 2f));
-            rectangleShape2.FillColor = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 70);
+            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(2f, 3f * lineHeight - 2f))
+            {
+                FillColor = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 70)
+            };
 
 
             this.separator = new ShapeGraphic(rectangleShape2, new Vector2f(102.399994f, lineHeight - 8f), default(Vector2f), rectangleShape2.Size, 32767);
@@ -643,9 +623,9 @@ namespace VCO.GUI
         private readonly IndexedColorGraphic cursor;
         private readonly IndexedColorGraphic nucursor;
 
-        private int depth;
+        private readonly int depth;
 
-        private float lineHeight;
+        private readonly float lineHeight;
 
         private bool visible;
 
@@ -663,17 +643,17 @@ namespace VCO.GUI
 
         private Color selectorFillColor;
 
-        private List<TextRegion> AUXTypes;
+        private readonly List<TextRegion> AUXTypes;
 
-        private List<TextRegion> activeAUXList;
+        private readonly List<TextRegion> activeAUXList;
 
-        private List<TextRegion> activeAlphaList;
+        private readonly List<TextRegion> activeAlphaList;
 
-        private List<TextRegion> activeBetaList;
+        private readonly List<TextRegion> activeBetaList;
 
-        private List<TextRegion> activeGammaList;
+        private readonly List<TextRegion> activeGammaList;
 
-        private List<TextRegion> activeOmegaList;
+        private readonly List<TextRegion> activeOmegaList;
 
         private List<OffenseAUX> offenseAUXItems;
 

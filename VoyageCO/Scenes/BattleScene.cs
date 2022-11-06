@@ -110,7 +110,7 @@ namespace VCO.Scenes
         private void GenerateDebugVerts()
         {
             this.debugRenderStates = new RenderStates(BlendMode.None, Transform.Identity, null, null);
-            this.debugRenderStates.Transform.Translate((float)(-debugBgmPos) * 0.1f, 0f);
+            this.debugRenderStates.Transform.Translate(-debugBgmPos * 0.1f, 0f);
             Color color = new Color(0, 0, 0, 128);
             this.debugRect = new VertexArray(PrimitiveType.Quads, 4U);
             this.debugRect[0U] = new Vertex(new Vector2f(0f, 84f), color);
@@ -228,7 +228,7 @@ namespace VCO.Scenes
                 this.debugLastBgmPos = this.debugBgmPos;
                 this.debugBgmPos = (long)((ulong)AudioManager.Instance.BGM.Position);
                 long num = this.debugBgmPos - this.debugLastBgmPos;
-                this.debugRenderStates.Transform.Translate((float)(-num) * 0.1f, 0f);
+                this.debugRenderStates.Transform.Translate(-num * 0.1f, 0f);
                 this.pipeline.Target.Draw(this.debugRect);
                 this.pipeline.Target.Draw(this.debugCrosshairVerts);
                 this.pipeline.Target.Draw(this.debugBeatVerts, this.debugRenderStates);
@@ -272,12 +272,12 @@ namespace VCO.Scenes
 
         private bool initialized;
 
-        private EnemyData[] enemies;
+        private readonly EnemyData[] enemies;
 
-        private bool letterboxing;
+        private readonly bool letterboxing;
 
-        private int bgmOverride;
+        private readonly int bgmOverride;
 
-        private int bbgOverride;
+        private readonly int bbgOverride;
     }
 }

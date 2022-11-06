@@ -13,35 +13,17 @@ namespace VCO.GUI.NamingMenu
     {
         public string Description
         {
-            get
-            {
-                return this.descriptionText.Text;
-            }
-            set
-            {
-                this.SetDescription(value);
-            }
+            get => this.descriptionText.Text;
+            set => this.SetDescription(value);
         }
 
         public string Name
         {
-            get
-            {
-                return this.nameText.Text;
-            }
-            set
-            {
-                this.SetName(value);
-            }
+            get => this.nameText.Text;
+            set => this.SetName(value);
         }
 
-        public int NameWidth
-        {
-            get
-            {
-                return (int)this.nameText.Size.X;
-            }
-        }
+        public int NameWidth => (int)this.nameText.Size.X;
 
         public NamingPanel(Vector2f position, Vector2f size) : base(position, size, 1, "Data/Graphics/window1.dat", 0U)
         {
@@ -50,20 +32,28 @@ namespace VCO.GUI.NamingMenu
             string value = StringFile.Instance.Get("naming.prompt").Value;
             this.promptText = new TextRegion(new Vector2f(2f, Fonts.Main.LineHeight), 1, Fonts.Main, value);
             base.Add(this.promptText);
-            RectangleShape rectangleShape = new RectangleShape(new Vector2f(52f, Fonts.Main.LineHeight - 4));
-            rectangleShape.FillColor = UIColors.HighlightColor;
+            RectangleShape rectangleShape = new RectangleShape(new Vector2f(52f, Fonts.Main.LineHeight - 4))
+            {
+                FillColor = UIColors.HighlightColor
+            };
             this.textbox1 = new ShapeGraphic(rectangleShape, new Vector2f(4f + this.promptText.Size.X, Fonts.Main.LineHeight + 1), VectorMath.ZERO_VECTOR, rectangleShape.Size, 1);
             base.Add(this.textbox1);
-            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(50f, Fonts.Main.LineHeight - 2));
-            rectangleShape2.FillColor = UIColors.HighlightColor;
+            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(50f, Fonts.Main.LineHeight - 2))
+            {
+                FillColor = UIColors.HighlightColor
+            };
             this.textbox2 = new ShapeGraphic(rectangleShape2, new Vector2f(5f + this.promptText.Size.X, Fonts.Main.LineHeight), VectorMath.ZERO_VECTOR, rectangleShape2.Size, 1);
             base.Add(this.textbox2);
-            RectangleShape rectangleShape3 = new RectangleShape(new Vector2f(1f, Fonts.Main.LineHeight - 4));
-            rectangleShape3.FillColor = Color.Black;
+            RectangleShape rectangleShape3 = new RectangleShape(new Vector2f(1f, Fonts.Main.LineHeight - 4))
+            {
+                FillColor = Color.Black
+            };
             this.cursor = new ShapeGraphic(rectangleShape3, new Vector2f(8f + this.promptText.Size.X, Fonts.Main.LineHeight + 1), VectorMath.ZERO_VECTOR, rectangleShape3.Size, 4);
             base.Add(this.cursor);
-            this.nameText = new TextRegion(new Vector2f(6f + this.promptText.Size.X, Fonts.Main.LineHeight), 2, Fonts.Main, string.Empty);
-            this.nameText.Color = Color.Black;
+            this.nameText = new TextRegion(new Vector2f(6f + this.promptText.Size.X, Fonts.Main.LineHeight), 2, Fonts.Main, string.Empty)
+            {
+                Color = Color.Black
+            };
             base.Add(this.nameText);
             this.cursorTimerIndex = FrameTimerManager.Instance.StartTimer(30);
             FrameTimerManager.Instance.OnTimerEnd += this.CursorTimerEnd;
@@ -126,17 +116,17 @@ namespace VCO.GUI.NamingMenu
 
         private const int DEPTH = 1;
 
-        private TextRegion descriptionText;
+        private readonly TextRegion descriptionText;
 
-        private TextRegion promptText;
+        private readonly TextRegion promptText;
 
-        private TextRegion nameText;
+        private readonly TextRegion nameText;
 
-        private ShapeGraphic cursor;
+        private readonly ShapeGraphic cursor;
 
-        private ShapeGraphic textbox1;
+        private readonly ShapeGraphic textbox1;
 
-        private ShapeGraphic textbox2;
+        private readonly ShapeGraphic textbox2;
 
         private int cursorTimerIndex;
     }

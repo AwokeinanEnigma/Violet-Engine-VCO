@@ -6,21 +6,9 @@ namespace VCO.GUI.Modifiers
 {
     internal class GraphicTranslator : IGraphicModifier
     {
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         public GraphicTranslator(Graphic graphic, Vector2f target, int frames)
         {
@@ -48,7 +36,7 @@ namespace VCO.GUI.Modifiers
             }
         }
 
-        private Graphic graphic;
+        private readonly Graphic graphic;
 
         private Vector2f target;
 

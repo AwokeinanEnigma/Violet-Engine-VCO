@@ -24,7 +24,7 @@ namespace VCO.Actors.NPCs.Movement
             return this.changed;
         }
 
-        private int time;
+        private readonly int time;
 
         private int timer;
 

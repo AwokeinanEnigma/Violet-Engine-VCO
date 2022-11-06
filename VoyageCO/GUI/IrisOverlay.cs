@@ -10,26 +10,14 @@ namespace VCO.GUI
     {
         public float Progress
         {
-            get
-            {
-                return this.progress;
-            }
-            set
-            {
-                this.SetProgress(value);
-            }
+            get => this.progress;
+            set => this.SetProgress(value);
         }
 
         public float Speed
         {
-            get
-            {
-                return this.speed;
-            }
-            set
-            {
-                this.speed = value;
-            }
+            get => this.speed;
+            set => this.speed = value;
         }
 
         public event IrisOverlay.AnimationCompleteHandler OnAnimationComplete;
@@ -45,10 +33,10 @@ namespace VCO.GUI
             int num = 160;
             int num2 = 90;
             this.verts = new VertexArray(PrimitiveType.Quads, 4U);
-            this.verts[0U] = new Vertex(new Vector2f((float)(-num), (float)(-num2)), new Vector2f(0f, 0f));
-            this.verts[1U] = new Vertex(new Vector2f(num, (float)(-num2)), new Vector2f(1f, 0f));
+            this.verts[0U] = new Vertex(new Vector2f(-num, -num2), new Vector2f(0f, 0f));
+            this.verts[1U] = new Vertex(new Vector2f(num, -num2), new Vector2f(1f, 0f));
             this.verts[2U] = new Vertex(new Vector2f(num, num2), new Vector2f(1f, 1f));
-            this.verts[3U] = new Vertex(new Vector2f((float)(-num), num2), new Vector2f(0f, 1f));
+            this.verts[3U] = new Vertex(new Vector2f(-num, num2), new Vector2f(0f, 1f));
             this.shader = new Shader(EmbeddedResources.GetStream("VCO.Resources.bbg.vert"), EmbeddedResources.GetStream("VCO.Resources.iris.frag"));
             this.shader.SetParameter("progress", this.progress);
             this.shader.SetParameter("size", this.size);
@@ -124,13 +112,13 @@ namespace VCO.GUI
 
         private bool animationDone;
 
-        private Shader shader;
+        private readonly Shader shader;
 
         private Transform transform;
 
         private RenderStates states;
 
-        private VertexArray verts;
+        private readonly VertexArray verts;
 
         public delegate void AnimationCompleteHandler(IrisOverlay sender);
     }

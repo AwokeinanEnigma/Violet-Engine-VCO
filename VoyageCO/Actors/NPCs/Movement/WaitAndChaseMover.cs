@@ -34,9 +34,9 @@ namespace VCO.Actors.NPCs.Movement
             return this.changed;
         }
 
-        private float chaseThreshold;
+        private readonly float chaseThreshold;
 
-        private float speed;
+        private readonly float speed;
 
         private WaitAndChaseMover.Mode mode;
 

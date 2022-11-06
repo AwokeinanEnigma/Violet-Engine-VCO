@@ -52,9 +52,9 @@ namespace VCO.Actors.NPCs.Movement
 
         private const int TIMER_MIN = 10;
 
-        private float chaseThreshold;
+        private readonly float chaseThreshold;
 
-        private float speed;
+        private readonly float speed;
 
         private long timerEnd;
 

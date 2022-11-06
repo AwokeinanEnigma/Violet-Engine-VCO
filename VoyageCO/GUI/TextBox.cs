@@ -19,13 +19,7 @@ namespace VCO.GUI
 
         public event TextBox.TypewriterCompletionHandler OnTypewriterComplete;
 
-        public bool Visible
-        {
-            get
-            {
-                return this.visible;
-            }
-        }
+        public bool Visible => this.visible;
 
         public TextBox(RenderPipeline pipeline, int colorIndex)
         {
@@ -51,14 +45,20 @@ namespace VCO.GUI
                 new Vector2f(vector2f.X + TextBox.BOX_POSITION.X,
                     vector2f.Y + TextBox.BOX_POSITION.Y),
                 TextBox.BOX_SIZE,
-                2147450879);
-            this.window.Visible = false;
+                2147450879)
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.window);
-            this.advanceArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880);
-            this.advanceArrow.Visible = false;
+            this.advanceArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.advanceArrow);
-            this.nametag = new Nametag(string.Empty, new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880);
-            this.nametag.Visible = false;
+            this.nametag = new Nametag(string.Empty, new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
+            {
+                Visible = false
+            };
             this.pipeline.Add(this.nametag);
             this.visible = false;
             this.nametagVisible = false;
@@ -319,11 +319,11 @@ namespace VCO.GUI
 
         protected Graphic advanceArrow;
 
-        private WindowBox window;
+        private readonly WindowBox window;
 
-        private ShapeGraphic topLetterbox;
+        private readonly ShapeGraphic topLetterbox;
 
-        private ShapeGraphic bottomLetterbox;
+        private readonly ShapeGraphic bottomLetterbox;
 
         protected bool visible;
 
@@ -351,7 +351,7 @@ namespace VCO.GUI
 
         private bool canTransitionOut;
 
-        private ScreenDimmer dimmer;
+        private readonly ScreenDimmer dimmer;
 
         private enum AnimationState
         {

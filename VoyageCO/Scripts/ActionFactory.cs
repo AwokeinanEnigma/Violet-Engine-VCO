@@ -145,9 +145,9 @@ namespace VCO.Scripts
 
         private const string PARAMS_TAG = "params";
 
-        private static StringBuilder tagNameBuf = new StringBuilder("\0\0\0\0", 4);
+        private static readonly StringBuilder tagNameBuf = new StringBuilder("\0\0\0\0", 4);
 
-        private static Dictionary<string, Type> actions = new Dictionary<string, Type>
+        private static readonly Dictionary<string, Type> actions = new Dictionary<string, Type>
         {
             {
                 "PRLN",

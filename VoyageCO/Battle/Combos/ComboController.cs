@@ -5,13 +5,7 @@ namespace VCO.Battle.Combos
 {
     internal class ComboController : IDisposable
     {
-        public ComboSet ComboSet
-        {
-            get
-            {
-                return this.combos;
-            }
-        }
+        public ComboSet ComboSet => this.combos;
 
         public ComboController(ComboSet combos, CharacterType[] party)
         {
@@ -84,7 +78,7 @@ namespace VCO.Battle.Combos
 
         protected bool disposed;
 
-        private ComboSet combos;
+        private readonly ComboSet combos;
 
         private ComboNode currentNode;
     }

@@ -11,23 +11,11 @@ namespace VCO.Battle.UI.Modifiers
     {
         // Token: 0x17000010 RID: 16
         // (get) Token: 0x0600006B RID: 107 RVA: 0x00004B3F File Offset: 0x00002D3F
-        public bool Done
-        {
-            get
-            {
-                return this.isDone;
-            }
-        }
+        public bool Done => this.isDone;
 
         // Token: 0x17000011 RID: 17
         // (get) Token: 0x0600006C RID: 108 RVA: 0x00004B47 File Offset: 0x00002D47
-        public Graphic Graphic
-        {
-            get
-            {
-                return this.graphic;
-            }
-        }
+        public Graphic Graphic => this.graphic;
 
         // Token: 0x0600006D RID: 109 RVA: 0x00004B50 File Offset: 0x00002D50
         public GraphicShielder(RenderPipeline pipeline, Graphic graphic)
@@ -37,9 +25,11 @@ namespace VCO.Battle.UI.Modifiers
             this.shieldAnims = new AnimatedRenderable[GraphicShielder.SHIELD_POINTS.Length];
             for (int i = 0; i < this.shieldAnims.Length; i++)
             {
-                this.shieldAnims[i] = new IndexedColorGraphic(Paths.AUX_GRAPHICS + "shield.dat", "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10);
-                this.shieldAnims[i].Visible = false;
-                this.shieldAnims[i].SpeedModifier = 0f;
+                this.shieldAnims[i] = new IndexedColorGraphic(Paths.AUX_GRAPHICS + "shield.dat", "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10)
+                {
+                    Visible = false,
+                    SpeedModifier = 0f
+                };
                 this.shieldAnims[i].OnAnimationComplete += this.OnAnimationComplete;
                 this.pipeline.Add(this.shieldAnims[i]);
             }
@@ -134,13 +124,13 @@ namespace VCO.Battle.UI.Modifiers
         private bool isDone;
 
         // Token: 0x04000131 RID: 305
-        private Graphic graphic;
+        private readonly Graphic graphic;
 
         // Token: 0x04000132 RID: 306
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x04000133 RID: 307
-        private AnimatedRenderable[] shieldAnims;
+        private readonly AnimatedRenderable[] shieldAnims;
 
         // Token: 0x04000134 RID: 308
         private int timerIndex;

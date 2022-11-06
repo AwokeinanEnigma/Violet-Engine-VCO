@@ -57,11 +57,13 @@ namespace VCO.Scenes
                     "Quit"
                 };
             }
-            this.optionList = new ScrollingList(new Vector2f(32f, 50f), 9000, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat");
-            this.optionList.ShowSelectionRectangle = true;
-            this.optionList.UseHighlightTextColor = false;
-            this.optionList.ShowArrows = true;
-            this.optionList.ShowCursor = true;
+            this.optionList = new ScrollingList(new Vector2f(32f, 50f), 9000, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat")
+            {
+                ShowSelectionRectangle = true,
+                UseHighlightTextColor = false,
+                ShowArrows = true,
+                ShowCursor = true
+            };
             optionList.Depth = 1100;
             this.pipeline.Add(this.optionList);
             this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title.xml", 10);
@@ -75,8 +77,10 @@ namespace VCO.Scenes
                 version.Build,
                 version.Revision,
                 StringFile.Instance.Get("AUX.symbols.alpha")
-            }));
-            this.versionText.Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128);
+            }))
+            {
+                Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128)
+            };
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
 
@@ -287,20 +291,20 @@ namespace VCO.Scenes
             base.Dispose(disposing);
         }
 
-        private TextRegion versionText;
+        private readonly TextRegion versionText;
 
-        private ScrollingList optionList;
+        private readonly ScrollingList optionList;
 
-        private IndexedColorGraphic titleImage;
+        private readonly IndexedColorGraphic titleImage;
 
-        private VioletSound sfxCursorY;
+        private readonly VioletSound sfxCursorY;
 
-        private VioletSound sfxConfirm;
+        private readonly VioletSound sfxConfirm;
 
-        private VioletSound sfxCancel;
+        private readonly VioletSound sfxCancel;
 
-        private IGraphicModifier mod;
+        private readonly IGraphicModifier mod;
 
-        private bool canContinue;
+        private readonly bool canContinue;
     }
 }

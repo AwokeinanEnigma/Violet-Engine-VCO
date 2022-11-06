@@ -19,11 +19,8 @@ namespace VCO.AUX
         private AUXBase _aux;
         public AUXBase aux
         {
-            get { return _aux; }
-            set
-            {
-                _aux = value;
-            }
+            get => _aux;
+            set => _aux = value;
         }
     }
 }

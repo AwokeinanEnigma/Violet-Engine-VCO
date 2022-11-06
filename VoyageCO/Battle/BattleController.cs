@@ -11,61 +11,19 @@ namespace VCO.Battle
     {
         //private VioletSound runawaySuccessful;
 
-        public BattleInterfaceController InterfaceController
-        {
-            get
-            {
-                return this.uiControl;
-            }
-        }
+        public BattleInterfaceController InterfaceController => this.uiControl;
 
-        public CombatantController CombatantController
-        {
-            get
-            {
-                return this.combatantControl;
-            }
-        }
+        public CombatantController CombatantController => this.combatantControl;
 
-        public ComboController ComboController
-        {
-            get
-            {
-                return this.comboControl;
-            }
-        }
+        public ComboController ComboController => this.comboControl;
 
-        public int ActionCount
-        {
-            get
-            {
-                return this.actions.Count;
-            }
-        }
+        public int ActionCount => this.actions.Count;
 
-        public int DecisionCount
-        {
-            get
-            {
-                return this.decisions.Count;
-            }
-        }
+        public int DecisionCount => this.decisions.Count;
 
-        public Dictionary<string, object> Data
-        {
-            get
-            {
-                return this.data;
-            }
-        }
+        public Dictionary<string, object> Data => this.data;
 
-        public BattleStatus Status
-        {
-            get
-            {
-                return this.status;
-            }
-        }
+        public BattleStatus Status => this.status;
 
         public BattleController(BattleInterfaceController uicontrol, CombatantController combatantControl, ComboController comboControl)
         {
@@ -357,9 +315,9 @@ namespace VCO.Battle
 
         private BattleStatus status;
 
-        private List<BattleAction> actions;
+        private readonly List<BattleAction> actions;
 
-        private List<DecisionAction> decisions;
+        private readonly List<DecisionAction> decisions;
 
         private BattleAction focus;
 
@@ -369,12 +327,12 @@ namespace VCO.Battle
 
         private int turnNumber;
 
-        private BattleInterfaceController uiControl;
+        private readonly BattleInterfaceController uiControl;
 
-        private CombatantController combatantControl;
+        private readonly CombatantController combatantControl;
 
-        private ComboController comboControl;
+        private readonly ComboController comboControl;
 
-        private Dictionary<string, object> data;
+        private readonly Dictionary<string, object> data;
     }
 }

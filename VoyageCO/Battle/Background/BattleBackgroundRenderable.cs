@@ -26,6 +26,6 @@ namespace VCO.Battle.Background
             this.bbg.Draw(target);
         }
 
-        private BattleBackground bbg;
+        private readonly BattleBackground bbg;
     }
 }

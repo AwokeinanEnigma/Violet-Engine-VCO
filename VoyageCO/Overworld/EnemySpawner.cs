@@ -12,24 +12,12 @@ namespace VCO.Overworld
 {
     internal class EnemySpawner
     {
-        public FloatRect Bounds
-        {
-            get
-            {
-                return this.rectangle;
-            }
-        }
+        public FloatRect Bounds => this.rectangle;
 
         public bool SpawnFlag
         {
-            get
-            {
-                return this.spawnFlag;
-            }
-            set
-            {
-                this.spawnFlag = value;
-            }
+            get => this.spawnFlag;
+            set => this.spawnFlag = value;
         }
 
         public EnemySpawner(FloatRect rectangle, List<Map.Enemy> enemies)
@@ -63,10 +51,10 @@ namespace VCO.Overworld
 
         private FloatRect rectangle;
 
-        private List<Map.Enemy> chances;
+        private readonly List<Map.Enemy> chances;
 
         private bool spawnFlag;
 
-        private bool spawnedOnce;
+        private readonly bool spawnedOnce;
     }
 }

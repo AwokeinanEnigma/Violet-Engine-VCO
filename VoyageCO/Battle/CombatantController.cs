@@ -8,21 +8,9 @@ namespace VCO.Battle
 {
     internal class CombatantController
     {
-        public List<Combatant> CombatantList
-        {
-            get
-            {
-                return this.combatants.Values.ToList<Combatant>();
-            }
-        }
+        public List<Combatant> CombatantList => this.combatants.Values.ToList<Combatant>();
 
-        public Combatant this[int i]
-        {
-            get
-            {
-                return this.combatants[i];
-            }
-        }
+        public Combatant this[int i] => this.combatants[i];
 
         public CombatantController(CharacterType[] party, EnemyData[] enemies)
         {
@@ -152,6 +140,6 @@ namespace VCO.Battle
 
         private int uidCounter;
 
-        private Dictionary<int, Combatant> combatants;
+        private readonly Dictionary<int, Combatant> combatants;
     }
 }

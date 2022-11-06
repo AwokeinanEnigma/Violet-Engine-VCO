@@ -55,6 +55,6 @@ namespace VCO.Scenes
             base.Dispose(disposing);
         }
 
-        private BattleSwirlOverlay swirl;
+        private readonly BattleSwirlOverlay swirl;
     }
 }

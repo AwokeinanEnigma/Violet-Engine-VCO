@@ -10,40 +10,19 @@ namespace VCO.Battle.Combatants
 
         public event Combatant.StatusEffectChangeHandler OnStatusEffectChange;
 
-        public BattleFaction Faction
-        {
-            get
-            {
-                return this.faction;
-            }
-        }
+        public BattleFaction Faction => this.faction;
 
-        public StatSet Stats
-        {
-            get
-            {
-                return this.stats;
-            }
-        }
+        public StatSet Stats => this.stats;
 
         public Combatant[] SavedTargets
         {
-            get
-            {
-                return this.savedTargets;
-            }
-            set
-            {
-                this.savedTargets = value;
-            }
+            get => this.savedTargets;
+            set => this.savedTargets = value;
         }
 
         public int ID
         {
-            get
-            {
-                return this.id;
-            }
+            get => this.id;
             set
             {
                 if (this.id < 0)
@@ -163,7 +142,7 @@ namespace VCO.Battle.Combatants
 
         private const int PRIORITY_MAGIC = 0;
 
-        private BattleFaction faction;
+        private readonly BattleFaction faction;
 
         private int id;
 

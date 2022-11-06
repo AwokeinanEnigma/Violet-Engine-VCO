@@ -41,19 +41,19 @@ namespace VCO.Data
 
         private const int INDEXES = 3;
 
-        private static char[] TYPES = new char[]
+        private static readonly char[] TYPES = new char[]
         {
             'A',
             'B',
             'C'
         };
 
-        private static int[] BPMS = new int[]
+        private static readonly int[] BPMS = new int[]
         {
             120
         };
 
-        private static Dictionary<CharacterType, string> prefixes = new Dictionary<CharacterType, string>
+        private static readonly Dictionary<CharacterType, string> prefixes = new Dictionary<CharacterType, string>
         {
             {
                 CharacterType.Travis,

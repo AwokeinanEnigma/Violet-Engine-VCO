@@ -10,13 +10,7 @@ namespace VCO.Utility
     {
         public event ScreenDimmer.OnFadeCompleteHandler OnFadeComplete;
 
-        public Color TargetColor
-        {
-            get
-            {
-                return this.targetColor;
-            }
-        }
+        public Color TargetColor => this.targetColor;
 
         public ScreenDimmer(RenderPipeline pipeline, Color color, int duration, int depth)
         {
@@ -103,11 +97,11 @@ namespace VCO.Utility
 
         private bool disposed;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private ShapeGraphic shape;
+        private readonly ShapeGraphic shape;
 
-        private RectangleShape rect;
+        private readonly RectangleShape rect;
 
         private bool isTransitioning;
 

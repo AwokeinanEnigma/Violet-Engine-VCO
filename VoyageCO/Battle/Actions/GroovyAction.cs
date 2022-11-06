@@ -85,7 +85,7 @@ namespace VCO.Battle.Actions
 
         private GroovyAction.State state;
 
-        private PlayerCombatant combatant;
+        private readonly PlayerCombatant combatant;
 
         private int timer;
 

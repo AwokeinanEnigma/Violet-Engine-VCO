@@ -14,14 +14,8 @@ namespace VCO.GUI.NamingMenu
     {
         public bool CursorVisibility
         {
-            get
-            {
-                return this.cursor.Visible;
-            }
-            set
-            {
-                this.cursor.Visible = value;
-            }
+            get => this.cursor.Visible;
+            set => this.cursor.Visible = value;
         }
 
         public TextInputPanel(Vector2f position, Vector2f size) : base(position, size, 0, "Data/Graphics/window1.dat", 0U)
@@ -54,8 +48,10 @@ namespace VCO.GUI.NamingMenu
                         array3[i] = new TextRegion[array[i].Length];
                         for (int j = 0; j < array2[i].Length; j++)
                         {
-                            TextRegion textRegion = new TextRegion(new Vector2f(8 + j * num2, 8 + i * Fonts.Main.LineHeight), 1, Fonts.Main, array2[i][j].ToString());
-                            textRegion.Visible = (this.inputChars.Count == this.selectedPage);
+                            TextRegion textRegion = new TextRegion(new Vector2f(8 + j * num2, 8 + i * Fonts.Main.LineHeight), 1, Fonts.Main, array2[i][j].ToString())
+                            {
+                                Visible = (this.inputChars.Count == this.selectedPage)
+                            };
                             array3[i][j] = textRegion;
                             base.Add(textRegion);
                         }
@@ -267,11 +263,11 @@ namespace VCO.GUI.NamingMenu
 
         private const string PAGE_TITLE_STRING_FORMAT = "input.title{0}";
 
-        private List<char[][]> inputChars;
+        private readonly List<char[][]> inputChars;
 
-        private List<TextRegion[][]> inputCharTexts;
+        private readonly List<TextRegion[][]> inputCharTexts;
 
-        private List<string> inputTitles;
+        private readonly List<string> inputTitles;
 
         private TextRegion[] buttonTexts;
 
@@ -279,7 +275,7 @@ namespace VCO.GUI.NamingMenu
 
         private int selectedPage;
 
-        private Renderable cursor;
+        private readonly Renderable cursor;
 
         private int cursorX;
 

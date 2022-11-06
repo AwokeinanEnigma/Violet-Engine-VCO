@@ -12,44 +12,28 @@ namespace VCO.Battle.UI
 
         public Vector2f Position
         {
-            get
-            {
-                return this.roller.Position;
-            }
-            set
-            {
-                this.roller.Position = value;
-            }
+            get => this.roller.Position;
+            set => this.roller.Position = value;
         }
 
         public int Number
         {
-            get
-            {
-                return this.targetFrame / 9;
-            }
-            set
-            {
-                this.targetFrame = value * 9;
-            }
+            get => this.targetFrame / 9;
+            set => this.targetFrame = value * 9;
         }
 
-        public int CurrentNumber
-        {
-            get
-            {
-                return this.frame / 9;
-            }
-        }
+        public int CurrentNumber => this.frame / 9;
 
         public OdometerRoller(RenderPipeline pipeline, int initialNumber, Vector2f position, int depth)
         {
             this.pipeline = pipeline;
             this.frame = initialNumber * 9;
             this.targetFrame = this.frame;
-            this.roller = new IndexedColorGraphic(Paths.GRAPHICS + "odometer.dat", "odometer", position, depth);
-            this.roller.SpeedModifier = 0f;
-            this.roller.Frame = this.frame % 90;
+            this.roller = new IndexedColorGraphic(Paths.GRAPHICS + "odometer.dat", "odometer", position, depth)
+            {
+                SpeedModifier = 0f,
+                Frame = this.frame % 90
+            };
             pipeline.Add(this.roller);
         }
 
@@ -82,7 +66,7 @@ namespace VCO.Battle.UI
             this.targetStepFrame = -1;
         }
 
-        private int deadCount;
+        private readonly int deadCount;
         public void StepRoll()
         {
             this.rolling = true;
@@ -148,9 +132,9 @@ namespace VCO.Battle.UI
 
         private bool disposed;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private Graphic roller;
+        private readonly Graphic roller;
 
         private int frame;
 

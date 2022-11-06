@@ -9,14 +9,8 @@ namespace VCO.Overworld
     {
         public Vector2f Vector
         {
-            get
-            {
-                return this.vector;
-            }
-            set
-            {
-                this.vector = value;
-            }
+            get => this.vector;
+            set => this.vector = value;
         }
 
         public ParallaxBackground(string sprite, Vector2f vector, IntRect area, int depth) : base(sprite, area, true, true, VectorMath.ZERO_VECTOR, depth)
@@ -72,12 +66,12 @@ namespace VCO.Overworld
 
         private Vector2f areaDimensions;
 
-        private float w;
+        private readonly float w;
 
-        private float h;
+        private readonly float h;
 
-        private float tw;
+        private readonly float tw;
 
-        private float th;
+        private readonly float th;
     }
 }

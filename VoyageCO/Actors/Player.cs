@@ -18,36 +18,15 @@ namespace VCO.Actors
 {
     internal class Player : SolidActor
     {
-        public Vector2f CheckVector
-        {
-            get
-            {
-                return this.checkVector;
-            }
-        }
+        public Vector2f CheckVector => this.checkVector;
 
-        public int Direction
-        {
-            get
-            {
-                return this.direction;
-            }
-        }
+        public int Direction => this.direction;
 
-        public bool Running
-        {
-            get
-            {
-                return this.isRunning;
-            }
-        }
+        public bool Running => this.isRunning;
 
         public float HopFactor
         {
-            get
-            {
-                return this.hopFactor;
-            }
+            get => this.hopFactor;
             set
             {
                 this.hopFactor = value;
@@ -55,40 +34,19 @@ namespace VCO.Actors
             }
         }
 
-        public int Depth
-        {
-            get
-            {
-                return this.playerGraphic.Depth;
-            }
-        }
+        public int Depth => this.playerGraphic.Depth;
 
-        public Vector2f EmoticonPoint
-        {
-            get
-            {
-                return new Vector2f(this.position.X, this.position.Y - this.playerGraphic.Origin.Y);
-            }
-        }
+        public Vector2f EmoticonPoint => new Vector2f(this.position.X, this.position.Y - this.playerGraphic.Origin.Y);
 
         public bool InputLocked
         {
-            get
-            {
-                return this.isInputLocked;
-            }
-            set
-            {
-                this.isInputLocked = value;
-            }
+            get => this.isInputLocked;
+            set => this.isInputLocked = value;
         }
 
         public override bool MovementLocked
         {
-            get
-            {
-                return this.isMovementLocked;
-            }
+            get => this.isMovementLocked;
             set
             {
                 this.isMovementLocked = value;
@@ -128,8 +86,10 @@ namespace VCO.Actors
             this.ChangeSprite(file, "walk south");
             this.isShadowEnabled = (useShadow && !isOcean);
             //this.isShadowEnabled = false;
-            this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1);
-            this.shadowGraphic.Visible = this.isShadowEnabled;
+            this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1)
+            {
+                Visible = this.isShadowEnabled
+            };
             pipeline.Add(this.shadowGraphic);
             InputManager.Instance.ButtonPressed += this.ButtonPressed;
             InputManager.Instance.ButtonReleased += this.ButtonReleased;
@@ -590,9 +550,9 @@ namespace VCO.Actors
 
         private Vector2f lastMoveVector;
 
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
-        private PartyTrain recorder;
+        private readonly PartyTrain  recorder;
 
         private Graphic shadowGraphic;
 
@@ -604,7 +564,7 @@ namespace VCO.Actors
 
         private float lastSpeed;
 
-        private CharacterType character;
+        private readonly CharacterType character;
 
         private Mover mover;
 
@@ -646,7 +606,7 @@ namespace VCO.Actors
 
         private int animationLoopCountTarget;
 
-        private TerrainType terrainType;
+        private readonly TerrainType terrainType;
 
         private Vector2f checkVector;
 

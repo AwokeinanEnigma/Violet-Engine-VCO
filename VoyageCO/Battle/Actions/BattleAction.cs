@@ -15,29 +15,11 @@ namespace VCO.Battle.Actions
 
         public event BattleAction.ActionCompleteHandler OnActionComplete;
 
-        public int Priority
-        {
-            get
-            {
-                return this.priority;
-            }
-        }
+        public int Priority => this.priority;
 
-        public bool Complete
-        {
-            get
-            {
-                return this.complete;
-            }
-        }
+        public bool Complete => this.complete;
 
-        public Combatant Sender
-        {
-            get
-            {
-                return this.sender;
-            }
-        }
+        public Combatant Sender => this.sender;
 
         public BattleAction(ActionParams aparams)
         {

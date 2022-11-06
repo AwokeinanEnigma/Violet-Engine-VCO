@@ -153,10 +153,7 @@ namespace VCO.Battle.Background
             target.Draw(this.bbgVerts, this.bbgStates);
         }
 
-        public BackgroundLayer[] Layers
-        {
-            get { return layers; }
-        }
+        public BackgroundLayer[] Layers => layers;
 
         private BackgroundLayer[] layers;
 

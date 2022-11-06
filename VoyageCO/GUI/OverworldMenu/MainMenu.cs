@@ -66,6 +66,6 @@ namespace VCO.GUI.OverworldMenu
             StringFile.Instance.Get("menu.map").Value
         };
 
-        private ScrollingList mainList;
+        private readonly ScrollingList mainList;
     }
 }

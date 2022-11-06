@@ -26,7 +26,7 @@ namespace VCO.Scripts.Text
         private const string CMD_LEO = "leo";
         private const string CMD_ZACK = "zack";
         private const string CMD_RENEE = "renee";
-        private static char[] PAUSE_CHARS = new char[2]
+        private static readonly char[] PAUSE_CHARS = new char[2]
         {
       ',',
       '?'

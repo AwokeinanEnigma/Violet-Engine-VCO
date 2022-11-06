@@ -9,26 +9,14 @@ namespace VCO.GUI
     {
         public override Vector2f Position
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.Reposition(value);
-            }
+            get => this.position;
+            set => this.Reposition(value);
         }
 
         public string Name
         {
-            get
-            {
-                return this.nameText.Text;
-            }
-            set
-            {
-                this.SetName(value);
-            }
+            get => this.nameText.Text;
+            set => this.SetName(value);
         }
 
         public Nametag(string nameString, Vector2f position, int depth)
@@ -37,8 +25,10 @@ namespace VCO.GUI
             this.depth = depth;
             this.nameText = new TextRegion(this.position + Nametag.TEXT_POSITION, this.depth + 1, Fonts.Main, nameString);
             this.left = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "left", this.position, this.depth);
-            this.center = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "center", this.left.Position + new Vector2f(this.left.Size.X, 0f), this.depth);
-            this.center.Scale = new Vector2f(this.nameText.Size.X + 2f, 1f);
+            this.center = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "center", this.left.Position + new Vector2f(this.left.Size.X, 0f), this.depth)
+            {
+                Scale = new Vector2f(this.nameText.Size.X + 2f, 1f)
+            };
             this.right = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "right", this.center.Position + new Vector2f(this.nameText.Size.X + 2f, 0f), this.depth);
             this.nameText.Color = Color.Black;
             this.CalculateSize();
@@ -98,12 +88,12 @@ namespace VCO.GUI
 
         private static readonly Vector2f TEXT_POSITION = new Vector2f(5f, 1f);
 
-        private IndexedColorGraphic left;
+        private readonly IndexedColorGraphic left;
 
-        private IndexedColorGraphic center;
+        private readonly IndexedColorGraphic center;
 
-        private IndexedColorGraphic right;
+        private readonly IndexedColorGraphic right;
 
-        private TextRegion nameText;
+        private readonly TextRegion nameText;
     }
 }

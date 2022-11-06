@@ -20,8 +20,10 @@ namespace VCO.Overworld
                 int num = Engine.Random.Next(RainOverlay.COLOR_CHOICES.Length);
                 this.drops[i] = new RainOverlay.Droplet(RainOverlay.COLOR_CHOICES[num]);
                 int num2 = Engine.Random.Next(RainOverlay.SPLASH_CHOICES.Length);
-                this.splashes[i] = new IndexedColorGraphic(Paths.GRAPHICS + "rainsplash.dat", RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0);
-                this.splashes[i].Visible = false;
+                this.splashes[i] = new IndexedColorGraphic(Paths.GRAPHICS + "rainsplash.dat", RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0)
+                {
+                    Visible = false
+                };
             }
         }
 
@@ -80,18 +82,12 @@ namespace VCO.Overworld
             "splash3"
         };
 
-        private RainOverlay.Droplet[] drops;
-        private IndexedColorGraphic[] splashes;
+        private readonly RainOverlay.Droplet[] drops;
+        private readonly IndexedColorGraphic[] splashes;
 
         private struct Droplet
         {
-            public Vector2f Position
-            {
-                get
-                {
-                    return this.position;
-                }
-            }
+            public Vector2f Position => this.position;
 
             // Token: 0x060005FD RID: 1533 RVA: 0x00023624 File Offset: 0x00021824
             public Droplet(Color color)
@@ -154,7 +150,7 @@ namespace VCO.Overworld
             private Vector2f position;
 
             // Token: 0x040007C0 RID: 1984
-            private Vertex[] verts;
+            private readonly Vertex[] verts;
         }
     }
 }

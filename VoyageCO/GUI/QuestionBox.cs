@@ -145,15 +145,15 @@ namespace VCO.GUI
 
         private static Vector2f OPTION2_POSITION = new Vector2f(TextBox.TEXT_POSITION.X + 26f + (int)(TextBox.BOX_SIZE.X / 3f), TextBox.TEXT_POSITION.Y);
 
-        private Graphic selectionArrow;
+        private readonly Graphic selectionArrow;
 
-        private TextRegion option1;
+        private readonly TextRegion option1;
 
-        private TextRegion option2;
+        private readonly TextRegion option2;
 
-        private float[] arrowXpos;
+        private readonly float[] arrowXpos;
 
-        private float[] arrowYpos;
+        private readonly float[] arrowYpos;
 
         private int selection;
 
@@ -161,9 +161,9 @@ namespace VCO.GUI
 
         private int optionsLineOffset;
 
-        private VioletSound moveSound;
+        private readonly VioletSound moveSound;
 
-        private VioletSound selectSound;
+        private readonly VioletSound selectSound;
 
         public delegate void SelectionHandler(int choice);
     }

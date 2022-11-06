@@ -16,8 +16,10 @@ namespace VCO.Battle.Actions
             base.UpdateAction();
             this.controller.InterfaceController.RemoveAllModifiers();
             Console.WriteLine("YOU RAN AWAY!");
-            ITransition transition = new ColorFadeTransition(1f, Color.Black);
-            transition.Blocking = true;
+            ITransition transition = new ColorFadeTransition(1f, Color.Black)
+            {
+                Blocking = true
+            };
             SceneManager.Instance.Transition = transition;
             SceneManager.Instance.Pop();
             this.complete = true;

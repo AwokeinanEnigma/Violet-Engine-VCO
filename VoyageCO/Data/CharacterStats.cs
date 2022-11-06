@@ -19,7 +19,7 @@ namespace VCO.Data
             }
         }
 
-        private static Dictionary<CharacterType, StatSet> stats = new Dictionary<CharacterType, StatSet>
+        private static readonly Dictionary<CharacterType, StatSet> stats = new Dictionary<CharacterType, StatSet>
         {
             {
                 CharacterType.Travis,

@@ -20,12 +20,16 @@ namespace VCO.GUI.OverworldMenu
         {
             Console.Write("create");
 
-            RectangleShape rectangleShape = new RectangleShape(new Vector2f(1f, AUXMenu.PANEL_SIZE.Y * 0.6f));
-            rectangleShape.FillColor = AUXMenu.DIVIDER_COLOR;
+            RectangleShape rectangleShape = new RectangleShape(new Vector2f(1f, AUXMenu.PANEL_SIZE.Y * 0.6f))
+            {
+                FillColor = AUXMenu.DIVIDER_COLOR
+            };
             this.vertDivider = new ShapeGraphic(rectangleShape, new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f, AUXMenu.PANEL_SIZE.Y * 0.3f), VectorMath.Truncate(rectangleShape.Size / 2f), rectangleShape.Size, 1);
             base.Add(this.vertDivider);
-            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(AUXMenu.PANEL_SIZE.X, 1f));
-            rectangleShape2.FillColor = AUXMenu.DIVIDER_COLOR;
+            RectangleShape rectangleShape2 = new RectangleShape(new Vector2f(AUXMenu.PANEL_SIZE.X, 1f))
+            {
+                FillColor = AUXMenu.DIVIDER_COLOR
+            };
             this.horizDivider = new ShapeGraphic(rectangleShape2, new Vector2f(AUXMenu.PANEL_SIZE.X * 0.5f, AUXMenu.PANEL_SIZE.Y * 0.66f), VectorMath.Truncate(rectangleShape2.Size / 2f), rectangleShape2.Size, 1);
             base.Add(this.horizDivider);
             CharacterType[] array = PartyManager.Instance.ToArray();
@@ -37,11 +41,15 @@ namespace VCO.GUI.OverworldMenu
             {
                 if (AUXManager.Instance.CharacterHasAUX(array[i]))
                 {
-                    this.tabs[num2] = new IndexedColorGraphic(Paths.GRAPHICS + "pause.dat", (num2 == this.selectedTab) ? "firsttag" : "tag", new Vector2f(-8f, -7f) + new Vector2f(50f * num2, 0f), (num2 == this.selectedTab) ? 1 : -2);
-                    this.tabs[num2].CurrentPalette = ((num2 == this.selectedTab) ? num : (num + 1U));
+                    this.tabs[num2] = new IndexedColorGraphic(Paths.GRAPHICS + "pause.dat", (num2 == this.selectedTab) ? "firsttag" : "tag", new Vector2f(-8f, -7f) + new Vector2f(50f * num2, 0f), (num2 == this.selectedTab) ? 1 : -2)
+                    {
+                        CurrentPalette = ((num2 == this.selectedTab) ? num : (num + 1U))
+                    };
                     base.Add(this.tabs[num2]);
-                    this.tabLabels[num2] = new TextRegion(new Vector2f(-4f, -21f) + new Vector2f(50f * num2, 0f), (num2 == this.selectedTab) ? 2 : -1, Fonts.Main, CharacterNames.GetName(array[i]));
-                    this.tabLabels[num2].Color = ((num2 == this.selectedTab) ? AUXMenu.ACTIVE_TAB_TEXT_COLOR : AUXMenu.INACTIVE_TAB_TEXT_COLOR);
+                    this.tabLabels[num2] = new TextRegion(new Vector2f(-4f, -21f) + new Vector2f(50f * num2, 0f), (num2 == this.selectedTab) ? 2 : -1, Fonts.Main, CharacterNames.GetName(array[i]))
+                    {
+                        Color = ((num2 == this.selectedTab) ? AUXMenu.ACTIVE_TAB_TEXT_COLOR : AUXMenu.INACTIVE_TAB_TEXT_COLOR)
+                    };
                     base.Add(this.tabLabels[num2]);
                     num2++;
                 }
@@ -288,17 +296,21 @@ namespace VCO.GUI.OverworldMenu
                         }
                     }
                 }
-                this.AUXList = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, AUXMenu.PANEL_SIZE.X * 0.66f - 2f, AUXMenu.CURSOR_FILE);
-                this.AUXList.ShowSelectionRectangle = false;
-                this.AUXList.ShowCursor = false;
-                this.AUXList.Focused = false;
+                this.AUXList = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, AUXMenu.PANEL_SIZE.X * 0.66f - 2f, AUXMenu.CURSOR_FILE)
+                {
+                    ShowSelectionRectangle = false,
+                    ShowCursor = false,
+                    Focused = false
+                };
                 base.Add(this.AUXList);
                 for (int m = 0; m < this.levelList.Length; m++)
                 {
-                    this.levelList[m] = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 80f + 16 * m, 0f), 1, array3[m], 5, 14f, 1f, AUXMenu.CURSOR_FILE);
-                    this.levelList[m].ShowSelectionRectangle = false;
-                    this.levelList[m].ShowCursor = (m == 0);
-                    this.levelList[m].Focused = false;
+                    this.levelList[m] = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 80f + 16 * m, 0f), 1, array3[m], 5, 14f, 1f, AUXMenu.CURSOR_FILE)
+                    {
+                        ShowSelectionRectangle = false,
+                        ShowCursor = (m == 0),
+                        Focused = false
+                    };
                     //	levelList.[m]
                     base.Add(this.levelList[m]);
                 }
@@ -414,17 +426,17 @@ namespace VCO.GUI.OverworldMenu
             "Ω"
         };
 
-        private ShapeGraphic horizDivider;
+        private readonly ShapeGraphic horizDivider;
 
-        private ShapeGraphic vertDivider;
+        private readonly ShapeGraphic vertDivider;
 
-        private IndexedColorGraphic[] tabs;
+        private readonly IndexedColorGraphic[] tabs;
 
-        private TextRegion[] tabLabels;
+        private readonly TextRegion[] tabLabels;
 
         private int selectedTab;
 
-        private ScrollingList AUXTypeList;
+        private readonly ScrollingList AUXTypeList;
 
         private ScrollingList AUXList;
 
@@ -436,6 +448,6 @@ namespace VCO.GUI.OverworldMenu
 
         private List<IAUX> AUXItemList;
 
-        private TextRegion descriptionText;
+        private readonly TextRegion descriptionText;
     }
 }

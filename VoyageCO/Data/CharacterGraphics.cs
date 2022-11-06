@@ -25,7 +25,7 @@ namespace VCO.Data
         }
 
 
-        private static Dictionary<CharacterType, string> graphics = new Dictionary<CharacterType, string>
+        private static readonly Dictionary<CharacterType, string> graphics = new Dictionary<CharacterType, string>
         {
             {
                 CharacterType.Travis,

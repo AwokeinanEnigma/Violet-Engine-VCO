@@ -40,15 +40,15 @@ namespace VCO.Actors.NPCs.Movement
             return this.changed;
         }
 
-        private float distance;
+        private readonly float distance;
 
         private Vector2f target;
 
         private int timer;
 
-        private int timeOut;
+        private readonly int timeOut;
 
-        private float speed;
+        private readonly float speed;
 
         private bool changed;
     }

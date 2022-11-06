@@ -8,21 +8,9 @@ namespace VCO.Scripts
 {
     internal class ScriptExecutor
     {
-        public bool Running
-        {
-            get
-            {
-                return this.running;
-            }
-        }
+        public bool Running => this.running;
 
-        public int ProgramCounter
-        {
-            get
-            {
-                return this.programCounter;
-            }
-        }
+        public int ProgramCounter => this.programCounter;
 
         public ScriptExecutor(ExecutionContext context)
         {
@@ -194,7 +182,7 @@ namespace VCO.Scripts
 
         private const int STACK_MAX_SIZE = 32;
 
-        private Stack<ScriptExecutor.ScriptContext> contextStack;
+        private readonly Stack<ScriptExecutor.ScriptContext> contextStack;
 
         private ExecutionContext context;
 
@@ -221,29 +209,11 @@ namespace VCO.Scripts
 
         private struct ScriptContext
         {
-            public ExecutionContext ExecutionContext
-            {
-                get
-                {
-                    return this.context;
-                }
-            }
+            public ExecutionContext ExecutionContext => this.context;
 
-            public RufiniScript Script
-            {
-                get
-                {
-                    return this.script;
-                }
-            }
+            public RufiniScript Script => this.script;
 
-            public int ProgramCounter
-            {
-                get
-                {
-                    return this.programCounter;
-                }
-            }
+            public int ProgramCounter => this.programCounter;
 
             public ScriptContext(ExecutionContext context, RufiniScript script, int programCounter)
             {
@@ -252,11 +222,11 @@ namespace VCO.Scripts
                 this.programCounter = programCounter;
             }
 
-            private ExecutionContext context;
+            private readonly ExecutionContext context;
 
             private RufiniScript script;
 
-            private int programCounter;
+            private readonly int programCounter;
         }
     }
 }

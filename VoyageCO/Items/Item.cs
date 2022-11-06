@@ -5,13 +5,7 @@ namespace VCO.Items
 {
     internal class Item
     {
-        public bool Key
-        {
-            get
-            {
-                return this.isKey;
-            }
-        }
+        public bool Key => this.isKey;
 
         public Item(bool isKey)
         {
@@ -52,8 +46,8 @@ namespace VCO.Items
 
         public const string NAME = "name";
 
-        private bool isKey;
+        private readonly bool isKey;
 
-        private Dictionary<int, object> properties;
+        private readonly Dictionary<int, object> properties;
     }
 }

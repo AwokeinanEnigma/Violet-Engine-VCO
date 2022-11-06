@@ -14,8 +14,10 @@ namespace VCO.Scenes
             IEnumerable<string> enumerable = Directory.EnumerateFiles(Paths.AUX_GRAPHICS);
             foreach (string resource in enumerable)
             {
-                MultipartAnimation multipartAnimation = new MultipartAnimation(resource, new Vector2f(160f, 90f), 0.5f, 0);
-                multipartAnimation.Visible = false;
+                MultipartAnimation multipartAnimation = new MultipartAnimation(resource, new Vector2f(160f, 90f), 0.5f, 0)
+                {
+                    Visible = false
+                };
                 multipartAnimation.OnAnimationComplete += this.AnimationComplete;
                 this.pipeline.Add(multipartAnimation);
                 this.animations.Add(multipartAnimation);
@@ -69,7 +71,7 @@ namespace VCO.Scenes
             base.Dispose(disposing);
         }
 
-        private List<MultipartAnimation> animations;
+        private readonly List<MultipartAnimation> animations;
 
         private int animIndex;
     }
