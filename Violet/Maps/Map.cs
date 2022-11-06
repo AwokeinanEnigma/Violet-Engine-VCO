@@ -41,37 +41,39 @@ namespace Violet.Maps
             long ticks = DateTime.Now.Ticks;
             for (int i = 0; i < this.Groups.Count; i++)
             {
-                Map.Group group = this.Groups[i];
-                IList<Tile> list2 = new List<Tile>(group.Tiles.Length / 2);
-                int j = 0;
-                int num = 0;
-                while (j < group.Tiles.Length)
+                Map.Group mapGroups = this.Groups[i];
+                IList<Tile> tileList = new List<Tile>(mapGroups.Tiles.Length / 2);
+                int o = 0;
+                int index = 0;
+                while (o < mapGroups.Tiles.Length)
                 {
-                    int num2 = (int)(group.Tiles[j] - 1);
-                    if (num2 >= 0)
+
+                    int intTile = (int)(mapGroups.Tiles[o] - 1);
+
+                    if (intTile >= 0)
                     {
-                        ushort num3;
-                        if (j + 1 < group.Tiles.Length)
+                        ushort tileData;
+                        if (o + 1 < mapGroups.Tiles.Length)
                         {
-                            num3 = group.Tiles[j + 1];
+                            tileData = mapGroups.Tiles[o + 1];
                         }
                         else
                         {
-                            num3 = 0;
+                            tileData = 0;
                         }
-                        int num4 = group.Width * 8;
-                        Vector2f position = new Vector2f((float)((long)num * 8L % (long)num4), (float)((long)num * 8L / (long)num4 * 8L));
-                        bool flipHoriz = (num3 & 1) > 0;
-                        bool flipVert = (num3 & 2) > 0;
-                        bool flipDiag = (num3 & 4) > 0;
-                        ushort animId = (ushort)(num3 >> 3);
-                        Tile item = new Tile((uint)num2, position, flipHoriz, flipVert, flipDiag, animId);
-                        list2.Add(item);
+                        int width = mapGroups.Width * 8;
+                        Vector2f position = new Vector2f((float)((long)index * 8L % (long)width), (float)((long)index * 8L / (long)width * 8L));
+                        bool flipHoriz = (tileData & 1) > 0;
+                        bool flipVert = (tileData & 2) > 0;
+                        bool flipDiag = (tileData & 4) > 0;
+                        ushort animId = (ushort)(tileData >> 3);
+                        Tile item = new Tile((uint)intTile, position, flipHoriz, flipVert, flipDiag, animId);
+                        tileList.Add(item);
                     }
-                    j += 2;
-                    num++;
+                    o += 2;
+                    index++;
                 }
-                TileGroup item2 = new TileGroup(list2, resource, group.Depth, new Vector2f((float)group.X, (float)group.Y), palette);
+                TileGroup item2 = new TileGroup(tileList, resource, mapGroups.Depth, new Vector2f((float)mapGroups.X, (float)mapGroups.Y), palette);
                 list.Add(item2);
             }
             Debug.LogI($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
