@@ -1,7 +1,5 @@
-﻿using System;
+﻿using SFML.System;
 using Violet.Graphics;
-using VCO.Data;
-using SFML.System;
 
 namespace VCO.Battle.UI
 {
@@ -10,13 +8,7 @@ namespace VCO.Battle.UI
     {
         // Token: 0x17000077 RID: 119
         // (get) Token: 0x0600025C RID: 604 RVA: 0x0000EDE9 File Offset: 0x0000CFE9
-        public bool Done
-        {
-            get
-            {
-                return this.done;
-            }
-        }
+        public bool Done => this.done;
 
         // Token: 0x0600025D RID: 605 RVA: 0x0000EDF4 File Offset: 0x0000CFF4
         public BattleSmash(RenderPipeline pipeline, Vector2f position)
@@ -35,10 +27,10 @@ namespace VCO.Battle.UI
         }
 
         // Token: 0x040003B2 RID: 946
-        private RenderPipeline pipeline;
+        private readonly RenderPipeline pipeline;
 
         // Token: 0x040003B3 RID: 947
-        private Graphic smashGraphic;
+        private readonly Graphic smashGraphic;
 
         // Token: 0x040003B4 RID: 948
         private bool done;

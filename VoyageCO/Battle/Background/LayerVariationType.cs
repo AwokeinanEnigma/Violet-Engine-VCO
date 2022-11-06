@@ -1,16 +1,14 @@
-﻿using System;
-
-namespace VCO.Battle.Background
+﻿namespace VCO.Battle.Background
 {
-	public enum LayerVariationType
-	{
-		Frequency,
-		Scale,
-		Compression,
-		Amplitude,
-		Speed,
-		Opacity,
-		Xtrans,
-		Ytrans
-	}
+    public enum LayerVariationType
+    {
+        Frequency,
+        Scale,
+        Compression,
+        Amplitude,
+        Speed,
+        Opacity,
+        Xtrans,
+        Ytrans
+    }
 }

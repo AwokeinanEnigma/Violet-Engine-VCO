@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Violet.Utility
+﻿namespace Violet.Utility
 {
     public static class Hash
     {
@@ -9,7 +7,7 @@ namespace Violet.Utility
             int num = 23;
             for (int i = 0; i < input.Length; i++)
             {
-                num = num * 31 + (int)input[i];
+                num = num * 31 + input[i];
             }
             return num;
         }

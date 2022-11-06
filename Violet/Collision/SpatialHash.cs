@@ -2,7 +2,6 @@
 using SFML.System;
 using System;
 using System.Collections.Generic;
-using Violet.Maps;
 
 namespace Violet.Collision
 {
@@ -125,7 +124,7 @@ namespace Violet.Collision
                             Console.WriteLine($"{collidable} removed!");
                         }
                         array[i] = null;
-            
+
                         return;
                     }
                 }

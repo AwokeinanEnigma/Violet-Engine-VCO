@@ -48,7 +48,7 @@ namespace Violet.Maps
                 while (o < mapGroups.Tiles.Length)
                 {
 
-                    int intTile = (int)(mapGroups.Tiles[o] - 1);
+                    int intTile = mapGroups.Tiles[o] - 1;
 
                     if (intTile >= 0)
                     {
@@ -62,7 +62,7 @@ namespace Violet.Maps
                             tileData = 0;
                         }
                         int width = mapGroups.Width * 8;
-                        Vector2f position = new Vector2f((float)((long)index * 8L % (long)width), (float)((long)index * 8L / (long)width * 8L));
+                        Vector2f position = new Vector2f(index * 8L % width, index * 8L / width * 8L);
                         bool flipHoriz = (tileData & 1) > 0;
                         bool flipVert = (tileData & 2) > 0;
                         bool flipDiag = (tileData & 4) > 0;
@@ -73,7 +73,7 @@ namespace Violet.Maps
                     o += 2;
                     index++;
                 }
-                TileGroup item2 = new TileGroup(tileList, resource, mapGroups.Depth, new Vector2f((float)mapGroups.X, (float)mapGroups.Y), palette);
+                TileGroup item2 = new TileGroup(tileList, resource, mapGroups.Depth, new Vector2f(mapGroups.X, mapGroups.Y), palette);
                 list.Add(item2);
             }
             Debug.LogI($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");

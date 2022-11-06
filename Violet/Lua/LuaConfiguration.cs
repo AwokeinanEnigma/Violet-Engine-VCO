@@ -3,9 +3,6 @@ using MoonSharp.Interpreter.Loaders;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Violet.Lua
 {
@@ -15,7 +12,8 @@ namespace Violet.Lua
         /// Refer to the official MoonSharp documentation for this one.
         /// https://www.moonsharp.org/scriptoptions.html
         /// </summary>
-        public struct ScriptOptions {
+        public struct ScriptOptions
+        {
             public bool CheckThreadAccess;
             public ColonOperatorBehaviour ColonOperatorClrCallbackBehaviour;
             public Func<string, string> DebugInput;
@@ -45,12 +43,13 @@ namespace Violet.Lua
             Globals = new Dictionary<string, object>();
         }
 
-        public LuaConfiguration(Dictionary<string, object> globalDict) {
+        public LuaConfiguration(Dictionary<string, object> globalDict)
+        {
             Globals = globalDict;
             //Globals = new Dictionary<string, object>();
         }
 
-        public LuaConfiguration(Dictionary<string, object> globalDict, ScriptOptions options )
+        public LuaConfiguration(Dictionary<string, object> globalDict, ScriptOptions options)
         {
             Globals = globalDict;
             Options = options;
@@ -61,10 +60,12 @@ namespace Violet.Lua
         /// This set all of the globals within a Lua script.
         /// </summary>
         /// <param name="script">The script which globals will be set to the Globals dictionary.</param>
-        public void SetConfig(Script script, bool setOptions = false) {
+        public void SetConfig(Script script, bool setOptions = false)
+        {
             // go through our dict
-            foreach (KeyValuePair<string, object> globalAndObjects in Globals) {
-                
+            foreach (KeyValuePair<string, object> globalAndObjects in Globals)
+            {
+
                 // set the global's key to the value
                 // basically, this means that you can do something like
                 // overworldThing.DoSomething(); in lua
@@ -74,7 +75,8 @@ namespace Violet.Lua
 
 
             // i don't even know what these do but it's better to have the support now! - Enigma 10/31/22
-            if (setOptions) {
+            if (setOptions)
+            {
                 script.Options.CheckThreadAccess = Options.CheckThreadAccess;
                 script.Options.ColonOperatorClrCallbackBehaviour = Options.ColonOperatorClrCallbackBehaviour;
                 script.Options.DebugInput = Options.DebugInput;

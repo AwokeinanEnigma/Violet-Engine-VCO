@@ -1,19 +1,17 @@
-﻿using System;
-
-namespace VCO.Battle.Background
+﻿namespace VCO.Battle.Background
 {
-	public struct LayerVariation
-	{
-		public int Mode;
+    public struct LayerVariation
+    {
+        public int Mode;
 
-		public float A;
+        public float A;
 
-		public float B;
+        public float B;
 
-		public float C;
+        public float C;
 
-		public float D;
+        public float D;
 
-		public float E;
-	}
+        public float E;
+    }
 }

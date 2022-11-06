@@ -1,118 +1,69 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
 using Violet.Collision;
 using Violet.Utility;
-using SFML.Graphics;
-using SFML.System;
 
 namespace VCO.Overworld
 {
-	internal class Portal : ICollidable
-	{
-		public Vector2f Position
-		{
-			get
-			{
-				return this.position;
-			}
-			set
-			{
-				this.position = value;
-			}
-		}
+    internal class Portal : ICollidable
+    {
+        public Vector2f Position
+        {
+            get => this.position;
+            set => this.position = value;
+        }
 
-		public Vector2f Velocity
-		{
-			get
-			{
-				return VectorMath.ZERO_VECTOR;
-			}
-		}
+        public Vector2f Velocity => VectorMath.ZERO_VECTOR;
 
-		public AABB AABB
-		{
-			get
-			{
-				return this.mesh.AABB;
-			}
-		}
+        public AABB AABB => this.mesh.AABB;
 
-		public Mesh Mesh
-		{
-			get
-			{
-				return this.mesh;
-			}
-		}
+        public Mesh Mesh => this.mesh;
 
-		public bool Solid
-		{
-			get
-			{
-				return this.solid;
-			}
-			set
-			{
-				this.solid = value;
-			}
-		}
+        public bool Solid
+        {
+            get => this.solid;
+            set => this.solid = value;
+        }
 
-		public string Map
-		{
-			get
-			{
-				return this.map;
-			}
-		}
+        public string Map => this.map;
 
-		public Vector2f PositionTo
-		{
-			get
-			{
-				return this.positionTo;
-			}
-		}
+        public Vector2f PositionTo => this.positionTo;
 
-		public int DirectionTo
-		{
-			get
-			{
-				return this.directionTo;
-			}
-		}
+        public int DirectionTo => this.directionTo;
 
-		public VertexArray DebugVerts { get; private set; }
+        public VertexArray DebugVerts { get; private set; }
 
-		public Portal(int x, int y, int width, int height, int xTo, int yTo, int dirTo, string map)
-		{
-			this.position = new Vector2f((float)x, (float)y);
-			this.positionTo = new Vector2f((float)xTo, (float)yTo);
-			this.directionTo = dirTo;
-			this.mesh = new Mesh(new FloatRect(VectorMath.ZERO_VECTOR, new Vector2f((float)width, (float)height)));
-			this.map = map;
-			this.solid = true;
-			VertexArray vertexArray = new VertexArray(PrimitiveType.LinesStrip, (uint)(this.mesh.Vertices.Count + 1));
-			for (int i = 0; i < this.mesh.Vertices.Count; i++)
-			{
-				vertexArray[(uint)i] = new Vertex(this.mesh.Vertices[i], Color.Blue);
-			}
-			vertexArray[(uint)this.mesh.Vertices.Count] = new Vertex(this.mesh.Vertices[0], Color.Blue);
-			this.DebugVerts = vertexArray;
-		}
+        public Portal(int x, int y, int width, int height, int xTo, int yTo, int dirTo, string map)
+        {
+            this.position = new Vector2f(x, y);
+            this.positionTo = new Vector2f(xTo, yTo);
+            this.directionTo = dirTo;
+            this.mesh = new Mesh(new FloatRect(VectorMath.ZERO_VECTOR, new Vector2f(width, height)));
+            this.map = map;
+            this.solid = true;
+            VertexArray vertexArray = new VertexArray(PrimitiveType.LinesStrip, (uint)(this.mesh.Vertices.Count + 1));
+            for (int i = 0; i < this.mesh.Vertices.Count; i++)
+            {
+                vertexArray[(uint)i] = new Vertex(this.mesh.Vertices[i], Color.Blue);
+            }
+            vertexArray[(uint)this.mesh.Vertices.Count] = new Vertex(this.mesh.Vertices[0], Color.Blue);
+            this.DebugVerts = vertexArray;
+        }
 
-		public void Collision(CollisionContext context)
-		{
-		}
+        public void Collision(CollisionContext context)
+        {
+        }
 
-		private Vector2f position;
+        private Vector2f position;
 
-		private Vector2f positionTo;
+        private Vector2f positionTo;
 
-		private int directionTo;
+        private readonly int directionTo;
 
-		private Mesh mesh;
+        private readonly Mesh mesh;
 
-		private bool solid;
+        private bool solid;
 
-		private string map;
-	}
+        private readonly string map;
+    }
 }

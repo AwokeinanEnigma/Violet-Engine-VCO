@@ -1,172 +1,155 @@
-﻿using System;
+﻿using SFML.System;
+using System;
 using Violet.Graphics;
-using VCO.Data;
-using SFML.System;
 
 namespace VCO.Battle.UI
 {
-	internal class OdometerRoller : IDisposable
-	{
-		public event OdometerRoller.RollCompleteHandler OnRollComplete;
+    internal class OdometerRoller : IDisposable
+    {
+        public event OdometerRoller.RollCompleteHandler OnRollComplete;
 
-		public event OdometerRoller.RollOverHandler OnRollover;
+        public event OdometerRoller.RollOverHandler OnRollover;
 
-		public Vector2f Position
-		{
-			get
-			{
-				return this.roller.Position;
-			}
-			set
-			{
-				this.roller.Position = value;
-			}
-		}
+        public Vector2f Position
+        {
+            get => this.roller.Position;
+            set => this.roller.Position = value;
+        }
 
-		public int Number
-		{
-			get
-			{
-				return this.targetFrame / 9;
-			}
-			set
-			{
-				this.targetFrame = value * 9;
-			}
-		}
+        public int Number
+        {
+            get => this.targetFrame / 9;
+            set => this.targetFrame = value * 9;
+        }
 
-		public int CurrentNumber
-		{
-			get
-			{
-				return this.frame / 9;
-			}
-		}
+        public int CurrentNumber => this.frame / 9;
 
-		public OdometerRoller(RenderPipeline pipeline, int initialNumber, Vector2f position, int depth)
-		{
-			this.pipeline = pipeline;
-			this.frame = initialNumber * 9;
-			this.targetFrame = this.frame;
-			this.roller = new IndexedColorGraphic(Paths.GRAPHICS + "odometer.dat", "odometer", position, depth);
-			this.roller.SpeedModifier = 0f;
-			this.roller.Frame = (float)(this.frame % 90);
-			pipeline.Add(this.roller);
-		}
+        public OdometerRoller(RenderPipeline pipeline, int initialNumber, Vector2f position, int depth)
+        {
+            this.pipeline = pipeline;
+            this.frame = initialNumber * 9;
+            this.targetFrame = this.frame;
+            this.roller = new IndexedColorGraphic(Paths.GRAPHICS + "odometer.dat", "odometer", position, depth)
+            {
+                SpeedModifier = 0f,
+                Frame = this.frame % 90
+            };
+            pipeline.Add(this.roller);
+        }
 
-		~OdometerRoller()
-		{
-			this.Dispose(false);
-		}
+        ~OdometerRoller()
+        {
+            this.Dispose(false);
+        }
 
-		public void Hide()
-		{
-			if (!this.hidden)
-			{
-				this.roller.Visible = false;
-				this.hidden = true;
-			}
-		}
+        public void Hide()
+        {
+            if (!this.hidden)
+            {
+                this.roller.Visible = false;
+                this.hidden = true;
+            }
+        }
 
-		public void Show()
-		{
-			if (this.hidden)
-			{
-				this.roller.Visible = true;
-				this.hidden = false;
-			}
-		}
+        public void Show()
+        {
+            if (this.hidden)
+            {
+                this.roller.Visible = true;
+                this.hidden = false;
+            }
+        }
 
-		public void DoEntireRoll()
-		{
-			this.rolling = true;
-			this.targetStepFrame = -1;
-		}
-
-        private int deadCount;
-		public void StepRoll()
+        public void DoEntireRoll()
         {
             this.rolling = true;
-			int num = Math.Max(-1, Math.Min(1, this.targetFrame - this.frame));
-			this.targetStepFrame = this.frame + 9 * num;
-		}
+            this.targetStepFrame = -1;
+        }
 
-		public void Update()
-		{
-			if (this.rolling)
-			{
-				int num = Math.Max(-1, Math.Min(1, this.targetFrame - this.frame));
-				this.frame += num;
-				this.roller.Frame = (float)(this.frame % 90);
-				if ((num > 0 && this.frame % 90 == 82) || (num < 0 && this.frame % 90 == 89))
-				{
-					this.rollCount += num;
-					if (this.OnRollover != null)
-					{
-						this.OnRollover();
-					}
-				}
-				if (this.OnRollComplete != null && this.frame == this.targetFrame)
-				{
-					this.OnRollComplete(frame, hidden, targetFrame);
-					this.rolling = false;
-				}
-				if (this.frame == this.targetStepFrame)
-				{
-					this.rolling = false;
-				}
-			}
-		}
+        private readonly int deadCount;
+        public void StepRoll()
+        {
+            this.rolling = true;
+            int num = Math.Max(-1, Math.Min(1, this.targetFrame - this.frame));
+            this.targetStepFrame = this.frame + 9 * num;
+        }
 
-		public void ForceNumber(int number)
-		{
-			this.roller.Frame = (float)(number * 9);
-			this.targetFrame = (int)this.roller.Frame;
-		}
+        public void Update()
+        {
+            if (this.rolling)
+            {
+                int num = Math.Max(-1, Math.Min(1, this.targetFrame - this.frame));
+                this.frame += num;
+                this.roller.Frame = this.frame % 90;
+                if ((num > 0 && this.frame % 90 == 82) || (num < 0 && this.frame % 90 == 89))
+                {
+                    this.rollCount += num;
+                    if (this.OnRollover != null)
+                    {
+                        this.OnRollover();
+                    }
+                }
+                if (this.OnRollComplete != null && this.frame == this.targetFrame)
+                {
+                    this.OnRollComplete(frame, hidden, targetFrame);
+                    this.rolling = false;
+                }
+                if (this.frame == this.targetStepFrame)
+                {
+                    this.rolling = false;
+                }
+            }
+        }
 
-		public void Dispose()
-		{
-			this.Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void ForceNumber(int number)
+        {
+            this.roller.Frame = number * 9;
+            this.targetFrame = (int)this.roller.Frame;
+        }
 
-		protected void Dispose(bool disposing)
-		{
-			if (!this.disposed)
-			{
-				if (disposing)
-				{
-					this.pipeline.Remove(this.roller);
-					this.roller.Dispose();
-				}
-				this.disposed = true;
-			}
-		}
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		private const int FRAMES_PER_NUMBER = 9;
+        protected void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    this.pipeline.Remove(this.roller);
+                    this.roller.Dispose();
+                }
+                this.disposed = true;
+            }
+        }
 
-		private const int TOTAL_FRAMES = 90;
+        private const int FRAMES_PER_NUMBER = 9;
 
-		private bool disposed;
+        private const int TOTAL_FRAMES = 90;
 
-		private RenderPipeline pipeline;
+        private bool disposed;
 
-		private Graphic roller;
+        private readonly RenderPipeline pipeline;
 
-		private int frame;
+        private readonly Graphic roller;
 
-		private int targetFrame;
+        private int frame;
 
-		private int targetStepFrame;
+        private int targetFrame;
 
-		private int rollCount;
+        private int targetStepFrame;
 
-		public bool rolling;
+        private int rollCount;
 
-		private bool hidden;
+        public bool rolling;
 
-		public delegate void RollCompleteHandler(int frame, bool hidden, int targetFrame);
+        private bool hidden;
 
-		public delegate void RollOverHandler();
-	}
+        public delegate void RollCompleteHandler(int frame, bool hidden, int targetFrame);
+
+        public delegate void RollOverHandler();
+    }
 }

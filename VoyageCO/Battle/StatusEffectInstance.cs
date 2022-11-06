@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace VCO.Battle
+﻿namespace VCO.Battle
 {
-	internal struct StatusEffectInstance
-	{
-		public StatusEffect Type;
+    internal struct StatusEffectInstance
+    {
+        public StatusEffect Type;
 
-		public int TurnsRemaining;
-	}
+        public int TurnsRemaining;
+    }
 }

@@ -21,7 +21,7 @@
         /// <param name="width"></param>
         /// <param name="height"></param>
         public Rectangle(float x, float y, float width, float height)
-        { 
+        {
             this.X = x;
             this.Y = y;
             this.Width = width;

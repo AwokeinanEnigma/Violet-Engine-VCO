@@ -1,5 +1,4 @@
-﻿using System;
-using VCO.Battle.Combatants;
+﻿using VCO.Battle.Combatants;
 using VCO.Data;
 
 namespace VCO.Battle.Actions
@@ -26,16 +25,16 @@ namespace VCO.Battle.Actions
                 case TestingSmiteAction.State.WaitForUI:
                     break;
                 case TestingSmiteAction.State.Finish:
-                {
-                    this.controller.InterfaceController.OnTextboxComplete -= this.OnTextboxComplete;
-                    StatSet statChange = new StatSet
                     {
-                        HP = -this.damage
-                    };
-                    this.target.AlterStats(statChange);
-                    this.complete = true;
-                    break;
-                }
+                        this.controller.InterfaceController.OnTextboxComplete -= this.OnTextboxComplete;
+                        StatSet statChange = new StatSet
+                        {
+                            HP = -this.damage
+                        };
+                        this.target.AlterStats(statChange);
+                        this.complete = true;
+                        break;
+                    }
                 default:
                     return;
             }
@@ -48,11 +47,11 @@ namespace VCO.Battle.Actions
 
         private TestingSmiteAction.State state;
 
-        private string message;
+        private readonly string message;
 
-        private PlayerCombatant target;
+        private readonly PlayerCombatant target;
 
-        private int damage;
+        private readonly int damage;
 
         private enum State
         {

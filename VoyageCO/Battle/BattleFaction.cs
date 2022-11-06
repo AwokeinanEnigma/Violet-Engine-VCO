@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace VCO.Battle
+﻿namespace VCO.Battle
 {
-	internal enum BattleFaction
-	{
-		PlayerTeam,
-		EnemyTeam,
-		NeutralTeam
-	}
+    internal enum BattleFaction
+    {
+        PlayerTeam,
+        EnemyTeam,
+        NeutralTeam
+    }
 }

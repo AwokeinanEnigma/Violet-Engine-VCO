@@ -1,25 +1,24 @@
-﻿using System;
+﻿using SFML.System;
 using Violet.Graphics;
 using Violet.Utility;
-using SFML.System;
 
 namespace VCO.Actors.NPCs.Movement
 {
-	// Token: 0x02000008 RID: 8
-	internal class GangUpOnPlayer : Mover
-	{
-		// Token: 0x0600000A RID: 10 RVA: 0x00002E77 File Offset: 0x00001077
-		public GangUpOnPlayer(float speed)
-		{
+    // Token: 0x02000008 RID: 8
+    internal class GangUpOnPlayer : Mover
+    {
+        // Token: 0x0600000A RID: 10 RVA: 0x00002E77 File Offset: 0x00001077
+        public GangUpOnPlayer(float speed)
+        {
             this.speed = speed;
-		}
+        }
 
-		// Token: 0x0600000B RID: 11 RVA: 0x00002E94 File Offset: 0x00001094
-		public override bool GetNextMove(ref Vector2f position, ref Vector2f velocity, ref int direction)
-		{
-//			this.changed = false;
+        // Token: 0x0600000B RID: 11 RVA: 0x00002E94 File Offset: 0x00001094
+        public override bool GetNextMove(ref Vector2f position, ref Vector2f velocity, ref int direction)
+        {
+            //			this.changed = false;
 
-			//Console.WriteLine("Coming for the player!");
+            //Console.WriteLine("Coming for the player!");
             if (ViewManager.Instance.FollowActor != null)
             {
 
@@ -34,6 +33,6 @@ namespace VCO.Actors.NPCs.Movement
         }
 
         private bool changed;
-        private float speed;
+        private readonly float speed;
     }
 }
