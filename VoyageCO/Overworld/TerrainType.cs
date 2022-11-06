@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VCO.Overworld
+﻿namespace VCO.Overworld
 {
     // Token: 0x02000104 RID: 260
     internal enum TerrainType

@@ -1,35 +1,34 @@
-﻿using System;
+﻿using VCO.AUX;
 using VCO.Battle.Combatants;
-using VCO.AUX;
 
 namespace VCO.Battle.UI
 {
-	internal struct SelectionState
-	{
-		public SelectionState.SelectionType Type;
+    internal struct SelectionState
+    {
+        public SelectionState.SelectionType Type;
 
-		public Combatant[] Targets;
+        public Combatant[] Targets;
         public TargetingMode TargetingMode;
-		public int AttackIndex;
+        public int AttackIndex;
 
-		public int ItemIndex;
+        public int ItemIndex;
 
-		public SOMETHING.AUXBase AUX;
-		public IAUX Wrapper;
+        public SOMETHING.AUXBase AUX;
+        public IAUX Wrapper;
 
-		public int AUXLevel;
+        public int AUXLevel;
 
-		public enum SelectionType
-		{
-			Bash,
-			AUX,
-			Talk,
-			Items,
-			Guard,
-			Run,
-			Undo
-		}
-	}
+        public enum SelectionType
+        {
+            Bash,
+            AUX,
+            Talk,
+            Items,
+            Guard,
+            Run,
+            Undo
+        }
+    }
 }
 
 namespace VCO.Battle

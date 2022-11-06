@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Violet.Audio.fmod;
 
 namespace Violet.Audio

@@ -113,7 +113,7 @@ namespace Violet.Graphics
 
         public SpriteDefinition GetSpriteDefinition(string name)
         {
-            
+
             int hashCode = name.GetHashCode();
             return this.GetSpriteDefinition(hashCode);
         }

@@ -1,24 +1,23 @@
-﻿using System;
+﻿using MoonSharp.Interpreter;
+using System;
 using System.IO;
-using Violet;
-using Violet.Audio;
-using Violet.Scenes;
+using System.Reflection;
 using VCO.Data;
 using VCO.Data.Enemies;
 using VCO.Scenes;
 using VCO.Scenes.Transitions;
-using Violet.Scenes.Transitions;
-using System.Reflection;
-using MoonSharp.Interpreter;
+using Violet;
+using Violet.Audio;
 using Violet.Lua;
+using Violet.Scenes;
 
 namespace VCO
 {
-	internal class Program
-	{
-		[STAThread]
-		private static void Main(string[] args)
-		{
+    internal class Program
+    {
+        [STAThread]
+        private static void Main(string[] args)
+        {
             Engine.Initialize(args);
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
@@ -31,9 +30,9 @@ namespace VCO
             UserData.RegisterType<EventArgs>();
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
-            
-         //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
-            
+
+            //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
+
             //Debug.DumpLogs();
             try
             {

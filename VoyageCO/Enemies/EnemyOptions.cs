@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VCO.Data.Enemies
+﻿namespace VCO.Data.Enemies
 {
     // Token: 0x02000027 RID: 39
     internal enum EnemyOptions

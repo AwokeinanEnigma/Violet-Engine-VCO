@@ -1,18 +1,13 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using System;
+using System.Collections.Generic;
+using VCO.AUX;
 using VCO.Battle;
 using VCO.Battle.Actions;
 using VCO.Battle.Combatants;
-using VCO.Battle.AUXAnimation;
-using VCO.Battle.UI;
 using VCO.Data;
 using VCO.GUI.Modifiers;
-using VCO.AUX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Violet.Graphics;
 
 namespace VCO.SOMETHING
@@ -119,7 +114,7 @@ namespace VCO.SOMETHING
         {
             Color fillColor = this.screenDarkenShape.Shape.FillColor;
             this.alphaMultiplier += 0.2f;
-            fillColor.A = (byte)((float)this.sourceAlpha + (float)(this.targetAlpha - this.sourceAlpha) * this.alphaMultiplier);
+            fillColor.A = (byte)(sourceAlpha + (this.targetAlpha - this.sourceAlpha) * this.alphaMultiplier);
             this.screenDarkenShape.Shape.FillColor = fillColor;
         }
 

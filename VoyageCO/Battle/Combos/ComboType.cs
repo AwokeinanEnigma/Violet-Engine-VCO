@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace VCO.Battle.Combos
+﻿namespace VCO.Battle.Combos
 {
-	internal enum ComboType
-	{
-		BPMRange,
-		Point
-	}
+    internal enum ComboType
+    {
+        BPMRange,
+        Point
+    }
 }

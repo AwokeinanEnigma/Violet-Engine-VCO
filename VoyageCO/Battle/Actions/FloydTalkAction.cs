@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Text;
-using Violet;
-using Violet.Utility;
 using VCO.Battle.Combatants;
 using VCO.Data;
 using VCO.Utility;
+using Violet;
+using Violet.Utility;
 
 namespace VCO.Battle.Actions
 {

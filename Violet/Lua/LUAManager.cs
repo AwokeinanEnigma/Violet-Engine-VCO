@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Violet;
 
 namespace Violet.Lua
 {
     /// <summary>
     /// Handles all 
     /// </summary>
-    public class LuaManager 
+    public class LuaManager
     {
         public static LuaManager instance;
 
@@ -18,12 +17,12 @@ namespace Violet.Lua
         //value: path
         private static Dictionary<string, string> luaFiles;
 
-        public LuaHandler CreateLuaHandler(string name, LuaConfiguration config) {
-            string path;
-            
+        public LuaHandler CreateLuaHandler(string name, LuaConfiguration config)
+        {
+
             // get path of our lua file
-            luaFiles.TryGetValue(name, out path);
-            
+            luaFiles.TryGetValue(name, out string path);
+
             // read all text from the path of the lua file
             string scriptcode = File.ReadAllText(path);
 
@@ -44,7 +43,8 @@ namespace Violet.Lua
         /// </summary>
         /// <param name="asm">The assembly containing the types you want to register</param>
         /// <param name="mode">The interop access mode for the types you want to register</param>
-        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default, List<Type> forbiddenTypes = null) {
+        public void RegisterAssembly(Assembly asm, InteropAccessMode mode = InteropAccessMode.Default, List<Type> forbiddenTypes = null)
+        {
             Type[] typesInAsm = asm.GetTypes();
 
             // the weakness of this is that you cannot manually pick and choose the InteropAccessMode for specific types
@@ -58,7 +58,8 @@ namespace Violet.Lua
                     UserData.RegisterType(typesInAsm[i], mode);
                 }
             }
-            else {
+            else
+            {
                 for (int i = 0; i < typesInAsm.Length; i++)
                 {
                     if (forbiddenTypes.Contains(typesInAsm[i]))
@@ -66,7 +67,7 @@ namespace Violet.Lua
                         // warn
                         Debug.LogW($"Type '{typesInAsm[i]}' excluded from being registered with MoonSharp! Assembly: {asm.FullName}");
                         // skip
-                        continue; 
+                        continue;
                     }
                     // register if it's not excluded.
                     UserData.RegisterType(typesInAsm[i], mode);
@@ -86,7 +87,8 @@ namespace Violet.Lua
             instance = new LuaManager(luaDir);
         }
 
-        private void BuildLuaScripts(string luaDir) {
+        private void BuildLuaScripts(string luaDir)
+        {
             // in the future this will collect all lua scripts in the specified directory
             // and the future is now
             luaFiles = new Dictionary<string, string>();
@@ -106,7 +108,8 @@ namespace Violet.Lua
 
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            foreach (string subdirectory in subdirectoryEntries) {
+            foreach (string subdirectory in subdirectoryEntries)
+            {
                 ProcessDirectory(subdirectory);
 
             }

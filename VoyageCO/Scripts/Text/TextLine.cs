@@ -1,44 +1,42 @@
-﻿using System;
-
-namespace VCO.Scripts.Text
+﻿namespace VCO.Scripts.Text
 {
-	internal class TextLine
-	{
-		public string Text
-		{
-			get
-			{
-				return this.text;
-			}
-		}
+    internal class TextLine
+    {
+        public string Text
+        {
+            get
+            {
+                return this.text;
+            }
+        }
 
-		public bool HasBullet
-		{
-			get
-			{
-				return this.bullet;
-			}
-		}
+        public bool HasBullet
+        {
+            get
+            {
+                return this.bullet;
+            }
+        }
 
-		public ITextCommand[] Commands
-		{
-			get
-			{
-				return this.commands;
-			}
-		}
+        public ITextCommand[] Commands
+        {
+            get
+            {
+                return this.commands;
+            }
+        }
 
-		public TextLine(bool bullet, ITextCommand[] commands, string text)
-		{
-			this.bullet = bullet;
-			this.commands = commands;
-			this.text = text;
-		}
+        public TextLine(bool bullet, ITextCommand[] commands, string text)
+        {
+            this.bullet = bullet;
+            this.commands = commands;
+            this.text = text;
+        }
 
-		private string text;
+        private string text;
 
-		private bool bullet;
+        private bool bullet;
 
-		private ITextCommand[] commands;
-	}
+        private ITextCommand[] commands;
+    }
 }

@@ -1,7 +1,5 @@
-﻿using System;
+﻿using SFML.System;
 using Violet.Graphics;
-using VCO.Data;
-using SFML.System;
 
 namespace VCO.Battle.UI
 {

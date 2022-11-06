@@ -1,9 +1,5 @@
 ﻿using MoonSharp.Interpreter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Violet.Lua
 {
@@ -20,7 +16,8 @@ namespace Violet.Lua
             get => _lua.Globals[name];
         }
 
-        public LuaHandler(string luaScriptString, LuaConfiguration conf) {
+        public LuaHandler(string luaScriptString, LuaConfiguration conf)
+        {
             // initiate script
             _lua = new Script();
 
@@ -86,7 +83,8 @@ namespace Violet.Lua
         /// Calls a function within the lua script 
         /// </summary>
         /// <param name="func">The lua function you want to call</param>
-        public DynValue CallLuaFunc(object function) {
+        public DynValue CallLuaFunc(object function)
+        {
             return _lua.Call(function);
         }
 
@@ -105,7 +103,8 @@ namespace Violet.Lua
         /// Sets the config of this LuaHandler and the script
         /// </summary>
         /// <param name="newConfig">The config to set this handler and script to.</param>
-        public void SetConfig(LuaConfiguration newConfig) {
+        public void SetConfig(LuaConfiguration newConfig)
+        {
             _config = newConfig;
             _config.SetConfig(_lua);
         }

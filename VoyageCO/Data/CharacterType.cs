@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace VCO.Data
+﻿namespace VCO.Data
 {
-	internal enum CharacterType
-	{
-		Travis,
-		Floyd,
-		Meryl,
-		Leo,
-		Zack,
-		Renee,
-		Dog
-	}
+    internal enum CharacterType
+    {
+        Travis,
+        Floyd,
+        Meryl,
+        Leo,
+        Zack,
+        Renee,
+        Dog
+    }
 }

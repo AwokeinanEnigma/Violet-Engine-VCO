@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace VCO.AUX
+﻿namespace VCO.AUX
 {
-	public enum AUXType
-	{
-		Offense,
-		Defense,
-		Assist,
-		Other
-	}
+    public enum AUXType
+    {
+        Offense,
+        Defense,
+        Assist,
+        Other
+    }
 }

@@ -55,9 +55,9 @@ namespace Violet.Maps
             MapLoader.LoadSpawns(map, rootTag);
             //Debug.Log("Loaded loaded spawns");
             MapLoader.LoadCollisions(map, rootTag);
-          //  Debug.Log("Loaded collisions");
+            //  Debug.Log("Loaded collisions");
             MapLoader.LoadTileGroups(map, rootTag);
-           // Debug.Log("Loaded groups");
+            // Debug.Log("Loaded groups");
             MapLoader.LoadParallax(map, rootTag);
             Debug.LogD($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using SFML.System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using VCO.Utility;
-using SFML.System;
 
 namespace VCO.Data.Config
 {
@@ -87,7 +86,7 @@ namespace VCO.Data.Config
                         break;
                     this.debugMap = reader.Value;
                     break;
-      
+
             }
         }
 

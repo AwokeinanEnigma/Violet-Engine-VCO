@@ -80,7 +80,7 @@ namespace Violet.Actors
         {
             position += velocity;
         }
-        
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)

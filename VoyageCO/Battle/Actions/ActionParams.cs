@@ -3,18 +3,18 @@ using VCO.Battle.Combatants;
 
 namespace VCO.Battle.Actions
 {
-	internal struct ActionParams
-	{
-		public Type actionType;
+    internal struct ActionParams
+    {
+        public Type actionType;
 
-		public BattleController controller;
+        public BattleController controller;
 
-		public Combatant sender;
+        public Combatant sender;
 
-		public Combatant[] targets;
+        public Combatant[] targets;
 
-		public int priority;
+        public int priority;
 
-		public object[] data;
-	}
+        public object[] data;
+    }
 }

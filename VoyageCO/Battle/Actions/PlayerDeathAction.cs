@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using VCO.Battle.Combatants;
+﻿using VCO.Battle.Combatants;
 using VCO.Data;
 
 namespace VCO.Battle.Actions
@@ -33,11 +31,11 @@ namespace VCO.Battle.Actions
                 case PlayerDeathAction.State.WaitForUI:
                     break;
                 case PlayerDeathAction.State.Finish:
-                {
-                    this.controller.InterfaceController.OnTextboxComplete -= this.OnTextboxComplete;
-                    this.complete = true;
-                    break;
-                }
+                    {
+                        this.controller.InterfaceController.OnTextboxComplete -= this.OnTextboxComplete;
+                        this.complete = true;
+                        break;
+                    }
                 default:
                     return;
             }

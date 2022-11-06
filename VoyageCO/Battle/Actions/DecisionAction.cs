@@ -1,18 +1,16 @@
-﻿using System;
-
-namespace VCO.Battle.Actions
+﻿namespace VCO.Battle.Actions
 {
-	internal abstract class DecisionAction : BattleAction
-	{
-		public DecisionAction(ActionParams aparams) : base(aparams)
-		{
-		}
+    internal abstract class DecisionAction : BattleAction
+    {
+        public DecisionAction(ActionParams aparams) : base(aparams)
+        {
+        }
 
-		protected override void UpdateAction()
-		{
-			base.UpdateAction();
-		}
+        protected override void UpdateAction()
+        {
+            base.UpdateAction();
+        }
 
-		private const int DECIDER_INDEX = 0;
-	}
+        private const int DECIDER_INDEX = 0;
+    }
 }

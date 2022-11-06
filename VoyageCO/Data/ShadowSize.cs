@@ -1,5 +1,4 @@
-﻿using System;
-using SFML.System;
+﻿using SFML.System;
 
 namespace VCO.Data
 {

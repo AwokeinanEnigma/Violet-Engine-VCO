@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
+using VCO.Data;
+using VCO.Items;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
 using Violet.Utility;
-using VCO.Data;
-using VCO.Items;
-using SFML.Graphics;
-using SFML.System;
 
 namespace VCO.GUI.OverworldMenu
 {
@@ -15,9 +15,9 @@ namespace VCO.GUI.OverworldMenu
         public GoodsMenu() : base(ViewManager.Instance.FinalTopLeft + GoodsMenu.PANEL_POSITION, GoodsMenu.PANEL_SIZE, 0)
         {
             this.divider = new ShapeGraphic(new RectangleShape(new Vector2f(1f, 92f))
-                {
-                    FillColor = new Color(128, 140, 138)
-                }, new Vector2f((float) ((int) (GoodsMenu.PANEL_SIZE.X / 2f)), 4f), VectorMath.ZERO_VECTOR,
+            {
+                FillColor = new Color(128, 140, 138)
+            }, new Vector2f((int)(GoodsMenu.PANEL_SIZE.X / 2f), 4f), VectorMath.ZERO_VECTOR,
                 new Vector2f(1f, 92f), 1);
             base.Add(this.divider);
             CharacterType[] array = PartyManager.Instance.ToArray();
@@ -26,10 +26,10 @@ namespace VCO.GUI.OverworldMenu
             for (int i = 0; i < array.Length; i++)
             {
                 this.tabs[i] = new IndexedColorGraphic(GoodsMenu.UI_FILE, (i == this.selectedTab) ? "firsttag" : "tag",
-                    new Vector2f(-8f, -7f) + new Vector2f(50f * (float) i, 0f), (i == this.selectedTab) ? 1 : -2);
+                    new Vector2f(-8f, -7f) + new Vector2f(50f * i, 0f), (i == this.selectedTab) ? 1 : -2);
                 this.tabs[i].CurrentPalette = this.GetTabPaletteIndex(i);
                 base.Add(this.tabs[i]);
-                this.tabLabels[i] = new TextRegion(new Vector2f(-4f, -21f) + new Vector2f(50f * (float) i, 0f),
+                this.tabLabels[i] = new TextRegion(new Vector2f(-4f, -21f) + new Vector2f(50f * i, 0f),
                     (i == this.selectedTab) ? 2 : -1, Fonts.Main, CharacterNames.GetName(array[i]));
                 this.tabLabels[i].Color = ((i == this.selectedTab)
                     ? GoodsMenu.ACTIVE_TAB_TEXT_COLOR
@@ -39,7 +39,7 @@ namespace VCO.GUI.OverworldMenu
 
             this.tabs[array.Length] = new IndexedColorGraphic(GoodsMenu.UI_FILE,
                 (array.Length < 4) ? "keytagshort" : "keytag",
-                new Vector2f(-8f, -7f) + new Vector2f(50f * (float) array.Length, 0f), -2);
+                new Vector2f(-8f, -7f) + new Vector2f(50f * array.Length, 0f), -2);
             this.tabs[array.Length].CurrentPalette = this.GetTabPaletteIndex(array.Length);
             base.Add(this.tabs[array.Length]);
             this.SetupItemLists();
@@ -107,7 +107,7 @@ namespace VCO.GUI.OverworldMenu
                 if (itemLists[i].Length > 0)
                 {
                     this.goodsList[i] =
-                        new ScrollingList(new Vector2f((float) (6 + ((int) GoodsMenu.PANEL_SIZE.X / 2 + 2) * i), 0f), 1,
+                        new ScrollingList(new Vector2f(6 + ((int)GoodsMenu.PANEL_SIZE.X / 2 + 2) * i, 0f), 1,
                             itemLists[i], 7, 14f, GoodsMenu.PANEL_SIZE.X / 2f - 8f, GoodsMenu.CURSOR_FILE);
                     this.goodsList[i].ShowSelectionRectangle = (this.selectedList == i);
                     this.goodsList[i].UseHighlightTextColor = (this.selectedList == i);
