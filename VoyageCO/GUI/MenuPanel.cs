@@ -5,12 +5,13 @@ using VCO.Data;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
+using static Violet.GUI.WindowBox;
 
 namespace VCO.GUI
 {
     internal abstract class MenuPanel : Renderable
     {
-        public MenuPanel(Vector2f position, Vector2f size, int depth, string style, uint flavor)
+        public MenuPanel(Vector2f position, Vector2f size, int depth, WindowStyle style, uint flavor)
         {
             this.Initialize(position, size, depth, style, flavor);
         }
@@ -20,13 +21,13 @@ namespace VCO.GUI
             this.Initialize(position, size, depth, Settings.WindowStyle, Settings.WindowFlavor);
         }
 
-        private void Initialize(Vector2f position, Vector2f size, int depth, string style, uint flavor)
+        private void Initialize(Vector2f position, Vector2f size, int depth, WindowStyle style, uint flavor)
         {
             this.position = position;
             this.size = size;
             this.depth = depth;
             this.controls = new List<Renderable>();
-            this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, this.position, this.size + MenuPanel.BORDER_OFFSET * 2f, this.depth);
+            this.window = new WindowBox(style, Settings.WindowFlavor, this.position, this.size + MenuPanel.BORDER_OFFSET * 2f, this.depth);
         }
 
         public void Add(Renderable control)

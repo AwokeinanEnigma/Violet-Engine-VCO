@@ -7,6 +7,7 @@ using Violet.Actors;
 using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
+using static Violet.GUI.WindowBox;
 
 namespace VCO.Battle.UI
 {
@@ -40,9 +41,10 @@ namespace VCO.Battle.UI
             InputManager.Instance.ButtonPressed += this.ButtonPressed;
         }
 
-        public void ChangeStyle(string style)
+        public void ChangeStyle(WindowStyle style)
         {
-            window.FramePath = style;
+            window.SetStyle(style);
+           // window.style
         }
 
         private void TypewriterComplete()

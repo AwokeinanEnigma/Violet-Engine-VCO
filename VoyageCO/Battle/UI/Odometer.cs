@@ -47,8 +47,6 @@ namespace VCO.Battle.UI
             this.Update();
         }
 
-
-        public int dead;
         private void Kill()
         {
 

@@ -172,6 +172,7 @@ namespace VCO.Battle.UI
                 {
                     this.numbers[i].Dispose();
                 }
+                disposed = true;
             }
         }
 
@@ -193,7 +194,9 @@ namespace VCO.Battle.UI
 
         private static readonly Vector2f RIGHT_OFFSET = new Vector2f(320f, 0f);
 
-        private readonly bool disposed;
+#pragma warning disable CS0649
+        //REASON: This is used for when the damage number is disposed.
+        private bool disposed;
 
         private Vector2f position;
 

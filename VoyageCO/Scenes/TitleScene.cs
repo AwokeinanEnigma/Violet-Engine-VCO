@@ -303,8 +303,6 @@ namespace VCO.Scenes
 
         private readonly VioletSound sfxCancel;
 
-        private readonly IGraphicModifier mod;
-
         private readonly bool canContinue;
     }
 }

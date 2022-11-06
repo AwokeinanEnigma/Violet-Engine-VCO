@@ -25,7 +25,7 @@ namespace VCO.GUI.NamingMenu
 
         public int NameWidth => (int)this.nameText.Size.X;
 
-        public NamingPanel(Vector2f position, Vector2f size) : base(position, size, 1, "Data/Graphics/window1.dat", 0U)
+        public NamingPanel(Vector2f position, Vector2f size) : base(position, size, 1, new WindowBox.WindowStyle("Data/Graphics/window1.dat", false), 0U)
         {
             this.descriptionText = new TextRegion(new Vector2f(2f, 0f), 1, Fonts.Main, string.Empty);
             base.Add(this.descriptionText);

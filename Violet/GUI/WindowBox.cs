@@ -59,75 +59,64 @@ namespace Violet.GUI
             }
         }
 
-        public string FramePath
+        public WindowStyle ActiveWindowStyle
         {
             get
             {
-                return this.framePath;
+                return this.windowStyle;
             }
             set
             {
-                this.framePath = value;
+                this.windowStyle = value;
             }
         }
         #endregion
 
         #region Private fields
-        private bool beamRepeat;
         private uint palette;
         private IndexedColorGraphic frame;
         private RenderStates states;
         private Transform transform;
         private VertexArray verts;
         private Shader shader;
-        private string framePath;
-        #endregion
-        public WindowBox(string framePath, uint palette, Vector2f position, Vector2f size, int depth)
+        private WindowStyle windowStyle;
+        public struct WindowStyle
         {
-            this.framePath = framePath;
+            public WindowStyle(string resourcePath, bool beamRepeat) {
+                this.resourcePath = resourcePath;
+                this.beamRepeat = beamRepeat;
+            }
+            public string resourcePath;
+            public bool beamRepeat;
+        }
+        #endregion
+        public WindowBox(WindowStyle style, uint palette, Vector2f position, Vector2f size, int depth)
+        {
+            this.windowStyle = style;
             this.palette = palette;
             this.position = position;
             this.size = size;
             this.depth = depth;
-            this.SetStyle(framePath);
+            this.SetStyle(style);
         }
 
-        private void SetStyle(string newStyle)
+        public void SetStyle(WindowStyle newStyle)
         {
-            /* 
-			I think this code is actually decompiled correctly, but using labels for stuff like this is really weird and unnecessary. - Enigma
-			
-			this.style = newStyle;
-			string resource;
-			switch (this.style)
-			{
-				case WindowBox.Style.Classic:
-					resource = "Data/Graphics/window2.dat";
-					this.beamRepeat = false;
-					goto IL_4D;
-				case WindowBox.Style.Telepathy:
-					resource = "Data/Graphics/window3.dat";
-					this.beamRepeat = true;
-					goto IL_4D;
-			}
-			resource = "Data/Graphics/window1.dat";
-			this.beamRepeat = false;
-		IL_4D:
-			*/
+            Debug.LogL($"style framepath: {newStyle.resourcePath}");
 
-            // abbrievated as
-            if (string.IsNullOrEmpty(newStyle))
+            this.windowStyle = newStyle;
+
+            if (string.IsNullOrEmpty(newStyle.resourcePath))
             {
-                Debug.LogW("WindowBox with no style tried to be initiated!");
+                Debug.LogW("Tried to apply a WindowStyle to WindowBox that had no ResourcePath!");
 
-                // if we have no style :^)
-                newStyle = "Data/Graphics/window1.dat";
+                // if the style has no resourcePath :^) ( enigma note: this was really funny before i revamped this section of the code )
+                newStyle.resourcePath = "Data/Graphics/window1.dat";
 
-                // set our framepath to this generic one
-                framePath = newStyle;
+                this.windowStyle = newStyle;
             }
 
-            this.frame = new IndexedColorGraphic(newStyle, "center", this.position, this.depth);
+            this.frame = new IndexedColorGraphic(windowStyle.resourcePath, "center", this.position, this.depth);
             this.frame.CurrentPalette = this.palette;
 
             ((IndexedTexture)this.frame.Texture).CurrentPalette = this.palette;
@@ -206,7 +195,7 @@ namespace Violet.GUI
             this.verts.Append(new Vertex(vector2f2 + new Vector2f(num, 0f), new Vector2f(spriteDefinition9.Coords.X + bounds9.X, spriteDefinition9.Coords.Y)));
             this.verts.Append(new Vertex(vector2f2 + new Vector2f(num, num4), new Vector2f(spriteDefinition9.Coords.X + bounds9.X, spriteDefinition9.Coords.Y + bounds9.Y)));
             this.verts.Append(new Vertex(vector2f2 + new Vector2f(0f, num4), new Vector2f(spriteDefinition9.Coords.X, spriteDefinition9.Coords.Y + bounds9.Y)));
-            if (!this.beamRepeat)
+            if (!windowStyle.beamRepeat)
             {
                 vector2f2 = vector2f;
                 vector2f2 += new Vector2f(bounds.X, 0f);

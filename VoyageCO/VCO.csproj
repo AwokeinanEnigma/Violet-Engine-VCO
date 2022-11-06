@@ -94,7 +94,6 @@
     <Compile Include="Actors\Animation\AnimationContext.cs" />
     <Compile Include="Actors\NPCs\Enemy.cs" />
     <Compile Include="Actors\NPCs\Movement\AreaMover.cs" />
-    <Compile Include="Actors\NPCs\Movement\GangUpOnPlayer.cs" />
     <Compile Include="Actors\NPCs\Movement\FacePlayerMover.cs" />
     <Compile Include="Actors\NPCs\Movement\LookForTroubleMover.cs" />
     <Compile Include="Actors\NPCs\Movement\Mover.cs" />
@@ -163,7 +162,6 @@
     <Compile Include="Battle\Combos\ComboType.cs" />
     <Compile Include="Battle\EnemyAI\BoilerplateAI.cs" />
     <Compile Include="Battle\EnemyAI\IEnemyAI.cs" />
-    <Compile Include="Battle\EnemyAI\RandomAI.cs" />
     <Compile Include="Battle\EnemyAI\TravisMustDieAI.cs" />
     <Compile Include="Battle\PsiAnimation\AUXAnimator.cs" />
     <Compile Include="Battle\PsiAnimation\AUXElement.cs" />

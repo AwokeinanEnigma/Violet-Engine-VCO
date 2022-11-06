@@ -163,6 +163,7 @@ namespace VCO.Battle.UI
                 {
                     this.numbers[i].Dispose();
                 }
+                disposed = true;
             }
         }
 
@@ -170,7 +171,7 @@ namespace VCO.Battle.UI
 
         private static readonly string RESOURCE = Paths.GRAPHICS + "numberset1.dat";
 
-        private readonly bool disposed;
+        private bool disposed;
 
         private int number;
 

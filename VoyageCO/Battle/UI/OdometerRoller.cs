@@ -66,7 +66,6 @@ namespace VCO.Battle.UI
             this.targetStepFrame = -1;
         }
 
-        private readonly int deadCount;
         public void StepRoll()
         {
             this.rolling = true;

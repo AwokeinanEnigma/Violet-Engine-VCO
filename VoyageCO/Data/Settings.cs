@@ -1,4 +1,6 @@
-﻿namespace VCO.Data
+﻿using static Violet.GUI.WindowBox;
+
+namespace VCO.Data
 {
     internal class Settings
     {
@@ -14,7 +16,7 @@
             set => Settings.windowFlavor = value;
         }
 
-        public static string WindowStyle => "Data/Graphics/window1.dat";
+        public static WindowStyle WindowStyle => new WindowStyle("Data/Graphics/window1.dat", false);
 
         public static float EffectsVolume
         {

@@ -18,7 +18,9 @@ namespace VCO.GUI.NamingMenu
             set => this.cursor.Visible = value;
         }
 
-        public TextInputPanel(Vector2f position, Vector2f size) : base(position, size, 0, "Data/Graphics/window1.dat", 0U)
+        //billions must drive
+        
+        public TextInputPanel(Vector2f position, Vector2f size) : base(position, size, 0, new WindowBox.WindowStyle("Data/Graphics/window1.dat", false), 0U)
         {
             this.selectingLetters = true;
             this.SetupSounds();

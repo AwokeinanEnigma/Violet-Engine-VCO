@@ -841,12 +841,6 @@ namespace VCO.Scenes
         public List<EnemyNPC> AllEnemyNpcs;
         public void StartBattle(EnemyNPC npc)
         {
-            List<EnemyNPC> PullNearbyEnemies()
-            {
-
-
-                return null;
-            }
 
             if (battleEnemies == null || battleEnemies.Count <= 0)
             {
@@ -864,7 +858,6 @@ namespace VCO.Scenes
                     {
 
                         nearby.Add(_npc);
-                        _npc.Snip();
                     }
                 }
                 List<EnemyData> allEnemyDatas = new List<EnemyData>();

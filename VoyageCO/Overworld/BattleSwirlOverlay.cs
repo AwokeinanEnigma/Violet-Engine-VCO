@@ -19,10 +19,13 @@ namespace VCO.Overworld
             this.textures = TextureManager.Instance.UseMultipart(file);
             this.gradMap = TextureManager.Instance.UseUnprocessed(Paths.BATTLE_SWIRL + "gradmap.png");
             Random random = new Random(5551247);
-            int num = (Engine.Random.Next(100) >= 50) ? -1 : 1;
-            int num2 = (Engine.Random.Next(100) >= 50) ? -1 : 1;
-            int num3 = num * 160;
-            int num4 = num2 * 90;
+
+            int widthRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
+            int heightRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
+
+            int width = widthRandom * (int)Engine.HALF_SCREEN_WIDTH;
+            int height = heightRandom * (int)Engine.HALF_SCREEN_HEIGHT;
+
             this.layers = new VertexArray[this.textures.Length - 1];
             this.delta = new float[this.layers.Length];
             this.speed = new float[this.layers.Length];
@@ -31,14 +34,13 @@ namespace VCO.Overworld
                 this.speed[i] = speed + (float)((random.NextDouble() - 0.5) * 0.002);
                 this.delta[i] = 0f;
                 this.layers[i] = new VertexArray(PrimitiveType.Quads, 4U);
-                this.layers[i][0U] = new Vertex(new Vector2f(-num3, -num4), new Vector2f(0f, 0f));
-                this.layers[i][1U] = new Vertex(new Vector2f(num3, -num4), new Vector2f(1f, 0f));
-                this.layers[i][2U] = new Vertex(new Vector2f(num3, num4), new Vector2f(1f, 1f));
-                this.layers[i][3U] = new Vertex(new Vector2f(-num3, num4), new Vector2f(0f, 1f));
+                this.layers[i][0U] = new Vertex(new Vector2f(-width, -height), new Vector2f(0f, 0f));
+                this.layers[i][1U] = new Vertex(new Vector2f(width, -height), new Vector2f(1f, 0f));
+                this.layers[i][2U] = new Vertex(new Vector2f(width, height), new Vector2f(1f, 1f));
+                this.layers[i][3U] = new Vertex(new Vector2f(-width, height), new Vector2f(0f, 1f));
                 this.textures[1 + i].CurrentPalette = BattleSwirlOverlay.PALETTES[style];
             }
             this.scale = new Vector2f(1f, 1f);
-            this.position = this.position;
             this.origin = this.textures[0].GetSpriteDefinition("default").Origin;
             this.depth = depth;
             this.size = Engine.SCREEN_SIZE;

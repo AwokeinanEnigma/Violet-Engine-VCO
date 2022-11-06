@@ -13,18 +13,26 @@ using Violet.Utility;
 
 namespace VCO.Actors.NPCs
 {
-    // Token: 0x02000052 RID: 82
     internal class EnemyNPC : SolidActor
     {
-        // Token: 0x17000074 RID: 116
-        // (get) Token: 0x06000207 RID: 519 RVA: 0x0000C675 File Offset: 0x0000A875
+        #region Properties
         public EnemyData Type => this.enemyType;
-
-        // Token: 0x17000075 RID: 117
-        // (get) Token: 0x06000208 RID: 520 RVA: 0x0000C67D File Offset: 0x0000A87D
         public Graphic Graphic => this.npcGraphic;
+        #endregion
 
-        // Token: 0x06000209 RID: 521 RVA: 0x0000C688 File Offset: 0x0000A888x
+        //private static readonly Vector2f HALO_OFFSET = new Vector2f(0f, -32f);
+        private readonly RenderPipeline pipeline;
+        private readonly IndexedColorGraphic npcGraphic;
+        //private readonly IndexedColorGraphic haloGraphic;
+        private readonly Graphic shadowGraphic;
+        private Mover mover;
+        private readonly bool[] hasDirection;
+        private Vector2f lastVelocity;
+        private int direction;
+        private bool changed;
+        private readonly EnemyData enemyType;
+        private readonly AnimationControl animator;
+
         public EnemyNPC(RenderPipeline pipeline, CollisionManager colman, EnemyData enemyType, Vector2f position, FloatRect spawnArea) : base(colman)
         {
             //Console.WriteLine("enemy");
@@ -55,12 +63,6 @@ namespace VCO.Actors.NPCs
             this.animator.UpdateSubsprite(this.GetAnimationContext());
             results = new ICollidable[1];
         }
-
-        public void ChasePlayer()
-        {
-            mover = new GangUpOnPlayer(5);
-        }
-
         private AnimationContext GetAnimationContext()
         {
             return new AnimationContext
@@ -94,29 +96,7 @@ namespace VCO.Actors.NPCs
         protected override void HandleCollision(ICollidable[] collisionObjects)
         {
             base.HandleCollision(collisionObjects);
-            if (!Snipped)
-            {
-                /*
-                if (OverworldScene.instance != null && collisionObjects.Length > 0)
-                {
-                    if (collisionObjects[0] is Player && hasEnteredBattle != true)
-                    {
-						//Console.WriteLine($"starting battle");
-                        OverworldScene.instance.StartBattle(this);
-                        hasEnteredBattle = true;
-
-                    }
-                }*/
-
-            }
-            /*if (collisionObjects[0] is EnemyNPC)
-{
-	if (!collisionManager.PlaceFree(this, position))
-	{
-		Console.WriteLine($"the phantom exterior like fish eggs interior like suicide wrist-red. I could exercise you, this could be your phys-ed. Cheat on your man homie AAGH I tried to sneak through the door man! Can't make it. Can't make it. Shit's stuck. Outta my way son! DOOR STUCK! DOOR STUCK! PLEASE! I BEG YOU! We're dead. You're a genuine dick sucker.");
-		this.position += new Vector2f(direction, direction);
-	}
-}*/
+    
         }
 
         public delegate void OnDestroyed(EnemyNPC npc);
@@ -128,26 +108,6 @@ namespace VCO.Actors.NPCs
             Dispose(true);
         }
 
-        public bool Snipped;
-
-        public void Snip()
-        {
-            Snipped = true;
-        }
-
-
-        /*HandleCollision(CollisionContext context)
-        {
-            base.Collision(context);
-            Console.WriteLine("collider");
-            if (OverworldScene.instance != null)
-            {
-                if (context.Other is Player)
-                {
-                    OverworldScene.instance.StartBattle(new EnemyNPC[1]{this});
-                }
-            }
-        }*/
         private static readonly Type[] enemyofType =
             new Type[]
             {
@@ -194,15 +154,6 @@ namespace VCO.Actors.NPCs
 
                 this.collisionManager.Update(this, this.lastPosition, this.position);
                 this.changed = false;
-
-                /*bool flag = collisionManager == null ||
-                            collisionManager.PlaceFree(this, moveTemp, results, ignoreCollisionTypes);
-
-                if (!flag)
-                {
-                    velocity.Y = 0f;
-                    HandleCollision(results);
-                }*/
             }
         }
 
@@ -228,41 +179,5 @@ namespace VCO.Actors.NPCs
                 }
             }
         }
-
-        // Token: 0x040002DE RID: 734
-        private static readonly Vector2f HALO_OFFSET = new Vector2f(0f, -32f);
-
-        // Token: 0x040002DF RID: 735
-        private readonly RenderPipeline pipeline;
-
-        // Token: 0x040002E0 RID: 736
-        private readonly IndexedColorGraphic npcGraphic;
-
-        // Token: 0x040002E1 RID: 737
-        private readonly IndexedColorGraphic haloGraphic;
-
-        // Token: 0x040002E2 RID: 738
-        private readonly Graphic shadowGraphic;
-
-        // Token: 0x040002E3 RID: 739
-        private Mover mover;
-
-        // Token: 0x040002E4 RID: 740
-        private readonly bool[] hasDirection;
-
-        // Token: 0x040002E5 RID: 741
-        private Vector2f lastVelocity;
-
-        // Token: 0x040002E6 RID: 742
-        private int direction;
-
-        // Token: 0x040002E7 RID: 743
-        private bool changed;
-
-        // Token: 0x040002E8 RID: 744
-        private readonly EnemyData enemyType;
-
-        // Token: 0x040002E9 RID: 745
-        private readonly AnimationControl animator;
     }
 }

@@ -22,6 +22,7 @@ using Violet.Graphics;
 using Violet.GUI;
 using Violet.Input;
 using Violet.Utility;
+using static Violet.GUI.WindowBox;
 
 namespace VCO.Battle
 {
@@ -348,9 +349,6 @@ namespace VCO.Battle
 
             this.UpdatePlayerCard(playerCombatant.ID, playerCombatant.Stats.HP, playerCombatant.Stats.PP, playerCombatant.Stats.Meter);
         }
-
-        public int talkerID;
-        public PlayerCombatant talker;
 
         private void OnPlayerStatusEffectChange(Combatant sender, StatusEffect statusEffect, bool added)
         {
@@ -1077,7 +1075,10 @@ namespace VCO.Battle
                         default:
                             throw new NotImplementedException("Tried to use unimplemented button action.");
                     }
+#pragma warning disable CS0162 // Unreachable code detected
+                    //REASON: This break statement is actually reachable, despite what VS2019 is saying.
                     break;
+#pragma warning restore CS0162 // Unreachable code detected
                 case Button.B:
                     if (this.isUndoAllowed)
                     {
@@ -1375,7 +1376,7 @@ namespace VCO.Battle
             this.textbox.Show();
         }
 
-        public void ShowStyledMessage(string message, bool useButton, string style)
+        public void ShowStyledMessage(string message, bool useButton, WindowStyle style)
         {
             this.textbox.Reset(message, useButton);
             this.textbox.ChangeStyle(style);

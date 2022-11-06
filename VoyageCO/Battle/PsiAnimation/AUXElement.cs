@@ -6,6 +6,8 @@ using Violet.Graphics;
 
 namespace VCO.Battle.AUXAnimation
 {
+    #pragma warning disable CS0649 // Field is never assigned to, and will always have its value null
+    //REASON: These fields are assigned to, but not always.
     internal struct AUXElement
     {
         public int Timestamp;

@@ -20,22 +20,11 @@ namespace VCO.SOMETHING
         public override string QualifiedName => "Telapathy";
         public override string Key => "1";
         internal override IAUX identifier => new AssistiveAUX();
-        private RenderPipeline pipeline;
         public Telepathy()
         {
             Console.WriteLine("THE PURPOSE OF MAN IS TO PERFORM TELEPATHY");
         }
 
-        private Graphic[] targetGraphics;
-        private Shape screenShape;
-        private ShapeGraphic screenDarkenShape;
-        private byte sourceAlpha;
-        private byte targetAlpha;
-        private float alphaMultiplier;
-        private bool darkenedFlag;
-        private Dictionary<Graphic, int> depthMemory;
-        private List<IGraphicModifier> graphicModifiers;
-        private int[] targetCardIds;
         internal override void Initialize(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
             string message = string.Format("{0} tried {1} {2}!", CharacterNames.GetName(combantant.Character), QualifiedName, AUXLetters.Get(action.AUXLevel));
@@ -45,30 +34,6 @@ namespace VCO.SOMETHING
             interfaceController.ShowMessage(message, false);
             interfaceController.PopCard(combantant.ID, 23);
 
-            int[] array = new int[targets.Length];
-            Graphic[] array2 = new Graphic[targets.Length];
-            for (int i = 0; i < targets.Length; i++)
-            {
-                if (targets[i].Faction == BattleFaction.EnemyTeam)
-                {
-                    array2[i] = interfaceController.GetEnemyGraphic(targets[i].ID);
-                    array[i] = -1;
-                }
-                else if (targets[i].Faction == BattleFaction.PlayerTeam)
-                {
-                    array2[i] = interfaceController.GetCardGraphic(targets[i].ID);
-                    array[i] = targets[i].ID;
-                }
-            }
-            this.targetCardIds = array;
-            this.targetGraphics = array2;
-
-            pipeline = interfaceController.pipeline;
-            graphicModifiers = interfaceController.graphicModifiers;
-            this.screenShape = new RectangleShape(new Vector2f(320f, 180f))
-            {
-                FillColor = new Color(0, 0, 0, 128)
-            };
             void OnTextboxComplete()
             {
                 interfaceController.OnTextboxComplete -= OnTextboxComplete;
@@ -76,51 +41,6 @@ namespace VCO.SOMETHING
             }
             Console.WriteLine("initialize");
         }
-        private void DarkenScreen(Color darkenColor, int depth)
-        {
-            if (this.screenDarkenShape != null)
-            {
-                this.pipeline.Remove(this.screenDarkenShape);
-            }
-            this.targetAlpha = darkenColor.A;
-            this.sourceAlpha = this.screenShape.FillColor.A;
-            this.alphaMultiplier = 0f;
-            FloatRect localBounds = this.screenShape.GetLocalBounds();
-            this.screenShape.FillColor = new Color(darkenColor.R, darkenColor.G, darkenColor.B, this.sourceAlpha);
-            this.screenDarkenShape = new ShapeGraphic(this.screenShape, new Vector2f(0f, 0f), new Vector2f(0f, 0f), new Vector2f(localBounds.Width, localBounds.Height), depth);
-            this.pipeline.Add(this.screenDarkenShape);
-            if (this.sourceAlpha == 0)
-            {
-                if (this.depthMemory == null)
-                {
-                    this.depthMemory = new Dictionary<Graphic, int>();
-                }
-                else
-                {
-                    this.depthMemory.Clear();
-                }
-                for (int i = 0; i < this.targetGraphics.Length; i++)
-                {
-                    if (this.targetCardIds[i] < 0)
-                    {
-                        Graphic graphic = this.targetGraphics[i];
-                        this.depthMemory.Add(graphic, graphic.Depth);
-                        graphic.Depth = 32677;
-                    }
-                }
-            }
-            this.darkenedFlag = false;
-        }
-
-        private void UpdateDarkenColor()
-        {
-            Color fillColor = this.screenDarkenShape.Shape.FillColor;
-            this.alphaMultiplier += 0.2f;
-            fillColor.A = (byte)(sourceAlpha + (this.targetAlpha - this.sourceAlpha) * this.alphaMultiplier);
-            this.screenDarkenShape.Shape.FillColor = fillColor;
-        }
-
-
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
             /*
@@ -165,9 +85,8 @@ namespace VCO.SOMETHING
                 if (enemy == null)
                 {
                     throw new Exception("Combatant is not an enemy or somehow has null data!");
-                    return;
                 }
-                interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, "Data/Graphics/window3.dat");
+                interfaceController.ShowStyledMessage($"{enemy.Enemy.GetStringQualifiedName("telepathy")}", true, new Violet.GUI.WindowBox.WindowStyle("Data/Graphics/window3.dat", true));
                 interfaceController.OnTextboxComplete += InterfaceController_OnTextboxComplete;
                 void InterfaceController_OnTextboxComplete()
                 {
