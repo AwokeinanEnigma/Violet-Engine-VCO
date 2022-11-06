@@ -9,7 +9,8 @@ namespace Violet.Tiles
 {
     public class TileGroup : Renderable, IDisposable
     {
-		public bool AnimationEnabled
+        #region Properties
+        public bool AnimationEnabled
 		{
 			get
 			{
@@ -54,8 +55,29 @@ namespace Violet.Tiles
 				return this.tileset;
 			}
 		}
+	    #endregion
 
-		public TileGroup(IList<Tile> tiles, string resource, int depth, Vector2f position, uint palette)
+        #region Private fields
+        private Vertex[] vertices;
+
+		private IndexedTexture tileset;
+
+		private RenderStates renderState;
+
+		private TileGroup.TileAnimation[] animations;
+
+		private bool animationEnabled;
+		#endregion
+
+		private struct TileAnimation
+		{
+			public int[] Tiles;
+
+			public IList<int> VertIndexes;
+
+			public float Speed;
+		}
+        public TileGroup(IList<Tile> tiles, string resource, int depth, Vector2f position, uint palette)
 		{
 			//Debug.Log($"trying to! {resource}");
 			this.tileset = TextureManager.Instance.Use(resource);
@@ -117,7 +139,7 @@ namespace Violet.Tiles
 					}
 					else
 					{
-						Console.WriteLine("Tried to load tile animation data for animation {0}, but there was no tile data.", num);
+						Debug.LogW($"Tried to load tile animation data for animation {num}, but there was no tile data.");
 					}
 				}
 			}
@@ -269,10 +291,6 @@ namespace Violet.Tiles
 				tileset = null;
 				
 				// These would stay in memory and just shit up MEMORY AND SHIT UP PERFORMANCE
-				// BECAUSE FOR SOME FUCKING REASON, THE STUPID FUCKING GARBAGE COLLECTOR WOULDN'T FUCKING COLLECT IT!
-				// I FUCKING HATE C#
-				// I FUCKING HATE MICROSOFT
-				// I FUCKING HATE RAM
 				Array.Clear(vertices, 0, vertices.Length);
 				vertices = null;
 
@@ -285,23 +303,6 @@ namespace Violet.Tiles
 
 		private static readonly Shader TILE_GROUP_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
 
-        private Vertex[] vertices;
 
-        private IndexedTexture tileset;
-
-        private RenderStates renderState;
-
-        private TileGroup.TileAnimation[] animations;
-
-        private bool animationEnabled;
-
-        private struct TileAnimation
-        {
-            public int[] Tiles;
-
-            public IList<int> VertIndexes;
-
-            public float Speed;
-        }
     }
 }
