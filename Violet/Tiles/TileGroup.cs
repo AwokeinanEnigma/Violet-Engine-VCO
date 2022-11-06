@@ -157,8 +157,8 @@ namespace Violet.Tiles
 		private unsafe void CreateVertexArray(IList<Tile> tiles)
 		{
 			this.vertices = new Vertex[tiles.Count * 4];
-			uint num = 0U;
-			uint num2 = 0U;
+			uint tileX = 0U;
+			uint tileY = 0U;
 			Vector2f v = default(Vector2f);
 			Vector2f v2 = default(Vector2f);
 			fixed (Vertex* ptr = this.vertices)
@@ -177,50 +177,50 @@ namespace Violet.Tiles
 					ptr2[2].Position.Y = y + 8f;
 					ptr2[3].Position.X = x;
 					ptr2[3].Position.Y = y + 8f;
-					this.IDToTexCoords(tile.ID, out num, out num2);
+					this.IDToTexCoords(tile.ID, out tileX, out tileY);
 					if (!tile.FlipHorizontal && !tile.FlipVertical)
 					{
-						ptr2->TexCoords.X = num;
-						ptr2->TexCoords.Y = num2;
-						ptr2[1].TexCoords.X = num + 8U;
-						ptr2[1].TexCoords.Y = num2;
-						ptr2[2].TexCoords.X = num + 8U;
-						ptr2[2].TexCoords.Y = num2 + 8U;
-						ptr2[3].TexCoords.X = num;
-						ptr2[3].TexCoords.Y = num2 + 8U;
+						ptr2->TexCoords.X = tileX;
+						ptr2->TexCoords.Y = tileY;
+						ptr2[1].TexCoords.X = tileX + 8U;
+						ptr2[1].TexCoords.Y = tileY;
+						ptr2[2].TexCoords.X = tileX + 8U;
+						ptr2[2].TexCoords.Y = tileY + 8U;
+						ptr2[3].TexCoords.X = tileX;
+						ptr2[3].TexCoords.Y = tileY + 8U;
 					}
 					else if (tile.FlipHorizontal && !tile.FlipVertical)
 					{
-						ptr2->TexCoords.X = num + 8U;
-						ptr2->TexCoords.Y = num2;
-						ptr2[1].TexCoords.X = num;
-						ptr2[1].TexCoords.Y = num2;
-						ptr2[2].TexCoords.X = num;
-						ptr2[2].TexCoords.Y = num2 + 8U;
-						ptr2[3].TexCoords.X = num + 8U;
-						ptr2[3].TexCoords.Y = num2 + 8U;
+						ptr2->TexCoords.X = tileX + 8U;
+						ptr2->TexCoords.Y = tileY;
+						ptr2[1].TexCoords.X = tileX;
+						ptr2[1].TexCoords.Y = tileY;
+						ptr2[2].TexCoords.X = tileX;
+						ptr2[2].TexCoords.Y = tileY + 8U;
+						ptr2[3].TexCoords.X = tileX + 8U;
+						ptr2[3].TexCoords.Y = tileY + 8U;
 					}
 					else if (!tile.FlipHorizontal && tile.FlipVertical)
 					{
-						ptr2->TexCoords.X = num;
-						ptr2->TexCoords.Y = num2 + 8U;
-						ptr2[1].TexCoords.X = num + 8U;
-						ptr2[1].TexCoords.Y = num2 + 8U;
-						ptr2[2].TexCoords.X = num + 8U;
-						ptr2[2].TexCoords.Y = num2;
-						ptr2[3].TexCoords.X = num;
-						ptr2[3].TexCoords.Y = num2;
+						ptr2->TexCoords.X = tileX;
+						ptr2->TexCoords.Y = tileY + 8U;
+						ptr2[1].TexCoords.X = tileX + 8U;
+						ptr2[1].TexCoords.Y = tileY + 8U;
+						ptr2[2].TexCoords.X = tileX + 8U;
+						ptr2[2].TexCoords.Y = tileY;
+						ptr2[3].TexCoords.X = tileX;
+						ptr2[3].TexCoords.Y = tileY;
 					}
 					else
 					{
-						ptr2->TexCoords.X = num + 8U;
-						ptr2->TexCoords.Y = num2 + 8U;
-						ptr2[1].TexCoords.X = num;
-						ptr2[1].TexCoords.Y = num2 + 8U;
-						ptr2[2].TexCoords.X = num;
-						ptr2[2].TexCoords.Y = num2;
-						ptr2[3].TexCoords.X = num + 8U;
-						ptr2[3].TexCoords.Y = num2;
+						ptr2->TexCoords.X = tileX + 8U;
+						ptr2->TexCoords.Y = tileY + 8U;
+						ptr2[1].TexCoords.X = tileX;
+						ptr2[1].TexCoords.Y = tileY + 8U;
+						ptr2[2].TexCoords.X = tileX;
+						ptr2[2].TexCoords.Y = tileY;
+						ptr2[3].TexCoords.X = tileX + 8U;
+						ptr2[3].TexCoords.Y = tileY;
 					}
 					v.X = Math.Min(v.X, ptr2->Position.X);
 					v.Y = Math.Min(v.Y, ptr2->Position.Y);
@@ -241,25 +241,25 @@ namespace Violet.Tiles
 			for (int i = 0; i < this.animations.Length; i++)
 			{
 				TileGroup.TileAnimation tileAnimation = this.animations[i];
-				float num = (float)Engine.Frame * tileAnimation.Speed;
-				uint num2 = (uint)tileAnimation.Tiles[(int)num % tileAnimation.Tiles.Length];
-				uint num3;
-				uint num4;
-				this.IDToTexCoords(num2 - 1U, out num3, out num4);
+				float speed = (float)Engine.Frame * tileAnimation.Speed;
+				uint tileID = (uint)tileAnimation.Tiles[(int)speed % tileAnimation.Tiles.Length];
+				uint tileX;
+				uint tileY;
+				this.IDToTexCoords(tileID - 1U, out tileX, out tileY);
 				fixed (Vertex* ptr = this.vertices)
 				{
 					for (int j = 0; j < tileAnimation.VertIndexes.Count; j++)
 					{
-						int num5 = tileAnimation.VertIndexes[j];
-						Vertex* ptr2 = ptr + num5;
-						ptr2->TexCoords.X = num3;
-						ptr2->TexCoords.Y = num4;
-						ptr2[1].TexCoords.X = num3 + 8U;
-						ptr2[1].TexCoords.Y = num4;
-						ptr2[2].TexCoords.X = num3 + 8U;
-						ptr2[2].TexCoords.Y = num4 + 8U;
-						ptr2[3].TexCoords.X = num3;
-						ptr2[3].TexCoords.Y = num4 + 8U;
+						int vertexIndex = tileAnimation.VertIndexes[j];
+						Vertex* ptr2 = ptr + vertexIndex;
+						ptr2->TexCoords.X = tileX;
+						ptr2->TexCoords.Y = tileY;
+						ptr2[1].TexCoords.X = tileX + 8U;
+						ptr2[1].TexCoords.Y = tileY;
+						ptr2[2].TexCoords.X = tileX + 8U;
+						ptr2[2].TexCoords.Y = tileY + 8U;
+						ptr2[3].TexCoords.X = tileX;
+						ptr2[3].TexCoords.Y = tileY + 8U;
 					}
 				}
 			}

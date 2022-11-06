@@ -59,9 +59,68 @@ namespace VCO.Scenes
 		}
 		private ICollidable[] collisionResults;
 
-        public static OverworldScene instance;
 
-		public OverworldScene(string mapName, Vector2f initialPosition, int initialDirection, bool initialRunning, bool extendParty, bool enableLoadScripts)
+        #region Private fields
+        private const int DIMMER_DEPTH = 2147450870;
+
+		private Color backColor;
+
+		private CollisionManager collisionManager;
+
+		private Player player;
+
+		private PartyTrain partyTrain;
+
+		private ScreenDimmer screenDimmer;
+
+		private TextBox textbox;
+
+		private QuestionBox questionbox;
+
+		private ScriptExecutor executor;
+
+		private VioletSound battleStartSound;
+
+		private string musicName;
+
+		private uint musicPosition;
+
+		private bool dontPauseMusic;
+
+		private IList<EnemySpawner> spawners;
+
+		private List<EnemyNPC> battleEnemies;
+
+		private IList<ParallaxBackground> parallaxes;
+
+		private BattleBackgroundRenderable testBack;
+
+		private IList<TileGroup> mapGroups;
+
+		private string mapName;
+
+		private Vector2f initialPosition;
+
+		private int initialDirection;
+
+		private bool initialRunning;
+
+		private IrisOverlay iris;
+
+		private bool initialized;
+
+		private bool enableLoadScripts;
+
+		private bool extendParty;
+
+		private bool openingMenu;
+
+		private RainOverlay rainOverlay;
+
+		private FootstepPlayer footstepPlayer;
+#endregion
+
+        public OverworldScene(string mapName, Vector2f initialPosition, int initialDirection, bool initialRunning, bool extendParty, bool enableLoadScripts)
 		{
 			this.mapName = mapName;
 			this.initialPosition = initialPosition;
@@ -271,8 +330,9 @@ namespace VCO.Scenes
 		{
 			if (b == Button.F1)
 			{
-				Debug.Log(MoonSharpFactorial2());
-				Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
+				FindTile(player.Position);
+				//Debug.Log(MoonSharpFactorial2());
+				//Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
 			}
 
             if (!executor.Running)
@@ -667,10 +727,21 @@ namespace VCO.Scenes
 		}
 
 		public void FindTile(Vector2f vector2F) {
-			foreach (TileGroup group in mapGroups) {
-				group.GetTileId(vector2F);
+
+			foreach (TileGroup group in mapGroups)
+			{
+				try
+				{
+					Debug.LogL($"Tile ID is '{group.GetTileId(vector2F)}' belonging to tileGroup: '{group}'");
+					//break;
+				}
+				catch (Exception e)
+				{
+					Debug.LogW($"Error trying to find tile: {e}");
+				}
 			}
-			
+
+
 		}
 		public override void Focus()
 		{
@@ -1003,63 +1074,5 @@ namespace VCO.Scenes
 			}
 			base.Dispose(disposing);
 		}
-
-		private const int DIMMER_DEPTH = 2147450870;
-
-		private Color backColor;
-
-		private CollisionManager collisionManager;
-
-		private Player player;
-
-		private PartyTrain partyTrain;
-
-		private ScreenDimmer screenDimmer;
-
-		private TextBox textbox;
-
-		private QuestionBox questionbox;
-
-		private ScriptExecutor executor;
-
-		private VioletSound battleStartSound;
-
-		private string musicName;
-
-		private uint musicPosition;
-
-		private bool dontPauseMusic;
-
-		private IList<EnemySpawner> spawners;
-
-		private List<EnemyNPC> battleEnemies;
-
-		private IList<ParallaxBackground> parallaxes;
-
-		private BattleBackgroundRenderable testBack;
-
-		private IList<TileGroup> mapGroups;
-
-		private string mapName;
-
-		private Vector2f initialPosition;
-
-		private int initialDirection;
-
-		private bool initialRunning;
-
-		private IrisOverlay iris;
-
-		private bool initialized;
-
-		private bool enableLoadScripts;
-
-		private bool extendParty;
-
-		private bool openingMenu;
-
-		private RainOverlay rainOverlay;
-
-		private FootstepPlayer footstepPlayer;
 	}
 }

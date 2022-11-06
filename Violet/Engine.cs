@@ -19,6 +19,7 @@ using Violet.Lua;
 using Violet.Scenes;
 using Violet.Scenes.Transitions;
 using Violet.Utility;
+using Button = Violet.Input.Button;
 
 namespace Violet
 {
@@ -416,11 +417,11 @@ namespace Violet
             Debug.LogI("Screenshot copied to clipboard");
         }
 
-        public static void OnButtonPressed(InputManager sender, Violet.Input.Button b)
+        public static void OnButtonPressed(InputManager sender, Button b)
         {
             switch (b)
             {
-                case Violet.Input.Button.Escape:
+                case Button.Escape:
                     if (!isFullscreen)
                     {
                         quit = true;
@@ -429,36 +430,36 @@ namespace Violet
                     switchScreenMode = true;
                     isFullscreen = !isFullscreen;
                     return;
-                case Violet.Input.Button.Tilde:
+                case Button.Tilde:
                     debugDisplay = !debugDisplay;
                     return;
-                case Violet.Input.Button.F1:
-                case Violet.Input.Button.F2:
-                case Violet.Input.Button.F3:
-                case Violet.Input.Button.F6:
-                case Violet.Input.Button.F7:
+                case Button.F1:
+                case Button.F2:
+                case Button.F3:
+                case Button.F6:
+                case Button.F7:
                     break;
-                case Violet.Input.Button.F4:
+                case Button.F4:
                     switchScreenMode = true;
                     isFullscreen = !isFullscreen;
                     return;
-                case Violet.Input.Button.F5:
+                case Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
                     Debug.LogI($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
-                case Violet.Input.Button.F8:
+                case Button.F8:
                 {
                     TakeScreenshot();
                     return;
                 }
-                case Violet.Input.Button.F9:
+                case Button.F9:
                 {
                     RenderPNG();
                     return;
                 }
                 default:
-                    if (b != Violet.Input.Button.F12)
+                    if (b != Button.F12)
                     {
                         return;
                     }
