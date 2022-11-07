@@ -63,6 +63,9 @@
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
     </Reference>
@@ -119,6 +122,7 @@
     <Compile Include="Battle\EnemyAI\HermitCanAI.cs" />
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />
     <Compile Include="Scenes\Base64DebugTest.cs" />
+    <Compile Include="Scenes\DiebackGraphic.cs" />
     <Compile Include="Scenes\DebugScene.cs" />
     <Compile Include="SOMETHINGSKILLS\AUXBase.cs" />
     <Compile Include="Battle\Actions\ActionParams.cs" />
@@ -387,7 +391,8 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
-    <None Include="Resources\dieback.frag" />
+    <EmbeddedResource Include="Resources\dieback.frag" />
+    <EmbeddedResource Include="Resources\dieback2.frag" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

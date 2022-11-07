@@ -1,6 +1,8 @@
-        uniform ivec2 tex_size;
+        uniform vec2 tex_size;
         uniform int planar_mode;
         uniform float planar_amplitude;
+        uniform sampler2D image;
+
 
         #ifdef VERTEX
         vec4 position(mat4 transform_projection, vec4 vertex_position)
@@ -9,8 +11,6 @@
             return transformed;
         }
         #endif
-
-        #ifdef PIXEL
 
         #define PI 3.1415926538
 
@@ -49,11 +49,12 @@
             return offset_pos;
         }
 
-        vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
-        {
-            vec2 distortion = distort(planar_mode,texture_coords,planar_amplitude);
 
-            vec4 base_color = Texel(tex, distortion);
-            return color * base_color;
+        void main()
+        {
+            vec2 coord = gl_TexCoord[0].xy;   
+            vec2 distortion = distort(planar_mode, coord, planar_amplitude);
+
+            vec4 base_color = texture2D(image, distortion);        
+            gl_FragColor = base_color;
         }
-        #endif

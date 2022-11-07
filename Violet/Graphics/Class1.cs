@@ -54,7 +54,7 @@ namespace Violet.Graphics
             return ((IndexedTexture)this.texture).ToFullColorTexture();
         }
 
-        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
 
         private RenderStates renderStates;
 

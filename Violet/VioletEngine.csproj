@@ -111,6 +111,7 @@
     <Compile Include="Utility\Quadtree.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="Utility\FrameTimerManager.cs" />
+    <Compile Include="Utility\SCHIZOCode.cs" />
     <Compile Include="Utility\VectorMath.cs" />
   </ItemGroup>
   <ItemGroup>
