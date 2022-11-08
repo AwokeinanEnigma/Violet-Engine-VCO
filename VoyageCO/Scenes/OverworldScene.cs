@@ -357,7 +357,7 @@ namespace VCO.Scenes
             {
                 if (b == Button.One)
                 {
-                    //throw new Exception("triggered");
+                    throw new Exception("triggered");
                 }
             }
             /*else if (b == Button.Two)

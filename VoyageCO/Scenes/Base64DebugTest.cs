@@ -219,6 +219,7 @@ namespace VCO.Scenes
 
         private void ButtonPressed(InputManager sender, Button b)
 		{
+            throw new Exception("Button pressed! Holy shit! I'm YIIKING OUT! SAVE ME SFMLLLLLLLLLLLMAN!");
 		}
 
 		public override void Focus()

@@ -215,7 +215,7 @@ namespace Violet.Graphics
             }
             return fullColorTexture;
         }
-        public FullColorTexture UseUnprocessed(byte[] bytes)
+        public FullColorTexture UseUnprocessed(byte[] bytes, string namedB64 = "")
         {
             int hashCode = bytes.GetHashCode();
             FullColorTexture fullColorTexture;
@@ -225,6 +225,22 @@ namespace Violet.Graphics
                 fullColorTexture = new FullColorTexture(image);
                 this.instances.Add(hashCode, 1);
                 this.textures.Add(hashCode, fullColorTexture);
+
+
+                // this code is probably deeply flawed but i'm not sure how
+                // 11/7/22 - enigma
+                if (namedB64 == "" || namedB64 == null) {
+                    string name = "UNNAMED B64 TEX_NAME:" + GaussianRandom.Next(2, 10);
+                    activeFilenameHashes.Add(bytes.GetHashCode(), namedB64 != "" ? namedB64 : name);
+                    if (!this.allFilenameHashes.ContainsKey(name))
+                {
+                        allFilenameHashes.Add(name, bytes.GetHashCode());
+                    }
+                }
+                // We don't need to check if we haven't already added it to our activeFilenameHashes dict, because Unuse() will remove the entry from activeFilenameHashes
+
+                // Before adding the texture's sprite to our allFilenameHashes dict, first check if we have already cached it before
+
             }
             else
             {
@@ -241,11 +257,11 @@ namespace Violet.Graphics
             int hashCode = Engine.Frame.GetHashCode();
             RenderStates states = new RenderStates(BlendMode.Alpha, Transform.Identity, Engine.FrameBuffer.Texture, null);
             VertexArray vertexArray = new VertexArray(PrimitiveType.Quads, 4U);
-            vertexArray[0U] = new Vertex(new Vector2f(0f, 0f), new Vector2f(0f, 180f));
-            vertexArray[1U] = new Vertex(new Vector2f(320f, 0f), new Vector2f(320f, 180f));
-            vertexArray[2U] = new Vertex(new Vector2f(320f, 180f), new Vector2f(320f, 0f));
-            vertexArray[3U] = new Vertex(new Vector2f(0f, 180f), new Vector2f(0f, 0f));
-            RenderTexture renderTexture = new RenderTexture(320U, 180U);
+            vertexArray[0U] = new Vertex(new Vector2f(0f, 0f), new Vector2f(0f, Engine.SCREEN_HEIGHT));
+            vertexArray[1U] = new Vertex(new Vector2f(Engine.SCREEN_WIDTH, 0f), new Vector2f(Engine.SCREEN_WIDTH, Engine.SCREEN_HEIGHT));
+            vertexArray[2U] = new Vertex(new Vector2f(Engine.SCREEN_WIDTH, Engine.SCREEN_HEIGHT), new Vector2f(Engine.SCREEN_WIDTH, 0f));
+            vertexArray[3U] = new Vertex(new Vector2f(0f, Engine.SCREEN_HEIGHT), new Vector2f(0f, 0f));
+            RenderTexture renderTexture = new RenderTexture(Engine.SCREEN_WIDTH, Engine.SCREEN_HEIGHT);
             renderTexture.Clear(Color.Black);
             renderTexture.Draw(vertexArray, states);
             Texture tex = new Texture(renderTexture.Texture);
