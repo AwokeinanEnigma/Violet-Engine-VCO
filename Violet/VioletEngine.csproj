@@ -64,7 +64,6 @@
     <Compile Include="Flags\FlagManager.cs" />
     <Compile Include="Flags\ValueManager.cs" />
     <Compile Include="Graphics\AnimatedRenderable.cs" />
-    <Compile Include="Graphics\Class1.cs" />
     <Compile Include="Graphics\ColorBlendMode.cs" />
     <Compile Include="Graphics\FullColorTexture.cs" />
     <Compile Include="Graphics\Graphic.cs" />
