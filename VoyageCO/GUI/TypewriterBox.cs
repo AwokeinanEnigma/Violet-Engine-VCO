@@ -13,11 +13,11 @@ namespace VCO.GUI
 {
     internal class TypewriterBox : Actor
     {
-        public event TypewriterBox.TypewriterCompleteHandler OnTypewriterComplete;
+        public event TypewriterCompleteHandler OnTypewriterComplete;
 
-        public event TypewriterBox.WaitCommandHandler OnTextWait;
+        public event WaitCommandHandler OnTextWait;
 
-        public event TypewriterBox.TriggerCommandHandler OnTextTrigger;
+        public event TriggerCommandHandler OnTextTrigger;
 
         public bool UseBeeps
         {
