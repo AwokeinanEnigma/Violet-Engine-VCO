@@ -101,7 +101,7 @@ namespace Violet.GUI
             this.SetStyle(style);
         }
 
-        public void SetStyle(WindowStyle newStyle)
+        private void SetStyle(WindowStyle newStyle)
         {
             if (string.IsNullOrEmpty(newStyle.resourcePath))
             {
