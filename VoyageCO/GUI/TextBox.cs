@@ -154,7 +154,7 @@ namespace VCO.GUI
                 this.nametagVisible = false;
             }
             this.nametag.Visible = this.nametagVisible;
-            this.window.ActiveWindowStyle = (FlagManager.Instance[4] ? new WindowStyle("Data/Graphics/window3.dat", true) : Settings.WindowStyle);
+            this.window.Style = (FlagManager.Instance[4] ? new WindowStyle("Data/Graphics/window3.dat", true) : Settings.WindowStyle);
         }
 
         private void UpdateLetterboxing(float amount)

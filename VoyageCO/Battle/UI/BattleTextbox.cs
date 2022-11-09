@@ -13,22 +13,22 @@ namespace VCO.Battle.UI
 {
     internal class BattleTextbox : Actor
     {
-        public event BattleTextbox.CompletionHandler OnTextboxComplete;
+        public event CompletionHandler OnTextboxComplete;
 
-        public event BattleTextbox.TextTriggerHandler OnTextTrigger;
+        public event TextTriggerHandler OnTextTrigger;
 
         public bool Visible => this.visible;
 
         public BattleTextbox(RenderPipeline pipeline, int colorIndex)
         {
             this.pipeline = pipeline;
-            this.typewriterbox = new TypewriterBox(pipeline, BattleTextbox.TEXT_POSITION, BattleTextbox.TEXT_SIZE, 2147450880, Button.A, false, new TextBlock(new List<TextLine>()))
+            this.typewriterbox = new TypewriterBox(pipeline, TEXT_POSITION, TEXT_SIZE, 2147450880, Button.A, false, new TextBlock(new List<TextLine>()))
             {
                 UseBeeps = false
             };
-            this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, BattleTextbox.BOX_POSITION, BattleTextbox.BOX_SIZE, 2147450879);
+            this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, BOX_POSITION, BOX_SIZE, 2147450879);
             pipeline.Add(this.window);
-            this.arrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", BattleTextbox.BUTTON_POSITION, 2147450880)
+            this.arrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", BUTTON_POSITION, 2147450880)
             {
                 Visible = false
             };
@@ -43,7 +43,7 @@ namespace VCO.Battle.UI
 
         public void ChangeStyle(WindowStyle style)
         {
-            window.SetStyle(style);
+            window.Style = style;
            // window.style
         }
 
@@ -102,7 +102,7 @@ namespace VCO.Battle.UI
 
         public void Reset(string text, bool useButton)
         {
-            this.typewriterbox.Reset(TextProcessor.Process(Fonts.Main, text, (int)BattleTextbox.TEXT_SIZE.X));
+            this.typewriterbox.Reset(TextProcessor.Process(Fonts.Main, text, (int)TEXT_SIZE.X));
             this.waitForPlayer = false;
             this.showArrow = false;
             this.waitForTimer = false;
@@ -195,17 +195,17 @@ namespace VCO.Battle.UI
 
         protected static Vector2f BOX_SIZE = new Vector2f(248f, 43f);
 
-        protected static Vector2f BOX_POSITION = new Vector2f(160L - (int)(BattleTextbox.BOX_SIZE.X / 2f), 0f);
+        protected static Vector2f BOX_POSITION = new Vector2f(160L - (int)(BOX_SIZE.X / 2f), 0f);
 
-        protected static Vector2f TEXT_POSITION = new Vector2f(BattleTextbox.BOX_POSITION.X, BattleTextbox.BOX_POSITION.Y + 8f);
+        protected static Vector2f TEXT_POSITION = new Vector2f(BOX_POSITION.X, BOX_POSITION.Y + 8f);
 
-        protected static Vector2f TEXT_SIZE = new Vector2f(BattleTextbox.BOX_SIZE.X - 20f, BattleTextbox.BOX_SIZE.Y - 8f);
+        protected static Vector2f TEXT_SIZE = new Vector2f(BOX_SIZE.X - 20f, BOX_SIZE.Y - 8f);
 
-        protected static Vector2f NAMETAG_POSITION = new Vector2f(BattleTextbox.BOX_POSITION.X + 3f, BattleTextbox.BOX_POSITION.Y - 14f);
+        protected static Vector2f NAMETAG_POSITION = new Vector2f(BOX_POSITION.X + 3f, BOX_POSITION.Y - 14f);
 
-        protected static Vector2f NAMETEXT_POSITION = new Vector2f(BattleTextbox.NAMETAG_POSITION.X + 5f, BattleTextbox.NAMETAG_POSITION.Y - 1f);
+        protected static Vector2f NAMETEXT_POSITION = new Vector2f(NAMETAG_POSITION.X + 5f, NAMETAG_POSITION.Y - 1f);
 
-        protected static Vector2f BUTTON_POSITION = new Vector2f(BattleTextbox.BOX_POSITION.X + BattleTextbox.BOX_SIZE.X - 14f, BattleTextbox.BOX_POSITION.Y + BattleTextbox.BOX_SIZE.Y - 8f);
+        protected static Vector2f BUTTON_POSITION = new Vector2f(BOX_POSITION.X + BOX_SIZE.X - 14f, BOX_POSITION.Y + BOX_SIZE.Y - 8f);
 
         private readonly RenderPipeline pipeline;
 

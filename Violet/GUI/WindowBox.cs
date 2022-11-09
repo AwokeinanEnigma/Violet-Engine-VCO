@@ -59,7 +59,7 @@ namespace Violet.GUI
             }
         }
 
-        public WindowStyle ActiveWindowStyle
+        public WindowStyle Style
         {
             get
             {
@@ -68,6 +68,7 @@ namespace Violet.GUI
             set
             {
                 this.windowStyle = value;
+                SetStyle(value);
             }
         }
         #endregion
@@ -100,12 +101,8 @@ namespace Violet.GUI
             this.SetStyle(style);
         }
 
-        public void SetStyle(WindowStyle newStyle)
+        private void SetStyle(WindowStyle newStyle)
         {
-            Debug.LogL($"style framepath: {newStyle.resourcePath}");
-
-            this.windowStyle = newStyle;
-
             if (string.IsNullOrEmpty(newStyle.resourcePath))
             {
                 Debug.LogW("Tried to apply a WindowStyle to WindowBox that had no ResourcePath!");
