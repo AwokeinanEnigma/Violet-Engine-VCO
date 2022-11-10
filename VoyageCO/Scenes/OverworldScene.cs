@@ -312,8 +312,8 @@ namespace VCO.Scenes
         {
             if (b == Button.F1)
             {
-                FindTile(player.Position);
-                //Debug.Log(MoonSharpFactorial2());
+                //FindTile(player.Position);
+                Debug.Log(MoonSharpFactorial2());
                 //Console.WriteLine("View position: ({0},{1})", ViewManager.Instance.FinalCenter.X, ViewManager.Instance.FinalCenter.Y);
             }
 
