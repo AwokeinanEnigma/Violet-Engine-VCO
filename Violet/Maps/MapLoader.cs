@@ -421,61 +421,38 @@ namespace Violet.Maps
             }
         }
 
-        private static void LoadTileAnimations(Map map, NbtCompound mapTag)
-        {
-            NbtTag nbtTag = mapTag.Get("anim");
-            if (!(nbtTag is ICollection<NbtTag>))
-            {
-                return;
-            }
-
-            foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
-            {
-                NbtInt nbtInt = nbtCompound.Get<NbtInt>("tid");
-                if (nbtInt != null)
-                {
-                    Map.TileAnimation tileAnimation = new Map.TileAnimation()
-                    {
-                        Id = nbtCompound.Get<NbtInt>("id").Value,
-                        Frames = nbtCompound.Get<NbtInt>("fc").Value,
-                        SkipVert = nbtCompound.Get<NbtInt>("vs").Value,
-                        SkipHoriz = nbtCompound.Get<NbtInt>("hs").Value,
-                        Speed = nbtCompound.Get<NbtFloat>("fs").Value
-                    };
-                    map.TileAnimationProperties.Add(nbtInt.Value, tileAnimation);
-                }
-            }
-        }
+        // 27421 is tree value!
 
         private static void LoadTileGroups(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag1 = mapTag.Get("tiles");
-            if (!(nbtTag1 is ICollection<NbtTag>))
+            NbtTag tileTag = mapTag.Get("tiles");
+            if (!(tileTag is ICollection<NbtTag>))
             {
                 return;
             }
 
-            foreach (NbtTag nbtTag2 in (IEnumerable<NbtTag>)nbtTag1)
+            foreach (NbtTag nbtTag2 in (IEnumerable<NbtTag>)tileTag)
             {
                 if (nbtTag2 is NbtCompound)
                 {
                     // grab tiles
                     NbtCompound nbtCompound = (NbtCompound)nbtTag2;
-                    int num1 = nbtCompound.Get<NbtInt>("depth").Value;
-                    int num2 = nbtCompound.Get<NbtInt>("x").Value;
-                    int num3 = nbtCompound.Get<NbtInt>("y").Value;
-                    int num4 = nbtCompound.Get<NbtInt>("w").Value;
+                    int depth = nbtCompound.Get<NbtInt>("depth").Value;
+                    int x = nbtCompound.Get<NbtInt>("x").Value;
+                    int y = nbtCompound.Get<NbtInt>("y").Value;
+                    int w = nbtCompound.Get<NbtInt>("w").Value;
 
                     byte[] src = nbtCompound.Get<NbtByteArray>("tiles").Value;
                     ushort[] dst = new ushort[src.Length / 2];
                     Buffer.BlockCopy(src, 0, dst, 0, src.Length);
+
                     Map.Group group = new Map.Group()
                     {
-                        Depth = num1,
-                        X = num2,
-                        Y = num3,
-                        Width = num4,
-                        Height = dst.Length / 2 / num4,
+                        Depth = depth,
+                        X = x,
+                        Y = y,
+                        Width = w,
+                        Height = dst.Length / 2 / w,
                         Tiles = dst
                     };
                     map.Groups.Add(group);
@@ -493,18 +470,22 @@ namespace Violet.Maps
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
             {
-                string stringValue = nbtCompound.Get<NbtString>("spr").StringValue;
-                float floatValue1 = nbtCompound.Get<NbtFloat>("vx").FloatValue;
-                float floatValue2 = nbtCompound.Get<NbtFloat>("vy").FloatValue;
-                float floatValue3 = nbtCompound.Get<NbtFloat>("x").FloatValue;
-                float floatValue4 = nbtCompound.Get<NbtFloat>("y").FloatValue;
-                float floatValue5 = nbtCompound.Get<NbtFloat>("w").FloatValue;
-                float floatValue6 = nbtCompound.Get<NbtFloat>("h").FloatValue;
+                string sprite = nbtCompound.Get<NbtString>("spr").StringValue;
+
+                float vx = nbtCompound.Get<NbtFloat>("vx").FloatValue;
+                float vy = nbtCompound.Get<NbtFloat>("vy").FloatValue;
+
+                float x = nbtCompound.Get<NbtFloat>("x").FloatValue;
+                float y = nbtCompound.Get<NbtFloat>("y").FloatValue;
+
+                float w = nbtCompound.Get<NbtFloat>("w").FloatValue;
+                float h = nbtCompound.Get<NbtFloat>("h").FloatValue;
+
                 Map.Parallax parallax = new Map.Parallax()
                 {
-                    Sprite = stringValue,
-                    Vector = new Vector2f(floatValue1, floatValue2),
-                    Area = new IntRect((int)floatValue3, (int)floatValue4, (int)floatValue5, (int)floatValue6),
+                    Sprite = sprite,
+                    Vector = new Vector2f(vx, vy),
+                    Area = new IntRect((int)x, (int)y, (int)w, (int)h),
                     Depth = short.MinValue
                 };
                 map.Parallaxes.Add(parallax);

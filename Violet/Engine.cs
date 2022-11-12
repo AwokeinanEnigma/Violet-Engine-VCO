@@ -318,6 +318,7 @@ namespace Violet
                 int width = (int)(HALF_SCREEN_WIDTH * fullScreenMin);
                 int height = (int)(HALF_SCREEN_HEIGHT * fullScreenMin);
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
+                
             }
             else
             {
@@ -339,8 +340,8 @@ namespace Violet
 
             if (vsync || goFullscreen)
             {
-                window.SetFramerateLimit(TARGET_FRAMERATE);
-
+                // window.SetFramerateLimit(TARGET_FRAMERATE);
+                window.SetVerticalSyncEnabled(true);
                 //window.SetVerticalSyncEnabled(true);
             }
             else
@@ -441,10 +442,12 @@ namespace Violet
                 case Button.F4:
                     switchScreenMode = true;
                     isFullscreen = !isFullscreen;
+                    Debug.LogD($"switched fullscreen");
+
                     return;
                 case Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
-                    Debug.LogI($"frame buffer scale is {frameBufferScale}");
+                    Debug.LogD($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
                 case Button.F8:
@@ -471,7 +474,7 @@ namespace Violet
             }
         }
 
-        public static void UpdateInstances()
+        private static void UpdateInstances()
         {
             SceneManager.Instance.Update();
             FrameTimerManager.Instance.Update();

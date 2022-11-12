@@ -188,7 +188,13 @@ namespace Violet.Graphics
 
             public int Compare(Renderable x, Renderable y)
             {
-                return x.Depth != y.Depth ? x.Depth - y.Depth : this.pipeline.uids[y] - this.pipeline.uids[x];
+                
+                //Debug.Log($"comparing {y.Depth} & {x.Depth}");
+                return 
+                    x.Depth != y.Depth ? //if the depths aren't equal
+                    x.Depth - y.Depth //if true: subtract their depth
+                    : // else 
+                    this.pipeline.uids[y] - this.pipeline.uids[x]; // subtract their uid
             }
         }
     }

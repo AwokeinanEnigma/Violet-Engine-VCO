@@ -69,7 +69,9 @@ namespace Violet.Graphics
         {
             this.totalPals = (uint)palettes.Length;
             this.palSize = (uint)palettes[0].Length;
+            
             uint num = (uint)(image.Length / (int)width);
+
             Color[] array = new Color[this.palSize * this.totalPals];
             for (uint num2 = 0U; num2 < this.totalPals; num2 += 1U)
             {

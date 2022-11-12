@@ -84,7 +84,9 @@ namespace VCO.Actors
             this.UpdateStatusEffects();
             string file = CharacterGraphics.GetFile(character);
             this.ChangeSprite(file, "walk south");
-            this.isShadowEnabled = (useShadow && !isOcean);
+            this.isShadowEnabled = false;
+            //            this.isShadowEnabled = (useShadow && !isOcean);
+
             //this.isShadowEnabled = false;
             this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1)
             {
@@ -448,8 +450,13 @@ namespace VCO.Actors
         {
             this.graphicOffset.Y = -this.zOffset;
             this.playerGraphic.Position = VectorMath.Truncate(this.position + this.graphicOffset);
-            this.playerGraphic.Depth = (int)this.Position.Y;
+            
+            //this seems to be a fix..?
+            this.playerGraphic.Depth = (int)this.Position.Y + 1;
+            
             this.pipeline.Update(this.playerGraphic);
+
+
             if (this.isShadowEnabled)
             {
                 Vector2f shadowPos = VectorMath.Truncate(this.position);

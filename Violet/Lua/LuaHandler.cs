@@ -9,6 +9,13 @@ namespace Violet.Lua
         private Script _lua;
         private string _luaScriptString;
         private bool disposed;
+        private bool hasExecuted = false;
+
+        
+        /// <summary>
+        /// If the LuaHandler has executed at least once with its current script, this will be true.
+        /// </summary>
+        public bool HasExcuted => hasExecuted;
 
         // this is kinda stupid but i can't think of a better way to implement this other than giving raw access to the script field
         public object this[string name]
@@ -27,6 +34,7 @@ namespace Violet.Lua
             // set config
             SetConfig(conf);
 
+            hasExecuted = false;
         }
 
         public void Dispose()
@@ -56,6 +64,7 @@ namespace Violet.Lua
         public void Do()
         {
             _lua.DoString(_luaScriptString);
+            hasExecuted = true;
         }
 
         /// <summary>
@@ -65,6 +74,7 @@ namespace Violet.Lua
         public void Do(Table table)
         {
             _lua.DoString(_luaScriptString, table);
+            hasExecuted = true;
         }
 
         /// <summary>
@@ -75,6 +85,7 @@ namespace Violet.Lua
         public void Do(Table table, string codeFriendlyName)
         {
             _lua.DoString(_luaScriptString, table, codeFriendlyName);
+            hasExecuted = true;
         }
         #endregion
 
@@ -85,6 +96,7 @@ namespace Violet.Lua
         /// <param name="func">The lua function you want to call</param>
         public DynValue CallLuaFunc(object function)
         {
+            hasExecuted = true;
             return _lua.Call(function);
         }
 
@@ -94,6 +106,7 @@ namespace Violet.Lua
         /// <param name="func">The lua function you want to call</param>
         public DynValue CallLuaFunc(object function, object args)
         {
+            hasExecuted = true;
             return _lua.Call(function, args);
         }
         #endregion
@@ -116,6 +129,7 @@ namespace Violet.Lua
         public void SetLua(string _lua)
         {
             this._luaScriptString = _lua;
+            hasExecuted = false;
         }
         #endregion
     }

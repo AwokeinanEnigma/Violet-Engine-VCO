@@ -289,8 +289,11 @@ namespace VCO.Scenes
             config.Globals.Add("player", player);
             config.Globals.Add("inputHandler", InputManager.Instance);
 
+            //ViewManager.Instance.MoveToMode = ViewManager.MoveMode.Smoothed;
 
             handler = LuaManager.instance.CreateLuaHandler("test.lua", config);
+            
+            //SetTilesetPalette(2);
 
             handler.Do();
             // i mean it works but part of me feels like this is actually very bad
@@ -357,7 +360,7 @@ namespace VCO.Scenes
             {
                 if (b == Button.One)
                 {
-                    //throw new Exception("triggered");
+                    throw new Exception("ur fault!");
                 }
             }
             /*else if (b == Button.Two)
@@ -1033,7 +1036,7 @@ namespace VCO.Scenes
                     {
                         this.iris.Dispose();
                     }
-                    if (handler != null)
+                    if (handler != null && handler.HasExcuted)
                     {
                         handler.CallLuaFunc(handler["dispose"]);
                     }

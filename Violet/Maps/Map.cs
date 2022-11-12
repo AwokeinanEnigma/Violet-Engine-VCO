@@ -61,12 +61,19 @@ namespace Violet.Maps
                         {
                             tileData = 0;
                         }
+                        
+
+                        ushort trueTileData = tileData; //(ushort)(tileData - (ushort)27421);
                         int width = mapGroups.Width * 8;
+                    
                         Vector2f position = new Vector2f(index * 8L % width, index * 8L / width * 8L);
-                        bool flipHoriz = (tileData & 1) > 0;
-                        bool flipVert = (tileData & 2) > 0;
-                        bool flipDiag = (tileData & 4) > 0;
-                        ushort animId = (ushort)(tileData >> 3);
+                        bool flipHoriz = (trueTileData & 1) > 0;
+                        bool flipVert = (trueTileData & 2) > 0;
+                        bool flipDiag = (trueTileData & 4) > 0;
+                        ushort animId = (ushort)(trueTileData >> 3);
+
+                       // Debug.LogD($"flipHoriz: {trueTileData & 1} - flipVert: {trueTileData & 2} - flipDiag: {trueTileData & 4} - animId {trueTileData >> 3} - tileId {trueTileData}");
+
                         Tile item = new Tile((uint)intTile, position, flipHoriz, flipVert, flipDiag, animId);
                         tileList.Add(item);
                     }
@@ -325,8 +332,6 @@ namespace Violet.Maps
             public int Width;
 
             public int Height;
-
-            public bool Rainaway;
         }
 
         public struct TileAnimation
