@@ -86,7 +86,8 @@ namespace VCO.Actors.NPCs
                 }
                 int width = this.npcGraphic.TextureRect.Width;
                 int height = this.npcGraphic.TextureRect.Height;
-                this.mesh = new Mesh(new FloatRect(-(width / 2), -3f, width, 6f));
+                // this.mesh = new Mesh(new FloatRect(0f, 0f, npcData.Width, npcData.Height));
+                this.mesh = new Mesh(new FloatRect(-(width / 2), -3f, npcGraphic.Size.X, 6f));
             }
             else
             {
@@ -280,6 +281,10 @@ namespace VCO.Actors.NPCs
             }
         }
 
+        public void SetMovementLock() {
+            isMovementLocked = true;
+        }
+
         // Token: 0x06000382 RID: 898 RVA: 0x00016814 File Offset: 0x00014A14
         public void StopTalking()
         {
@@ -313,11 +318,17 @@ namespace VCO.Actors.NPCs
         public override void Update()
         {
             this.lastVelocity = this.velocity;
+            if (this.isMovementLocked == false)
+            {
+                this.changed = this.mover.GetNextMove(ref this.position, ref this.velocity, ref this.direction);
+                //this.Direction = VectorMath.VectorToDirection(this.velocity) ;
+            }
             if (this.state != NPC.State.Talking)
             {
-                if (!this.MovementLocked)
+                if (this.isMovementLocked == false)
                 {
                     this.changed = this.mover.GetNextMove(ref this.position, ref this.velocity, ref this.direction);
+                    //this.Direction = VectorMath.VectorToDirection(this.velocity) ;
                 }
                 base.Update();
                 if (this.hopFactor >= 1f)

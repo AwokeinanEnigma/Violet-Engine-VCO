@@ -187,6 +187,7 @@ namespace VCO.Scenes
                     num3 += 8;
                 }
                 npc.Direction = num3;
+                npc.SetMovementLock();
                 RufiniScript? script = ScriptLoader.Load(npctext.ID);
                 if (script != null)
                 {
