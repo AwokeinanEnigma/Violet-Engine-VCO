@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using VCO.Data;
+using Violet;
 using Violet.Audio;
 
 namespace VCO.Battle.UI
@@ -19,7 +20,8 @@ namespace VCO.Battle.UI
             this.characterJingles = new Dictionary<CharacterType, VioletSound>();
             foreach (CharacterType characterType in characters)
             {
-                string filename = DataHandler.instance.Load(string.Format("jingle{0}.{1}", CharacterNames.GetName(characterType), "wav"));
+                string filename = DataHandler.instance.Load($"jingle{CharacterNames.GetName(characterType)}.wav");
+                Debug.Log($"that is jingle{ CharacterNames.GetName(characterType)}.wav");
                 VioletSound VioletSound = AudioManager.Instance.Use(filename, AudioType.Stream);
                 VioletSound.LoopCount = -1;
                 this.characterJingles.Add(characterType, VioletSound);

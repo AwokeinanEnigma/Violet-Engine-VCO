@@ -79,7 +79,7 @@ namespace VCO.Battle.UI
 
             }
             Console.Write(playa.Character);
-            string load = DataHandler.instance.Load($"{hitSrung}hitsparks.dat");
+            string load = DataHandler.instance.Load($"hitsparks.dat");
 
             Console.WriteLine($"Enemy depth {graphic.Depth}");
 

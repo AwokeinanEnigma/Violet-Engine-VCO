@@ -52,7 +52,7 @@ namespace VCO.Scenes
 
             AudioManager.Instance.SetBGM(DataHandler.instance.Load( $"{music}.wav"));
             this.comboControl = new ComboController(combos, party);
-            this.uiController = new BattleInterfaceController(this.pipeline, this.actorManager, this.combatantController, this.letterboxing);
+            this.uiController = new BattleInterfaceController(pipeline, this.actorManager, this.combatantController, this.letterboxing);
             // Console.WriteLine("init btc");
             this.controller = new BattleController(this.uiController, this.combatantController, this.comboControl);
             // Console.WriteLine("init bc");

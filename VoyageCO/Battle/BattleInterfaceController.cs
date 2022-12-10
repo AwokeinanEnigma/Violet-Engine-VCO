@@ -167,9 +167,12 @@ namespace VCO.Battle
 
             this.prePlayerAttack = AudioManager.Instance.Use(DataHandler.instance.Load("prePlayerAttack.wav"), AudioType.Sound);
             this.preEnemyAttack = AudioManager.Instance.Use(DataHandler.instance.Load("preEnemyAttack.wav"), AudioType.Sound);
+            Console.WriteLine("combo2");
 
-            this.preAUXSound = AudioManager.Instance.Use(DataHandler.instance.Load("prePSI.wav"), AudioType.Sound);
+           // this.preAUXSound = AudioManager.Instance.Use(DataHandler.instance.Load("prePSI.wav"), AudioType.Sound);
+            Console.WriteLine("combo1");
 
+            Console.WriteLine("combo3");
             this.talkSound = AudioManager.Instance.Use(DataHandler.instance.Load("floydTalk.wav"), AudioType.Sound);
             this.enemyDeathSound = AudioManager.Instance.Use(DataHandler.instance.Load("enemyDeath.wav"), AudioType.Sound);
             this.smashSound = AudioManager.Instance.Use(DataHandler.instance.Load("smaaash.wav"), AudioType.Sound);

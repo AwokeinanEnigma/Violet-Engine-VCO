@@ -86,7 +86,6 @@ namespace Violet.Audio.fmod
         public override VioletSound Use(string filename, AudioType type, [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
-            Debug.Log($"called from {callerFilePath} and {callerLineNumber} ");
             int hashCode = filename.GetHashCode();
             FmodSound fmodSound;
             //Console.WriteLine(string.Format("AUDIO - {0} - LINE: {1} - METHOD - {2}", filename, i, member));
