@@ -23,8 +23,8 @@ namespace VCO.Overworld
             int widthRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
             int heightRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
 
-            int width = widthRandom * (int)Engine.HALF_SCREEN_WIDTH;
-            int height = heightRandom * (int)Engine.HALF_SCREEN_HEIGHT;
+            int width = widthRandom * (int)Engine.HALF_SCREEN_SIZE.X;
+            int height = heightRandom * (int)Engine.HALF_SCREEN_SIZE.Y;
 
             this.layers = new VertexArray[this.textures.Length - 1];
             this.delta = new float[this.layers.Length];

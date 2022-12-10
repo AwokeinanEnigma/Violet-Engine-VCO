@@ -180,13 +180,12 @@ namespace Violet
         /// </summary>        
         public static uint SCREEN_HEIGHT { get { return screen_height; } }
 
-        public static uint HALF_SCREEN_WIDTH;
+        public static Vector2f SCREEN_SIZE;
 
-        public static uint HALF_SCREEN_HEIGHT;
-
-        public static readonly Vector2f SCREEN_SIZE = new Vector2f(screen_width, screen_height);
-
-        public static readonly Vector2f HALF_SCREEN_SIZE = SCREEN_SIZE / 2f;
+        /// <summary>
+        /// This is the SCREEN_SIZE divided by two.
+        /// </summary>
+        public static Vector2f HALF_SCREEN_SIZE;
         #endregion
 
         #region Game Data
@@ -205,8 +204,14 @@ namespace Violet
         /// </summary>        
         private static uint screen_height;
 
+        /// <summary>
+        /// If an icon is set, what's the size of the icon?
+        /// </summary>
         private static uint icon_size;
 
+        /// <summary>
+        /// Treat this as you
+        /// </summary>
         private static uint target_framerate;
 
         /// <summary>
@@ -281,10 +286,9 @@ namespace Violet
             required_opengl_version = data.required_opengl_version;
             frameBufferScale = data.base_frame_buffer_scale;
 
-            HALF_SCREEN_WIDTH = screen_width / 2;
-            HALF_SCREEN_HEIGHT = screen_height / 2;
-
-            Debug.Log($"hw {HALF_SCREEN_WIDTH}- hh {HALF_SCREEN_HEIGHT} ");
+            SCREEN_SIZE = new Vector2f(screen_width, screen_height);
+            HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height/2);
+            Debug.Log($"hw {Engine.HALF_SCREEN_SIZE.X}- hh {HALF_SCREEN_SIZE.Y} ");
 
             frameStopwatch = Stopwatch.StartNew();
             startTicks = DateTime.Now.Ticks;
@@ -333,10 +337,10 @@ namespace Violet
             void SetFrameBuffArray()
             {
 
-                frameBufferVertArray[0U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(0f, 0f));
-                frameBufferVertArray[1U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(screen_width, 0f));
-                frameBufferVertArray[2U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(screen_width, screen_height));
-                frameBufferVertArray[3U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(0f, screen_height));
+                frameBufferVertArray[0U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(0f, 0f));
+                frameBufferVertArray[1U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, 0f));
+                frameBufferVertArray[2U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, screen_height));
+                frameBufferVertArray[3U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(0f, screen_height));
             }
 
 
@@ -411,15 +415,15 @@ namespace Violet
                 float num4 = (desktopMode.Width - screen_width * fullScreenMin) / 2f;
                 float num5 = (desktopMode.Height - screen_height * fullScreenMin) / 2f;
 
-                int width = (int)(HALF_SCREEN_WIDTH * fullScreenMin);
-                int height = (int)(HALF_SCREEN_HEIGHT * fullScreenMin);
+                int width = (int)(HALF_SCREEN_SIZE.X * fullScreenMin);
+                int height = (int)(HALF_SCREEN_SIZE.Y * fullScreenMin);
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
             }
             else
             {
 
-                int halfWidthScale = (int)(HALF_SCREEN_WIDTH * ScreenScale);
-                int halfHeightScale = (int)(HALF_SCREEN_HEIGHT * ScreenScale);
+                int halfWidthScale = (int)(HALF_SCREEN_SIZE.X * ScreenScale);
+                int halfHeightScale = (int)(HALF_SCREEN_SIZE.Y * ScreenScale);
                 style = Styles.Close;
                 desktopMode = new VideoMode(screen_width * frameBufferScale, screen_height * frameBufferScale);
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);

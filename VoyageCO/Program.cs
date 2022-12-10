@@ -21,7 +21,7 @@ namespace VCO
         {
             EngineInitializationData initalizationData = new EngineInitializationData()
             {
-                base_frame_buffer_scale = 2,
+                base_frame_buffer_scale = 3,
                 icon_size = 32,
                 target_framerate = 60,
                 start_vsync = false,
