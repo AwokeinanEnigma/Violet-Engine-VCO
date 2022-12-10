@@ -91,7 +91,7 @@ namespace VCO.Actors
             this.pipeline.Add(this.followerGraphic);
             if (this.useShadow)
             {
-                this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.followerGraphic.Size), this.Position, (int)this.position.Y - 2);
+                this.shadowGraphic = new IndexedColorGraphic(DataHandler.instance.Load("shadow.dat"), ShadowSize.GetSubsprite(this.followerGraphic.Size), this.Position, (int)this.position.Y - 2);
                 this.pipeline.Add(this.shadowGraphic);
             }
             this.animator = new AnimationControl(this.followerGraphic, this.direction);

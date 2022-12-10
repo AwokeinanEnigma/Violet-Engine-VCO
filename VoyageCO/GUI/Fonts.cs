@@ -21,13 +21,15 @@ namespace VCO.GUI
         // (get) Token: 0x06000137 RID: 311 RVA: 0x0000877F File Offset: 0x0000697F
         public static FontData Saturn => Fonts.fonts[2];
 
-        // Token: 0x06000138 RID: 312 RVA: 0x00008788 File Offset: 0x00006988
+        public static readonly string DATA = "Data" + Path.DirectorySeparatorChar;
+        public static readonly string TEXT = Path.Combine(DATA, "Text", "") + Path.DirectorySeparatorChar;
+
         private static Font LoadFont(string locale, string fontFile)
         {
-            string text = Path.Combine(Paths.TEXT, locale, fontFile);
+            string text = Path.Combine(TEXT, locale, fontFile);
             if (!File.Exists(text))
             {
-                text = Path.Combine(Paths.TEXT, "en_US", fontFile);
+                text = Path.Combine(TEXT, "en_US", fontFile);
             }
             return new Font(text);
         }
@@ -35,8 +37,7 @@ namespace VCO.GUI
         // Token: 0x06000139 RID: 313 RVA: 0x000087C4 File Offset: 0x000069C4
         public static void LoadFonts(string locale)
         {
-            string text = Path.Combine(Paths.TEXT, locale, "fonts.dat");
-            if (!File.Exists(text))
+            string text = Path.Combine(TEXT, locale, "fonts.dat"); if (!File.Exists(text))
             {
                 throw new FileNotFoundException("The fonts file for the " + locale + " locale is missing.");
             }

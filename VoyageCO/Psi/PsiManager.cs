@@ -22,7 +22,7 @@ namespace VCO.AUX
 
         private AUXManager()
         {
-            NbtFile nbtFile = new NbtFile(AUXManager.AUX_FILE);
+            NbtFile nbtFile = new NbtFile(DataHandler.instance.Load("psi.dat"));
             NbtCompound rootTag = nbtFile.RootTag;
             this.offensive = this.InitializeAUXList<OffenseAUX>();
             this.defensive = this.InitializeAUXList<DefensiveAUX>();
@@ -282,8 +282,6 @@ namespace VCO.AUX
         }
 
         private static AUXManager instance;
-
-        private static readonly string AUX_FILE = Paths.AUXFILES + "psi.dat";
 
         private readonly Dictionary<CharacterType, List<OffenseAUX>> offensive;
 

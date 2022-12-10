@@ -57,7 +57,7 @@ namespace VCO.GUI
             this.currentText = this.texts[this.currentTextIndex];
             this.textPos = 0;
             this.textLen = this.currentText.Text.Length;
-            this.textBeep = AudioManager.Instance.Use(Paths.SFX_TEXT + "text1.wav", AudioType.Sound);
+            this.textBeep = AudioManager.Instance.Use(DataHandler.instance.Load("text1.wav"), AudioType.Sound);
             this.useBeeps = true;
         }
 
@@ -69,7 +69,7 @@ namespace VCO.GUI
                 this.bullets = new Graphic[this.texts.Length];
                 for (int i = 0; i < this.bullets.Length; i++)
                 {
-                    this.bullets[i] = new IndexedColorGraphic(Paths.GRAPHICS + "bullet.dat", "bullet", this.position + new Vector2f(0f, 4 + 14 * i), this.depth + 1);
+                    this.bullets[i] = new IndexedColorGraphic(DataHandler.instance.Load("bullet.dat"), "bullet", this.position + new Vector2f(0f, 4 + 14 * i), this.depth + 1);
                     this.pipeline.Add(this.bullets[i]);
                 }
                 this.SetBulletVisibility();

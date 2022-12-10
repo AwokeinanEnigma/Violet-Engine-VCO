@@ -23,7 +23,7 @@ namespace VCO.Battle.UI.Modifiers
             this.graphic = graphic;
             this.done = false;
             this.rightOffset = new Vector2f(this.graphic.TextureRect.Width, 0f);
-            this.talker = new IndexedColorGraphic(Paths.GRAPHICS + "chat.dat", "left", this.graphic.Position - this.graphic.Origin, this.graphic.Depth + 1);
+            this.talker = new IndexedColorGraphic(DataHandler.instance.Load("chat.dat"), "left", this.graphic.Position - this.graphic.Origin, this.graphic.Depth + 1);
             this.talker.OnAnimationComplete += this.AnimationComplete;
             this.pipeline.Add(this.talker);
         }

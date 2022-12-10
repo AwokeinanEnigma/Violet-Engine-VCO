@@ -611,7 +611,7 @@ namespace VCO.Scenes
             this.actorManager.Add(this.textbox);
             this.questionbox = new QuestionBox(this.pipeline, colorIndex);
             this.actorManager.Add(this.questionbox);
-            Map map =  MapLoader.Load(Paths.MAPS + this.mapName, string.Empty).Result;
+            Map map =  MapLoader.Load(DataHandler.instance.Load(this.mapName), string.Empty).Result;
             if (this.initialPosition == VectorMath.ZERO_VECTOR)
             {
                 this.initialPosition = new Vector2f(map.Head.Width / 2, map.Head.Height / 2);
@@ -651,7 +651,7 @@ namespace VCO.Scenes
                 this.collisionManager.Add(new SolidStatic(mesh));
             }
             bool flag = FlagManager.Instance[1];
-            this.mapGroups = map.MakeTileGroups(Paths.GRAPHICS_MAPGRAPHICS, flag ? 1U : 0U);
+            this.mapGroups = map.MakeTileGroups(flag ? 1U : 0U);
 
 
             this.pipeline.AddAll<TileGroup>(this.mapGroups);
@@ -705,7 +705,7 @@ namespace VCO.Scenes
             {
                 Console.WriteLine((map.Music.Count > 0) ? "No BGM flags were enabled for any BGM for this map." : "This map has no BGMs set.");
             }
-            this.battleStartSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "battleIntro.mp3", AudioType.Sound);
+            this.battleStartSound = AudioManager.Instance.Use(DataHandler.instance.Load("battleIntro.mp3"), AudioType.Sound);
             this.initialized = true;
         }
 

@@ -47,7 +47,7 @@ namespace VCO.Battle.UI
             this.position = position;
             this.number = number;
 
-            string numberSet = DamageNumber.RESOURCE;
+            string numberSet = DataHandler.instance.Load("numberset1.dat");
             if (customNumberset != string.Empty)
             {
                 numberSet = customNumberset;
@@ -168,8 +168,6 @@ namespace VCO.Battle.UI
         }
 
         private const int PADDING = -1;
-
-        private static readonly string RESOURCE = Paths.GRAPHICS + "numberset1.dat";
 
         private bool disposed;
 

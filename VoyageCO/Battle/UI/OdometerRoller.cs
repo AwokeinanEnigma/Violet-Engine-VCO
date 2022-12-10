@@ -29,7 +29,7 @@ namespace VCO.Battle.UI
             this.pipeline = pipeline;
             this.frame = initialNumber * 9;
             this.targetFrame = this.frame;
-            this.roller = new IndexedColorGraphic(Paths.GRAPHICS + "odometer.dat", "odometer", position, depth)
+            this.roller = new IndexedColorGraphic(DataHandler.instance.Load("odometer.dat"), "odometer", position, depth)
             {
                 SpeedModifier = 0f,
                 Frame = this.frame % 90

@@ -19,7 +19,7 @@ namespace VCO.Battle.UI
         {
             this.targetFill = initialFill;
             this.fill = this.targetFill;
-            this.meter = new IndexedColorGraphic(Paths.GRAPHICS_BATTLE + "battleui2.dat", "meter2", default(Vector2f), depth)
+            this.meter = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), "meter2", default(Vector2f), depth)
             {
                 CurrentPalette = Settings.WindowFlavor
             };

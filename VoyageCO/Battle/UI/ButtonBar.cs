@@ -76,7 +76,7 @@ namespace VCO.Battle.UI
                         throw new NotImplementedException("Unimplemented button action type.");
                 }
                 this.buttonActions[j] = newActions[j];
-                this.buttons[j] = new IndexedColorGraphic(ButtonBar.GRAPHIC_FILE, spriteName, default(Vector2f), 32757);
+                this.buttons[j] = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), spriteName, default(Vector2f), 32757);
                 this.buttonWidths[j] = this.buttons[j].TextureRect.Width;
                 num += this.buttonWidths[j] + 2;
             }
@@ -192,8 +192,6 @@ namespace VCO.Battle.UI
         private const int BUTTON_MAX_Y = 4;
 
         private const int BUTTON_HEIGHT = 24;
-
-        private static readonly string GRAPHIC_FILE = Paths.GRAPHICS_BATTLE + "battleui2.dat";
 
         private int[] buttonYs;
 

@@ -51,7 +51,7 @@ namespace VCO.GUI
                 Visible = false
             };
             this.pipeline.Add(this.window);
-            this.advanceArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
+            this.advanceArrow = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
             {
                 Visible = false
             };

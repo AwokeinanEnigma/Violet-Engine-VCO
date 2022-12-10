@@ -25,7 +25,7 @@ namespace VCO.GUI.NamingMenu
             this.character = initialCharacter;
             this.depth = depth;
             this.SetSprite(this.character);
-            this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.graphic.Size), this.position, this.depth - 1);
+            this.shadowGraphic = new IndexedColorGraphic(DataHandler.instance.Load("shadow.dat"), ShadowSize.GetSubsprite(this.graphic.Size), this.position, this.depth - 1);
         }
 
         // Token: 0x06000151 RID: 337 RVA: 0x0000906F File Offset: 0x0000726F

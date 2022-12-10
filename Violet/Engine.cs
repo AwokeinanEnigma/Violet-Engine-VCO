@@ -333,7 +333,9 @@ namespace Violet
             Debug.Initialize();
 
             // for now, register empty
-            LuaManager.Initialize(Paths.DATA_LUA);
+            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+            DataHandler.Initialize();
+
             Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
 
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
@@ -382,7 +384,7 @@ namespace Violet
             IniFile ini = new IniFile();
 
             //load enginedata.ini
-            ini.Load(Paths.DATA + "enginedata.ini");
+            ini.Load("Data" + Path.DirectorySeparatorChar + "enginedata.ini");
 
             void PullFromEngineDataIniFile()
             {
@@ -419,7 +421,9 @@ namespace Violet
             ClearColor = SFML.Graphics.Color.Black;
 
             // for now, register empty
-            LuaManager.Initialize(Paths.DATA_LUA);
+            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+            DataHandler.Initialize();
+
             Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
 
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());

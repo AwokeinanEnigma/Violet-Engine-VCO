@@ -124,7 +124,7 @@ namespace VCO.Battle.UI
             this.hitsparks = new Graphic[16];
             for (int j = 0; j < this.hitsparks.Length; j++)
             {
-                this.hitsparks[j] = new IndexedColorGraphic(Paths.GRAPHICS + "hitsparks.dat", "combohitspark", new Vector2f(-320f, -180f), 2003)
+                this.hitsparks[j] = new IndexedColorGraphic(DataHandler.instance.Load("hitsparks.dat"), "combohitspark", new Vector2f(-320f, -180f), 2003)
                 {
                     Visible = false
                 };
@@ -169,14 +169,14 @@ namespace VCO.Battle.UI
 
             this.position = position;
             this.index = index;
-            this.card = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "altcard", position, depth);
-            this.deadCard = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "carddead", position, depth);
+            this.card = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), "altcard", position, depth) ;
+            this.deadCard = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), "carddead", position, depth);
             this.card.CurrentPalette = Settings.WindowFlavor;
-            this.hpLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "hp", position + BattleCard.HPLABEL_POSITION, depth + 2)
+            this.hpLabel = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), "hp", position + BattleCard.HPLABEL_POSITION, depth + 2)
             {
                 CurrentPalette = Settings.WindowFlavor
             };
-            this.ppLabel = new IndexedColorGraphic(BattleCard.BATTLEUI_DAT, "pp", position + BattleCard.PPLABEL_POSITION, depth + 2)
+            this.ppLabel = new IndexedColorGraphic(DataHandler.instance.Load("battleui2.dat"), "pp", position + BattleCard.PPLABEL_POSITION, depth + 2)
             {
                 CurrentPalette = Settings.WindowFlavor
             };
@@ -186,7 +186,7 @@ namespace VCO.Battle.UI
             };/* "tom");  name);*/
             this.nametagX = (int)(this.card.TextureRect.Width / 2 - this.nameTag.Size.X / 2f);
             this.nameTag.Position = position + new Vector2f(nametagX, 4f) + BattleCard.NAME_POSITION;
-            this.uhohsound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "smaaash.wav", AudioType.Sound);
+            this.uhohsound = AudioManager.Instance.Use(DataHandler.instance.Load("smaaash.wav"), AudioType.Sound);
 
 
             pipeline.Add(this.card);
@@ -417,9 +417,6 @@ namespace VCO.Battle.UI
         }
 
         private const float DAMP_HIGHPASS = 0.5f;
-
-        private static readonly string BATTLEUI_DAT = Paths.GRAPHICS_BATTLE + "battleui2.dat";
-
 
         // these determine where the odometer and the label for the PP bar is.
         // keep the y the same.

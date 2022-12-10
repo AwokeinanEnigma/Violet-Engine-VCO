@@ -12,15 +12,16 @@ namespace VCO.GUI
 
         public QuestionBox(RenderPipeline pipeline, int colorIndex) : base(pipeline, colorIndex)
         {
-            this.selectionArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", QuestionBox.OPTION1_POSITION, 2147450880);
+            this.selectionArrow = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", QuestionBox.OPTION1_POSITION, 2147450880);
             this.option1 = new TextRegion(default(Vector2f), 2147450880, Fonts.Main, "Option 1");
             this.option2 = new TextRegion(default(Vector2f), 2147450880, Fonts.Main, "Option 2");
             this.optionsLineOffset = 0;
             this.arrowXpos = new float[2];
             this.arrowYpos = new float[2];
             InputManager.Instance.AxisPressed += this.AxisPressed;
-            this.moveSound = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-            this.selectSound = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
+            this.moveSound = AudioManager.Instance.Use(DataHandler.instance.Load("cursorx.wav")
+                , AudioType.Sound);
+            this.selectSound = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
         }
 
         protected override void TypewriterComplete()

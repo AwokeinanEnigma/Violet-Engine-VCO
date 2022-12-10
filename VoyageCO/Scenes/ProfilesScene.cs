@@ -79,7 +79,7 @@ namespace VCO.Scenes
                 this.panelList.Add(item);
             }
             this.pipeline.AddAll<MenuPanel>(this.panelList);
-            this.cursorGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", new Vector2f(24f, 32 + 57 * this.selectedIndex), 100);
+            this.cursorGraphic = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", new Vector2f(24f, 32 + 57 * this.selectedIndex), 100);
             this.pipeline.Add(this.cursorGraphic);
         }
 
@@ -89,10 +89,10 @@ namespace VCO.Scenes
             if (!this.isInitialized)
             {
                 this.GenerateSelectionList();
-                this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-                this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-                this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-                this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+                this.sfxCursorX = AudioManager.Instance.Use(DataHandler.instance.Load(  "cursorx.wav"), AudioType.Sound);
+                this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+                this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load(  "confirm.wav"), AudioType.Sound);
+                this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
                 this.isInitialized = true;
             }
             ViewManager.Instance.Center = Engine.HALF_SCREEN_SIZE;

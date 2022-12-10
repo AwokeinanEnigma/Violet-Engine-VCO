@@ -86,7 +86,7 @@ namespace VCO.Actors
             this.ChangeSprite(file, "walk south");
             this.isShadowEnabled = (useShadow && !isOcean);
             //this.isShadowEnabled = false;
-            this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1)
+            this.shadowGraphic = new IndexedColorGraphic(DataHandler.instance.Load("shadow.dat"), ShadowSize.GetSubsprite(this.playerGraphic.Size), position, (int)position.Y - 1)
             {
                 Visible = this.isShadowEnabled
             };
@@ -104,7 +104,7 @@ namespace VCO.Actors
 
         public void Telepathize()
         {
-            this.effectGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "telepathy.dat", "telepathy", VectorMath.Truncate(this.position - new Vector2f(0f, this.playerGraphic.Origin.Y - this.playerGraphic.Size.Y / 4f)), 2147450881);
+            this.effectGraphic = new IndexedColorGraphic(DataHandler.instance.Load("telepathy.dat"), "telepathy", VectorMath.Truncate(this.position - new Vector2f(0f, this.playerGraphic.Origin.Y - this.playerGraphic.Size.Y / 4f)), 2147450881);
             this.effectGraphic.OnAnimationComplete += this.effectGraphic_OnAnimationComplete;
             this.pipeline.Add(this.effectGraphic);
         }

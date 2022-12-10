@@ -28,7 +28,7 @@ namespace VCO.Scenes
                 string stringQualifiedName = this.enemyData[i].PlayerFriendlyName;
                 array[i] = stringQualifiedName;
             }
-            this.enemyList = new ScrollingList(new Vector2f(16f, 6f), 0, array, 12, Fonts.Main.LineHeight, 128f, Paths.GRAPHICS + "cursor.dat");
+            this.enemyList = new ScrollingList(new Vector2f(16f, 6f), 0, array, 12, Fonts.Main.LineHeight, 128f, DataHandler.instance.Load("cursor.dat"));
             this.pipeline.Add(this.enemyList);
             this.SelectList(this.enemyList);
             this.isInitialized = true;
@@ -52,7 +52,7 @@ namespace VCO.Scenes
         // Token: 0x06000623 RID: 1571 RVA: 0x00024414 File Offset: 0x00022614
         private void SetEnemySprite(string spriteName)
         {
-            string text = Paths.GRAPHICS_ENEMIES + spriteName + ".dat";
+            string text = DataHandler.instance.Load(spriteName + ".dat");
             if (this.enemySprite != null)
             {
                 this.pipeline.Remove(this.enemySprite);
@@ -104,7 +104,7 @@ namespace VCO.Scenes
             array[num++] = string.Format("Physical Mod: {0:0.00}", data.ModifierPhysical);
             array[num++] = string.Format("Poison Mod: {0:0.00}", data.ModifierPoison);
             array[num++] = string.Format("Water Mod: {0:0.00}", data.ModifierWater);
-            this.infoList = new ScrollingList(new Vector2f(160f, 90f), 10, array, 6, Fonts.Main.LineHeight, 144f, Paths.GRAPHICS + "cursor.dat");
+            this.infoList = new ScrollingList(new Vector2f(160f, 90f), 10, array, 6, Fonts.Main.LineHeight, 144f, DataHandler.instance.Load("cursor.dat"));
             this.pipeline.Add(this.infoList);
             this.SelectList(this.infoList);
         }

@@ -66,7 +66,7 @@ namespace VCO.GUI.NamingMenu
                 }
                 num++;
             }
-            this.cursor = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "right", VectorMath.ZERO_VECTOR, 1);
+            this.cursor = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", VectorMath.ZERO_VECTOR, 1);
             base.Add(this.cursor);
             this.UpdateCursorPosition();
             this.CreateButtons();
@@ -74,8 +74,8 @@ namespace VCO.GUI.NamingMenu
 
         private void SetupSounds()
         {
-            this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-            this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
+            this.sfxCursorX = AudioManager.Instance.Use(DataHandler.instance.Load("cursorx.wav"), AudioType.Sound);
+            this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
         }
 
         private void CreateButtons()

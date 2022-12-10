@@ -78,10 +78,10 @@ namespace VCO.Actors.NPCs
             {
                 this.hasSprite = true;
                 //Debug.Log("loading npc thing");
-                this.ChangeSprite(Paths.GRAPHICS_NPCS + npcData.Sprite + ".dat", "stand south");
+                this.ChangeSprite(DataHandler.instance.Load(npcData.Sprite + ".dat"), "stand south");
                 if (this.shadow)
                 {
-                    this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.npcGraphic.Size), this.position, this.depth - 1);
+                    this.shadowGraphic = new IndexedColorGraphic(DataHandler.instance.Load("shadow.dat"), ShadowSize.GetSubsprite(this.npcGraphic.Size), this.position, this.depth - 1);
                     this.pipeline.Add(this.shadowGraphic);
                 }
                 int width = this.npcGraphic.TextureRect.Width;
@@ -155,7 +155,7 @@ namespace VCO.Actors.NPCs
         // Token: 0x06000377 RID: 887 RVA: 0x000164D4 File Offset: 0x000146D4
         public void Telepathize()
         {
-            this.effectGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "telepathy.dat", "pulse", VectorMath.Truncate(this.position - new Vector2f(0f, this.npcGraphic.Origin.Y - this.npcGraphic.Size.Y / 4f)), 2147450881);
+            this.effectGraphic = new IndexedColorGraphic(DataHandler.instance.Load("telepathy.dat"), "pulse", VectorMath.Truncate(this.position - new Vector2f(0f, this.npcGraphic.Origin.Y - this.npcGraphic.Size.Y / 4f)), 2147450881);
             this.pipeline.Add(this.effectGraphic);
         }
 

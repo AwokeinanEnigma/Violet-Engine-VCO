@@ -25,7 +25,7 @@ namespace VCO.GUI.OverworldMenu
             this.tabLabels = new TextRegion[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
-                this.tabs[i] = new IndexedColorGraphic(GoodsMenu.UI_FILE, (i == this.selectedTab) ? "firsttag" : "tag",
+                this.tabs[i] = new IndexedColorGraphic(DataHandler.instance.Load("pause.dat"), (i == this.selectedTab) ? "firsttag" : "tag",
                     new Vector2f(-8f, -7f) + new Vector2f(50f * i, 0f), (i == this.selectedTab) ? 1 : -2)
                 {
                     CurrentPalette = this.GetTabPaletteIndex(i)
@@ -41,7 +41,7 @@ namespace VCO.GUI.OverworldMenu
                 base.Add(this.tabLabels[i]);
             }
 
-            this.tabs[array.Length] = new IndexedColorGraphic(GoodsMenu.UI_FILE,
+            this.tabs[array.Length] = new IndexedColorGraphic(DataHandler.instance.Load("pause.dat"),
                 (array.Length < 4) ? "keytagshort" : "keytag",
                 new Vector2f(-8f, -7f) + new Vector2f(50f * array.Length, 0f), -2)
             {
@@ -114,7 +114,7 @@ namespace VCO.GUI.OverworldMenu
                 {
                     this.goodsList[i] =
                         new ScrollingList(new Vector2f(6 + ((int)GoodsMenu.PANEL_SIZE.X / 2 + 2) * i, 0f), 1,
-                            itemLists[i], 7, 14f, GoodsMenu.PANEL_SIZE.X / 2f - 8f, GoodsMenu.CURSOR_FILE)
+                            itemLists[i], 7, 14f, GoodsMenu.PANEL_SIZE.X / 2f - 8f, DataHandler.instance.Load("cursor.dat"))
                         {
                             ShowSelectionRectangle = (this.selectedList == i),
                             UseHighlightTextColor = (this.selectedList == i),
@@ -237,10 +237,6 @@ namespace VCO.GUI.OverworldMenu
         public static readonly Color ACTIVE_TAB_TEXT_COLOR = Color.Black;
 
         public static readonly Color INACTIVE_TAB_TEXT_COLOR = new Color(65, 80, 79);
-
-        private static readonly string CURSOR_FILE = Paths.GRAPHICS + "cursor.dat";
-
-        private static readonly string UI_FILE = Paths.GRAPHICS + "pause.dat";
 
         private readonly ShapeGraphic divider;
 

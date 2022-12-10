@@ -88,7 +88,7 @@ namespace VCO.Overworld
             List<ParallaxBackground> list = new List<ParallaxBackground>();
             foreach (Map.Parallax parallax in map.Parallaxes)
             {
-                string sprite = Paths.GRAPHICS + parallax.Sprite + ".dat";
+                string sprite = DataHandler.instance.Load(parallax.Sprite + ".dat");
                 ParallaxBackground item = new ParallaxBackground(sprite, parallax.Vector, parallax.Area, parallax.Depth);
                 list.Add(item);
             }
@@ -101,7 +101,7 @@ namespace VCO.Overworld
             if (!string.IsNullOrWhiteSpace(map.Head.BBG))
             {
                 Console.WriteLine(map.Head.BBG);
-                string text = Paths.GRAPHICS + "BBG/xml/" + map.Head.BBG + ".xml";
+                string text = DataHandler.instance.Load(map.Head.BBG + ".xml");
                 if (File.Exists(text))
                 {
                     Console.WriteLine("Using BBG file \"{0}\"", text);

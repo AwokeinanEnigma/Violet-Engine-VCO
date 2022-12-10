@@ -15,10 +15,10 @@ namespace VCO.Scenes
     {
         public OptionsScene()
         {
-            this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-            this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-            this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-            this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+            this.sfxCursorX = AudioManager.Instance.Use(DataHandler.instance.Load("cursorx.wav"), AudioType.Sound);
+            this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+            this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
+            this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
             this.titleText = new TextRegion(new Vector2f(4f, 4f), 0, Fonts.Title, "Global Options");
             this.pipeline.Add(this.titleText);
             this.mainList = new ScrollingList(OptionsScene.MENU_POSITION, 0, OptionsScene.MAIN_MENU, 8, 16f, 80f, OptionsScene.CURSOR_FILE);
@@ -289,7 +289,7 @@ namespace VCO.Scenes
 
         private static readonly Vector2f MENU_POSITION = new Vector2f(32f, 32f);
 
-        private static readonly string CURSOR_FILE = Paths.GRAPHICS + "realcursor.dat";
+        private static readonly string CURSOR_FILE = DataHandler.instance.Load("realcursor.dat");
 
         private ScrollingList focusedList;
 

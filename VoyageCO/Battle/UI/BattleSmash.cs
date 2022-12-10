@@ -14,7 +14,7 @@ namespace VCO.Battle.UI
         public BattleSmash(RenderPipeline pipeline, Vector2f position)
         {
             this.pipeline = pipeline;
-            this.smashGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "smash.dat", "smash", position, 32767);
+            this.smashGraphic = new IndexedColorGraphic(DataHandler.instance.Load("smash.dat"), "smash", position, 32767);
             this.smashGraphic.OnAnimationComplete += this.SmashgraphicAnimationComplete;
             this.pipeline.Add(this.smashGraphic);
         }

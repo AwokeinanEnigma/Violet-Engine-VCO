@@ -28,7 +28,7 @@ namespace VCO.Battle.UI
             };
             this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, BOX_POSITION, BOX_SIZE, 2147450879);
             pipeline.Add(this.window);
-            this.arrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", BUTTON_POSITION, 2147450880)
+            this.arrow = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "down", BUTTON_POSITION, 2147450880)
             {
                 Visible = false
             };

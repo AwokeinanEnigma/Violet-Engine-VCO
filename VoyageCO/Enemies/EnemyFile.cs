@@ -30,7 +30,7 @@ namespace VCO.Data.Enemies
         private EnemyFile()
         {
             this.enemyDataDict = new Dictionary<int, EnemyData>();
-            foreach (string fileInfo in Directory.GetFiles(Paths.DATA_ENEMIES))
+            foreach (string fileInfo in Directory.GetFiles(Path.Combine("Data" + Path.DirectorySeparatorChar, "Content", "") + Path.DirectorySeparatorChar + "Enemies" + Path.DirectorySeparatorChar))
             {
                 if (fileInfo.Contains(".edat"))
                 {

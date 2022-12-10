@@ -20,7 +20,7 @@ namespace VCO.Overworld
                 int num = Engine.Random.Next(RainOverlay.COLOR_CHOICES.Length);
                 this.drops[i] = new RainOverlay.Droplet(RainOverlay.COLOR_CHOICES[num]);
                 int num2 = Engine.Random.Next(RainOverlay.SPLASH_CHOICES.Length);
-                this.splashes[i] = new IndexedColorGraphic(Paths.GRAPHICS + "rainsplash.dat", RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0)
+                this.splashes[i] = new IndexedColorGraphic(DataHandler.instance.Load("rainsplash.dat"), RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0)
                 {
                     Visible = false
                 };

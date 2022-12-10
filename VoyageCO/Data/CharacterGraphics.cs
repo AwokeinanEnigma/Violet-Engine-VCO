@@ -21,7 +21,8 @@ namespace VCO.Data
                 return CharacterGraphics.graphics[character];
             }
 
-            return Paths.GRAPHICS_PARTYMEMBERS + CharacterGraphics.graphics[character] + ".dat";
+            return DataHandler.instance.Load(
+CharacterGraphics.graphics[character] + ".dat");
         }
 
 

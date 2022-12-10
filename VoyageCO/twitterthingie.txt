@@ -1,0 +1,8 @@
+API KEY: xFurTp5IerM2xuaIijAzGbH2a
+API key secret: 4lwQplHAMlKMHq4Ks2BvTmqZcOJvSDv5yAuk6hv2xgu4HGwsnC
+bearer token: AAAAAAAAAAAAAAAAAAAAAOUGjgEAAAAAAM9NSUCCd%2FIPtrXx6kfWaPOGXgU%3DHvYmOQ79S4HVCayfoAtU4QVJHfYPVklUaKeM1WxXQUr7p0TgNl
+
+client id: UlNxaEc2SnRuSGRiR2J2NFp1eEQ6MTpjaQ
+client secret: TkvvJpMkOei8W3sMOipt9MjCFlcVHa9XRVvJ-LbZo1CLys6HiS
+
+$ 

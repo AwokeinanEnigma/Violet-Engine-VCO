@@ -59,7 +59,7 @@ namespace Rufini.Actions.Types
             int value4 = base.GetValue<int>("y");
             int value5 = base.GetValue<int>("depth");
             this.blocking = base.GetValue<bool>("blk");
-            this.graphic = new IndexedColorGraphic(Paths.GRAPHICS + value + ".dat", value2, new Vector2f(value3, value4), (value5 < 0) ? value4 : value5);
+            this.graphic = new IndexedColorGraphic(DataHandler.instance.Load(value + ".dat"), value2, new Vector2f(value3, value4), (value5 < 0) ? value4 : value5);
             this.graphic.OnAnimationComplete += this.OnAnimationComplete;
             this.context.Pipeline.Add(this.graphic);
             if (this.blocking)

@@ -40,7 +40,7 @@ namespace Rufini.Actions.Types
             NPC npc = (NPC)context.ActorManager.Find((Actor x) => x is NPC && ((NPC)x).Name == name);
             if (npc != null && value.Length > 0)
             {
-                string text = Paths.GRAPHICS + value + ".dat";
+                string text = DataHandler.instance.Load(value + ".dat");
                 if (File.Exists(text))
                 {
                     npc.ChangeSprite(text, value2);

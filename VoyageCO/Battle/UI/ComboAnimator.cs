@@ -31,7 +31,7 @@ namespace VCO.Battle.UI
 
             for (int i = 0; i < this.starGraphics.Length; i++)
             {
-                this.starGraphics[i] = new IndexedColorGraphic(HITSPARK_RESOURCE, "star", vector2f, depth)
+                this.starGraphics[i] = new IndexedColorGraphic(DataHandler.instance.Load("hitsparks.dat"), "star", vector2f, depth)
                 {
                     Visible = false
                 };
@@ -45,7 +45,7 @@ namespace VCO.Battle.UI
             this.hitsparks = new Graphic[2];
             for (int j = 0; j < this.hitsparks.Length; j++)
             {
-                this.hitsparks[j] = new IndexedColorGraphic(HITSPARK_RESOURCE, "combohitspark", vector2f, depth + 20)
+                this.hitsparks[j] = new IndexedColorGraphic(DataHandler.instance.Load("hitsparks.dat"), "combohitspark", vector2f, depth + 20)
                 {
                     Visible = false
                 };
@@ -79,7 +79,7 @@ namespace VCO.Battle.UI
 
             }
             Console.Write(playa.Character);
-            string load = Paths.GRAPHICS + $"{hitSrung}hitsparks.dat";
+            string load = DataHandler.instance.Load($"{hitSrung}hitsparks.dat");
 
             Console.WriteLine($"Enemy depth {graphic.Depth}");
 
@@ -314,8 +314,6 @@ namespace VCO.Battle.UI
         private const float EXPLODE_SUCCESS_FACTOR = 7.5f;
 
         private const float EXPLODE_FAIL_FACTOR = 100f;
-
-        private readonly string HITSPARK_RESOURCE = Paths.GRAPHICS + "hitsparks.dat";
 
         private bool disposed;
 

@@ -42,7 +42,7 @@ namespace VCO.Actors.NPCs
             this.enemyType = enemyType;
             this.mover = new LookForTroubleMover(100, 2.5f);//LookForTroubleMover(100, 2);//new ZigZagMover(colman, this, new FloatRect(new Vector2f(10, 10), new Vector2f(10, 10)), 10, 2,
                                                             //    100); //new MushroomMover(this, 100f, 2f);
-            this.npcGraphic = new IndexedColorGraphic(Paths.GRAPHICS + enemyType.OverworldSprite + ".dat"/*"mushroom.dat"*/, "walk south", this.Position, (int)this.Position.Y);
+            this.npcGraphic = new IndexedColorGraphic(DataHandler.instance.Load(enemyType.OverworldSprite + ".dat")/*"mushroom.dat"*/, "walk south", this.Position, (int)this.Position.Y);
             this.pipeline.Add(this.npcGraphic);
             this.hasDirection = new bool[8];
             this.hasDirection[0] = (this.npcGraphic.GetSpriteDefinition("walk east") != null);
@@ -53,7 +53,7 @@ namespace VCO.Actors.NPCs
             this.hasDirection[5] = (this.npcGraphic.GetSpriteDefinition("walk southwest") != null);
             this.hasDirection[6] = (this.npcGraphic.GetSpriteDefinition("walk south") != null);
             this.hasDirection[7] = (this.npcGraphic.GetSpriteDefinition("walk southeast") != null);
-            this.shadowGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "shadow.dat", ShadowSize.GetSubsprite(this.npcGraphic.Size), this.Position, (int)(this.Position.Y - 1f));
+            this.shadowGraphic = new IndexedColorGraphic(DataHandler.instance.Load("shadow.dat"), ShadowSize.GetSubsprite(this.npcGraphic.Size), this.Position, (int)(this.Position.Y - 1f));
             this.pipeline.Add(this.shadowGraphic);
             int width = this.npcGraphic.TextureRect.Width;
             int height = this.npcGraphic.TextureRect.Height;

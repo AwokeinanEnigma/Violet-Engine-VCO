@@ -51,7 +51,7 @@ namespace VCO.Overworld
         // Token: 0x060005D5 RID: 1493 RVA: 0x00022C90 File Offset: 0x00020E90
         private VioletSound Load(string name)
         {
-            return AudioManager.Instance.Use(Paths.SFX_TILES + name + ".wav", AudioType.Sound);
+            return AudioManager.Instance.Use(DataHandler.instance.Load(name + ".wav"), AudioType.Sound);
         }
 
         // Token: 0x060005D6 RID: 1494 RVA: 0x00022CAD File Offset: 0x00020EAD

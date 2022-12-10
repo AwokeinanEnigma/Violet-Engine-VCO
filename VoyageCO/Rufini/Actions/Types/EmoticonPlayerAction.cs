@@ -36,7 +36,7 @@ namespace Rufini.Actions.Types
             {
                 string spriteName = EmoticonPlayerAction.EMOTE_TYPE_SUBSPRITE_MAP[0];
                 EmoticonPlayerAction.EMOTE_TYPE_SUBSPRITE_MAP.TryGetValue(value.Option, out spriteName);
-                IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "emote.dat", spriteName, context.Player.EmoticonPoint, context.Player.Depth);
+                IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(DataHandler.instance.Load("emote.dat"), spriteName, context.Player.EmoticonPoint, context.Player.Depth);
                 indexedColorGraphic.OnAnimationComplete += this.OnAnimationComplete;
                 context.Pipeline.Add(indexedColorGraphic);
                 this.context = context;

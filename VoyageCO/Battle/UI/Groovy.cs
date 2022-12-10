@@ -11,7 +11,7 @@ namespace VCO.Battle.UI
         public Groovy(RenderPipeline pipeline, Vector2f position)
         {
             this.pipeline = pipeline;
-            this.groovy = new IndexedColorGraphic(Paths.GRAPHICS + "groovy.dat", "groovy", position, 32767);
+            this.groovy = new IndexedColorGraphic(DataHandler.instance.Load("groovy.dat"), "groovy", position, 32767);
             this.groovy.OnAnimationComplete += this.AnimationComplete;
             this.pipeline.Add(this.groovy);
         }

@@ -45,7 +45,7 @@ namespace VCO.SOMETHING
 
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
-            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "AUXlifeup1.dat", "lifeupalpha", new Vector2f(160, 90), 579600);
+            IndexedColorGraphic graphic = new IndexedColorGraphic(DataHandler.instance.Load("AUXlifeup1.dat"), "lifeupalpha", new Vector2f(160, 90), 579600);
             interfaceController.pipeline.Add(graphic);
             graphic.OnAnimationComplete += Graphic_OnAnimationComplete;
             action.state = PlayerAUXAction.State.WaitForUI;
@@ -65,7 +65,7 @@ namespace VCO.SOMETHING
             foreach (Combatant combatant in combatants)
             {
 
-                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 32, Paths.GRAPHICS + "numbersethealing.dat");
+                DamageNumber damageNumber = interfaceController.AddDamageNumber(combatant, 32, DataHandler.instance.Load("numbersethealing.dat"));
                 damageNumber.OnComplete += DamageNumber_OnComplete; ;
                 StatSet statChange = new StatSet
                 {
