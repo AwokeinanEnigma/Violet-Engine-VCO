@@ -59,6 +59,8 @@ namespace Violet.Input
             }
         }
 
+        public Vector2f MousePosition = new Vector2f(0,0);
+
         private InputManager()
         {
             this.currentState = new Dictionary<Button, bool>();
@@ -80,6 +82,12 @@ namespace Violet.Input
             window.JoystickDisconnected += this.JoystickDisconnected;
             window.KeyPressed += this.KeyPressed;
             window.KeyReleased += this.KeyReleased;
+            window.MouseMoved += Window_MouseMoved;
+        }
+
+        private void Window_MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            MousePosition += new Vector2f(e.X, e.Y);
         }
 
         public void DetachFromWindow(Window window)
@@ -91,6 +99,7 @@ namespace Violet.Input
             window.JoystickDisconnected -= this.JoystickDisconnected;
             window.KeyPressed -= this.KeyPressed;
             window.KeyReleased -= this.KeyReleased;
+            window.MouseMoved -= Window_MouseMoved;
         }
 
         private void KeyPressed(object sender, KeyEventArgs e)

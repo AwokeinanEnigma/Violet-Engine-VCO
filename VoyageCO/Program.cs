@@ -10,6 +10,7 @@ using Violet;
 using Violet.Audio;
 using Violet.Lua;
 using Violet.Scenes;
+using static Violet.Engine;
 
 namespace VCO
 {
@@ -18,7 +19,22 @@ namespace VCO
         [STAThread]
         private static void Main(string[] args)
         {
-            Engine.Initialize(args);
+            EngineInitializationData initalizationData = new EngineInitializationData()
+            {
+                base_frame_buffer_scale = 2,
+                icon_size = 32,
+                target_framerate = 60,
+                start_vsync = false,
+                start_fullscreen = true,
+                required_opengl_version = 2.1m,
+                screen_height = 180,
+                screen_width = 320,
+
+            };
+
+            // goes directly to Engine.Initalize
+            Initialize(args, initalizationData);
+
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
             Scene newScene = new TitleScene();
