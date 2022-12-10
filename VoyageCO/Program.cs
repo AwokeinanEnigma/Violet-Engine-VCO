@@ -1,4 +1,5 @@
 ﻿using MoonSharp.Interpreter;
+using SFML.System;
 using System;
 using System.IO;
 using System.Reflection;
@@ -10,30 +11,37 @@ using Violet;
 using Violet.Audio;
 using Violet.Lua;
 using Violet.Scenes;
+using Violet.Utility;
 using static Violet.Engine;
 
 namespace VCO
 {
     internal class Program
     {
+
+
         [STAThread]
         private static void Main(string[] args)
         {
+            var ini = new IniFile();
+            ini.Load(Paths.DATA + "enginedata.ini");
+            
+            /*
             EngineInitializationData initalizationData = new EngineInitializationData()
             {
-                base_frame_buffer_scale = 3,
-                icon_size = 32,
-                target_framerate = 60,
-                start_vsync = false,
-                start_fullscreen = true,
-                required_opengl_version = 2.1m,
-                screen_height = 180,
-                screen_width = 320,
+                base_frame_buffer_scale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt(),
+                icon_size = ini["enginedata"]["icon_size"].ToUInt(),
+                target_framerate = ini["enginedata"]["target_framerate"].ToUInt(),
+                start_vsync = ini["enginedata"]["start_vsync"].ToBool(),
+                start_fullscreen = ini["enginedata"]["start_fullscreen"].ToBool(),
+                required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt(),
+                screen_height = ini["enginedata"]["screen_height"].ToUInt(),
+                screen_width = ini["enginedata"]["screen_width"].ToUInt(),
 
-            };
+            };*/
 
             // goes directly to Engine.Initalize
-            Initialize(args, initalizationData);
+            Initialize(args);
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
@@ -50,12 +58,17 @@ namespace VCO
             //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
 
             //Debug.DumpLogs();
+            
+
+
             try
             {
                 SceneManager.Instance.Push(newScene);
                 while (Engine.Running)
                 {
-                    Engine.Update();
+                        Update();
+                        Render();
+
                 }
             }
             catch (Exception value)

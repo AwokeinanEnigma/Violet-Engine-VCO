@@ -98,6 +98,7 @@
     <Compile Include="Scenes\Transitions\ITransition.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileGroup.cs" />
+    <Compile Include="Utility\IniParser.cs" />
     <Compile Include="Utility\Paths.cs" />
     <Compile Include="Utility\Debug.cs" />
     <Compile Include="Utility\ColorHelper.cs" />

@@ -274,7 +274,7 @@ namespace Violet
         }
 
         /// <summary>
-        /// Initalizes the engine
+        /// Initalizes the engine using EngineInitializationData 
         /// </summary>
         /// <param name="args">Parameters that the game was initialized with.</param>
         public static void Initialize(string[] args, EngineInitializationData data)
@@ -288,6 +288,127 @@ namespace Violet
 
             SCREEN_SIZE = new Vector2f(screen_width, screen_height);
             HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height/2);
+            Debug.Log($"hw {Engine.HALF_SCREEN_SIZE.X}- hh {HALF_SCREEN_SIZE.Y} ");
+
+            frameStopwatch = Stopwatch.StartNew();
+            startTicks = DateTime.Now.Ticks;
+
+            // before we set these fields using the args, set them to the initialization data.
+            bool vsync = data.start_vsync;
+            bool goFullscreen = data.start_fullscreen;
+
+            void SetScreenMode()
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    string a;
+                    if ((a = args[i]) != null)
+                    {
+                        if (!(a == "-fullscreen"))
+                        {
+                            if (!(a == "-vsync"))
+                            {
+                                if (a == "-scale")
+                                {
+                                    if (uint.TryParse(args[++i], out uint screenScale))
+                                    {
+                                        ScreenScale = screenScale;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                vsync = true;
+                            }
+                        }
+                        else
+                        {
+                            goFullscreen = true;
+                        }
+                    }
+                }
+            }
+            void SetFrameBuffer()
+            {
+                frameBuffer = new RenderTexture(screen_width, screen_height);
+                frameBufferState = new RenderStates(BlendMode.Alpha, Transform.Identity, frameBuffer.Texture, null);
+                frameBufferVertArray = new VertexArray(PrimitiveType.Quads, 4U);
+            }
+            void SetFrameBuffArray()
+            {
+
+                frameBufferVertArray[0U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(0f, 0f));
+                frameBufferVertArray[1U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, 0f));
+                frameBufferVertArray[2U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, screen_height));
+                frameBufferVertArray[3U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(0f, screen_height));
+            }
+
+
+            SetScreenMode();
+            SetFrameBuffer();
+
+            SetWindow(goFullscreen, vsync);
+            InputManager.Instance.ButtonPressed += OnButtonPressed;
+
+            SetFrameBuffArray();
+
+            rand = new Random();
+            defaultFont = new FontData();
+            debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
+            debugText.FillColor = SFML.Graphics.Color.Blue;
+            ClearColor = SFML.Graphics.Color.Black;
+
+            Debug.Initialize();
+
+            // for now, register empty
+            LuaManager.Initialize(Paths.DATA_LUA);
+            Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
+
+            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+            decimal openGlV = OpenGLVersion();
+            if (openGlV < required_opengl_version)
+            {
+                string message = $"OpenGL version {required_opengl_version} or higher is required. This system has version {openGlV}.";
+                throw new InvalidOperationException(message);
+            }
+            //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            fpsString = new StringBuilder(32);
+            SetCursorTimer(90);
+            Running = true;
+        }
+
+        /// <summary>
+        /// Initalizes the engine, and loads the necessary EngineInitializationData from enginedata.ini
+        /// </summary>
+        /// <param name="args">Parameters that the game was initialized with.</param>
+        public static void Initialize(string[] args)
+        {
+            var ini = new IniFile();
+            ini.Load(Paths.DATA + "enginedata.ini");
+
+            EngineInitializationData data = new EngineInitializationData()
+            {
+                base_frame_buffer_scale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt(),
+                icon_size = ini["enginedata"]["icon_size"].ToUInt(),
+                target_framerate = ini["enginedata"]["target_framerate"].ToUInt(),
+                start_vsync = ini["enginedata"]["start_vsync"].ToBool(),
+                start_fullscreen = ini["enginedata"]["start_fullscreen"].ToBool(),
+                required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt(),
+                screen_height = ini["enginedata"]["screen_height"].ToUInt(),
+                screen_width = ini["enginedata"]["screen_width"].ToUInt(),
+
+            };
+
+            screen_width = data.screen_width;
+            screen_height = data.screen_height;
+            icon_size = data.icon_size;
+            target_framerate = data.target_framerate;
+            required_opengl_version = data.required_opengl_version;
+            frameBufferScale = data.base_frame_buffer_scale;
+
+            SCREEN_SIZE = new Vector2f(screen_width, screen_height);
+            HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
             Debug.Log($"hw {Engine.HALF_SCREEN_SIZE.X}- hh {HALF_SCREEN_SIZE.Y} ");
 
             frameStopwatch = Stopwatch.StartNew();
@@ -439,9 +560,8 @@ namespace Violet
 
             if (vsync || goFullscreen)
             {
-                window.SetFramerateLimit(target_framerate);
-
-                //window.SetVerticalSyncEnabled(true);
+                //window.SetFramerateLimit(target_framerate);
+                window.SetVerticalSyncEnabled(true);
             }
             else
             {
@@ -581,6 +701,7 @@ namespace Violet
             ViewManager.Instance.UseView();
         }
 
+
         public static void Update()
         {
             frameStopwatch.Restart();
@@ -595,6 +716,8 @@ namespace Violet
                 window.SetMouseCursorVisible(showCursor);
                 cursorTimer = long.MaxValue;
             }
+
+            
 
             // This is wrapped in a try catch statement to detect errors and such.
             try
@@ -627,7 +750,17 @@ namespace Violet
                 SceneManager.Instance.Transition = new InstantTransition();
                 SceneManager.Instance.Push(new ErrorScene(ex));
             }
+          
             ViewManager.Instance.UseDefault();
+
+
+        }
+
+        public static void Render() {
+
+
+
+
             if (debugDisplay)
             {
                 if (frameIndex % 10L == 0L)
@@ -643,15 +776,20 @@ namespace Violet
                 }
                 frameBuffer.Draw(debugText);
             }
+
             frameBuffer.Display();
             window.Clear(SFML.Graphics.Color.Black);
             window.Draw(frameBufferVertArray, frameBufferState);
             window.Display();
+
+
+
             Running = (!SceneManager.Instance.IsEmpty && !quit);
             frameStopwatch.Stop();
             fps = 1f / frameStopwatch.ElapsedTicks * Stopwatch.Frequency;
             fpsAverage = (fpsAverage + fps) / 2f;
             frameIndex += 1L;
+
         }
         public static double megabytesUsed;
         public static void SetWindowIcon(string file)
