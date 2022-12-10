@@ -454,13 +454,6 @@ namespace VCO.GUI
                     }
                     else
                     {
-                        /*	private static readonly string[] AUX_LEVEL_STRINGS = new string[]
-	{
-		"α",
-		"β",
-		"γ",
-		"Ω"
-	};*/
 
                         this.activeAlphaList.Add(new TextRegion(new Vector2f(200f, this.windowPosition.Y + 5f + this.lineHeight * (this.activeAUXList.Count - this.firstVisibleIndex)), 32768, Fonts.Main, "α"));
                         if (AUX.aux.Symbols.Length == 4)

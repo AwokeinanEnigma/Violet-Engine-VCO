@@ -23,19 +23,6 @@ namespace VCO
         [STAThread]
         private static void Main(string[] args)
         {
-            /*
-            EngineInitializationData initalizationData = new EngineInitializationData()
-            {
-                base_frame_buffer_scale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt(),
-                icon_size = ini["enginedata"]["icon_size"].ToUInt(),
-                target_framerate = ini["enginedata"]["target_framerate"].ToUInt(),
-                start_vsync = ini["enginedata"]["start_vsync"].ToBool(),
-                start_fullscreen = ini["enginedata"]["start_fullscreen"].ToBool(),
-                required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt(),
-                screen_height = ini["enginedata"]["screen_height"].ToUInt(),
-                screen_width = ini["enginedata"]["screen_width"].ToUInt(),
-
-            };*/
 
             // goes directly to Engine.Initalize
             Initialize();

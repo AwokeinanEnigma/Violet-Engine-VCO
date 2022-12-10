@@ -96,30 +96,6 @@ namespace VCO.Battle.Actions
             if (this.state == PlayerAUXAction.State.DamageNumbers)
             {
                 aux.Act(targets, combatant, controller.InterfaceController, this, AUXLevel);
-                /*
-				foreach (Combatant combatant in this.targets)
-				{
-					//todo:
-					//lifeup breaks the game because its effect is null
-					//int num = BattleCalculator.CalculateAUXDamage(this.AUX.Effect[this.AUXLevel][0], this.AUX.Effect[this.AUXLevel][1], this.sender, combatant);
-					DamageNumber damageNumber = this.controller.InterfaceController.AddDamageNumber(combatant, 32);
-					damageNumber.OnComplete += this.OnDamageNumberComplete;
-					StatSet statChange = new StatSet
-					{
-						HP = -32
-					};
-					combatant.AlterStats(statChange);
-					if (combatant as EnemyCombatant != null)
-					{
-						this.controller.InterfaceController.BlinkEnemy(combatant as EnemyCombatant, 3, 2);
-					}
-				}
-				StatSet statChange2 = new StatSet
-				{
-					PP = -this.AUX.aux.AUCost,
-					Meter = 0.026666667f
-				};
-				this.sender.AlterStats(statChange2);*/
                 //this.state = PlayerAUXAction.State.WaitForUI;
                 return;
             }

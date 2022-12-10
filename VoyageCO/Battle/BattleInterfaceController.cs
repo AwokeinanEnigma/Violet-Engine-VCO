@@ -1280,8 +1280,6 @@ namespace VCO.Battle
                 this.OnInteractionComplete(this.selectionState);
             }
         }
-
-        // Token: 0x0600046B RID: 1131 RVA: 0x0001D458 File Offset: 0x0001B658
         private void CompleteMenuRun()
         {
             if (this.OnInteractionComplete != null)
@@ -1438,13 +1436,6 @@ namespace VCO.Battle
 
             // incredibly roundabout way of doing this, instead of just stopping the HP from going below 0 in the statset struct
             // also doesn't work! it causes immortality!
-            /*if (playerCombatant.Stats.HP < 0) {
-				StatSet newstat = playerCombatant.Stats;
-				newstat.HP = 0;
-				playerCombatant.SetStats(newstat);
-				
-			
-			}*/
 
             if (playerCombatant.Stats.HP <= 0)
             {
@@ -1594,207 +1585,75 @@ namespace VCO.Battle
         }
 
         private const int TOP_LETTERBOX_HEIGHT = 14;
-
-        // Token: 0x04000622 RID: 1570
         private const int BOTTOM_LETTERBOX_HEIGHT = 35;
-
-        // Token: 0x04000623 RID: 1571
         private const float LETTERBOX_SPEED_FACTOR = 10f;
-
-        // Token: 0x04000624 RID: 1572
         private const int ENEMY_SPACING = 10;
-
-        // Token: 0x04000625 RID: 1573
         private const int ENEMY_DEPTH = 0;
-
-        // Token: 0x04000626 RID: 1574
         private const int ENEMY_TRANSLATE_FRAMES = 10;
-
-        // Token: 0x04000627 RID: 1575
         private const int ENEMY_DEATH_FRAMES = 40;
-
-        // Token: 0x04000628 RID: 1576
         public const int ENEMY_MIDLINE = 78;
-
-        // Token: 0x04000629 RID: 1577
         public const int ENEMY_OFFSET = 12;
-
-        // Token: 0x0400062A RID: 1578
         private bool disposed;
-
-        // Token: 0x0400062B RID: 1579
         public RenderPipeline pipeline;
-
-
-        // Token: 0x0400062C RID: 1580
         private readonly ActorManager actorManager;
-
-        // Token: 0x0400062D RID: 1581
         private readonly CombatantController combatantController;
-
-        // Token: 0x0400062E RID: 1582
         private readonly Shape topLetterbox;
-
-        // Token: 0x0400062F RID: 1583
         private readonly Shape bottomLetterbox;
-
-        // Token: 0x04000630 RID: 1584
         private float topLetterboxY;
-
-        // Token: 0x04000631 RID: 1585
         private float bottomLetterboxY;
-
-        // Token: 0x04000632 RID: 1586
         private float topLetterboxTargetY;
-
-        // Token: 0x04000633 RID: 1587
         private float bottomLetterboxTargetY;
-
-        // Token: 0x04000634 RID: 1588
         private readonly ButtonBar buttonBar;
-
-        // Token: 0x04000635 RID: 1589
         private readonly SectionedAUXBox AUXMenu;
-
-        // Token: 0x04000636 RID: 1590
         private readonly CardBar cardBar;
-
-        // Token: 0x04000637 RID: 1591
         private readonly Dictionary<int, IndexedColorGraphic> enemyGraphics;
-
-        // Token: 0x04000638 RID: 1592
         private readonly BattleTextbox textbox;
-
-        // Token: 0x04000639 RID: 1593
         private readonly ScreenDimmer dimmer;
-
-        // Token: 0x0400063A RID: 1594
         private readonly ComboAnimator comboCircle;
-
-        // Token: 0x0400063B RID: 1595
         private int selectedTargetId;
-
-        // Token: 0x0400063C RID: 1596
         private int enemySelectIndex;
-
-        // Token: 0x0400063D RID: 1597
         private int partySelectIndex;
-
-        // Token: 0x0400063E RID: 1598
         private readonly List<int> enemyIDs;
-
-        // Token: 0x0400063F RID: 1599
         private readonly List<int> partyIDs;
-
-        // Token: 0x04000640 RID: 1600
         public List<IGraphicModifier> graphicModifiers;
-
-
-
-        // Token: 0x04000641 RID: 1601
         private readonly List<AUXAnimator> AUXAnimators;
-
-        // Token: 0x04000642 RID: 1602
         private BattleInterfaceController.State state;
-
-        // Token: 0x04000643 RID: 1603
         private SelectionState selectionState;
-
-        // Token: 0x04000644 RID: 1604
         private Groovy groovy;
-
-        // Token: 0x04000645 RID: 1605
         private readonly VioletSound moveBeepX;
-
-        // Token: 0x04000646 RID: 1606
         private readonly VioletSound moveBeepY;
-
-        // Token: 0x04000647 RID: 1607
         private readonly VioletSound selectBeep;
-
-        // Token: 0x04000648 RID: 1608
         private readonly VioletSound cancelBeep;
-
-        // Token: 0x04000649 RID: 1609
         private readonly VioletSound prePlayerAttack;
-
-        // Token: 0x0400064A RID: 1610
         private readonly VioletSound preEnemyAttack;
-
-        // Token: 0x0400064B RID: 1611
         private readonly VioletSound preAUXSound;
-
-        // Token: 0x0400064C RID: 1612
         private readonly VioletSound talkSound;
-
-        // Token: 0x0400064D RID: 1613
         private readonly VioletSound enemyDeathSound;
-
-        // Token: 0x0400064E RID: 1614
         private readonly VioletSound smashSound;
-
-        // Token: 0x0400064F RID: 1615
         private readonly Dictionary<CharacterType, List<VioletSound>> comboSoundMap;
-
-        // Token: 0x04000650 RID: 1616
         private readonly VioletSound comboHitA;
-
-        // Token: 0x04000651 RID: 1617
         private readonly VioletSound comboHitB;
-
-        // Token: 0x04000652 RID: 1618
         private VioletSound hitSound;
-
-        // Token: 0x04000653 RID: 1619
         private readonly VioletSound comboSuccess;
-
-        // Token: 0x04000654 RID: 1620
         private readonly VioletSound groovySound;
-
-        // Token: 0x04000655 RID: 1621
         private readonly VioletSound reflectSound;
-
-        // Token: 0x04000656 RID: 1622
         private readonly Dictionary<int, VioletSound> winSounds;
-
-        // Token: 0x04000657 RID: 1623
         private YouWon youWon;
-
-        // Token: 0x04000658 RID: 1624
         private readonly LevelUpJingler jingler;
-
-        // Token: 0x04000659 RID: 1625
         private readonly List<DamageNumber> damageNumbers;
-
-        // Token: 0x0400065A RID: 1626
         private readonly Dictionary<Graphic, Graphic> selectionMarkers;
-
-        // Token: 0x0400065B RID: 1627
         private bool textboxHideFlag;
-
-        // Token: 0x0400065C RID: 1628
         private bool isUndoAllowed;
-
-        // Token: 0x0400065D RID: 1629
         private int activeCharacter;
-
-        // Token: 0x020000C7 RID: 199
         private enum State
         {
-            // Token: 0x04000666 RID: 1638
             Waiting,
-            // Token: 0x04000667 RID: 1639
             TopLevelSelection,
-            // Token: 0x04000668 RID: 1640
             AUXTypeSelection,
             AUXAttackSelection,
-            // Token: 0x04000669 RID: 1641
             SpecialSelection,
-            // Token: 0x0400066A RID: 1642
             ItemSelection,
-            // Token: 0x0400066B RID: 1643
             EnemySelection,
-            // Token: 0x0400066C RID: 1644
             AllySelection
         }
 

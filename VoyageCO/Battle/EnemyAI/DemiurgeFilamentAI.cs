@@ -50,15 +50,6 @@ namespace VCO.Battle.EnemyAI
                             }
                         },
 						//this is broken
-						/*
-						new ActionParams
-						{
-							actionType = typeof(InflictInfectionAction),
-							data = new object[]
-							{
-								//empty!
-							}
-						}*/
 
 		};
 

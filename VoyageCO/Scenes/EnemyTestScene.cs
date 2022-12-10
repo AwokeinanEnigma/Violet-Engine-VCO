@@ -11,10 +11,8 @@ using Violet.Utility;
 
 namespace VCO.Scenes
 {
-    // Token: 0x02000108 RID: 264
     internal class EnemyTestScene : StandardScene
     {
-        // Token: 0x06000621 RID: 1569 RVA: 0x000242C8 File Offset: 0x000224C8
         private void Initialize()
         {
             if (this.isInitialized)
@@ -33,8 +31,6 @@ namespace VCO.Scenes
             this.SelectList(this.enemyList);
             this.isInitialized = true;
         }
-
-        // Token: 0x06000622 RID: 1570 RVA: 0x000243B0 File Offset: 0x000225B0
         private void SelectList(ScrollingList list)
         {
             if (this.selectedList != null)
@@ -48,8 +44,6 @@ namespace VCO.Scenes
             this.selectedList.ShowSelectionRectangle = true;
             this.selectedList.UseHighlightTextColor = true;
         }
-
-        // Token: 0x06000623 RID: 1571 RVA: 0x00024414 File Offset: 0x00022614
         private void SetEnemySprite(string spriteName)
         {
             string text = DataHandler.instance.Load(spriteName + ".dat");
@@ -66,8 +60,6 @@ namespace VCO.Scenes
                 this.pipeline.Add(this.enemySprite);
             }
         }
-
-        // Token: 0x06000624 RID: 1572 RVA: 0x000244BC File Offset: 0x000226BC
         private void SetEnemyInfo(EnemyData data)
         {
             this.SetEnemySprite(data.SpriteName);
@@ -108,8 +100,6 @@ namespace VCO.Scenes
             this.pipeline.Add(this.infoList);
             this.SelectList(this.infoList);
         }
-
-        // Token: 0x06000625 RID: 1573 RVA: 0x00024818 File Offset: 0x00022A18
         private void ButtonPressed(InputManager sender, Button b)
         {
             if (this.selectedList == this.enemyList)
@@ -131,8 +121,6 @@ namespace VCO.Scenes
                 this.SelectList(this.enemyList);
             }
         }
-
-        // Token: 0x06000626 RID: 1574 RVA: 0x000248A4 File Offset: 0x00022AA4
         private void AxisPressed(InputManager sender, Vector2f axis)
         {
             if (axis.Y < 0f)
@@ -156,8 +144,6 @@ namespace VCO.Scenes
                 this.SelectList(this.enemyList);
             }
         }
-
-        // Token: 0x06000627 RID: 1575 RVA: 0x00024924 File Offset: 0x00022B24
         public override void Focus()
         {
             base.Focus();
@@ -165,16 +151,12 @@ namespace VCO.Scenes
             InputManager.Instance.ButtonPressed += this.ButtonPressed;
             InputManager.Instance.AxisPressed += this.AxisPressed;
         }
-
-        // Token: 0x06000628 RID: 1576 RVA: 0x0002495E File Offset: 0x00022B5E
         public override void Unfocus()
         {
             base.Unfocus();
             InputManager.Instance.ButtonPressed -= this.ButtonPressed;
             InputManager.Instance.AxisPressed -= this.AxisPressed;
         }
-
-        // Token: 0x06000629 RID: 1577 RVA: 0x00024992 File Offset: 0x00022B92
         protected override void Dispose(bool disposing)
         {
             if (!this.disposed && disposing)
@@ -183,23 +165,11 @@ namespace VCO.Scenes
             }
             base.Dispose(disposing);
         }
-
-        // Token: 0x040007F2 RID: 2034
         private bool isInitialized;
-
-        // Token: 0x040007F3 RID: 2035
         private List<EnemyData> enemyData;
-
-        // Token: 0x040007F4 RID: 2036
         private ScrollingList selectedList;
-
-        // Token: 0x040007F5 RID: 2037
         private ScrollingList enemyList;
-
-        // Token: 0x040007F6 RID: 2038
         private ScrollingList infoList;
-
-        // Token: 0x040007F7 RID: 2039
         private IndexedColorGraphic enemySprite;
     }
 }

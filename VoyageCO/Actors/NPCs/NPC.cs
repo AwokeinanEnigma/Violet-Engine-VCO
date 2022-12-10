@@ -31,8 +31,6 @@ namespace VCO.Actors.NPCs
                 this.forceSpriteUpdate = true;
             }
         }
-
-        // Token: 0x17000098 RID: 152
         // (get) Token: 0x06000370 RID: 880 RVA: 0x000160BD File Offset: 0x000142BD
         // (set) Token: 0x06000371 RID: 881 RVA: 0x000160C5 File Offset: 0x000142C5
         public float HopFactor
@@ -44,16 +42,10 @@ namespace VCO.Actors.NPCs
                 this.hopFrame = Engine.Frame;
             }
         }
-
-        // Token: 0x17000099 RID: 153
         // (get) Token: 0x06000372 RID: 882 RVA: 0x000160D9 File Offset: 0x000142D9
         public int Depth => this.depth;
-
-        // Token: 0x1700009A RID: 154
         // (get) Token: 0x06000373 RID: 883 RVA: 0x000160E1 File Offset: 0x000142E1
         public Vector2f EmoticonPoint => new Vector2f(this.position.X, this.position.Y - this.npcGraphic.Origin.Y);
-
-        // Token: 0x06000374 RID: 884 RVA: 0x00016110 File Offset: 0x00014310
         public NPC(RenderPipeline pipeline, CollisionManager colman, Map.NPC npcData, object moverData) : base(null)
         {
             this.pipeline = pipeline;
@@ -100,8 +92,6 @@ namespace VCO.Actors.NPCs
             this.state = NPC.State.Idle;
             this.ChangeState(this.state);
         }
-
-        // Token: 0x06000375 RID: 885 RVA: 0x00016378 File Offset: 0x00014578
         public void SetMoveMode(NPC.MoveMode moveMode, object moverData)
         {
             NPC.MoveMode moveMode2 = moveMode;
@@ -145,29 +135,21 @@ namespace VCO.Actors.NPCs
                     return;
             }
         }
-
-        // Token: 0x06000376 RID: 886 RVA: 0x000164C8 File Offset: 0x000146C8
         public void SetMover(Mover mover)
         {
             this.mover = mover;
         }
-
-        // Token: 0x06000377 RID: 887 RVA: 0x000164D4 File Offset: 0x000146D4
         public void Telepathize()
         {
             this.effectGraphic = new IndexedColorGraphic(DataHandler.instance.Load("telepathy.dat"), "pulse", VectorMath.Truncate(this.position - new Vector2f(0f, this.npcGraphic.Origin.Y - this.npcGraphic.Size.Y / 4f)), 2147450881);
             this.pipeline.Add(this.effectGraphic);
         }
-
-        // Token: 0x06000378 RID: 888 RVA: 0x00016557 File Offset: 0x00014757
         public void Untelepathize()
         {
             this.pipeline.Remove(this.effectGraphic);
             this.effectGraphic.Dispose();
             this.effectGraphic = null;
         }
-
-        // Token: 0x06000379 RID: 889 RVA: 0x0001657C File Offset: 0x0001477C
         private AnimationContext GetAnimationContext()
         {
             return new AnimationContext
@@ -181,8 +163,6 @@ namespace VCO.Actors.NPCs
                 IsTalk = (this.state == NPC.State.Talking)
             };
         }
-
-        // Token: 0x0600037A RID: 890 RVA: 0x000165DC File Offset: 0x000147DC
         public void ChangeSprite(string resource, string subsprite)
         {
             if (this.npcGraphic != null)
@@ -199,8 +179,6 @@ namespace VCO.Actors.NPCs
             this.animator.UpdateSubsprite(this.GetAnimationContext());
             this.hasSprite = true;
         }
-
-        // Token: 0x0600037B RID: 891 RVA: 0x00016674 File Offset: 0x00014874
         public void OverrideSubsprite(string subsprite)
         {
             if (this.hasSprite)
@@ -208,8 +186,6 @@ namespace VCO.Actors.NPCs
                 this.animator.OverrideSubsprite(subsprite);
             }
         }
-
-        // Token: 0x0600037C RID: 892 RVA: 0x0001668C File Offset: 0x0001488C
         public void ClearOverrideSubsprite()
         {
             if (this.hasSprite)
@@ -224,8 +200,6 @@ namespace VCO.Actors.NPCs
                 }
             }
         }
-
-        // Token: 0x0600037D RID: 893 RVA: 0x000166EC File Offset: 0x000148EC
         public void SetAnimationLoopCount(int loopCount)
         {
             if (this.hasSprite && this.animator.Overriden)
@@ -235,8 +209,6 @@ namespace VCO.Actors.NPCs
                 this.npcGraphic.OnAnimationComplete += this.npcGraphic_OnAnimationComplete;
             }
         }
-
-        // Token: 0x0600037E RID: 894 RVA: 0x0001673C File Offset: 0x0001493C
         private void npcGraphic_OnAnimationComplete(AnimatedRenderable renderable)
         {
             this.animationLoopCount++;
@@ -246,8 +218,6 @@ namespace VCO.Actors.NPCs
                 this.npcGraphic.OnAnimationComplete -= this.npcGraphic_OnAnimationComplete;
             }
         }
-
-        // Token: 0x0600037F RID: 895 RVA: 0x0001678C File Offset: 0x0001498C
         private void ChangeState(NPC.State newState)
         {
             if (newState != this.state)
@@ -256,8 +226,6 @@ namespace VCO.Actors.NPCs
                 this.state = newState;
             }
         }
-
-        // Token: 0x06000380 RID: 896 RVA: 0x000167AC File Offset: 0x000149AC
         public void StartTalking()
         {
             if (!this.talkPause)
@@ -269,8 +237,6 @@ namespace VCO.Actors.NPCs
             this.ChangeState(NPC.State.Talking);
             this.talkPause = false;
         }
-
-        // Token: 0x06000381 RID: 897 RVA: 0x000167FB File Offset: 0x000149FB
         public void PauseTalking()
         {
             if (this.state == NPC.State.Talking)
@@ -279,8 +245,6 @@ namespace VCO.Actors.NPCs
                 this.talkPause = true;
             }
         }
-
-        // Token: 0x06000382 RID: 898 RVA: 0x00016814 File Offset: 0x00014A14
         public void StopTalking()
         {
             this.ChangeState(this.stateMemory);
@@ -288,28 +252,20 @@ namespace VCO.Actors.NPCs
             this.talkPause = false;
             this.animator.ClearOverride();
         }
-
-        // Token: 0x06000383 RID: 899 RVA: 0x0001683B File Offset: 0x00014A3B
         public void StartMoving()
         {
             this.ChangeState(NPC.State.Moving);
         }
-
-        // Token: 0x06000384 RID: 900 RVA: 0x00016844 File Offset: 0x00014A44
         public void ForceDepth(int newDepth)
         {
             this.depthOverride = true;
             this.depth = newDepth;
             this.forceSpriteUpdate = true;
         }
-
-        // Token: 0x06000385 RID: 901 RVA: 0x0001685B File Offset: 0x00014A5B
         public void ResetDepth()
         {
             this.depthOverride = false;
         }
-
-        // Token: 0x06000386 RID: 902 RVA: 0x00016864 File Offset: 0x00014A64
         public override void Update()
         {
             this.lastVelocity = this.velocity;
@@ -365,8 +321,6 @@ namespace VCO.Actors.NPCs
                 this.animator.UpdateSubsprite(this.GetAnimationContext());
             }
         }
-
-        // Token: 0x06000387 RID: 903 RVA: 0x00016A70 File Offset: 0x00014C70
         protected override void Dispose(bool disposing)
         {
             if (!this.disposed)
@@ -397,128 +351,51 @@ namespace VCO.Actors.NPCs
                 base.Dispose(disposing);
             }
         }
-
-        // Token: 0x0400050C RID: 1292
         private readonly RenderPipeline pipeline;
-
-        // Token: 0x0400050D RID: 1293
         private IndexedColorGraphic npcGraphic;
-
-        // Token: 0x0400050E RID: 1294
         private Graphic shadowGraphic;
-
-        // Token: 0x0400050F RID: 1295
         private IndexedColorGraphic effectGraphic;
-
-        // Token: 0x04000510 RID: 1296
         private readonly string name;
-
-        // Token: 0x04000511 RID: 1297
         private int direction;
-
-        // Token: 0x04000512 RID: 1298
         private bool talkPause;
-
-        // Token: 0x04000513 RID: 1299
         private NPC.State state;
-
-        // Token: 0x04000514 RID: 1300
         private NPC.State lastState;
-
-        // Token: 0x04000515 RID: 1301
         private NPC.State stateMemory;
-
-        // Token: 0x04000516 RID: 1302
         private List<Map.NPCtext> text;
-
-        // Token: 0x04000517 RID: 1303
         private List<Map.NPCtext> teleText;
-
-        // Token: 0x04000518 RID: 1304
         private Vector2f lastVelocity;
-
-        // Token: 0x04000519 RID: 1305
         private Vector2f startPosition;
-
-        // Token: 0x0400051A RID: 1306
         private Vector2f graphicOffset;
-
-        // Token: 0x0400051B RID: 1307
         private float lastZOffset;
-
-        // Token: 0x0400051C RID: 1308
         private readonly float speed;
-
-        // Token: 0x0400051D RID: 1309
         private readonly int delay;
-
-        // Token: 0x0400051E RID: 1310
         private readonly int distance;
-
-        // Token: 0x0400051F RID: 1311
         private float hopFactor;
-
-        // Token: 0x04000520 RID: 1312
         private long hopFrame;
-
-        // Token: 0x04000521 RID: 1313
         private Mover mover;
-
-        // Token: 0x04000522 RID: 1314
         private bool changed;
-
-        // Token: 0x04000523 RID: 1315
         private readonly bool shadow;
-
-        // Token: 0x04000524 RID: 1316
         private readonly bool sticky;
-
-        // Token: 0x04000525 RID: 1317
         private int depth;
-
-        // Token: 0x04000526 RID: 1318
         private bool depthOverride;
-
-        // Token: 0x04000527 RID: 1319
         private bool hasSprite;
-
-        // Token: 0x04000528 RID: 1320
         private bool forceSpriteUpdate;
-
-        // Token: 0x04000529 RID: 1321
         private AnimationControl animator;
-
-        // Token: 0x0400052A RID: 1322
         private int animationLoopCount;
-
-        // Token: 0x0400052B RID: 1323
         private int animationLoopCountTarget;
-
-        // Token: 0x020000A7 RID: 167
         public enum State
         {
-            // Token: 0x0400052D RID: 1325
             Idle,
-            // Token: 0x0400052E RID: 1326
             Talking,
-            // Token: 0x0400052F RID: 1327
             Moving
         }
-
-        // Token: 0x020000A8 RID: 168
         public enum MoveMode
         {
-            // Token: 0x04000531 RID: 1329
             None,
-            // Token: 0x04000532 RID: 1330
             RandomTurn,
-            // Token: 0x04000533 RID: 1331
             FacePlayer,
-            // Token: 0x04000534 RID: 1332
             Random,
-            // Token: 0x04000535 RID: 1333
             Path,
-            // Token: 0x04000536 RID: 1334
             Area,
             Teleporter
         }

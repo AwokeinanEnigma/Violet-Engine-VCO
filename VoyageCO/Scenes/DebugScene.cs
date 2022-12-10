@@ -109,10 +109,6 @@ namespace VCO.Scenes
                     {
                         case Button.One:
                             goto IL_46;
-                        /*case Button.Two:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new TextTestScene());
-							return;*/
                         case Button.Three:
                             return;
                         case Button.Four:

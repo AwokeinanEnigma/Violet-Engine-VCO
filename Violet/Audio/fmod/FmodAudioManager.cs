@@ -91,7 +91,7 @@ namespace Violet.Audio.fmod
             //Console.WriteLine(string.Format("AUDIO - {0} - LINE: {1} - METHOD - {2}", filename, i, member));
             if (!this.sounds.ContainsKey(hashCode))
             {
-                fmodSound = type != AudioType.Stream ? FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume) : FmodAudioLoader.Instance.LoadStreamSound(ref this.system, filename, 0, this.musicVolume);
+                fmodSound = FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume);
                 this.instances.Add(hashCode, 1);
                 this.sounds.Add(hashCode, fmodSound);
             }

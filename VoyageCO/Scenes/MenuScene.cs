@@ -114,11 +114,6 @@ namespace VCO.Scenes
                 {
                     IAUX item = ((Tuple<IAUX, int>)retVal).Item1;
                     int item2 = ((Tuple<IAUX, int>)retVal).Item2;
-                    /*if (item.Key == "AUX.telepathy")
-					{
-						FlagManager.Instance[3] = true;
-						this.ExitMenu();
-					}*/
                 }
                 return;
             }

@@ -104,22 +104,6 @@ namespace VCO.AUX
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX2, new List<string>() { "sean", "travis", "leo" });
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX3, new List<string>() { "sean", "travis", "leo" });
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX4, new List<string>() { "sean", "travis", "leo" });
-                /*
-				using (IEnumerator<NbtTag> enumerator = offenseTag.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						/*
-						NbtTag nbtTag = enumerator.Current;
-						NbtCompound nbtCompound = (NbtCompound)nbtTag;
-						string stringValue = nbtCompound.Get<NbtString>("key").StringValue;
-						NbtIntArray[] source = nbtCompound.Get<NbtList>("effect").ToArray<NbtIntArray>();
-						int[][] effect = (from s in source
-						select s.Value).ToArray<int[]>();
-
-					}
-					return;
-				}*/
             }
             Console.WriteLine("Could not load OffenseAUX. Is the offense tag present?");
         }
@@ -273,11 +257,6 @@ namespace VCO.AUX
                 default:
                     return false;
             }
-
-            /*bool flag = this.offensive[playerCharacter].Count > 0;
-			bool flag2 = this.defensive[playerCharacter].Count > 0;
-			bool flag3 = this.assistive[playerCharacter].Count > 0;
-			bool flag4 = this.other[playerCharacter].Count > 0;*/
             //return flag || flag2 || flag3 || flag4;
         }
 

@@ -17,17 +17,12 @@ namespace VCO.Battle.UI
     {
         private struct GlowSettings
         {
-            // Token: 0x060004EE RID: 1262 RVA: 0x0001F593 File Offset: 0x0001D793
             public GlowSettings(Color color, ColorBlendMode mode)
             {
                 this.Color = color;
                 this.BlendMode = mode;
             }
-
-            // Token: 0x040006CD RID: 1741
             public Color Color;
-
-            // Token: 0x040006CE RID: 1742
             public ColorBlendMode BlendMode;
         }
         public BattleCard.GlowType Glow
@@ -35,11 +30,7 @@ namespace VCO.Battle.UI
             get => this.glowType;
             set => this.SetGlow(value);
         }
-
-        // Token: 0x04000695 RID: 1685
         private const float GLOW_SPEED = 0.05f;
-
-        // Token: 0x04000696 RID: 1686
         private const float GLOW_INTENSITY = 0.75f;
 
         private static readonly Dictionary<BattleCard.GlowType, BattleCard.GlowSettings> GLOW_COLORS = new Dictionary<BattleCard.GlowType, BattleCard.GlowSettings>
@@ -79,27 +70,16 @@ namespace VCO.Battle.UI
             this.card.ColorBlendMode = glowSettings.BlendMode;
         }
         private BattleCard.GlowType glowType;
-        // Token: 0x040006BC RID: 1724
         private Color glowColor;
-
-        // Token: 0x040006BD RID: 1725
         private float glowSpeed;
-
-        // Token: 0x040006BE RID: 1726
         private float glowDelta;
         public enum GlowType
         {
-            // Token: 0x040006C4 RID: 1732
             None,
-            // Token: 0x040006C5 RID: 1733
             Shield,
-            // Token: 0x040006C6 RID: 1734
             Counter,
-            // Token: 0x040006C7 RID: 1735
             AUXSheild,
-            // Token: 0x040006C8 RID: 1736
             AUXCounter,
-            // Token: 0x040006C9 RID: 1737
             Eraser
         }
         public Vector2f Position => this.position;
