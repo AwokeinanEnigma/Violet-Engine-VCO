@@ -32,7 +32,7 @@ namespace Violet.Lua
 
         public LuaManager(string luaDir)
         {
-            Debug.LogS("LuaManager initializing.");
+            Debug.LogLua("LuaManager initializing.");
 
             BuildLuaScripts(luaDir);
         }
@@ -65,7 +65,7 @@ namespace Violet.Lua
                     if (forbiddenTypes.Contains(typesInAsm[i]))
                     {
                         // warn
-                        Debug.LogW($"Type '{typesInAsm[i]}' excluded from being registered with MoonSharp! Assembly: {asm.FullName}");
+                        Debug.LogWarning($"Type '{typesInAsm[i]}' excluded from being registered with MoonSharp! Assembly: {asm.FullName}");
                         // skip
                         continue;
                     }
@@ -80,7 +80,7 @@ namespace Violet.Lua
             // return if we exist and give a warning
             if (instance != null)
             {
-                Debug.LogW($"Another instance of the LUAManager class tried to be created!");
+                Debug.LogWarning($"Another instance of the LUAManager class tried to be created!");
                 return;
             }
             // initialize
@@ -120,7 +120,7 @@ namespace Violet.Lua
         {
             //;
             luaFiles.Add(Path.GetFileName(path), path);
-            Debug.LogL($"Processed LUA file '{Path.GetFileName(path)}'");
+            Debug.LogLua($"Processed LUA file '{Path.GetFileName(path)}'");
         }
     }
 }

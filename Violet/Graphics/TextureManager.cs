@@ -267,7 +267,7 @@ namespace Violet.Graphics
 
         public void Purge()
         {
-            Debug.LogI($"textures before is {textures.Count} ");
+            Debug.LogInfo($"textures before is {textures.Count} ");
             List<int> list = new List<int>();
             foreach (KeyValuePair<int, IVioletTexture> keyValuePair in this.textures)
             {
@@ -285,7 +285,7 @@ namespace Violet.Graphics
                 this.instances.Remove(key2);
                 this.textures.Remove(key2);
             }
-            Debug.LogI($"textures length is {textures.Count} ");
+            Debug.LogInfo($"textures length is {textures.Count} ");
         }
 
         public void DumpEveryLoadedTexture()

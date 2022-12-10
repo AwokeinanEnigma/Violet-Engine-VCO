@@ -105,7 +105,7 @@ namespace Violet.GUI
         {
             if (string.IsNullOrEmpty(newStyle.resourcePath))
             {
-                Debug.LogW("Tried to apply a WindowStyle to WindowBox that had no ResourcePath!");
+                Debug.LogWarning("Tried to apply a WindowStyle to WindowBox that had no ResourcePath!");
 
                 // if the style has no resourcePath :^) ( enigma note: this was really funny before i revamped this section of the code )
                 newStyle.resourcePath = "Data/Graphics/window1.dat";

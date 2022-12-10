@@ -23,9 +23,6 @@ namespace VCO
         [STAThread]
         private static void Main(string[] args)
         {
-            var ini = new IniFile();
-            ini.Load(Paths.DATA + "enginedata.ini");
-            
             /*
             EngineInitializationData initalizationData = new EngineInitializationData()
             {
@@ -41,7 +38,7 @@ namespace VCO
             };*/
 
             // goes directly to Engine.Initalize
-            Initialize(args);
+            Initialize();
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
@@ -58,7 +55,7 @@ namespace VCO
             //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
 
             //Debug.DumpLogs();
-            
+
 
 
             try

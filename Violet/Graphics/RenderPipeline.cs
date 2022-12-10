@@ -45,7 +45,7 @@ namespace Violet.Graphics
                 this.renderablesToAdd.Push(renderable);
                 return;
             }
-            Debug.LogE("Tried to add renderable that already exists in the RenderPipeline.", false);
+            Debug.LogError("Tried to add renderable that already exists in the RenderPipeline.", false);
         }
 
         /// <summary>

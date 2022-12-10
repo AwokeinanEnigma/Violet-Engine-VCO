@@ -136,7 +136,7 @@ namespace Violet.Audio
 
         public void SetBGM(string name)
         {
-            Debug.LogD($"REQUESTING BGM: {name}");
+            Debug.LogDebug($"REQUESTING BGM: {name}");
             VioletSound bgm = this.Use(name, AudioType.Stream);
             this.SetBGM(bgm);
         }

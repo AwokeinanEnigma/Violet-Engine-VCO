@@ -33,7 +33,7 @@ namespace Violet.Audio.fmod
                 if ((caps & CAPS.HARDWARE_EMULATED) == CAPS.HARDWARE)
                 {
                     RESULT result2 = this.system.setDSPBufferSize(1024U, 10);
-                    Debug.LogW("Audio hardware acceleration is turned off. Audio performance may be degraded.");
+                    Debug.LogWarning("Audio hardware acceleration is turned off. Audio performance may be degraded.");
                     FmodAudioManager.ERRCHECK(result2);
                 }
                 StringBuilder name = new StringBuilder(256);
@@ -41,12 +41,12 @@ namespace Violet.Audio.fmod
                 result1 = this.system.getDriverInfo(0, name, 256, ref guid);
                 FmodAudioManager.ERRCHECK(result1);
                 string str = name.ToString();
-                Debug.LogI($"Audio driver name: {str}");
+                Debug.LogInfo($"Audio driver name: {str}");
                 if (str.Contains("SigmaTel"))
                 {
                     result1 = this.system.setSoftwareFormat(48000, SOUND_FORMAT.PCMFLOAT, 0, 0, DSP_RESAMPLER.LINEAR);
                     FmodAudioManager.ERRCHECK(result1);
-                    Debug.LogD("Sigmatel card detected; format changed to PCM floating point.");
+                    Debug.LogDebug("Sigmatel card detected; format changed to PCM floating point.");
                 }
             }
             this.InitFmodSystem();
@@ -54,7 +54,7 @@ namespace Violet.Audio.fmod
             {
                 FmodAudioManager.ERRCHECK(this.system.setSpeakerMode(SPEAKERMODE.STEREO));
                 this.InitFmodSystem();
-                Debug.LogW("Selected speaker mode is not supported, defaulting to stereo.");
+                Debug.LogWarning("Selected speaker mode is not supported, defaulting to stereo.");
             }
             this.callbacks = new Dictionary<int, CHANNEL_CALLBACK>();
         }

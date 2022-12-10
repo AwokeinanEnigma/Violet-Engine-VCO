@@ -76,7 +76,7 @@ namespace Violet.Maps
                 TileGroup item2 = new TileGroup(tileList, resource, mapGroups.Depth, new Vector2f(mapGroups.X, mapGroups.Y), palette);
                 list.Add(item2);
             }
-            Debug.LogI($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
+            Debug.LogInfo($"Created tile groups in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return list;
         }
 

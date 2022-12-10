@@ -716,12 +716,12 @@ namespace VCO.Scenes
             {
                 try
                 {
-                    Debug.LogL($"Tile ID is '{group.GetTileId(vector2F)}' belonging to tileGroup: '{group}'");
+                    Debug.LogLua($"Tile ID is '{group.GetTileId(vector2F)}' belonging to tileGroup: '{group}'");
                     //break;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogW($"Error trying to find tile: {e}");
+                    Debug.LogWarning($"Error trying to find tile: {e}");
                 }
             }
 

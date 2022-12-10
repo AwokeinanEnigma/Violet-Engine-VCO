@@ -24,6 +24,7 @@ namespace Violet
             Info,
             Debug,
             Lua,
+            Engine,
             Trace
         }
 
@@ -34,27 +35,14 @@ namespace Violet
             [LogLevel.Error] = ConsoleColor.Red,
             [LogLevel.Warning] = ConsoleColor.Yellow,
             [LogLevel.Info] = ConsoleColor.White,
-            [LogLevel.Debug] = ConsoleColor.Green,
+            [LogLevel.Debug] = ConsoleColor.Gray,
             [LogLevel.Lua] = ConsoleColor.Magenta,
+            [LogLevel.Engine] = ConsoleColor.Green,
             [LogLevel.Trace] = ConsoleColor.Cyan,
         };
 
         /// <summary>
-        /// Used to send system messages to the console.
-        /// </summary>
-        /// <param name="message">The message to display.</param>
-        /// <param name="callerFilePath">Ignore this.</param>
-        /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogS(
-        object message,
-        [CallerFilePath] string callerFilePath = "",
-        [CallerLineNumber] int callerLineNumber = 0)
-        {
-            LogInternal(LogLevel.System, message, callerFilePath, callerLineNumber);
-        }
-
-        /// <summary>
-        /// Generic log. Just logs as system.
+        /// Generic logging function. Just logs as system.
         /// </summary>
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
@@ -67,15 +55,28 @@ namespace Violet
             LogInternal(LogLevel.System, message, callerFilePath, callerLineNumber);
         }
 
+        /// <summary>
+        /// Generic logging function. Just logs as system.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="callerFilePath">Ignore this.</param>
+        /// <param name="callerLineNumber">Ignore this.</param>
+        public static void LogEngine(
+        object message,
+        [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0)
+        {
+            LogInternal(LogLevel.Engine, message, callerFilePath, callerLineNumber);
+        }
 
         /// <summary>
-        /// Used to stop the game if a condition is false.
+        /// Used to stop the game if a condition is false. Sends a message to the console and then throws an error.
         /// </summary>
         /// <param name="condition">If this condition is false, the game will go into an error scene.</param>
         /// <param name="message">The message to display if the condition is false. Is "Assertion failed." by default.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogA(
+        public static void LogAssertion(
         bool condition,
         string message = "Assertion failed.",
         [CallerFilePath] string callerFilePath = "",
@@ -98,7 +99,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogE(
+        public static void LogError(
         object message,
         bool throwException,
         [CallerFilePath] string callerFilePath = "",
@@ -121,7 +122,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogW(
+        public static void LogWarning(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -135,7 +136,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogI(
+        public static void LogInfo(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -149,7 +150,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogL(
+        public static void LogLua(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -163,7 +164,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogD(
+        public static void LogDebug(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
@@ -207,7 +208,7 @@ namespace Violet
 
         public static void Initialize()
         {
-            SetVerbosity(LogLevel.Trace);
+            SetVerbosity(LogLevel.Engine);
         }
     }
 }

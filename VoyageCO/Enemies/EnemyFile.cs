@@ -59,7 +59,7 @@ namespace VCO.Data.Enemies
             NbtFile nbtFile = new NbtFile(path);
             EnemyData enemyData = new EnemyData(nbtFile.RootTag);
             int key = Hash.Get(enemyData.QualifiedName);
-            Debug.LogI($"Path '{path}', qualified name is {enemyData.QualifiedName}");
+            Debug.LogInfo($"Path '{path}', qualified name is {enemyData.QualifiedName}");
             this.enemyDataDict.Add(key, enemyData);
 
             /*foreach (NbtTag nbtTag in nbtFile.RootTag)
@@ -81,7 +81,7 @@ namespace VCO.Data.Enemies
                 //Console.WriteLine($"Properly returned enemy: {name}");
                 return attemptData;
             }
-            Debug.LogE($"Was unable to return enemy: {name}", false);
+            Debug.LogError($"Was unable to return enemy: {name}", false);
             return attemptData;
         }
 

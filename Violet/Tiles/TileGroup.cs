@@ -139,7 +139,7 @@ namespace Violet.Tiles
                     }
                     else
                     {
-                        Debug.LogW($"Tried to load tile animation data for animation {num}, but there was no tile data.");
+                        Debug.LogWarning($"Tried to load tile animation data for animation {num}, but there was no tile data.");
                     }
                 }
             }
