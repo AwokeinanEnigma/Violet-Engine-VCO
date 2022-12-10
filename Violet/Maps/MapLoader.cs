@@ -51,7 +51,7 @@ namespace Violet.Maps
             //Debug.Log("Loaded NPC paths");
             await LoadNPCAreas(map, rootTag);
             //Debug.Log("Loaded NPC Areas");
-           // await LoadCrowds(map, rootTag);
+            //await LoadCrowds(map, rootTag);
             //Debug.Log("Loaded crowds");
             await LoadSpawns(map, rootTag);
             //Debug.Log("Loaded loaded spawns");
@@ -142,6 +142,9 @@ namespace Violet.Maps
                 Ocean = ocean
             };
         }
+
+        // my code is perfect
+        #pragma warning disable 
 
         private static async Task<bool> LoadBGM(Map map, NbtCompound mapTag)
         {
