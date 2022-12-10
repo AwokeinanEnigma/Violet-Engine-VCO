@@ -4,6 +4,7 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Violet.Collision;
 using Violet.Utility;
 
@@ -22,7 +23,7 @@ namespace Violet.Maps
             return path;
         }
 
-        public static Map Load(string mapFile, string graphicsDirectory)
+        public static async Task<Map> Load(string mapFile, string graphicsDirectory)
         {
             string str = MapLoader.FixPath(mapFile);
             if (!File.Exists(str))
@@ -34,31 +35,31 @@ namespace Violet.Maps
             NbtCompound rootTag = new NbtFile(str).RootTag;
             long ticks = DateTime.Now.Ticks;
             //Debug.Log("Starting loading");
-            MapLoader.LoadHeader(map, rootTag);
+            LoadHeader(map, rootTag);
             //Debug.Log("Loaded header");
-            MapLoader.LoadBGM(map, rootTag);
+            await LoadBGM(map, rootTag);
             //Debug.Log("Loaded BGM");
-            MapLoader.LoadSFX(map, rootTag);
+            await LoadSFX(map, rootTag);
             //Debug.Log("Loaded SFX");
-            MapLoader.LoadDoors(map, rootTag);
+            await LoadDoors(map, rootTag);
             //Debug.Log("Loaded doors");
-            MapLoader.LoadTriggers(map, rootTag);
+            await LoadTriggers(map, rootTag);
             //Debug.Log("Loaded triggers");
-            MapLoader.LoadNPCs(map, rootTag);
+            await LoadNPCs(map, rootTag);
             //Debug.Log("Loaded NPCs");
-            MapLoader.LoadNPCPaths(map, rootTag);
+            await LoadNPCPaths(map, rootTag);
             //Debug.Log("Loaded NPC paths");
-            MapLoader.LoadNPCAreas(map, rootTag);
+            await LoadNPCAreas(map, rootTag);
             //Debug.Log("Loaded NPC Areas");
-            MapLoader.LoadCrowds(map, rootTag);
+           // await LoadCrowds(map, rootTag);
             //Debug.Log("Loaded crowds");
-            MapLoader.LoadSpawns(map, rootTag);
+            await LoadSpawns(map, rootTag);
             //Debug.Log("Loaded loaded spawns");
-            MapLoader.LoadCollisions(map, rootTag);
+            await LoadCollisions(map, rootTag);
             //  Debug.Log("Loaded collisions");
-            MapLoader.LoadTileGroups(map, rootTag);
+            await LoadTileGroups(map, rootTag);
             // Debug.Log("Loaded groups");
-            MapLoader.LoadParallax(map, rootTag);
+            await LoadParallax(map, rootTag);
             Debug.LogDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;
         }
@@ -113,14 +114,19 @@ namespace Violet.Maps
                     list.Add(item);
                 }
             }
+
             NbtString nbtString3 = nbtCompound.Get<NbtString>("script");
             string script = (nbtString3 == null) ? null : nbtString3.StringValue;
+
             NbtString nbtString4 = nbtCompound.Get<NbtString>("bbg");
             string bbg = (nbtString4 == null) ? null : nbtString4.StringValue;
+
             NbtByte nbtByte = nbtCompound.Get<NbtByte>("shdw");
             bool shadows = nbtByte == null || nbtByte.Value != 0;
+
             NbtByte nbtByte2 = nbtCompound.Get<NbtByte>("ocn");
             bool ocean = nbtByte2 != null && nbtByte2.Value != 0;
+
             map.Head = new Map.Header
             {
                 PrimaryColor = color,
@@ -137,12 +143,12 @@ namespace Violet.Maps
             };
         }
 
-        private static void LoadBGM(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadBGM(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("audbgm");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             if (nbtTag != null)
@@ -163,14 +169,15 @@ namespace Violet.Maps
                     });
                 }
             }
+            return true;
         }
 
-        private static void LoadSFX(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadSFX(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("audsfx");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -187,14 +194,15 @@ namespace Violet.Maps
                     Interval = nbtCompound.Get<NbtShort>("interval").Value
                 });
             }
+            return true;
         }
 
-        private static void LoadDoors(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadDoors(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("doors");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -213,14 +221,15 @@ namespace Violet.Maps
                 portal.DirectionTo = nbtByte != null ? nbtByte.Value : -1;
                 map.Portals.Add(portal);
             }
+            return true;
         }
 
-        private static void LoadTriggers(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadTriggers(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("triggers");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -240,50 +249,63 @@ namespace Violet.Maps
                 }
                 map.Triggers.Add(trigger);
             }
+            return true;
         }
 
-        private static void LoadNPCs(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadNPCs(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("npcs");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
-            foreach (NbtCompound nbtCompound1 in (IEnumerable<NbtTag>)nbtTag)
+            foreach (NbtCompound npcCompound in (IEnumerable<NbtTag>)nbtTag)
             {
                 Map.NPC npc = new Map.NPC();
-                npc.X = nbtCompound1.Get<NbtInt>("x").Value;
-                npc.Y = nbtCompound1.Get<NbtInt>("y").Value;
-                npc.Name = nbtCompound1.Get<NbtString>("name").Value;
-                npc.Direction = nbtCompound1.Get<NbtByte>("dir").Value;
-                npc.Enabled = nbtCompound1.Get<NbtByte>("en").Value == 1;
-                npc.Mode = nbtCompound1.Get<NbtByte>("mov").Value;
-                nbtCompound1.TryGet<NbtString>("spr", out NbtString result1);
-                npc.Sprite = result1?.Value;
-                nbtCompound1.TryGet<NbtInt>("w", out NbtInt result2);
-                npc.Width = result2 != null ? result2.Value : 0;
-                nbtCompound1.TryGet<NbtInt>("h", out NbtInt result3);
-                npc.Height = result3 != null ? result3.Value : 0;
-                nbtCompound1.TryGet<NbtFloat>("spd", out NbtFloat result4);
-                npc.Speed = result4 != null ? result4.FloatValue : 1f;
-                nbtCompound1.TryGet<NbtShort>("dly", out NbtShort result5);
-                npc.Delay = result5 != null ? result5.ShortValue : (short)0;
-                nbtCompound1.TryGet<NbtShort>("dst", out NbtShort result6);
-                npc.Distance = result6 != null ? result6.ShortValue : (short)20;
-                nbtCompound1.TryGet<NbtString>("cnstr", out NbtString result7);
-                npc.Constraint = result7 != null ? result7.Value : "";
-                nbtCompound1.TryGet<NbtByte>("shdw", out NbtByte result8);
-                npc.Shadow = result8 == null || result8.ShortValue != 0;
-                nbtCompound1.TryGet<NbtByte>("cls", out NbtByte result9);
-                npc.Solid = result9 == null || result9.ShortValue != 0;
-                nbtCompound1.TryGet<NbtByte>("stky", out NbtByte result10);
-                npc.Sticky = result10 == null || result10.ShortValue != 0;
-                nbtCompound1.TryGet<NbtInt>("dpth", out NbtInt result11);
-                npc.DepthOverride = result11 != null ? result11.IntValue : int.MinValue;
-                npc.Flag = nbtCompound1.Get<NbtShort>("flag").Value;
+                npc.X = npcCompound.Get<NbtInt>("x").Value;
+                npc.Y = npcCompound.Get<NbtInt>("y").Value;
+                npc.Name = npcCompound.Get<NbtString>("name").Value;
+                npc.Direction = npcCompound.Get<NbtByte>("dir").Value;
+                npc.Enabled = npcCompound.Get<NbtByte>("en").Value == 1;
+                npc.Mode = npcCompound.Get<NbtByte>("mov").Value;
+
+                npcCompound.TryGet<NbtString>("spr", out NbtString sprite);
+                npc.Sprite = sprite?.Value;
+
+                npcCompound.TryGet<NbtInt>("w", out NbtInt w);
+                npc.Width = w != null ? w.Value : 0;
+                npcCompound.TryGet<NbtInt>("h", out NbtInt h);
+                npc.Height = h != null ? h.Value : 0;
+
+                npcCompound.TryGet<NbtFloat>("spd", out NbtFloat speed);
+                npc.Speed = speed != null ? speed.FloatValue : 1f;
+
+                npcCompound.TryGet<NbtShort>("dly", out NbtShort delay);
+                npc.Delay = delay != null ? delay.ShortValue : (short)0;
+
+                npcCompound.TryGet<NbtShort>("dst", out NbtShort distance);
+                npc.Distance = distance != null ? distance.ShortValue : (short)20;
+
+                npcCompound.TryGet<NbtString>("cnstr", out NbtString constraint);
+                npc.Constraint = constraint != null ? constraint.Value : "";
+
+                npcCompound.TryGet<NbtByte>("shdw", out NbtByte shadow);
+                npc.Shadow = shadow == null || shadow.ShortValue != 0;
+
+                npcCompound.TryGet<NbtByte>("cls", out NbtByte solid);
+                npc.Solid = solid == null || solid.ShortValue != 0;
+
+                npcCompound.TryGet<NbtByte>("stky", out NbtByte sticky);
+                npc.Sticky = sticky == null || sticky.ShortValue != 0
+                    ;
+                npcCompound.TryGet<NbtInt>("dpth", out NbtInt depth);
+                npc.DepthOverride = depth != null ? depth.IntValue : int.MinValue;
+
+                npc.Flag = npcCompound.Get<NbtShort>("flag").Value;
+
                 npc.Text = new List<Map.NPCtext>();
-                NbtCompound nbtCompound2 = nbtCompound1.Get<NbtCompound>("entries");
+                NbtCompound nbtCompound2 = npcCompound.Get<NbtCompound>("entries");
                 if (nbtCompound2 != null)
                 {
                     for (int index = 0; index < nbtCompound2.Count; index += 2)
@@ -299,31 +321,32 @@ namespace Violet.Maps
                     }
                 }
                 npc.TeleText = new List<Map.NPCtext>();
-                NbtCompound nbtCompound3 = nbtCompound1.Get<NbtCompound>("tele");
-                if (nbtCompound3 != null)
+                NbtCompound telepathyCompound = npcCompound.Get<NbtCompound>("tele");
+                if (telepathyCompound != null)
                 {
-                    for (int index = 0; index < nbtCompound3.Count; index += 2)
+                    for (int index = 0; index < telepathyCompound.Count; index += 2)
                     {
-                        string str = nbtCompound3.Get<NbtString>(string.Format("t{0}", index / 2)).Value;
-                        int num = nbtCompound3.Get<NbtShort>(string.Format("f{0}", index / 2)).Value;
-                        Map.NPCtext npCtext = new Map.NPCtext()
+                        string str = telepathyCompound.Get<NbtString>(string.Format("t{0}", index / 2)).Value;
+                        int num = telepathyCompound.Get<NbtShort>(string.Format("f{0}", index / 2)).Value;
+                        Map.NPCtext npcText = new Map.NPCtext()
                         {
                             ID = str,
                             Flag = num
                         };
-                        npc.TeleText.Add(npCtext);
+                        npc.TeleText.Add(npcText);
                     }
                 }
                 map.NPCs.Add(npc);
             }
+            return true;
         }
 
-        private static void LoadNPCPaths(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadNPCPaths(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("paths");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -331,48 +354,51 @@ namespace Violet.Maps
                 Map.Path path = new Map.Path();
                 path.Name = nbtCompound.Get<NbtString>("name").Value;
                 List<Vector2f> vector2fList = new List<Vector2f>();
-                NbtList nbtList = nbtCompound.Get<NbtList>("coords");
-                for (int tagIndex = 0; tagIndex < nbtList.Count; tagIndex += 2)
+                NbtList coordinates = nbtCompound.Get<NbtList>("coords");
+
+                for (int tagIndex = 0; tagIndex < coordinates.Count; tagIndex += 2)
                 {
-                    Vector2f vector2f = new Vector2f(((NbtInt)nbtList[tagIndex]).Value, ((NbtInt)nbtList[tagIndex + 1]).Value);
+                    Vector2f vector2f = new Vector2f(((NbtInt)coordinates[tagIndex]).Value, ((NbtInt)coordinates[tagIndex + 1]).Value);
                     vector2fList.Add(vector2f);
                 }
                 path.Points = vector2fList;
                 map.Paths.Add(path);
             }
+            return true;
         }
 
-        private static void LoadNPCAreas(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadNPCAreas(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag = mapTag.Get("areas");
-            if (!(nbtTag is ICollection<NbtTag>))
+            NbtTag areaTag = mapTag.Get("areas");
+            if (!(areaTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
-            foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
+            foreach (NbtCompound areaCompound in (IEnumerable<NbtTag>)areaTag)
             {
                 Map.Area area = new Map.Area();
-                area.Name = nbtCompound.Get<NbtString>("name").Value;
-                int left = nbtCompound.Get<NbtInt>("x").Value;
-                int top = nbtCompound.Get<NbtInt>("y").Value;
-                int width = nbtCompound.Get<NbtInt>("w").Value;
-                int height = nbtCompound.Get<NbtInt>("h").Value;
+                area.Name = areaCompound.Get<NbtString>("name").Value;
+                int left = areaCompound.Get<NbtInt>("x").Value;
+                int top = areaCompound.Get<NbtInt>("y").Value;
+                int width = areaCompound.Get<NbtInt>("w").Value;
+                int height = areaCompound.Get<NbtInt>("h").Value;
                 area.Rectangle = new IntRect(left, top, width, height);
                 map.Areas.Add(area);
             }
+            return true;
         }
 
         private static void LoadCrowds(Map map, NbtCompound mapTag)
         {
         }
 
-        private static void LoadSpawns(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadSpawns(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("spawns");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -397,14 +423,15 @@ namespace Violet.Maps
                 }
                 map.Spawns.Add(enemySpawn);
             }
+            return true;
         }
 
-        private static void LoadCollisions(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadCollisions(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("mesh");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtList nbtList in (IEnumerable<NbtTag>)nbtTag)
@@ -419,6 +446,7 @@ namespace Violet.Maps
                 Mesh mesh = new Mesh(points);
                 map.Mesh.Add(mesh);
             }
+            return true;
         }
 
         private static void LoadTileAnimations(Map map, NbtCompound mapTag)
@@ -447,12 +475,12 @@ namespace Violet.Maps
             }
         }
 
-        private static void LoadTileGroups(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadTileGroups(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag1 = mapTag.Get("tiles");
             if (!(nbtTag1 is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtTag nbtTag2 in (IEnumerable<NbtTag>)nbtTag1)
@@ -481,14 +509,15 @@ namespace Violet.Maps
                     map.Groups.Add(group);
                 }
             }
+            return true;
         }
 
-        private static void LoadParallax(Map map, NbtCompound mapTag)
+        private static async Task<bool> LoadParallax(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("parallax");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return;
+                return false;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -509,6 +538,7 @@ namespace Violet.Maps
                 };
                 map.Parallaxes.Add(parallax);
             }
+            return true;
         }
     }
 }

@@ -611,7 +611,7 @@ namespace VCO.Scenes
             this.actorManager.Add(this.textbox);
             this.questionbox = new QuestionBox(this.pipeline, colorIndex);
             this.actorManager.Add(this.questionbox);
-            Map map = MapLoader.Load(Paths.MAPS + this.mapName, string.Empty);
+            Map map =  MapLoader.Load(Paths.MAPS + this.mapName, string.Empty).Result;
             if (this.initialPosition == VectorMath.ZERO_VECTOR)
             {
                 this.initialPosition = new Vector2f(map.Head.Width / 2, map.Head.Height / 2);
