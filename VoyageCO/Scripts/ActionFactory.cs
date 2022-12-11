@@ -182,8 +182,12 @@ namespace VCO.Scripts
                 typeof(CameraNPCAction)
             },
             {
-                "WAIT",
-                typeof(WaitAction)
+                "WFRA",
+                typeof(WaitFramesAction)
+            },
+            {
+                "WSEC",
+                typeof(WaitSecondsAction)
             },
             {
                 "CSPP",

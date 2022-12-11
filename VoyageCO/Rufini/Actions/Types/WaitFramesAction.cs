@@ -5,9 +5,9 @@ using Violet.Utility;
 
 namespace Rufini.Actions.Types
 {
-    internal class WaitAction : RufiniAction
+    internal class WaitFramesAction : RufiniAction
     {
-        public WaitAction()
+        public WaitFramesAction()
         {
             this.paramList = new List<ActionParam>
             {

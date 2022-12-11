@@ -119,6 +119,7 @@
     <Compile Include="Battle\EnemyAI\HermitCanAI.cs" />
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />
     <Compile Include="GUI\OverworldTextBox.cs" />
+    <Compile Include="Rufini\Actions\Types\WaitSecondsAction.cs" />
     <Compile Include="Rufini\Actions\Types\SetInputControlAction.cs" />
     <Compile Include="Scenes\DebugScene.cs" />
     <Compile Include="Scripts\Text\TextProcessor.cs" />
@@ -332,7 +333,7 @@
     <Compile Include="Rufini\Actions\Types\TimeAction.cs" />
     <Compile Include="Rufini\Actions\Types\ValueAddAction.cs" />
     <Compile Include="Rufini\Actions\Types\ValueSetAction.cs" />
-    <Compile Include="Rufini\Actions\Types\WaitAction.cs" />
+    <Compile Include="Rufini\Actions\Types\WaitFramesAction.cs" />
     <Compile Include="Rufini\Actions\Types\WeatherAction.cs" />
     <Compile Include="Rufini\Strings\StringFile.cs" />
     <Compile Include="Scenes\BattleScene.cs" />
