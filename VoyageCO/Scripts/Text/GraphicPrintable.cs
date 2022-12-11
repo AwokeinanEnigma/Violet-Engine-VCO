@@ -41,7 +41,7 @@ namespace VCO.GUI.Text.Printables
 
 		public GraphicPrintable(string subsprite)
 		{
-			this.graphic = new IndexedColorGraphic(DataHandler.instance.Load( "emote.dat"), subsprite, VectorMath.ZERO_VECTOR, 0);
+			this.graphic = new IndexedColorGraphic(DataHandler.instance.Load("emote.dat"), subsprite, VectorMath.ZERO_VECTOR, 0);
 		}
 
 		public override void Update()

@@ -212,29 +212,28 @@ namespace VCO.GUI.Text
 			{
 				case "p":
 					{
-						int num2 = 0;
-						int.TryParse(args[0], out num2);
-						printAction = new PrintAction?(new PrintAction(PrintActionType.Pause, num2));
-						goto IL_1FD;
+						int.TryParse(args[0], out int pauseTime);
+						printAction = new PrintAction?(new PrintAction(PrintActionType.Pause, pauseTime));
+						break;
 					}
 				case "t":
 					printAction = new PrintAction?(new PrintAction(PrintActionType.Trigger, args));
-					goto IL_1FD;
+					break;
 				case "g":
 					printAction = new PrintAction?(new PrintAction(PrintActionType.PrintGraphic, args[0]));
-					goto IL_1FD;
+					break;
 				case "c":
 					{
 						Color color = ColorHelper.FromHexString(args[0]);
 						printAction = new PrintAction?(new PrintAction(PrintActionType.Color, color));
-						goto IL_1FD;
+						break;
 					}
 				case "b":
 					printAction = new PrintAction?(new PrintAction(PrintActionType.Prompt, new object[0]));
-					goto IL_1FD;
+					break;
 				case "q":
 					printAction = new PrintAction?(new PrintAction(PrintActionType.PromptQuestion, args));
-					goto IL_1FD;
+					break;
 				case "i":
 					{
 						int num3 = 0;
@@ -246,21 +245,24 @@ namespace VCO.GUI.Text
 					num3,
 					num4
 						}));
-						goto IL_1FD;
+						break;
 					}
 				case "l":
 					printAction = new PrintAction?(new PrintAction(PrintActionType.PromptList, args));
-					goto IL_1FD;
+					break;
 				case "ts":
 					{
 						int num5 = 0;
 						int.TryParse(args[0], out num5);
 						printAction = new PrintAction?(new PrintAction(PrintActionType.Sound, num5));
-						goto IL_1FD;
+						break;
+					}
+				default:
+					{
+						Console.WriteLine("UNKNOWN TAG: {0}", tagName);
+						break;
 					}
 			}
-			Console.WriteLine("UNKNOWN TAG: {0}", tagName);
-		IL_1FD:
 			if (printAction != null)
 			{
 				this.AddAction(printAction.Value);

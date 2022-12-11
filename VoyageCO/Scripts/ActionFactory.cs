@@ -388,6 +388,10 @@ namespace VCO.Scripts
             {
                 "STSP",
                 typeof(SetTilesetPaletteAction)
+            },
+            {
+                "CTRL",
+                typeof(SetInputControlAction)
             }
         };
     }
