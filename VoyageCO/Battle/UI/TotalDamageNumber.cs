@@ -103,7 +103,7 @@ namespace VCO.Battle.UI
                         return;
                     }
                     this.timer = 0;
-                    this.translation = default(Vector2f);
+                    this.translation = default;
                     this.state = TotalDamageNumber.State.Hanging;
                     return;
                 }

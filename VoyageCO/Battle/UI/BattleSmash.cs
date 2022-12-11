@@ -7,6 +7,8 @@ namespace VCO.Battle.UI
     {
         #region Properties
         public bool Done => this.done;
+        #endregion
+
         #region Fields
         private readonly RenderPipeline pipeline;
         

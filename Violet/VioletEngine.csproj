@@ -63,6 +63,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Flags\FlagManager.cs" />
     <Compile Include="Flags\ValueManager.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Graphics\AnimatedRenderable.cs" />
     <Compile Include="Graphics\ColorBlendMode.cs" />
     <Compile Include="Graphics\FullColorTexture.cs" />
