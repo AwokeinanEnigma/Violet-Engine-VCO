@@ -118,7 +118,15 @@
     <Compile Include="Battle\EnemyAI\InfestedLegsAI.cs" />
     <Compile Include="Battle\EnemyAI\HermitCanAI.cs" />
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />
+    <Compile Include="GUI\OverworldTextBox.cs" />
     <Compile Include="Scenes\DebugScene.cs" />
+    <Compile Include="Scripts\Text\TextProcessor.cs" />
+    <Compile Include="Scripts\Text\GraphicPrintable.cs" />
+    <Compile Include="Scripts\Text\Printable.cs" />
+    <Compile Include="Scripts\Text\QuestionPrintable.cs" />
+    <Compile Include="Scripts\Text\PrintAction.cs" />
+    <Compile Include="Scripts\Text\PrintActionType.cs" />
+    <Compile Include="Scripts\Text\TextPrintable.cs" />
     <Compile Include="SOMETHINGSKILLS\AUXBase.cs" />
     <Compile Include="Battle\Actions\ActionParams.cs" />
     <Compile Include="Battle\Actions\BattleAction.cs" />
@@ -242,7 +250,6 @@
     <Compile Include="GUI\OverworldMenu\AUXMenu.cs" />
     <Compile Include="GUI\OverworldMenu\UseAUXMenu.cs" />
     <Compile Include="GUI\ProfileMenu\ProfilePanel.cs" />
-    <Compile Include="GUI\QuestionBox.cs" />
     <Compile Include="GUI\ScrollingList.cs" />
     <Compile Include="GUI\SectionedPsiBox.cs" />
     <Compile Include="GUI\TextBox.cs" />
@@ -364,13 +371,6 @@
     <Compile Include="Scripts\Script.cs" />
     <Compile Include="Scripts\ScriptExecutor.cs" />
     <Compile Include="Scripts\ScriptLoader.cs" />
-    <Compile Include="Scripts\Text\ITextCommand.cs" />
-    <Compile Include="Scripts\Text\TextBlock.cs" />
-    <Compile Include="Scripts\Text\TextLine.cs" />
-    <Compile Include="Scripts\Text\TextPause.cs" />
-    <Compile Include="Scripts\Text\TextProcessor.cs" />
-    <Compile Include="Scripts\Text\TextTrigger.cs" />
-    <Compile Include="Scripts\Text\TextWait.cs" />
     <Compile Include="Utility\Capitalizer.cs" />
     <Compile Include="Utility\EmbeddedResources.cs" />
     <Compile Include="Utility\ScreenDimmer.cs" />
@@ -399,5 +399,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

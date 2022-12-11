@@ -1,6 +1,7 @@
 ﻿using Rufini.Strings;
 using System.Collections.Generic;
 using VCO.Actors.NPCs;
+using VCO.GUI.Text.PrintActions;
 using VCO.Scripts;
 using VCO.Scripts.Actions;
 using VCO.Scripts.Actions.ParamTypes;
@@ -8,90 +9,83 @@ using Violet.Flags;
 
 namespace Rufini.Actions.Types
 {
-    internal class QuestionAction : RufiniAction
-    {
-        public QuestionAction()
-        {
-            this.paramList = new List<ActionParam>
-            {
-                new ActionParam
-                {
-                    Name = "text",
-                    Type = typeof(RufiniString)
-                },
-                new ActionParam
-                {
-                    Name = "opt1",
-                    Type = typeof(RufiniString)
-                },
-                new ActionParam
-                {
-                    Name = "opt2",
-                    Type = typeof(RufiniString)
-                },
-                new ActionParam
-                {
-                    Name = "sin",
-                    Type = typeof(bool)
-                },
-                new ActionParam
-                {
-                    Name = "sout",
-                    Type = typeof(bool)
-                },
-                new ActionParam
-                {
-                    Name = "lbx",
-                    Type = typeof(bool)
-                }
-            };
-        }
+	internal class QuestionAction : RufiniAction
+	{
+		public QuestionAction()
+		{
+			this.paramList = new List<ActionParam>
+			{
+				new ActionParam
+				{
+					Name = QuestionAction.OPT_NAMES[0],
+					Type = typeof(RufiniString)
+				},
+				new ActionParam
+				{
+					Name = QuestionAction.OPT_NAMES[1],
+					Type = typeof(RufiniString)
+				},
+				new ActionParam
+				{
+					Name = QuestionAction.OPT_NAMES[2],
+					Type = typeof(RufiniString)
+				},
+				new ActionParam
+				{
+					Name = QuestionAction.OPT_NAMES[3],
+					Type = typeof(RufiniString)
+				},
+				new ActionParam
+				{
+					Name = QuestionAction.OPT_NAMES[4],
+					Type = typeof(RufiniString)
+				}
+			};
+		}
 
-        public override ActionReturnContext Execute(ExecutionContext context)
-        {
-            this.context = context;
-            RufiniString value = base.GetValue<RufiniString>("text");
-            string value2 = StringFile.Instance.Get(value.Names).Value;
-            RufiniString value3 = base.GetValue<RufiniString>("opt1");
-            string value4 = StringFile.Instance.Get(value3.Names).Value;
-            RufiniString value5 = base.GetValue<RufiniString>("opt2");
-            string value6 = StringFile.Instance.Get(value5.Names).Value;
-            bool value7 = base.GetValue<bool>("sin");
-            bool value8 = base.GetValue<bool>("sout");
-            this.context.QuestionBox.OnSelection += this.ContinueAfterTextbox;
-            this.context.QuestionBox.Reset(value2, this.context.Nametag, value4, value6, value7, value8);
-            this.context.QuestionBox.Show();
-            this.context.Player.MovementLocked = true;
-            if (this.context.ActiveNPC != null)
-            {
-                this.activeNpc = this.context.ActiveNPC;
-                this.context.QuestionBox.OnTypewriterComplete += this.StopTalking;
-                this.activeNpc.StartTalking();
-            }
-            return new ActionReturnContext
-            {
-                Wait = ScriptExecutor.WaitType.Event
-            };
-        }
+		public override ActionReturnContext Execute(ExecutionContext context)
+		{
+			this.context = context;
+			int num = 0;
+			for (int i = 0; i < QuestionAction.OPT_NAMES.Length; i++)
+			{
+				if (!base.HasValue(QuestionAction.OPT_NAMES[i]))
+				{
+					num = i;
+					break;
+				}
+			}
+			string[] array = new string[num];
+			for (int j = 0; j < array.Length; j++)
+			{
+				array[j] = base.GetValue<RufiniString>(QuestionAction.OPT_NAMES[j]).Value;
+			}
+			this.context.TextBox.OnTextboxComplete += this.ContinueAfterTextbox;
+			this.context.TextBox.Enqueue(new PrintAction(PrintActionType.PromptQuestion, array));
+			this.context.TextBox.Show();
+			return new ActionReturnContext
+			{
+				Wait = ScriptExecutor.WaitType.Event
+			};
+		}
 
-        private void StopTalking()
-        {
-            this.activeNpc.StopTalking();
-            this.context.QuestionBox.OnTypewriterComplete -= this.StopTalking;
-            this.activeNpc = null;
-        }
+		private void ContinueAfterTextbox()
+		{
+			this.context.TextBox.OnTextboxComplete -= this.ContinueAfterTextbox;
+			this.context.Executor.Continue();
+		}
 
-        private void ContinueAfterTextbox(int selection)
-        {
-            FlagManager.Instance[2] = (selection == 0);
-            this.context.QuestionBox.Hide();
-            this.context.QuestionBox.OnSelection -= this.ContinueAfterTextbox;
-            this.context.Player.MovementLocked = false;
-            this.context.Executor.Continue();
-        }
+		private static readonly string[] OPT_NAMES = new string[]
+		{
+			"opt1",
+			"opt2",
+			"opt3",
+			"opt4",
+			"opt5"
+		};
 
-        private ExecutionContext context;
+		private ExecutionContext context;
 
-        private NPC activeNpc;
-    }
+		private NPC activeNpc;
+	}
 }

@@ -13,7 +13,8 @@ using VCO.Battle.UI.Modifiers;
 using VCO.Data;
 using VCO.GUI;
 using VCO.GUI.Modifiers;
-using VCO.Scripts.Text;
+using VCO.GUI.Text;
+using VCO.GUI.Text.PrintActions;
 using VCO.SOMETHING;
 using VCO.Utility;
 using Violet.Actors;
@@ -150,7 +151,8 @@ namespace VCO.Battle
                 }
             }
             this.AlignEnemyGraphics();
-            this.textbox = new BattleTextbox(pipeline, 0);
+            this.textbox = new BattleTextBox();
+            pipeline.Add(textbox);
             this.textbox.OnTextboxComplete += this.TextboxComplete;
             this.textbox.OnTextTrigger += this.TextTrigger;
             //pipeline.Add(this.textbox);
@@ -260,16 +262,17 @@ namespace VCO.Battle
             this.Dispose(false);
         }
 
-        private void TextTrigger(TextTrigger trigger)
+        private void TextTrigger(int type, string[] args)
         {
-            switch (trigger.Type)
+            switch (type)
             {
                 case 0:
                     this.youWon = new YouWon(this.pipeline);
                     return;
                 case 1:
                     {
-                        bool flag = Enum.TryParse<CharacterType>(trigger.Data[0], true, out CharacterType character);
+                        CharacterType character;
+                        bool flag = Enum.TryParse<CharacterType>(args[0], true, out character);
                         if (flag)
                         {
                             this.jingler.Play(character);
@@ -279,8 +282,10 @@ namespace VCO.Battle
                     }
                 case 2:
                     {
-                        int.TryParse(trigger.Data[0], out int i);
-                        int.TryParse(trigger.Data[1], out int hp);
+                        int i = 0;
+                        int hp = 0;
+                        int.TryParse(args[0], out i);
+                        int.TryParse(args[1], out hp);
                         StatSet statChange = new StatSet
                         {
                             HP = hp
@@ -290,21 +295,27 @@ namespace VCO.Battle
                     }
                 case 3:
                     {
-                        int.TryParse(trigger.Data[0], out int i2);
-                        int.TryParse(trigger.Data[1], out int pp);
+                        int i2 = 0;
+                        int pp = 0;
+                        int.TryParse(args[0], out i2);
+                        int.TryParse(args[1], out pp);
                         StatSet statChange2 = new StatSet
                         {
                             PP = pp
                         };
                         this.combatantController[i2].AlterStats(statChange2);
-                        break;
+                        return;
                     }
                 default:
-                    return;
+                    /*if (this.OnTextTrigger != null)
+                    {
+                        this.OnTextTrigger(type, args);
+                    }*/
+                    break;
             }
         }
-
         public void PlayWinBGM(int type)
+
         {
             if (this.winSounds.ContainsKey(type))
             {
@@ -1373,13 +1384,30 @@ namespace VCO.Battle
 
         public void ShowMessage(string message, bool useButton)
         {
-            this.textbox.Reset(message, useButton);
+            this.textbox.AutoScroll = !useButton;
+            if (this.textbox.HasPrinted)
+            {
+                this.textbox.Enqueue(new PrintAction(PrintActionType.LineBreak, new object[0]));
+            }
+            TextProcessor textProcessor = new TextProcessor(message);
+            this.textbox.EnqueueAll(textProcessor.Actions);
+            this.textbox.Enqueue(new PrintAction(PrintActionType.Prompt, new object[0]));
             this.textbox.Show();
+            this.buttonBar.Hide();
         }
 
         public void ShowStyledMessage(string message, bool useButton, WindowStyle style)
         {
-            this.textbox.Reset(message, useButton);
+            this.textbox.AutoScroll = !useButton;
+            if (this.textbox.HasPrinted)
+            {
+                this.textbox.Enqueue(new PrintAction(PrintActionType.LineBreak, new object[0]));
+            }
+            TextProcessor textProcessor = new TextProcessor(message);
+            this.textbox.EnqueueAll(textProcessor.Actions);
+            this.textbox.Enqueue(new PrintAction(PrintActionType.Prompt, new object[0]));
+            this.textbox.Show();
+            this.buttonBar.Hide();
             this.textbox.ChangeStyle(style);
             this.textbox.Show();
         }
@@ -1607,7 +1635,7 @@ namespace VCO.Battle
         private readonly SectionedAUXBox AUXMenu;
         private readonly CardBar cardBar;
         private readonly Dictionary<int, IndexedColorGraphic> enemyGraphics;
-        private readonly BattleTextbox textbox;
+        private readonly BattleTextBox textbox;
         private readonly ScreenDimmer dimmer;
         private readonly ComboAnimator comboCircle;
         private int selectedTargetId;

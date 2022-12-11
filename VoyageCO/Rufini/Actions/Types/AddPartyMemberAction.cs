@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using VCO.Actors;
 using VCO.Actors.NPCs;
 using VCO.Data;
+using VCO.GUI.Text.PrintActions;
 using VCO.Overworld;
 using VCO.Scenes;
 using VCO.Scripts;
@@ -73,9 +74,9 @@ namespace Rufini.Actions.Types
                 string text = StringFile.Instance.Get("system.partyJoin").Value;
                 text = text.Replace("$newMember", CharacterNames.GetName(option));
                 this.context.TextBox.OnTextboxComplete += this.ContinueAfterTextbox;
-                this.context.TextBox.Reset(text, string.Empty, false, false);
+                this.context.TextBox.Enqueue(new PrintAction(PrintActionType.PrintText, text));
+                this.context.TextBox.Enqueue(new PrintAction(PrintActionType.Prompt, new object[0]));
                 this.context.TextBox.Show();
-                this.context.Player.MovementLocked = true;
                 result = new ActionReturnContext
                 {
                     Wait = ScriptExecutor.WaitType.Event

@@ -1,4 +1,6 @@
 ﻿using SFML.Graphics;
+using System;
+using System.Globalization;
 
 namespace Violet.Utility
 {
@@ -7,6 +9,21 @@ namespace Violet.Utility
     /// </summary>
     public static class ColorHelper
     {
+        public static Color FromHexString(string hexString)
+        {
+            Color result;
+            try
+            {
+                int color = int.Parse(hexString, NumberStyles.HexNumber);
+                result = ColorHelper.FromInt(color);
+            }
+            catch (Exception)
+            {
+                result = Color.White;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Gets a color from an integer
         /// </summary>

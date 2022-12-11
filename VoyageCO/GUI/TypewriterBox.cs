@@ -1,377 +1,404 @@
-﻿using SFML.Graphics;
-using SFML.System;
-using System;
-using VCO.Data;
-using VCO.Scripts.Text;
-using Violet.Actors;
+﻿using System;
+using System.Collections.Generic;
 using Violet.Audio;
 using Violet.Graphics;
 using Violet.GUI;
-using Violet.Input;
 using Violet.Utility;
+using VCO.Data;
+using VCO.GUI.Text.Printables;
+using SFML.Graphics;
+using SFML.System;
 
-namespace VCO.GUI
+namespace VCO.GUI.Text
 {
-    internal class TypewriterBox : Actor
-    {
-        public event TypewriterCompleteHandler OnTypewriterComplete;
+	internal class Typewriter : Renderable
+	{
+		public override Vector2f Position
+		{
+			get
+			{
+				return this.position;
+			}
+			set
+			{
+				this.Reposition(value, this.origin);
+			}
+		}
 
-        public event WaitCommandHandler OnTextWait;
+		public override Vector2f Origin
+		{
+			get
+			{
+				return this.origin;
+			}
+			set
+			{
+				this.Reposition(this.position, value);
+			}
+		}
 
-        public event TriggerCommandHandler OnTextTrigger;
+		public override Vector2f Size
+		{
+			get
+			{
+				return this.size;
+			}
+			set
+			{
+				this.size = value;
+			}
+		}
 
-        public bool UseBeeps
-        {
-            get => this.useBeeps;
-            set => this.useBeeps = value;
-        }
+		public bool ShowBullets
+		{
+			get
+			{
+				return this.showBullets;
+			}
+		}
 
-        public int DisplayLines => Math.Min(3, this.textBlock.Lines.Count);
+		public event Typewriter.TypewriterCompleteHandler OnTypewriterComplete;
 
-        public override Vector2f Position
-        {
-            get => this.position;
-            set => this.Reposition(value);
-        }
+		public Typewriter(FontData font, Vector2f position, Vector2f origin, Vector2f size, bool showBullets)
+		{
+			this.depth = 2147450880;
+			this.fontData = font;
+			this.position = position;
+			this.origin = origin;
+			this.size = size;
+			this.textColor = Color.Black;
+			this.currentLine = 0;
+			int num = (int)(this.size.Y / (float)this.fontData.LineHeight);
+			this.lines = new List<Printable>[num];
+			for (int i = 0; i < this.lines.Length; i++)
+			{
+				this.lines[i] = new List<Printable>();
+			}
+			this.showBullets = showBullets;
+			this.bullets = new Renderable[this.lines.Length];
+			float num2 = 0f;
+			for (int j = 0; j < this.bullets.Length; j++)
+			{
+				this.bullets[j] = new IndexedColorGraphic(DataHandler.instance.Load( "bullet.dat"), "bullet", this.position - this.origin + new Vector2f(0f, (float)(this.fontData.LineHeight * j + this.fontData.LineHeight / 2)), 0);
+				this.bullets[j].Visible = false;
+				num2 = Math.Max(num2, this.bullets[j].Size.X);
+			}
+			this.bulletWidth = (this.showBullets ? num2 : 0f);
+			this.SetTextSound(Typewriter.BlipSound.Narration, false);
+		}
 
-        public TypewriterBox(RenderPipeline pipeline, Vector2f position, Vector2f size, int depth, Button advance, bool showBullets, TextBlock textBlock)
-        {
-            this.pipeline = pipeline;
-            this.position = position;
-            this.depth = depth;
-            this.advance = advance;
-            this.showBullets = showBullets;
-            this.textBlock = textBlock;
-            this.origTextSpeed = Settings.TextSpeed / 2f;
-            this.textSpeed = this.origTextSpeed;
-            int num = (int)(size.Y / 14f);
-            this.texts = new TextRegion[num];
-            for (int i = 0; i < this.texts.Length; i++)
-            {
-                this.texts[i] = new TextRegion(this.position + new Vector2f(8f, 14 * i), this.depth + 1, Fonts.Main, (i < this.textBlock.Lines.Count) ? this.textBlock.Lines[i].Text : string.Empty, 0, 0);
-                this.texts[i].Color = Color.Black;
+		private void Reposition(Vector2f newPosition, Vector2f newOrigin)
+		{
+			Vector2f v = new Vector2f(newPosition.X - newOrigin.X - (this.position.X - this.origin.X), newPosition.Y - newOrigin.Y - (this.position.Y - this.origin.Y));
+			for (int i = 0; i < this.lines.Length; i++)
+			{
+				for (int j = 0; j < this.lines[i].Count; j++)
+				{
+					this.lines[i][j].Position += v;
+				}
+				this.bullets[i].Position += v;
+			}
+			this.position = newPosition;
+			this.origin = newOrigin;
+		}
 
-                this.pipeline.Add(this.texts[i]);
-            }
-            this.SetUpBullets();
-            this.topLineIndex = 0;
-            this.currentLineIndex = 0;
-            this.currentTextIndex = 0;
-            this.currentText = this.texts[this.currentTextIndex];
-            this.textPos = 0;
-            this.textLen = this.currentText.Text.Length;
-            this.textBeep = AudioManager.Instance.Use(DataHandler.instance.Load("text1.wav"), AudioType.Sound);
-            this.useBeeps = true;
-        }
+		private int CalculateLineWidth(int line)
+		{
+			int num = Math.Max(0, Math.Min(this.lines.Length - 1, line));
+			int num2 = (int)this.bulletWidth;
+			for (int i = 0; i < this.lines[num].Count; i++)
+			{
+				num2 += (int)this.lines[num][i].Size.X;
+			}
+			return num2;
+		}
 
-        private void SetUpBullets()
-        {
-            if (this.showBullets)
-            {
-                this.bulletVisibility = new bool[this.texts.Length];
-                this.bullets = new Graphic[this.texts.Length];
-                for (int i = 0; i < this.bullets.Length; i++)
-                {
-                    this.bullets[i] = new IndexedColorGraphic(DataHandler.instance.Load("bullet.dat"), "bullet", this.position + new Vector2f(0f, 4 + 14 * i), this.depth + 1);
-                    this.pipeline.Add(this.bullets[i]);
-                }
-                this.SetBulletVisibility();
-                return;
-            }
-            this.bullets = new Graphic[0];
-        }
+		private bool PrintableFitsInCurrentLine(Printable printable)
+		{
+			int num = this.CalculateLineWidth(this.currentLine);
+			return num + (int)printable.Size.X <= (int)this.size.X;
+		}
 
-        private void SetBulletVisibility()
-        {
-            for (int i = 0; i < this.bullets.Length; i++)
-            {
-                this.bulletVisibility[i] = (this.topLineIndex + i < this.textBlock.Lines.Count && this.texts[i].Length > 0 && this.textBlock.Lines[this.topLineIndex + i].HasBullet);
-                this.bullets[i].Visible = (this.showBullets && this.bulletVisibility[i]);
-            }
-        }
+		public void Clear()
+		{
+			for (int i = 0; i < this.lines.Length; i++)
+			{
+				for (int j = 0; j < this.lines[i].Count; j++)
+				{
+					this.lines[i][j].Dispose();
+				}
+				this.lines[i].Clear();
+				this.bullets[i].Visible = false;
+			}
+			this.currentLine = 0;
+			this.currentPrintable = null;
+			this.splitTextForLater = null;
+		}
 
-        public void Reposition(Vector2f newPosition)
-        {
-            this.position = VectorMath.Truncate(newPosition);
-            for (int i = 0; i < this.texts.Length; i++)
-            {
-                this.texts[i].Position = this.position + new Vector2f(8f, 14 * i);
-                if (this.showBullets)
-                {
-                    this.bullets[i].Position = this.position + new Vector2f(0f, 4 + 14 * i);
-                }
-            }
-        }
+		private void ClearTopLine()
+		{
+			for (int i = 0; i < this.lines[0].Count; i++)
+			{
+				this.lines[0][i].Dispose();
+			}
+			this.lines[0].Clear();
+		}
 
-        public void Reset(TextBlock textBlock)
-        {
-            this.textBlock = textBlock;
-            this.topLineIndex = 0;
-            this.currentLineIndex = 0;
-            this.currentTextIndex = 0;
-            this.currentText = this.texts[this.currentTextIndex];
-            for (int i = 0; i < this.texts.Length; i++)
-            {
-                this.texts[i].Reset((i < this.textBlock.Lines.Count) ? this.textBlock.Lines[i].Text : string.Empty, 0, 0);
-            }
-            this.SetUpBullets();
-            this.totalCharCount = 0f;
-            this.pauseTimer = 0;
-            this.pauseDuration = 0;
-            this.commandIndex = 0;
-            this.paused = false;
-            this.waiting = false;
-            this.nextCharWaiter = 0f;
-            this.textPos = 0;
-            this.textLen = this.currentText.Text.Length;
-            this.finshed = false;
-        }
+		private void ShiftLinesUp()
+		{
+			this.ClearTopLine();
+			List<Printable> list = this.lines[0];
+			for (int i = 1; i < this.lines.Length; i++)
+			{
+				this.bullets[i - 1].Visible = this.bullets[i].Visible;
+				this.lines[i - 1] = this.lines[i];
+				for (int j = 0; j < this.lines[i].Count; j++)
+				{
+					this.lines[i][j].Position -= new Vector2f(0f, (float)this.fontData.LineHeight);
+				}
+			}
+			this.bullets[this.bullets.Length - 1].Visible = false;
+			this.lines[this.lines.Length - 1] = list;
+		}
 
-        public void Show()
-        {
-            if (!this.visible)
-            {
-                this.visible = true;
-                for (int i = 0; i < this.texts.Length; i++)
-                {
-                    this.texts[i].Visible = true;
-                    this.texts[i].Color = Color.Black;
-                    if (this.showBullets)
-                    {
-                        this.bullets[i].Visible = this.bulletVisibility[i];
-                    }
-                }
-            }
-        }
+		private void CompletePrintAction()
+		{
+			if (this.OnTypewriterComplete != null)
+			{
+				this.OnTypewriterComplete(this, new EventArgs());
+			}
+		}
 
-        public void Hide()
-        {
-            if (this.visible)
-            {
-                this.visible = false;
-                for (int i = 0; i < this.texts.Length; i++)
-                {
-                    this.texts[i].Visible = false;
-                    if (this.showBullets)
-                    {
-                        this.bullets[i].Visible = false;
-                    }
-                }
-            }
-        }
+		private void AdvanceLine()
+		{
+			if (this.currentLine + 1 >= this.lines.Length)
+			{
+				this.ShiftLinesUp();
+				return;
+			}
+			this.currentLine++;
+		}
 
-        public void ContinueFromWait()
-        {
-            this.waiting = false;
-        }
+		public void PrintNewLine()
+		{
+			this.AdvanceLine();
+			this.CompletePrintAction();
+		}
 
-        public override void Input()
-        {
-            if (InputManager.Instance.State[this.advance])
-            {
-                this.textSpeed = this.origTextSpeed + 0.5f;
-                return;
-            }
-            this.textSpeed = this.origTextSpeed;
-        }
+		public void SetTextColor(Color color, bool isPrintAction)
+		{
+			this.textColor = color;
+			if (isPrintAction)
+			{
+				this.CompletePrintAction();
+			}
+		}
 
-        public override void Update()
-        {
-            if (!this.visible)
-            {
-                return;
-            }
-            this.SetBulletVisibility();
-            this.currentText.Length = Math.Min(this.textLen, this.textPos + 1);
-            if (!this.waiting)
-            {
-                if (this.paused)
-                {
-                    if (this.pauseTimer < this.pauseDuration)
-                    {
-                        this.pauseTimer++;
-                        return;
-                    }
-                    this.pauseTimer = 0;
-                    this.pauseDuration = 0;
-                    this.paused = false;
-                    return;
-                }
-                else if (!this.paused)
-                {
-                    if (this.textPos < this.textLen)
-                    {
-                        this.nextCharWaiter += this.textSpeed;
-                        if (this.nextCharWaiter >= 1f)
-                        {
-                            int num = 0;
-                            int num2 = (int)this.nextCharWaiter;
-                            while (num < num2 && !this.paused)
-                            {
-                                this.textPos++;
-                                this.totalCharCount += 1f;
-                                this.HandleCommands();
-                                num++;
-                            }
-                            this.nextCharWaiter = 0f;
-                            if (this.useBeeps && this.totalCharCount % 3f == 0f)
-                            {
-                                this.textBeep.Play();
-                                return;
-                            }
-                        }
-                    }
-                    else if (!this.finshed)
-                    {
-                        this.HandleCommands();
-                        if (this.currentTextIndex < this.texts.Length - 1)
-                        {
-                            this.currentTextIndex++;
-                            this.currentText = this.texts[this.currentTextIndex];
-                            this.textPos = 0;
-                            this.commandIndex = 0;
-                            this.textLen = this.currentText.Text.Length;
-                            this.currentLineIndex++;
-                            return;
-                        }
-                        if (this.currentLineIndex < this.textBlock.Lines.Count - 1)
-                        {
-                            for (int i = 1; i < this.texts.Length; i++)
-                            {
-                                this.texts[i - 1].Reset(this.texts[i].Text, this.texts[i].Index, this.texts[i].Length);
-                            }
-                            this.topLineIndex++;
-                            this.currentLineIndex++;
-                            this.texts[this.currentTextIndex].Reset(this.textBlock.Lines[this.currentLineIndex].Text, 0, 0);
-                            this.currentText = this.texts[this.currentTextIndex];
-                            this.textPos = 0;
-                            this.commandIndex = 0;
-                            this.textLen = this.currentText.Text.Length;
-                            return;
-                        }
-                        if (this.OnTypewriterComplete != null)
-                        {
-                            this.OnTypewriterComplete();
-                        }
-                        this.finshed = true;
-                    }
-                }
-            }
-        }
+		public void SetTextSound(Typewriter.BlipSound soundType, bool isPrintAction)
+		{
+			if (soundType != this.textSoundType)
+			{
+				this.textSoundType = soundType;
+				if (this.textSoundType != Typewriter.BlipSound.None)
+				{
+					this.textSound = AudioManager.Instance.Use(DataHandler.instance.Load(Typewriter.BLIP_SOUNDS[this.textSoundType]), AudioType.Sound);
+				}
+				else
+				{
+					if (this.textSound != null)
+					{
+						AudioManager.Instance.Unuse(this.textSound);
+					}
+					this.textSound = null;
+				}
+			}
+			if (isPrintAction)
+			{
+				this.CompletePrintAction();
+			}
+		}
 
-        private bool HandleCommands()
-        {
-            bool result = false;
-            if (this.currentLineIndex < this.textBlock.Lines.Count && this.textBlock.Lines[this.currentLineIndex].Commands.Length > 0)
-            {
-                while (!this.paused && this.commandIndex < this.textBlock.Lines[this.currentLineIndex].Commands.Length && this.totalCharCount >= textBlock.Lines[currentLineIndex].Commands[commandIndex].Position)
-                {
-                    ITextCommand textCommand = this.textBlock.Lines[this.currentLineIndex].Commands[this.commandIndex];
-                    if (textCommand is TextPause)
-                    {
-                        this.pauseDuration = (textCommand as TextPause).Duration;
-                        this.paused = true;
-                    }
-                    else if (textCommand is TextWait)
-                    {
-                        this.waiting = true;
-                        if (this.OnTextWait != null)
-                        {
-                            this.OnTextWait();
-                        }
-                    }
-                    else if (textCommand is TextTrigger && this.OnTextTrigger != null)
-                    {
-                        this.OnTextTrigger(textCommand as TextTrigger);
-                    }
-                    this.commandIndex++;
-                    result = true;
-                }
-            }
-            return result;
-        }
+		private void Print(Printable printable)
+		{
+			List<Printable> list = this.lines[this.currentLine];
+			float num = this.position.X - this.origin.X + this.bulletWidth;
+			float num2 = 0f;
+			if (list.Count > 0)
+			{
+				Renderable renderable = list[list.Count - 1];
+				num = renderable.Position.X - renderable.Origin.X;
+				num2 = renderable.Size.X;
+			}
+			printable.Position = new Vector2f((float)((int)(num + num2)), (float)((int)(this.position.Y - this.origin.Y + (float)(this.currentLine * this.fontData.LineHeight))));
+			this.lines[this.currentLine].Add(printable);
+			this.currentPrintable = printable;
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                AudioManager.Instance.Unuse(this.textBeep);
-                for (int i = 0; i < bullets.Length; i++) {
-                    bullets[i].Visible = false;
-                    pipeline.Remove(bullets[i]);
-                    bullets[i].Dispose();
+		public void PrintText(string text)
+		{
+			string text2 = text;
+			if (text2.Length > 0 && text2[0] == '@')
+			{
+				this.bullets[this.currentLine].Visible = this.showBullets;
+				text2 = text2.Substring(1);
+			}
+			TextPrintable textPrintable = new TextPrintable(this.fontData, this.textSound, this.textColor, text2);
+			if (!this.PrintableFitsInCurrentLine(textPrintable))
+			{
+				int pixelLength = (int)this.size.X - this.CalculateLineWidth(this.currentLine);
+				this.splitTextForLater = textPrintable.SplitOffText(pixelLength);
+			}
+			if (textPrintable.Size.X > 0f)
+			{
+				this.Print(textPrintable);
+			}
+		}
 
-                }
-            }
-            base.Dispose(disposing);
-        }
+		public void PrintGraphic(string subsprite)
+		{
+			GraphicPrintable graphicPrintable = new GraphicPrintable(subsprite);
+			graphicPrintable.Origin = VectorMath.ZERO_VECTOR;
+			if (!this.PrintableFitsInCurrentLine(graphicPrintable))
+			{
+				this.PrintNewLine();
+			}
+			this.Print(graphicPrintable);
+		}
 
-        public const int LINE_HEIGHT = 14;
+		public void PrintQuestion(string[] options)
+		{
+			QuestionPrintable printable = new QuestionPrintable(this.fontData, this.size.X, options);
+			if (this.lines[this.currentLine].Count > 0)
+			{
+				this.PrintNewLine();
+			}
+			this.Print(printable);
+		}
 
-        public const int BULLET_MARGIN = 8;
+		public void Update()
+		{
+			if (this.currentPrintable != null)
+			{
+				if (!this.currentPrintable.Complete)
+				{
+					this.currentPrintable.Update();
+					return;
+				}
+				if (this.splitTextForLater != null)
+				{
+					this.AdvanceLine();
+					string text = this.splitTextForLater;
+					this.splitTextForLater = null;
+					this.PrintText(text);
+					this.currentPrintable.Update();
+					return;
+				}
+				if (this.currentPrintable.Removable)
+				{
+					this.lines[this.currentLine].Remove(this.currentPrintable);
+					this.currentPrintable.Dispose();
+				}
+				this.currentPrintable = null;
+				this.CompletePrintAction();
+			}
+		}
 
-        public const int TEXT_OFFSET_Y = 0;
+		public override void Draw(RenderTarget target)
+		{
+			for (int i = 0; i < this.lines.Length; i++)
+			{
+				if (this.bullets[i].Visible)
+				{
+					this.bullets[i].Draw(target);
+				}
+				for (int j = 0; j < this.lines[i].Count; j++)
+				{
+					this.lines[i][j].Draw(target);
+				}
+			}
+		}
 
-        public const int BULLET_OFFSET_Y = 4;
+		protected override void Dispose(bool disposing)
+		{
+			if (!this.disposed)
+			{
+				if (disposing)
+				{
+					for (int i = 0; i < this.lines.Length; i++)
+					{
+						for (int j = 0; j < this.lines[i].Count; j++)
+						{
+							this.lines[i][j].Dispose();
+						}
+					}
+				}
+				AudioManager.Instance.Unuse(this.textSound);
+				this.textSound = null;
+				this.OnTypewriterComplete = null;
+			}
+			base.Dispose(disposing);
+		}
 
-        private readonly int depth;
+		private const int DEPTH = 2147450880;
 
-        private readonly Button advance;
+		private const char BULLET_CHAR = '@';
 
-        private int textPos;
+		private static readonly Dictionary<Typewriter.BlipSound, string> BLIP_SOUNDS = new Dictionary<Typewriter.BlipSound, string>
+		{
+			{
+				Typewriter.BlipSound.Narration,
+				"text1.wav"
+			},
+			{
+				Typewriter.BlipSound.Male,
+				"text2.wav"
+			},
+			{
+				Typewriter.BlipSound.Female,
+				"text3.wav"
+			},
+			{
+				Typewriter.BlipSound.Awkward,
+				"text4.wav"
+			},
+			{
+				Typewriter.BlipSound.Robot,
+				"text5.wav"
+			}
+		};
 
-        private int textLen;
+		private FontData fontData;
 
-        private bool finshed;
+		private Color textColor;
 
-        private bool visible;
+		private List<Printable>[] lines;
 
-        private TextBlock textBlock;
+		private int currentLine;
 
-        private readonly VioletSound textBeep;
+		private Printable currentPrintable;
 
-        private bool useBeeps;
+		private string splitTextForLater;
 
-        private readonly RenderPipeline pipeline;
+		private Renderable[] bullets;
 
-        private int topLineIndex;
+		private float bulletWidth;
 
-        private int currentLineIndex;
+		private bool showBullets;
 
-        private int currentTextIndex;
+		private Typewriter.BlipSound textSoundType;
 
-        private TextRegion currentText;
+		private VioletSound textSound;
 
-        private TextRegion[] texts;
+		public enum BlipSound
+		{
+			None,
+			Narration,
+			Male,
+			Female,
+			Awkward,
+			Robot
+		}
 
-        private Graphic[] bullets;
-
-        private bool[] bulletVisibility;
-
-        private readonly bool showBullets;
-
-        private float totalCharCount;
-
-        private int pauseTimer;
-
-        private int pauseDuration;
-
-        private int commandIndex;
-
-        private bool paused;
-
-        private bool waiting;
-
-        private float textSpeed;
-
-        private readonly float origTextSpeed;
-
-        private float nextCharWaiter;
-
-        public delegate void TypewriterCompleteHandler();
-
-        public delegate void WaitCommandHandler();
-
-        public delegate void TriggerCommandHandler(TextTrigger trigger);
-    }
+		public delegate void TypewriterCompleteHandler(object sender, EventArgs e);
+	}
 }

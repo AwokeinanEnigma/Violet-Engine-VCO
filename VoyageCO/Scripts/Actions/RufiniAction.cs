@@ -70,6 +70,10 @@ namespace VCO.Scripts.Actions
             }
             return result;
         }
+        public bool HasValue(string param)
+        {
+            return this.paramValues.ContainsKey(param);
+        }
 
         protected List<ActionParam> paramList;
 

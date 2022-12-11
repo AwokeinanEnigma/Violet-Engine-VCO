@@ -6,152 +6,163 @@ using Violet.Utility;
 
 namespace Violet.GUI
 {
-    public class TextRegion : Renderable
-    {
-        public override Vector2f Position
-        {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-                this.drawText.Position = new Vector2f(this.position.X + xCompensate, this.position.Y + yCompensate);
-            }
-        }
+	public class TextRegion : Renderable
+	{
+		public override Vector2f Position
+		{
+			get
+			{
+				return this.position;
+			}
+			set
+			{
+				this.position = value;
+				this.drawText.Position = new Vector2f(this.position.X + (float)this.font.XCompensation, this.position.Y + (float)this.font.YCompensation);
+			}
+		}
 
-        public string Text
-        {
-            get
-            {
-                return this.text;
-            }
-            set
-            {
-                this.text = value;
-                this.dirtyText = true;
-            }
-        }
+		public string Text
+		{
+			get
+			{
+				return this.text;
+			}
+			set
+			{
+				this.text = value;
+				this.dirtyText = true;
+			}
+		}
 
-        public int Index
-        {
-            get
-            {
-                return this.index;
-            }
-            set
-            {
-                this.index = value;
-                this.dirtyText = true;
-            }
-        }
+		public int Index
+		{
+			get
+			{
+				return this.index;
+			}
+			set
+			{
+				this.index = value;
+				this.dirtyText = true;
+			}
+		}
 
-        public int Length
-        {
-            get
-            {
-                return this.length;
-            }
-            set
-            {
-                int num = this.length;
-                this.length = value;
-                this.dirtyText = (this.length != num);
-            }
-        }
+		public int Length
+		{
+			get
+			{
+				return this.length;
+			}
+			set
+			{
+				int num = this.length;
+				this.length = value;
+				this.dirtyText = (this.length != num);
+			}
+		}
 
-        public Color Color
-        {
-            get
-            {
-                return this.drawText.FillColor;
-            }
-            set
-            {
-                this.drawText.FillColor = value;
-                this.dirtyFillColor = true;
-            }
-        }
+		public Color Color
+		{
+			get
+			{
+				return this.drawText.FillColor;
+			}
+			set
+			{
+				this.drawText.FillColor = value;
+				this.dirtyColor = true;
+			}
+		}
 
-        public TextRegion(Vector2f position, int depth, FontData font, string text) : this(position, depth, font, (text != null) ? text : string.Empty, 0, (text != null) ? text.Length : 0)
-        {
-        }
+		public FontData FontData
+		{
+			get
+			{
+				return this.font;
+			}
+		}
 
-        public TextRegion(Vector2f position, int depth, FontData font, string text, int index, int length)
-        {
-            this.position = position;
-            this.text = text;
-            this.index = index;
-            this.length = length;
-            this.depth = depth;
-            this.xCompensate = font.XCompensation;
-            this.yCompensate = font.YCompensation;
-            this.drawText = new Text(string.Empty, font.Font, font.Size);
-            this.drawText.Position = new Vector2f(position.X + xCompensate, position.Y + yCompensate);
-            this.UpdateText(index, length);
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), null, EmbeddedResources.GetStream("Violet.Resources.text.frag"));
-            this.shader.SetUniform("color", new SFML.Graphics.Glsl.Vec4(this.drawText.FillColor));
-            this.shader.SetUniform("threshold", font.AlphaThreshold);
-            this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
-        }
+		public TextRegion(Vector2f position, int depth, FontData font, string text) : this(position, depth, font, (text != null) ? text : string.Empty, 0, (text != null) ? text.Length : 0)
+		{
+		}
 
-        public void Reset(string text, int index, int length)
-        {
-            this.text = text;
-            this.index = index;
-            this.length = length;
-            this.UpdateText(index, length);
-        }
+		public TextRegion(Vector2f position, int depth, FontData font, string text, int index, int length)
+		{
+			this.position = position;
+			this.text = text;
+			this.index = index;
+			this.length = length;
+			this.depth = depth;
+			this.font = font;
+			this.drawText = new Text(string.Empty, this.font.Font, this.font.Size);
+			this.drawText.Position = new Vector2f(position.X + (float)this.font.XCompensation, position.Y + (float)this.font.YCompensation);
+			this.UpdateText(index, length);
+			this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), null , EmbeddedResources.GetStream("Violet.Resources.text.frag"));
+			this.shader.SetParameter("color", this.drawText.Color);
+			this.shader.SetParameter("threshold", font.AlphaThreshold);
+			this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
+		}
 
-        private void UpdateText(int index, int length)
-        {
-            this.drawText.DisplayedString = this.text.Substring(index, length);
-            FloatRect localBounds = this.drawText.GetLocalBounds();
-            this.size = new Vector2f(Math.Max(1f, localBounds.Width), Math.Max(16f, localBounds.Height));
-        }
+		public Vector2f FindCharacterPosition(uint index)
+		{
+			uint num = Math.Max(0U, Math.Min((uint)this.text.Length, index));
+			return this.drawText.FindCharacterPos(num);
+		}
 
-        public override void Draw(RenderTarget target)
-        {
-            if (this.dirtyText)
-            {
-                this.UpdateText(this.Index, this.Length);
-                this.dirtyText = false;
-            }
-            if (this.dirtyFillColor)
-            {
-                this.shader.SetUniform("color", new SFML.Graphics.Glsl.Vec4(this.drawText.FillColor));
-            }
-            target.Draw(this.drawText, this.renderStates);
-        }
+		public void Reset(string text, int index, int length)
+		{
+			this.text = text;
+			this.index = index;
+			this.length = length;
+			this.UpdateText(index, length);
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (!this.disposed && disposing)
-            {
-                this.drawText.Dispose();
-            }
-            this.disposed = true;
-        }
+		private void UpdateText(int index, int length)
+		{
+			this.drawText.DisplayedString = this.text.Substring(index, length);
+			FloatRect localBounds = this.drawText.GetLocalBounds();
+			this.size = new Vector2f(Math.Max(1f, localBounds.Width), Math.Max(1f, localBounds.Height));
+		}
 
-        private Shader shader;
+		public override void Draw(RenderTarget target)
+		{
+			if (this.dirtyText)
+			{
+				this.UpdateText(this.index, Math.Min(this.text.Length, this.length));
+				this.dirtyText = false;
+			}
+			if (this.dirtyColor)
+			{
+				this.shader.SetParameter("color", this.drawText.Color);
+			}
+			target.Draw(this.drawText, this.renderStates);
+		}
 
-        private RenderStates renderStates;
+		protected override void Dispose(bool disposing)
+		{
+			if (!this.disposed && disposing)
+			{
+				this.drawText.Dispose();
+			}
+			this.disposed = true;
+		}
 
-        private Text drawText;
+		private Shader shader;
 
-        private string text;
+		private RenderStates renderStates;
 
-        private int index;
+		private Text drawText;
 
-        private int length;
+		private string text;
 
-        private bool dirtyText;
+		private int index;
 
-        private bool dirtyFillColor;
+		private int length;
 
-        private int xCompensate;
+		private bool dirtyText;
 
-        private int yCompensate;
-    }
+		private bool dirtyColor;
+
+		private FontData font;
+	}
 }

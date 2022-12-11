@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using VCO.Actors;
+using VCO.GUI;
 using Violet.Flags;
 
 namespace VCO.Scripts.Actions.Types
@@ -30,11 +31,14 @@ namespace VCO.Scripts.Actions.Types
 
         private void player_OnTelepathyAnimationComplete(Player player)
         {
-            this.context.Player.OnTelepathyAnimationComplete -= this.player_OnTelepathyAnimationComplete;
+            player.OnTelepathyAnimationComplete -= this.player_OnTelepathyAnimationComplete;
             if (this.context.CheckedNPC != null)
             {
                 this.context.CheckedNPC.Telepathize();
-                this.context.TextBox.SetDimmer(0.5f);
+                if (this.context.TextBox is OverworldTextBox)
+                {
+                    ((OverworldTextBox)this.context.TextBox).SetDimmer(0.5f);
+                }
             }
             this.context.Executor.Continue();
             this.context = null;

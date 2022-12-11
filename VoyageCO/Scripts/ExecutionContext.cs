@@ -21,8 +21,6 @@ namespace VCO.Scripts
 
         public TextBox TextBox { get; set; }
 
-        public QuestionBox QuestionBox { get; set; }
-
         public Player Player { get; set; }
 
         public NPC ActiveNPC { get; set; }
@@ -46,7 +44,6 @@ namespace VCO.Scripts
             this.ActorManager = source.ActorManager;
             this.CollisionManager = source.CollisionManager;
             this.TextBox = source.TextBox;
-            this.QuestionBox = source.QuestionBox;
             this.Player = source.Player;
             this.ActiveNPC = source.ActiveNPC;
             this.CheckedNPC = source.CheckedNPC;

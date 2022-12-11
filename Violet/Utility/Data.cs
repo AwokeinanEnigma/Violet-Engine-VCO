@@ -77,6 +77,10 @@ public class DataHandler
     public string Load(string file)
     {
        fileNamesToPaths.TryGetValue(file, out string val);
+        if (string.IsNullOrEmpty(val)) {
+            Debug.LogEngine($"Can't find! {file}");
+            return null;
+        }
         return val;
     }
 }

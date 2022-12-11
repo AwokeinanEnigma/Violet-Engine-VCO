@@ -3,370 +3,385 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using VCO.Data;
-using VCO.Scripts.Text;
-using VCO.Utility;
-using Violet.Actors;
-using Violet.Flags;
+using VCO.GUI.Text;
+using VCO.GUI.Text.PrintActions;
 using Violet.Graphics;
 using Violet.GUI;
-using Violet.Input;
-using static Violet.GUI.WindowBox;
+using Violet.Utility;
 
 namespace VCO.GUI
 {
-    internal class TextBox : Actor
-    {
-        public event TextBox.CompletionHandler OnTextboxComplete;
+    internal abstract class TextBox : Renderable
+	{
+		public bool HasPrinted
+		{
+			get
+			{
+				return this.hasPrinted;
+			}
+		}
 
-        public event TextBox.TypewriterCompletionHandler OnTypewriterComplete;
+		public event TextBox.CompletionHandler OnTextboxComplete;
 
-        public bool Visible => this.visible;
+		public event TextBox.TextTriggerHandler OnTextTrigger;
 
-        public TextBox(RenderPipeline pipeline, int colorIndex)
-        {
-            this.pipeline = pipeline;
-            this.state = TextBox.AnimationState.SlideIn;
-            this.topLetterboxY = -14f;
-            this.bottomLetterboxY = 180f;
-            this.dimmer = new ScreenDimmer(this.pipeline, Color.Transparent, 0, 2147450879);
-            Vector2f finalCenter = ViewManager.Instance.FinalCenter;
-            Vector2f vector2f = finalCenter - ViewManager.Instance.View.Size / 2f;
-            Vector2f size = new Vector2f(320f, 14f);
-            this.topLetterbox = new ShapeGraphic(new RectangleShape(size), new Vector2f(0f, this.topLetterboxY), new Vector2f(0f, 0f), size, 2147450880);
-            this.topLetterbox.Shape.FillColor = Color.Black;
-            this.topLetterbox.Visible = false;
-            this.pipeline.Add(this.topLetterbox);
-            this.bottomLetterbox = new ShapeGraphic(new RectangleShape(size), new Vector2f(0f, this.bottomLetterboxY), new Vector2f(0f, 0f), size, 2147450878);
-            this.bottomLetterbox.Shape.FillColor = Color.Black;
-            this.bottomLetterbox.Visible = false;
-            this.pipeline.Add(this.bottomLetterbox);
-            this.typewriterBox = new TypewriterBox(pipeline, new Vector2f(vector2f.X + TextBox.TEXT_POSITION.X, vector2f.Y + TextBox.TEXT_POSITION.Y), TextBox.TEXT_SIZE, 2147450880, Button.A, true, new TextBlock(new List<TextLine>()));
-            this.window = new WindowBox(FlagManager.Instance[4] ? new WindowStyle("Data/Graphics/window3.dat", true) : Settings.WindowStyle,
-                Settings.WindowFlavor, // palatte
-                // position
-                new Vector2f(vector2f.X + TextBox.BOX_POSITION.X,
-                    vector2f.Y + TextBox.BOX_POSITION.Y),
-                // size
-                TextBox.BOX_SIZE,
-                2147450879)
-            {
-                Visible = false
-            };
-            this.pipeline.Add(this.window);
-            this.advanceArrow = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
-            {
-                Visible = false
-            };
-            this.pipeline.Add(this.advanceArrow);
-            this.nametag = new Nametag("Corpse", new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
-            {
-                Visible = false,
-            };
-            this.pipeline.Add(this.nametag);
-            this.visible = false;
-            this.nametagVisible = false;
-            this.arrowVisible = false;
-            this.hideAdvanceArrow = false;
-            this.typewriterBox.OnTypewriterComplete += this.TypewriterComplete;
-            this.typewriterBox.OnTextWait += this.TextWait;
-            InputManager.Instance.ButtonPressed += this.ButtonPressed;
-            ViewManager.Instance.OnMove += this.OnViewMove;
-        }
+		protected TextBox(Vector2f relativePosition, Vector2f size, bool showBullets)
+		{
+			this.relativePosition = relativePosition;
+			this.size = size;
+			this.depth = 2147450880;
+			this.actionQueue = new Queue<PrintAction>();
+			this.relativeTypewriterPosition = this.relativePosition + TextBox.TYPEWRITER_POSITION_OFFSET;
+			this.typewriter = new Typewriter(Fonts.Main, VectorMath.ZERO_VECTOR, VectorMath.ZERO_VECTOR, this.size + TextBox.TYPEWRITER_SIZE_OFFSET, showBullets);
+			this.window = new WindowBox(Settings.WindowStyle, Settings.WindowFlavor, VectorMath.ZERO_VECTOR, this.size, 0);
+			this.window.Visible = false;
+			this.relativeArrowPosition = this.relativePosition + this.size + TextBox.ARROW_POSITION_OFFSET;
+			this.advanceArrow = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "down", VectorMath.ZERO_VECTOR, 0);
+			this.advanceArrow.Visible = false;
+			this.visible = false;
+			this.hideAdvanceArrow = false;
+			this.typewriter.OnTypewriterComplete += this.typewriter_OnTypewriterComplete;
+			ViewManager.Instance.OnMove += this.OnViewMove;
+		}
 
-        public void ClearTypewriterComplete()
-        {
-            this.OnTypewriterComplete = null;
-        }
+		private void typewriter_OnTypewriterComplete(object sender, EventArgs e)
+		{
+			if (!this.isPaused && !this.isWaitingOnPlayer)
+			{
+				this.Dequeue();
+			}
+		}
 
-        protected virtual void TextWait()
-        {
-            this.textboxWaitForPlayer = true;
-            if (!this.hideAdvanceArrow)
-            {
-                this.arrowVisible = true;
-                this.advanceArrow.Visible = this.arrowVisible;
-            }
-        }
+		private void TimerManager_OnTimerEnd(int timerIndex)
+		{
+			if (this.pauseTimerIndex == timerIndex && this.isPaused)
+			{
+				this.isPaused = false;
+				this.Dequeue();
+			}
+		}
 
-        protected virtual void TypewriterComplete()
-        {
-            this.textboxWaitForPlayer = true;
-            this.typewriterDone = true;
-            if (!this.hideAdvanceArrow)
-            {
-                this.arrowVisible = true;
-                this.advanceArrow.Visible = this.arrowVisible;
-            }
-            if (this.OnTypewriterComplete != null)
-            {
-                this.OnTypewriterComplete();
-            }
-        }
+		private void OnViewMove(ViewManager sender, Vector2f center)
+		{
+			if (this.visible)
+			{
+				this.Recenter();
+			}
+		}
 
-        protected virtual void ButtonPressed(InputManager sender, Button b)
-        {
-            if (this.textboxWaitForPlayer && b == Button.A)
-            {
-                this.textboxWaitForPlayer = false;
-                if (!this.typewriterDone)
-                {
-                    this.typewriterBox.ContinueFromWait();
-                    if (!this.hideAdvanceArrow)
-                    {
-                        this.arrowVisible = false;
-                        this.advanceArrow.Visible = this.arrowVisible;
-                        return;
-                    }
-                }
-                else if (this.OnTextboxComplete != null)
-                {
-                    this.OnTextboxComplete();
-                }
-            }
-        }
+		protected void ContinueFromWait()
+		{
+			if (this.isWaitingOnPlayer)
+			{
+				this.isWaitingOnPlayer = false;
+				this.advanceArrow.Visible = false;
+				this.Dequeue();
+			}
+		}
 
-        protected virtual void Recenter()
-        {
-            Vector2f finalCenter = ViewManager.Instance.FinalCenter;
-            Vector2f vector2f = finalCenter - ViewManager.Instance.View.Size / 2f;
-            this.position = new Vector2f(vector2f.X + TextBox.BOX_POSITION.X, vector2f.Y + TextBox.BOX_POSITION.Y);
-            this.window.Position = new Vector2f(this.position.X, this.position.Y + this.textboxY);
-            this.advanceArrow.Position = new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y);
-            this.nametag.Position = new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y + this.textboxY);
-            this.typewriterBox.Reposition(new Vector2f(vector2f.X + TextBox.TEXT_POSITION.X, vector2f.Y + TextBox.TEXT_POSITION.Y + this.textboxY));
-            this.topLetterbox.Position = new Vector2f(vector2f.X, vector2f.Y + this.topLetterboxY);
-            this.bottomLetterbox.Position = new Vector2f(vector2f.X, vector2f.Y + this.bottomLetterboxY);
-        }
+		public void Enqueue(PrintAction action)
+		{
+			if (action.Type != PrintActionType.None)
+			{
+				this.actionQueue.Enqueue(action);
+			}
+		}
 
-        public virtual void Reset(string text, string namestring, bool suppressSlideIn, bool suppressSlideOut)
-        {
-            this.canTransitionIn = !suppressSlideIn;
-            this.canTransitionOut = !suppressSlideOut;
-            this.typewriterBox.Reset(TextProcessor.Process(Fonts.Main, text, (int)TextBox.TEXT_SIZE.X));
-            this.arrowVisible = false;
-            this.textboxWaitForPlayer = false;
-            this.typewriterDone = false;
-            if (namestring != null && namestring.Length > 0)
-            {
+		public void EnqueueAll(IEnumerable<PrintAction> actions)
+		{
+			foreach (PrintAction action in actions)
+			{
+				this.Enqueue(action);
+			}
+		}
 
-                this.nametag.Name = namestring;
-                this.nametagVisible = true;
-            }
-            else
-            {
-                this.nametagVisible = false;
-            }
-            this.nametag.Visible = this.nametagVisible;
-            this.window.Style = (FlagManager.Instance[4] ? new WindowStyle("Data/Graphics/window3.dat", true) : Settings.WindowStyle);
-        }
+		protected virtual void HandlePrintText(string text)
+		{
+			this.typewriter.PrintText(text);
+		}
 
-        private void UpdateLetterboxing(float amount)
-        {
-            float num = Math.Max(0f, Math.Min(1f, amount));
-            this.topLetterboxY = (int)(-14f * (1f - num));
-            this.bottomLetterboxY = 180L - (int)(14f * num);
-            this.topLetterbox.Position = new Vector2f(ViewManager.Instance.Viewrect.Left, ViewManager.Instance.Viewrect.Top + this.topLetterboxY);
-            this.bottomLetterbox.Position = new Vector2f(ViewManager.Instance.Viewrect.Left, ViewManager.Instance.Viewrect.Top + this.bottomLetterboxY);
-        }
+		protected virtual void HandlePrintGraphic(string subsprite)
+		{
+			this.typewriter.PrintGraphic(subsprite);
+		}
 
-        private void UpdateTextbox(float amount)
-        {
-            this.textboxY = 4f * (1f - Math.Max(0f, Math.Min(1f, amount)));
-            this.typewriterBox.Position = new Vector2f((int)(ViewManager.Instance.Viewrect.Left + TextBox.TEXT_POSITION.X), (int)(ViewManager.Instance.Viewrect.Top + TextBox.TEXT_POSITION.Y + this.textboxY));
-            this.window.Position = new Vector2f((int)(ViewManager.Instance.Viewrect.Left + TextBox.BOX_POSITION.X), (int)(ViewManager.Instance.Viewrect.Top + TextBox.BOX_POSITION.Y + this.textboxY));
-            this.nametag.Position = new Vector2f((int)(ViewManager.Instance.Viewrect.Left + TextBox.NAMETAG_POSITION.X), (int)(ViewManager.Instance.Viewrect.Top + TextBox.NAMETAG_POSITION.Y + this.textboxY));
-        }
+		protected virtual void HandlePromptQuestion(object[] options)
+		{
+			string[] options2 = Array.ConvertAll<object, string>(options, (object x) => (string)x);
+			this.typewriter.PrintQuestion(options2);
+		}
 
-        public virtual void Show()
-        {
-            if (!this.visible)
-            {
-                this.visible = true;
-                this.Recenter();
-                this.window.Visible = true;
-                this.topLetterbox.Visible = true;
-                this.bottomLetterbox.Visible = true;
-                this.typewriterBox.Show();
-                this.nametag.Visible = this.nametagVisible;
-                this.advanceArrow.Visible = this.arrowVisible;
-                this.state = TextBox.AnimationState.SlideIn;
-                this.letterboxProgress = (this.canTransitionIn ? 0f : 1f);
-                this.UpdateLetterboxing(this.letterboxProgress);
-            }
-        }
+		protected virtual void HandlePromptList(object[] options)
+		{
+			Array.ConvertAll<object, string>(options, (object x) => (string)x);
+		}
 
-        public virtual void Hide()
-        {
-            if (this.visible)
-            {
-                this.visible = false;
-                this.Recenter();
-                this.advanceArrow.Visible = false;
-                this.state = TextBox.AnimationState.SlideOut;
-                this.letterboxProgress = (this.canTransitionOut ? 1f : 0f);
-                this.UpdateLetterboxing(this.letterboxProgress);
-                this.UpdateTextbox(this.letterboxProgress * 2f);
-            }
-        }
+		protected virtual void HandlePromptNumeric(int minValue, int maxValue)
+		{
+		}
 
-        public void SetDimmer(float dim)
-        {
-            this.dimmer.ChangeColor(new Color(0, 0, 0, (byte)(255f * dim)), 30);
-        }
+		protected virtual void HandlePrompt()
+		{
+			this.isWaitingOnPlayer = true;
+			this.advanceArrow.Visible = !this.hideAdvanceArrow;
+		}
 
-        private void OnViewMove(ViewManager sender, Vector2f center)
-        {
-            if (this.visible || this.letterboxProgress > 0f)
-            {
-                this.Recenter();
-            }
-        }
+		protected virtual void HandlePause(int duration)
+		{
+			this.isPaused = true;
+			this.pauseTimerIndex = FrameTimerManager.Instance.StartTimer(duration);
+			FrameTimerManager.Instance.OnTimerEnd += this.TimerManager_OnTimerEnd;
+		}
 
-        private float TweenLetterboxing(float progress)
-        {
-            return (float)(0.5 - Math.Cos(progress * 3.141592653589793) / 2.0);
-        }
+		protected virtual void HandleLineBreak()
+		{
+			this.typewriter.PrintNewLine();
+		}
 
-        public override void Update()
-        {
-            base.Update();
-            switch (this.state)
-            {
-                case TextBox.AnimationState.SlideIn:
-                    if (this.letterboxProgress < 1f)
-                    {
-                        this.UpdateLetterboxing(this.TweenLetterboxing(this.letterboxProgress));
-                        this.UpdateTextbox(this.letterboxProgress);
-                        this.letterboxProgress += 0.2f;
-                    }
-                    else
-                    {
-                        this.state = TextBox.AnimationState.Textbox;
-                        this.UpdateLetterboxing(1f);
-                        this.UpdateTextbox(1f);
-                    }
-                    break;
-                case TextBox.AnimationState.Textbox:
-                    if (this.visible)
-                    {
-                        this.typewriterBox.Input();
-                        this.typewriterBox.Update();
-                    }
-                    break;
-                case TextBox.AnimationState.SlideOut:
-                    if (this.letterboxProgress > 0f)
-                    {
-                        this.UpdateLetterboxing(this.TweenLetterboxing(this.letterboxProgress));
-                        this.UpdateTextbox(this.letterboxProgress);
-                        this.letterboxProgress -= 0.2f;
-                    }
-                    else
-                    {
-                        this.state = TextBox.AnimationState.Hide;
-                        this.UpdateLetterboxing(0f);
-                        this.UpdateTextbox(0f);
-                        this.typewriterBox.Hide();
-                        this.nametag.Visible = false;
-                        this.window.Visible = false;
-                        this.topLetterbox.Visible = false;
-                        this.bottomLetterbox.Visible = false;
-                    }
-                    break;
-            }
-            this.dimmer.Update();
-        }
+		protected virtual void HandleTrigger(object[] args)
+		{
+			if (this.OnTextTrigger != null)
+			{
+				int type = int.Parse((string)args[0]);
+				string[] args2 = new string[args.Length - 1];
+				this.OnTextTrigger(type, args2);
+			}
+			this.Dequeue();
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            this.advanceArrow.Dispose();
-            this.window.Dispose();
-            this.nametag.Dispose();
-            this.topLetterbox.Dispose();
-            this.bottomLetterbox.Dispose();
-            this.typewriterBox.OnTypewriterComplete -= this.TypewriterComplete;
-            this.typewriterBox.OnTextWait -= this.TextWait;
-            InputManager.Instance.ButtonPressed -= this.ButtonPressed;
-            ViewManager.Instance.OnMove -= this.OnViewMove;
-            this.typewriterBox.Dispose();
-        }
+		protected virtual void HandleColor(Color color)
+		{
+			this.typewriter.SetTextColor(color, true);
+		}
 
-        protected const Button ADVANCE_BUTTON = Button.A;
+		protected virtual void HandleSound(int type)
+		{
+			int num = Math.Max(0, Math.Min(6, type));
+			Typewriter.BlipSound soundType = Typewriter.BlipSound.None;
+			switch (num)
+			{
+				case 0:
+					soundType = Typewriter.BlipSound.None;
+					break;
+				case 1:
+					soundType = Typewriter.BlipSound.Narration;
+					break;
+				case 2:
+					soundType = Typewriter.BlipSound.Male;
+					break;
+				case 3:
+					soundType = Typewriter.BlipSound.Female;
+					break;
+				case 4:
+					soundType = Typewriter.BlipSound.Awkward;
+					break;
+				case 5:
+					soundType = Typewriter.BlipSound.Robot;
+					break;
+			}
+			this.typewriter.SetTextSound(soundType, true);
+		}
 
-        protected const float LETTERBOX_HEIGHT = 14f;
+		private void HandleAction(PrintAction action)
+		{
+			switch (action.Type)
+			{
+				case PrintActionType.PrintText:
+					this.HandlePrintText((string)action.Data);
+					return;
+				case PrintActionType.PrintGraphic:
+					this.HandlePrintGraphic((string)action.Data);
+					return;
+				case PrintActionType.PromptQuestion:
+					this.HandlePromptQuestion((object[])action.Data);
+					return;
+				case PrintActionType.PromptList:
+					this.HandlePromptList((object[])action.Data);
+					return;
+				case PrintActionType.PromptNumeric:
+					{
+						int[] array = (int[])action.Data;
+						this.HandlePromptNumeric(array[0], array[1]);
+						return;
+					}
+				case PrintActionType.Prompt:
+					this.HandlePrompt();
+					return;
+				case PrintActionType.Pause:
+					this.HandlePause((int)action.Data);
+					return;
+				case PrintActionType.LineBreak:
+					this.HandleLineBreak();
+					return;
+				case PrintActionType.Trigger:
+					this.HandleTrigger((object[])action.Data);
+					return;
+				case PrintActionType.Color:
+					break;
+				case PrintActionType.Sound:
+					this.HandleSound((int)action.Data);
+					break;
+				default:
+					return;
+			}
+		}
 
-        protected const float LETTERBOX_SPEED = 0.2f;
+		protected void Dequeue()
+		{
+			if (this.actionQueue.Count > 0)
+			{
+				PrintAction action = this.actionQueue.Dequeue();
+				try
+				{
+					this.HandleAction(action);
+					this.hasPrinted = true;
+					return;
+				}
+				catch (InvalidCastException ex)
+				{
+					Console.WriteLine("Ate an InvalidCastException in the PrintReceiver:");
+					Console.WriteLine(ex.Message);
+					return;
+				}
+			}
+			if (!this.isComplete && !this.isWaitingOnPlayer)
+			{
+				this.isComplete = true;
+				if (this.OnTextboxComplete != null)
+				{
+					this.OnTextboxComplete();
+				}
+			}
+		}
 
-        protected const float TEXTBOX_Y_OFFSET = 4f;
+		public virtual void Show()
+		{
+			if (!this.visible)
+			{
+				this.Recenter();
+				this.visible = true;
+				this.typewriter.Visible = true;
+				this.window.Visible = true;
+				this.advanceArrow.Visible = false;
+				this.Dequeue();
+			}
+		}
 
-        public const int DEPTH = 2147450880;
+		public virtual void Hide()
+		{
+			if (this.visible)
+			{
+				this.visible = false;
+			}
+		}
 
-        protected static Vector2f BOX_POSITION = new Vector2f(0f, 120f);
+		public virtual void Clear()
+		{
+			this.typewriter.Clear();
+			this.hasPrinted = false;
+		}
 
-        protected static Vector2f BOX_SIZE = new Vector2f(320, 56f);
+		public virtual void Reset()
+		{
+			this.Clear();
+			this.isWaitingOnPlayer = false;
+			this.hasPrinted = false;
+			this.isComplete = false;
+			this.typewriter.SetTextColor(Color.Black, false);
+			this.typewriter.SetTextSound(Typewriter.BlipSound.Narration, false);
+		}
 
-        protected static Vector2f TEXT_POSITION = new Vector2f(TextBox.BOX_POSITION.X + 10f, TextBox.BOX_POSITION.Y + 8f);
+		protected virtual void Recenter()
+		{
+			Vector2f finalCenter = ViewManager.Instance.FinalCenter;
+			Vector2f v = finalCenter - ViewManager.Instance.View.Size / 2f;
+			this.position = v + this.relativePosition;
+			this.window.Position = this.position;
+			this.advanceArrow.Position = v + this.relativeArrowPosition;
+			this.typewriter.Position = v + this.relativeTypewriterPosition;
+		}
 
-        protected static Vector2f TEXT_SIZE = new Vector2f(TextBox.BOX_SIZE.X - 31f, TextBox.BOX_SIZE.Y - 8f);
+		public virtual void Update()
+		{
+			if (this.visible)
+			{
+				if (this.isComplete && this.actionQueue.Count > 0)
+				{
+					this.Dequeue();
+					this.isComplete = false;
+				}
+				this.typewriter.Update();
+			}
+		}
 
-        protected static Vector2f NAMETAG_POSITION = new Vector2f(TextBox.BOX_POSITION.X + 3f, TextBox.BOX_POSITION.Y - 14f);
+		public override void Draw(RenderTarget target)
+		{
+			if (this.window.Visible)
+			{
+				this.window.Draw(target);
+			}
+			if (this.typewriter.Visible)
+			{
+				this.typewriter.Draw(target);
+			}
+			if (this.advanceArrow.Visible)
+			{
+				this.advanceArrow.Draw(target);
+			}
+		}
 
-        protected static Vector2f NAMETEXT_POSITION = new Vector2f(TextBox.NAMETAG_POSITION.X + 5f, TextBox.NAMETAG_POSITION.Y + 1f);
+		protected override void Dispose(bool disposing)
+		{
+			if (!this.disposed)
+			{
+				if (disposing)
+				{
+					this.advanceArrow.Dispose();
+					this.window.Dispose();
+					this.typewriter.Dispose();
+				}
+				this.typewriter.OnTypewriterComplete -= this.typewriter_OnTypewriterComplete;
+				ViewManager.Instance.OnMove -= this.OnViewMove;
+			}
+			base.Dispose(disposing);
+		}
 
-        protected static Vector2f BUTTON_POSITION = new Vector2f(TextBox.BOX_POSITION.X + TextBox.BOX_SIZE.X - 14f, TextBox.BOX_POSITION.Y + TextBox.BOX_SIZE.Y - 6f);
+		public const int DEPTH = 2147450880;
 
-        protected RenderPipeline pipeline;
+		private static readonly Vector2f TYPEWRITER_POSITION_OFFSET = new Vector2f(10f, 8f);
 
-        protected TypewriterBox typewriterBox;
+		private static readonly Vector2f TYPEWRITER_SIZE_OFFSET = new Vector2f(-31f, -14f);
 
-        protected Nametag nametag;
+		private static readonly Vector2f ARROW_POSITION_OFFSET = new Vector2f(-14f, -6f);
 
-        protected Graphic advanceArrow;
+		private Vector2f relativePosition;
 
-        private readonly WindowBox window;
+		private Vector2f relativeArrowPosition;
 
-        private readonly ShapeGraphic topLetterbox;
+		private Vector2f relativeTypewriterPosition;
 
-        private readonly ShapeGraphic bottomLetterbox;
+		protected Graphic advanceArrow;
 
-        protected bool visible;
+		protected WindowBox window;
 
-        protected bool nametagVisible;
+		protected Typewriter typewriter;
 
-        protected bool arrowVisible;
+		private Queue<PrintAction> actionQueue;
 
-        protected bool textboxWaitForPlayer;
+		private bool isPaused;
 
-        protected bool hideAdvanceArrow;
+		private int pauseTimerIndex;
 
-        protected bool typewriterDone;
+		protected bool isWaitingOnPlayer;
 
-        private TextBox.AnimationState state;
+		protected bool hideAdvanceArrow;
 
-        private float letterboxProgress;
+		private bool hasPrinted;
 
-        private float topLetterboxY;
+		private bool isComplete;
 
-        private float bottomLetterboxY;
+		public delegate void CompletionHandler();
 
-        private float textboxY;
-
-        private bool canTransitionIn;
-
-        private bool canTransitionOut;
-
-        private readonly ScreenDimmer dimmer;
-
-        private enum AnimationState
-        {
-            SlideIn,
-            Textbox,
-            SlideOut,
-            Hide
-        }
-
-        public delegate void CompletionHandler();
-
-        public delegate void TypewriterCompletionHandler();
-    }
+		public delegate void TextTriggerHandler(int type, string[] args);
+	}
 }

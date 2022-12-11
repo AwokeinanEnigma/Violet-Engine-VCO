@@ -53,9 +53,7 @@ namespace VCO.Scenes
 
         private ScreenDimmer screenDimmer;
 
-        private TextBox textbox;
-
-        private QuestionBox questionbox;
+        private OverworldTextBox textbox;
 
         private ScriptExecutor executor;
 
@@ -262,13 +260,11 @@ namespace VCO.Scenes
         private int ShareText(string txt, string name, bool suppressin, bool suppressout)
         {
 
-            textbox.Reset(txt, name, suppressin, suppressout);
             return 0;
         }
 
         public void PopText(string a, string b)
         {
-            textbox.Reset(a, b, false, false);
             textbox.Show();
 
         }
@@ -369,10 +365,9 @@ namespace VCO.Scenes
             AllEnemyNpcs = new List<EnemyNPC>();
             this.screenDimmer = new ScreenDimmer(this.pipeline, Color.Transparent, 0, 2147450870);
             this.footstepPlayer = new FootstepPlayer();
-            this.textbox = new TextBox(this.pipeline, colorIndex);
-            this.actorManager.Add(this.textbox);
-            this.questionbox = new QuestionBox(this.pipeline, colorIndex);
-            this.actorManager.Add(this.questionbox);
+            this.textbox = new OverworldTextBox();
+            this.pipeline.Add(this.textbox);
+
             Map map =  MapLoader.Load(DataHandler.instance.Load(this.mapName), string.Empty).Result;
             if (this.initialPosition == VectorMath.ZERO_VECTOR)
             {
@@ -424,7 +419,6 @@ namespace VCO.Scenes
                 ActorManager = this.actorManager,
                 CollisionManager = this.collisionManager,
                 TextBox = this.textbox,
-                QuestionBox = this.questionbox,
                 Player = this.player,
                 Paths = map.Paths,
                 Areas = map.Areas
@@ -725,7 +719,7 @@ namespace VCO.Scenes
                 this.UpdateSpawners();
                 this.screenDimmer.Update();
                 this.executor.Execute();
-                // collisionManager.Filter();
+                this.textbox.Update(); // collisionManager.Filter();
 
             }
         }
