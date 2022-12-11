@@ -10,31 +10,26 @@ namespace VCO.GUI
 {
     internal class ScrollingList : Renderable
     {
-        // (get) Token: 0x060001DE RID: 478 RVA: 0x0000B79B File Offset: 0x0000999B
-        // (set) Token: 0x060001DF RID: 479 RVA: 0x0000B7A3 File Offset: 0x000099A3
+        #region Properties
         public int SelectedIndex
         {
             get => this.selectedIndex;
             set => this.Select(value);
         }
-        // (get) Token: 0x060001E0 RID: 480 RVA: 0x0000B7AC File Offset: 0x000099AC
+
         public string SelectedItem => this.items[this.selectedIndex];
-        // (get) Token: 0x060001E1 RID: 481 RVA: 0x0000B7BB File Offset: 0x000099BB
-        // (set) Token: 0x060001E2 RID: 482 RVA: 0x0000B7C3 File Offset: 0x000099C3
+
         public bool Enabled
         {
             get => this.enabled;
             set => this.enabled = value;
         }
-        // (get) Token: 0x060001E3 RID: 483 RVA: 0x0000B7CC File Offset: 0x000099CC
-        // (set) Token: 0x060001E4 RID: 484 RVA: 0x0000B7D4 File Offset: 0x000099D4
         public bool ShowArrows
         {
             get => this.showArrows;
             set => this.showArrows = value;
         }
-        // (get) Token: 0x060001E5 RID: 485 RVA: 0x0000B7DD File Offset: 0x000099DD
-        // (set) Token: 0x060001E6 RID: 486 RVA: 0x0000B7E5 File Offset: 0x000099E5
+
         public bool ShowSelectionRectangle
         {
             get => this.showSelectRect;
@@ -44,8 +39,6 @@ namespace VCO.GUI
                 this.UpdateCursor();
             }
         }
-        // (get) Token: 0x060001E7 RID: 487 RVA: 0x0000B7F4 File Offset: 0x000099F4
-        // (set) Token: 0x060001E8 RID: 488 RVA: 0x0000B7FC File Offset: 0x000099FC
         public bool UseHighlightTextColor
         {
             get => this.useHighlightTextColor;
@@ -55,8 +48,6 @@ namespace VCO.GUI
                 this.UpdateCursor();
             }
         }
-        // (get) Token: 0x060001E9 RID: 489 RVA: 0x0000B80B File Offset: 0x00009A0B
-        // (set) Token: 0x060001EA RID: 490 RVA: 0x0000B813 File Offset: 0x00009A13
         public bool ShowCursor
         {
             get => this.showCursor;
@@ -66,8 +57,6 @@ namespace VCO.GUI
                 this.UpdateCursor();
             }
         }
-        // (get) Token: 0x060001EB RID: 491 RVA: 0x0000B822 File Offset: 0x00009A22
-        // (set) Token: 0x060001EC RID: 492 RVA: 0x0000B82A File Offset: 0x00009A2A
         public bool Focused
         {
             get => this.focused;
@@ -78,10 +67,8 @@ namespace VCO.GUI
                 this.UpdateScrollers();
             }
         }
-        // (get) Token: 0x060001ED RID: 493 RVA: 0x0000B83F File Offset: 0x00009A3F
         public int Count => this.items.Length;
-        // (get) Token: 0x060001EE RID: 494 RVA: 0x0000B849 File Offset: 0x00009A49
-        // (set) Token: 0x060001EF RID: 495 RVA: 0x0000B854 File Offset: 0x00009A54
+
         public override Vector2f Position
         {
             get => this.position;
@@ -97,6 +84,43 @@ namespace VCO.GUI
                 this.downArrow.Position = this.position + new Vector2f(this.width, this.lineHeight * displayCount + 1f);
             }
         }
+        #endregion
+
+        #region Fields
+        private const int CURSOR_MARGIN = 1;
+        
+        public static readonly Vector2f SELECT_RECT_OFFSET = new Vector2f(-2f, 0f);
+        public static readonly Vector2f SELECT_RECT_SIZE_OFFSET = new Vector2f(-2f, 0f);
+        private static readonly Color FOCUSED_TEXT_COLOR = Color.White;
+        private static readonly Color UNFOCUSED_TEXT_COLOR = new Color(128, 140, 138);
+        
+        private readonly string[] items;
+        
+        private readonly int displayCount;
+        private int selectedIndex;
+        private int topIndex;
+
+        private readonly float lineHeight;
+        private readonly float width;
+        private readonly TextRegion[] texts;
+
+        private readonly IndexedColorGraphic cursor;
+        private readonly IndexedColorGraphic upArrow;
+        private readonly IndexedColorGraphic downArrow;
+
+        private readonly ShapeGraphic selectRectangle;
+
+        private bool enabled;
+        private bool enabledOnHide;
+        private bool showArrows;
+        private bool showSelectRect = true;
+        private bool showCursor = true;
+        private bool useHighlightTextColor = true;
+        private bool focused = true;
+
+        private readonly int cursorOffset;
+#endregion
+
         public ScrollingList(Vector2f position, int depth, string[] items, int displayCount, float lineHeight, float width, string cursorGraphic)
         {
             if (items == null)
@@ -308,29 +332,5 @@ namespace VCO.GUI
             }
             this.disposed = true;
         }
-        private const int CURSOR_MARGIN = 1;
-        public static readonly Vector2f SELECT_RECT_OFFSET = new Vector2f(-2f, 0f);
-        public static readonly Vector2f SELECT_RECT_SIZE_OFFSET = new Vector2f(-2f, 0f);
-        private static readonly Color FOCUSED_TEXT_COLOR = Color.White;
-        private static readonly Color UNFOCUSED_TEXT_COLOR = new Color(128, 140, 138);
-        private readonly string[] items;
-        private readonly int displayCount;
-        private int selectedIndex;
-        private int topIndex;
-        private readonly float lineHeight;
-        private readonly float width;
-        private readonly TextRegion[] texts;
-        private readonly IndexedColorGraphic cursor;
-        private readonly IndexedColorGraphic upArrow;
-        private readonly IndexedColorGraphic downArrow;
-        private readonly ShapeGraphic selectRectangle;
-        private bool enabled;
-        private bool enabledOnHide;
-        private bool showArrows;
-        private bool showSelectRect = true;
-        private bool showCursor = true;
-        private bool useHighlightTextColor = true;
-        private bool focused = true;
-        private readonly int cursorOffset;
     }
 }

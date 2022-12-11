@@ -2,6 +2,9 @@
 
 namespace Violet.Utility
 {
+    /// <summary>
+    /// Contains extensions for dictionaries. Pretty self explainatory 
+    /// </summary>
     public static class DictionaryExtensions
     {
         /// <summary>

@@ -2,6 +2,9 @@
 
 namespace Violet.Scenes
 {
+    /// <summary>
+    /// A scene is basically a part of the game containing logic
+    /// </summary>
     public abstract class Scene : IDisposable
     {
         #region Properties

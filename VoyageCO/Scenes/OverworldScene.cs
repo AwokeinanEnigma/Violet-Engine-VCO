@@ -256,7 +256,7 @@ namespace VCO.Scenes
             if (!flag2)
             {
                 Console.WriteLine("Tried checking, but there was no script");
-                this.SetExecutorScript("Default", isTelepathy);
+                this.SetExecutorScript("EmptyInteraction", isTelepathy);
             }
         }
         private int ShareText(string txt, string name, bool suppressin, bool suppressout)

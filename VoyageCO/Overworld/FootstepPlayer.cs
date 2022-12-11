@@ -7,8 +7,25 @@ namespace VCO.Overworld
 {
     internal class FootstepPlayer : IDisposable
     {
-        // (get) Token: 0x060005D1 RID: 1489 RVA: 0x00022B7D File Offset: 0x00020D7D
-        // (set) Token: 0x060005D2 RID: 1490 RVA: 0x00022B85 File Offset: 0x00020D85
+        
+        private const string EXTENSION = ".wav";
+        
+        private const int FOOTSTEP_TIMER_DURATION = 12;
+        
+        private bool disposed;
+        
+        private readonly Dictionary<TerrainType, VioletSound[]> footstepMap;
+        
+        private int stepCount;
+        
+        private VioletSound lastSound;
+        
+        private TerrainType terrainType;
+        
+        private int timerIndex;
+        
+        private bool isPaused;
+
         public TerrainType Terrain
         {
             get => this.terrainType;
@@ -121,14 +138,5 @@ namespace VCO.Overworld
             }
             this.disposed = true;
         }
-        private const string EXTENSION = ".wav";
-        private const int FOOTSTEP_TIMER_DURATION = 12;
-        private bool disposed;
-        private readonly Dictionary<TerrainType, VioletSound[]> footstepMap;
-        private int stepCount;
-        private VioletSound lastSound;
-        private TerrainType terrainType;
-        private int timerIndex;
-        private bool isPaused;
     }
 }

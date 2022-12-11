@@ -1,13 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Violet.Audio.fmod.FmodAudioLoader
-// Assembly: Violet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 9929100E-21E2-4663-A88C-1F977D6B46C4
-// Assembly location: D:\OddityPrototypes\Violet.dll
-
-using fNbt;
-using System;
-
-namespace Violet.Audio.fmod
+﻿namespace Violet.Audio.fmod
 {
     internal class FmodAudioLoader
     {

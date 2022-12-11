@@ -9,8 +9,42 @@ namespace VCO.Actors.Animation
 {
     internal class AnimationControl
     {
-        // (get) Token: 0x060001FE RID: 510 RVA: 0x0000C148 File Offset: 0x0000A348
         public bool Overriden => this.isOverriden;
+
+        private IndexedColorGraphic graphic;
+        
+        private int previousDirection;
+        
+        private Vector2f previousVelocity;
+        
+        private AnimationType previousStance;
+        
+        private AnimationType defaultStance;
+        
+        private readonly Dictionary<AnimationType, byte> counts;
+        
+        private bool hasStand;
+        
+        private bool hasWalk;
+        
+        private bool hasRun;
+        
+        private bool hasCrouch;
+        
+        private bool hasDead;
+        
+        private bool hasIdle;
+        
+        private bool hasTalk;
+        
+        private bool hasBlink;
+        
+        private bool isOverriden;
+        
+        private string overrideSubsprite;
+
+        private AnimationType animationType;
+
         public AnimationControl(IndexedColorGraphic graphic, int initialDirection)
         {
             this.graphic = graphic;
@@ -224,22 +258,5 @@ namespace VCO.Actors.Animation
             this.previousVelocity = context.Velocity;
             this.previousDirection = num3;
         }
-        private IndexedColorGraphic graphic;
-        private int previousDirection;
-        private Vector2f previousVelocity;
-        private AnimationType previousStance;
-        private AnimationType defaultStance;
-        private readonly Dictionary<AnimationType, byte> counts;
-        private bool hasStand;
-        private bool hasWalk;
-        private bool hasRun;
-        private bool hasCrouch;
-        private bool hasDead;
-        private bool hasIdle;
-        private bool hasTalk;
-        private bool hasBlink;
-        private bool isOverriden;
-        private string overrideSubsprite;
-        private AnimationType animationType;
     }
 }

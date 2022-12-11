@@ -8,11 +8,8 @@ namespace VCO.GUI
 {
     internal class Fonts
     {
-        // (get) Token: 0x06000135 RID: 309 RVA: 0x0000876D File Offset: 0x0000696D
         public static FontData Main => Fonts.fonts[0];
-        // (get) Token: 0x06000136 RID: 310 RVA: 0x00008776 File Offset: 0x00006976
-        public static FontData Title => Fonts.fonts[1];
-        // (get) Token: 0x06000137 RID: 311 RVA: 0x0000877F File Offset: 0x0000697F
+        public static FontData Title => Fonts.fonts[1];        
         public static FontData Saturn => Fonts.fonts[2];
 
         public static readonly string DATA = "Data" + Path.DirectorySeparatorChar;

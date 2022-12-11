@@ -138,7 +138,7 @@ namespace Violet
         private static RenderWindow window;
         private static RenderTexture frameBuffer;
         private static RenderStates frameBufferState;
-        private static VertexArray frameBufferVertArray;
+        private static VertexArray frameBufferVertArray;  
         private static Random rand;
         private static FontData defaultFont;
         private static Text debugText;

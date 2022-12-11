@@ -50,9 +50,9 @@ namespace Rufini.Actions.Types
             this.context.Player.InputLocked = true;
             if (this.context.ActiveNPC != null)
             {
-               //this.activeNpc = this.context.ActiveNPC;
-              //  this.context.TextBox.OnTypewriterComplete += this.StopTalking;
-             //   this.activeNpc.StartTalking();
+                this.activeNpc = this.context.ActiveNPC;
+                this.context.TextBox.OnTypewriterComplete += this.StopTalking;
+                this.activeNpc.StartTalking();
             }
             return new ActionReturnContext
             {

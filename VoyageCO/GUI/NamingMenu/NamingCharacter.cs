@@ -7,8 +7,6 @@ namespace VCO.GUI.NamingMenu
 {
     internal class NamingCharacter : Renderable
     {
-        // (get) Token: 0x0600014E RID: 334 RVA: 0x00008FE8 File Offset: 0x000071E8
-        // (set) Token: 0x0600014F RID: 335 RVA: 0x00008FF0 File Offset: 0x000071F0
         public CharacterType Character
         {
             get => this.character;

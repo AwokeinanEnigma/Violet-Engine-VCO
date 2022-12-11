@@ -8,10 +8,25 @@ namespace VCO.Battle.UI.Modifiers
 {
     internal class GraphicShielder : IGraphicModifier, IDisposable
     {
-        // (get) Token: 0x0600006B RID: 107 RVA: 0x00004B3F File Offset: 0x00002D3F
         public bool Done => this.isDone;
-        // (get) Token: 0x0600006C RID: 108 RVA: 0x00004B47 File Offset: 0x00002D47
         public Graphic Graphic => this.graphic;
+
+        private bool disposed;
+        
+        private bool isDone;
+        
+        private readonly Graphic graphic;
+        
+        private readonly RenderPipeline pipeline;
+        
+        private readonly AnimatedRenderable[] shieldAnims;
+        
+        private int timerIndex;
+        
+        private bool nextAnim;
+
+        private int animIndex;
+
         public GraphicShielder(RenderPipeline pipeline, Graphic graphic)
         {
             this.pipeline = pipeline;
@@ -94,13 +109,5 @@ namespace VCO.Battle.UI.Modifiers
             new Vector2f(16f, 35f),
             new Vector2f(45f, 20f)
         };
-        private bool disposed;
-        private bool isDone;
-        private readonly Graphic graphic;
-        private readonly RenderPipeline pipeline;
-        private readonly AnimatedRenderable[] shieldAnims;
-        private int timerIndex;
-        private bool nextAnim;
-        private int animIndex;
     }
 }

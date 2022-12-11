@@ -12,21 +12,16 @@ namespace VCO.Actors
 {
     internal class PartyFollower : IDisposable, ICollidable
     {
-        // (get) Token: 0x06000388 RID: 904 RVA: 0x00016AEC File Offset: 0x00014CEC
-        // (set) Token: 0x06000389 RID: 905 RVA: 0x00016AF4 File Offset: 0x00014CF4
+
+        #region Properties
         public int Place
         {
             get => this.place;
             set => this.place = value;
         }
-        // (get) Token: 0x0600038A RID: 906 RVA: 0x00016AFD File Offset: 0x00014CFD
         public float Width => this.followerGraphic.Size.X;
-        // (get) Token: 0x0600038B RID: 907 RVA: 0x00016B0F File Offset: 0x00014D0F
         public CharacterType Character => this.character;
-        // (get) Token: 0x0600038C RID: 908 RVA: 0x00016B17 File Offset: 0x00014D17
         public int Direction => this.direction;
-        // (get) Token: 0x0600038D RID: 909 RVA: 0x00016B1F File Offset: 0x00014D1F
-        // (set) Token: 0x0600038E RID: 910 RVA: 0x00016B27 File Offset: 0x00014D27
         public Vector2f Position
         {
             get => this.position;
@@ -34,20 +29,56 @@ namespace VCO.Actors
             {
             }
         }
-        // (get) Token: 0x0600038F RID: 911 RVA: 0x00016B29 File Offset: 0x00014D29
+
         public Vector2f Velocity => this.velocity;
-        // (get) Token: 0x06000390 RID: 912 RVA: 0x00016B31 File Offset: 0x00014D31
         public AABB AABB => this.aabb;
-        // (get) Token: 0x06000391 RID: 913 RVA: 0x00016B39 File Offset: 0x00014D39
         public Mesh Mesh => this.mesh;
-        // (get) Token: 0x06000392 RID: 914 RVA: 0x00016B41 File Offset: 0x00014D41
-        // (set) Token: 0x06000393 RID: 915 RVA: 0x00016B49 File Offset: 0x00014D49
+
         public bool Solid
         {
             get => this.solid;
             set => this.solid = value;
         }
-        // (get) Token: 0x06000394 RID: 916 RVA: 0x00016B52 File Offset: 0x00014D52
+        #endregion
+
+        #region Fields
+        private bool disposed;
+        
+        private readonly RenderPipeline pipeline;
+        private readonly PartyTrain recorder;
+        private readonly CharacterType character;
+        private int place;
+        private int direction;
+        
+        private Vector2f velocity;
+        private Vector2f position;
+        private Vector2f lastPosition;
+        
+        private TerrainType terrain;
+        
+        private readonly IndexedColorGraphic followerGraphic;
+        private readonly Graphic shadowGraphic;
+        
+        private bool isRunning;
+        private bool lastRunning;
+        private bool moving;
+        private bool lastMoving;
+        private readonly bool useShadow;
+        private readonly bool isDead;
+        
+        private bool isCrouch;
+        
+        private AABB aabb;
+        
+        private readonly Mesh mesh;
+        
+        private bool solid;
+        
+        private VertexArray debugVerts;
+
+        private readonly CollisionManager collisionManager;
+        private readonly AnimationControl animator;
+        #endregion
         public VertexArray DebugVerts => this.GetDebugVerts();
         public PartyFollower(RenderPipeline pipeline, CollisionManager colman, PartyTrain recorder, CharacterType character, Vector2f position, int direction, bool useShadow)
         {
@@ -171,30 +202,5 @@ namespace VCO.Actors
         public void Collision(CollisionContext context)
         {
         }
-        private bool disposed;
-        private readonly RenderPipeline pipeline;
-        private readonly PartyTrain recorder;
-        private readonly CharacterType character;
-        private int place;
-        private int direction;
-        private Vector2f velocity;
-        private Vector2f position;
-        private Vector2f lastPosition;
-        private TerrainType terrain;
-        private readonly IndexedColorGraphic followerGraphic;
-        private readonly Graphic shadowGraphic;
-        private bool isRunning;
-        private bool lastRunning;
-        private bool moving;
-        private bool lastMoving;
-        private readonly bool useShadow;
-        private readonly bool isDead;
-        private bool isCrouch;
-        private AABB aabb;
-        private readonly Mesh mesh;
-        private bool solid;
-        private VertexArray debugVerts;
-        private readonly CollisionManager collisionManager;
-        private readonly AnimationControl animator;
     }
 }

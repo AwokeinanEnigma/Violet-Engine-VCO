@@ -17,6 +17,39 @@ namespace VCO.Actors.NPCs
 {
     internal class NPC : SolidActor
     {
+        private readonly RenderPipeline pipeline;
+        private IndexedColorGraphic npcGraphic;
+        private Graphic shadowGraphic;
+        private IndexedColorGraphic effectGraphic;
+        private readonly string name;
+        private int direction;
+        private bool talkPause;
+        private NPC.State state;
+        private NPC.State lastState;
+        private NPC.State stateMemory;
+        private List<Map.NPCtext> text;
+        private List<Map.NPCtext> teleText;
+        private Vector2f lastVelocity;
+        private Vector2f startPosition;
+        private Vector2f graphicOffset;
+        private float lastZOffset;
+        private readonly float speed;
+        private readonly int delay;
+        private readonly int distance;
+        private float hopFactor;
+        private long hopFrame;
+        private Mover mover;
+        private bool changed;
+        private readonly bool shadow;
+        private readonly bool sticky;
+        private int depth;
+        private bool depthOverride;
+        private bool hasSprite;
+        private bool forceSpriteUpdate;
+        private AnimationControl animator;
+        private int animationLoopCount;
+        private int animationLoopCountTarget;
+
         public List<Map.NPCtext> Text => this.text;
         public List<Map.NPCtext> TeleText => this.teleText;
 
@@ -31,8 +64,7 @@ namespace VCO.Actors.NPCs
                 this.forceSpriteUpdate = true;
             }
         }
-        // (get) Token: 0x06000370 RID: 880 RVA: 0x000160BD File Offset: 0x000142BD
-        // (set) Token: 0x06000371 RID: 881 RVA: 0x000160C5 File Offset: 0x000142C5
+
         public float HopFactor
         {
             get => this.hopFactor;
@@ -42,9 +74,7 @@ namespace VCO.Actors.NPCs
                 this.hopFrame = Engine.Frame;
             }
         }
-        // (get) Token: 0x06000372 RID: 882 RVA: 0x000160D9 File Offset: 0x000142D9
         public int Depth => this.depth;
-        // (get) Token: 0x06000373 RID: 883 RVA: 0x000160E1 File Offset: 0x000142E1
         public Vector2f EmoticonPoint => new Vector2f(this.position.X, this.position.Y - this.npcGraphic.Origin.Y);
         public NPC(RenderPipeline pipeline, CollisionManager colman, Map.NPC npcData, object moverData) : base(null)
         {
@@ -351,38 +381,7 @@ namespace VCO.Actors.NPCs
                 base.Dispose(disposing);
             }
         }
-        private readonly RenderPipeline pipeline;
-        private IndexedColorGraphic npcGraphic;
-        private Graphic shadowGraphic;
-        private IndexedColorGraphic effectGraphic;
-        private readonly string name;
-        private int direction;
-        private bool talkPause;
-        private NPC.State state;
-        private NPC.State lastState;
-        private NPC.State stateMemory;
-        private List<Map.NPCtext> text;
-        private List<Map.NPCtext> teleText;
-        private Vector2f lastVelocity;
-        private Vector2f startPosition;
-        private Vector2f graphicOffset;
-        private float lastZOffset;
-        private readonly float speed;
-        private readonly int delay;
-        private readonly int distance;
-        private float hopFactor;
-        private long hopFrame;
-        private Mover mover;
-        private bool changed;
-        private readonly bool shadow;
-        private readonly bool sticky;
-        private int depth;
-        private bool depthOverride;
-        private bool hasSprite;
-        private bool forceSpriteUpdate;
-        private AnimationControl animator;
-        private int animationLoopCount;
-        private int animationLoopCountTarget;
+
         public enum State
         {
             Idle,

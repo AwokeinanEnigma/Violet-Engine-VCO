@@ -3,8 +3,22 @@ using SFML.System;
 
 namespace Violet.Collision
 {
+    /// <summary>
+    /// Struct for bounding boxes.
+    /// You can read more about axis-aligned minimum bounding boxes here
+    /// https://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box
+    /// </summary>
     public struct AABB
     {
+        private FloatRect floatRect;
+
+        public readonly Vector2f Position;
+
+        public readonly Vector2f Size;
+
+        public readonly bool IsPlayer;
+
+        public readonly bool OnlyPlayer;
         public AABB(Vector2f position, Vector2f size)
         {
             this.Position = position;
@@ -27,15 +41,5 @@ namespace Violet.Collision
         {
             return this.floatRect;
         }
-
-        private FloatRect floatRect;
-
-        public readonly Vector2f Position;
-
-        public readonly Vector2f Size;
-
-        public readonly bool IsPlayer;
-
-        public readonly bool OnlyPlayer;
     }
 }

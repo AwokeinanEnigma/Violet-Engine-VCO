@@ -7,10 +7,27 @@ namespace VCO.Battle.UI.Modifiers
 {
     internal class GraphicTalker : IGraphicModifier, IDisposable
     {
-        // (get) Token: 0x060002FC RID: 764 RVA: 0x00013166 File Offset: 0x00011366
         public bool Done => this.done;
-        // (get) Token: 0x060002FD RID: 765 RVA: 0x0001316E File Offset: 0x0001136E
         public Graphic Graphic => this.graphic;
+        
+        private const int LOOP_TOTAL = 2;
+        
+        private bool disposed;
+        
+        private readonly RenderPipeline pipeline;
+        
+        private readonly Graphic graphic;
+        
+        private readonly IndexedColorGraphic talker;
+        
+        private Vector2f rightOffset;
+        
+        private int count;
+        
+        private bool right;
+        
+        private readonly bool done;
+        
         public GraphicTalker(RenderPipeline pipeline, Graphic graphic)
         {
             this.pipeline = pipeline;
@@ -62,14 +79,6 @@ namespace VCO.Battle.UI.Modifiers
                 this.disposed = true;
             }
         }
-        private const int LOOP_TOTAL = 2;
-        private bool disposed;
-        private readonly RenderPipeline pipeline;
-        private readonly Graphic graphic;
-        private readonly IndexedColorGraphic talker;
-        private Vector2f rightOffset;
-        private int count;
-        private bool right;
-        private readonly bool done;
+
     }
 }

@@ -5,8 +5,15 @@ namespace VCO.Battle.UI
 {
     internal class BattleSmash
     {
-        // (get) Token: 0x0600025C RID: 604 RVA: 0x0000EDE9 File Offset: 0x0000CFE9
+        #region Properties
         public bool Done => this.done;
+        #region Fields
+        private readonly RenderPipeline pipeline;
+        
+        private readonly Graphic smashGraphic;
+        
+        private bool done;
+#endregion
         public BattleSmash(RenderPipeline pipeline, Vector2f position)
         {
             this.pipeline = pipeline;
@@ -19,8 +26,6 @@ namespace VCO.Battle.UI
             this.pipeline.Remove(this.smashGraphic);
             this.done = true;
         }
-        private readonly RenderPipeline pipeline;
-        private readonly Graphic smashGraphic;
-        private bool done;
+
     }
 }
