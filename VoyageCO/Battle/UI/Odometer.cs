@@ -24,7 +24,8 @@ namespace VCO.Battle.UI
         {
             card = outer;
 
-            this.rollerContainer = new IndexedColorGraphic(Paths.GRAPHICS_BATTLE + "battleui2.dat", "odometer", position - new Vector2f(1f, 1f), depth - 1);
+            this.rollerContainer = new IndexedColorGraphic(DataHandler.instance.Load(
+"battleui2.dat"), "odometer", position - new Vector2f(1f, 1f), depth - 1);
             pipeline.Add(this.rollerContainer);
             this.rollers = new OdometerRoller[places];
             this.hidden = new bool[this.rollers.Length];

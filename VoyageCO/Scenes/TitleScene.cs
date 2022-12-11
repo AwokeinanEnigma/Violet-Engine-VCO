@@ -57,7 +57,7 @@ namespace VCO.Scenes
                     "Quit"
                 };
             }
-            this.optionList = new ScrollingList(new Vector2f(32f, 50f), 9000, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat")
+            this.optionList = new ScrollingList(new Vector2f(32f, 50f), 9000, items, 5, 16f, 80f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = true,
                 UseHighlightTextColor = false,
@@ -66,9 +66,20 @@ namespace VCO.Scenes
             };
             optionList.Depth = 1100;
             this.pipeline.Add(this.optionList);
-            this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title.xml", 10);
+            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title.xml"), 10);
             pipeline.Add(background);
-            this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS + "/opener/logo.dat", "title", new Vector2f(160f, 90), 1000);
+            this.titleImage = new IndexedColorGraphic(DataHandler.instance.Load("logo.dat"), "title", new Vector2f(160f, 90), 1000);
+
+            ConvexShape shpae = new ConvexShape();
+            shpae.SetPointCount(3);
+            shpae.SetPoint(0, new Vector2f(1, 2));
+            shpae.SetPoint(1, new Vector2f(25, 166));
+            shpae.SetPoint(2, new Vector2f(23, 73));
+            ShapeGraphic graphic = new ShapeGraphic(shpae, new Vector2f(0,0), new Vector2f(160, 90), new Vector2f(10, 10), 9999);
+            graphic.FillColor = Color.Blue;
+            graphic.OutlineColor = Color.Red;
+            pipeline.Add(graphic);
+
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             this.versionText = new TextRegion(new Vector2f(2f, 164f), 101, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
             {
@@ -85,9 +96,9 @@ namespace VCO.Scenes
             this.pipeline.Add(this.versionText);
 
             //		this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
-            this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-            this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-            this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+            this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+            this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
+            this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
         }
 
         private void AxisPressed(InputManager sender, Vector2f axis)
@@ -127,7 +138,7 @@ namespace VCO.Scenes
                         case Button.Two:
                             Console.WriteLine("purple");
                             pipeline.Remove(background);
-                            this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title.xml", 10);
+                            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title.xml"), 10);
                             pipeline.Add(background);
                             //SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
                             //SceneManager.Instance.Push(new TextTestScene());
@@ -135,7 +146,7 @@ namespace VCO.Scenes
                         case Button.Three:
                             Console.WriteLine("blue");
                             pipeline.Remove(background);
-                            this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title_blue.xml", 10);
+                            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title_blue.xml"), 10);
                             pipeline.Add(background);
                             //			SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
                             //			SceneManager.Instance.Push(new AUXTestScene());
@@ -143,7 +154,7 @@ namespace VCO.Scenes
                         case Button.Four:
                             Console.WriteLine("green");
                             pipeline.Remove(background);
-                            this.background = new BattleBackgroundRenderable(Paths.GRAPHICS + $"BBG/xml/title_green.xml", 10);
+                            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title_green.xml"), 10);
                             pipeline.Add(background);
 
                             //				SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);

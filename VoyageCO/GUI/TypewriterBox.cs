@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using VCO.Data;
 using VCO.Scripts.Text;
@@ -48,6 +49,8 @@ namespace VCO.GUI
             for (int i = 0; i < this.texts.Length; i++)
             {
                 this.texts[i] = new TextRegion(this.position + new Vector2f(8f, 14 * i), this.depth + 1, Fonts.Main, (i < this.textBlock.Lines.Count) ? this.textBlock.Lines[i].Text : string.Empty, 0, 0);
+                this.texts[i].Color = Color.Black;
+
                 this.pipeline.Add(this.texts[i]);
             }
             this.SetUpBullets();
@@ -57,7 +60,7 @@ namespace VCO.GUI
             this.currentText = this.texts[this.currentTextIndex];
             this.textPos = 0;
             this.textLen = this.currentText.Text.Length;
-            this.textBeep = AudioManager.Instance.Use(Paths.SFX_TEXT + "text1.wav", AudioType.Sound);
+            this.textBeep = AudioManager.Instance.Use(DataHandler.instance.Load("text1.wav"), AudioType.Sound);
             this.useBeeps = true;
         }
 
@@ -69,7 +72,7 @@ namespace VCO.GUI
                 this.bullets = new Graphic[this.texts.Length];
                 for (int i = 0; i < this.bullets.Length; i++)
                 {
-                    this.bullets[i] = new IndexedColorGraphic(Paths.GRAPHICS + "bullet.dat", "bullet", this.position + new Vector2f(0f, 4 + 14 * i), this.depth + 1);
+                    this.bullets[i] = new IndexedColorGraphic(DataHandler.instance.Load("bullet.dat"), "bullet", this.position + new Vector2f(0f, 4 + 14 * i), this.depth + 1);
                     this.pipeline.Add(this.bullets[i]);
                 }
                 this.SetBulletVisibility();
@@ -132,6 +135,7 @@ namespace VCO.GUI
                 for (int i = 0; i < this.texts.Length; i++)
                 {
                     this.texts[i].Visible = true;
+                    this.texts[i].Color = Color.Black;
                     if (this.showBullets)
                     {
                         this.bullets[i].Visible = this.bulletVisibility[i];
@@ -292,6 +296,12 @@ namespace VCO.GUI
             if (!this.disposed)
             {
                 AudioManager.Instance.Unuse(this.textBeep);
+                for (int i = 0; i < bullets.Length; i++) {
+                    bullets[i].Visible = false;
+                    pipeline.Remove(bullets[i]);
+                    bullets[i].Dispose();
+
+                }
             }
             base.Dispose(disposing);
         }
@@ -332,7 +342,7 @@ namespace VCO.GUI
 
         private TextRegion currentText;
 
-        private readonly TextRegion[] texts;
+        private TextRegion[] texts;
 
         private Graphic[] bullets;
 

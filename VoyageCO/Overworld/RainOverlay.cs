@@ -7,10 +7,8 @@ using Violet.Utility;
 
 namespace VCO.Overworld
 {
-    // Token: 0x02000102 RID: 258
     internal class RainOverlay
     {
-        // Token: 0x060005F7 RID: 1527 RVA: 0x00023378 File Offset: 0x00021578
         public RainOverlay()
         {
             this.drops = new RainOverlay.Droplet[50];
@@ -20,14 +18,12 @@ namespace VCO.Overworld
                 int num = Engine.Random.Next(RainOverlay.COLOR_CHOICES.Length);
                 this.drops[i] = new RainOverlay.Droplet(RainOverlay.COLOR_CHOICES[num]);
                 int num2 = Engine.Random.Next(RainOverlay.SPLASH_CHOICES.Length);
-                this.splashes[i] = new IndexedColorGraphic(Paths.GRAPHICS + "rainsplash.dat", RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0)
+                this.splashes[i] = new IndexedColorGraphic(DataHandler.instance.Load("rainsplash.dat"), RainOverlay.SPLASH_CHOICES[num2], new Vector2f(-9999f, -9999f), 0)
                 {
                     Visible = false
                 };
             }
         }
-
-        // Token: 0x060005F8 RID: 1528 RVA: 0x00023450 File Offset: 0x00021650
         public void Update()
         {
             for (int i = 0; i < this.drops.Length; i++)
@@ -45,15 +41,11 @@ namespace VCO.Overworld
                 }
             }
         }
-
-        // Token: 0x060005F9 RID: 1529 RVA: 0x0002350E File Offset: 0x0002170E
         private void OnAnimationComplete(AnimatedRenderable graphic)
         {
             graphic.Visible = false;
             graphic.OnAnimationComplete -= this.OnAnimationComplete;
         }
-
-        // Token: 0x060005FA RID: 1530 RVA: 0x0002352C File Offset: 0x0002172C
         public void Draw(RenderTarget target)
         {
             for (int i = 0; i < this.drops.Length; i++)
@@ -65,16 +57,12 @@ namespace VCO.Overworld
                 }
             }
         }
-
-        // Token: 0x040007B8 RID: 1976
         private static readonly Color[] COLOR_CHOICES = new Color[]
         {
             new Color(203, 219, 252),
             new Color(142, 177, 248),
             new Color(151, 170, 210)
         };
-
-        // Token: 0x040007B9 RID: 1977
         private static readonly string[] SPLASH_CHOICES = new string[]
         {
             "splash1",
@@ -88,8 +76,6 @@ namespace VCO.Overworld
         private struct Droplet
         {
             public Vector2f Position => this.position;
-
-            // Token: 0x060005FD RID: 1533 RVA: 0x00023624 File Offset: 0x00021824
             public Droplet(Color color)
             {
                 this.position = VectorMath.ZERO_VECTOR;
@@ -130,26 +116,14 @@ namespace VCO.Overworld
                 }
                 return result;
             }
-
-            // Token: 0x06000601 RID: 1537 RVA: 0x00023823 File Offset: 0x00021A23
             public void Draw(RenderTarget target)
             {
                 target.Draw(this.verts, PrimitiveType.Lines);
             }
-
-            // Token: 0x040007BC RID: 1980
             private static readonly Vector2f DROP_SIZE = new Vector2f(0f, 24f);
-
-            // Token: 0x040007BD RID: 1981
             private static readonly Vector2f DROP_VELOCITY = new Vector2f(0f, 8f);
-
-            // Token: 0x040007BE RID: 1982
             private float endY;
-
-            // Token: 0x040007BF RID: 1983
             private Vector2f position;
-
-            // Token: 0x040007C0 RID: 1984
             private readonly Vertex[] verts;
         }
     }

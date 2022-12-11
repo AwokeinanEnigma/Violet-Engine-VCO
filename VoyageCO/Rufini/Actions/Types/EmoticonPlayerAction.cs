@@ -6,10 +6,8 @@ using Violet.Graphics;
 
 namespace Rufini.Actions.Types
 {
-    // Token: 0x02000135 RID: 309
     internal class EmoticonPlayerAction : RufiniAction
     {
-        // Token: 0x0600071A RID: 1818 RVA: 0x0002D610 File Offset: 0x0002B810
         public EmoticonPlayerAction()
         {
             this.paramList = new List<ActionParam>
@@ -26,8 +24,6 @@ namespace Rufini.Actions.Types
                 }
             };
         }
-
-        // Token: 0x0600071B RID: 1819 RVA: 0x0002D680 File Offset: 0x0002B880
         public override ActionReturnContext Execute(ExecutionContext context)
         {
             RufiniOption value = base.GetValue<RufiniOption>("emt");
@@ -36,7 +32,7 @@ namespace Rufini.Actions.Types
             {
                 string spriteName = EmoticonPlayerAction.EMOTE_TYPE_SUBSPRITE_MAP[0];
                 EmoticonPlayerAction.EMOTE_TYPE_SUBSPRITE_MAP.TryGetValue(value.Option, out spriteName);
-                IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS + "emote.dat", spriteName, context.Player.EmoticonPoint, context.Player.Depth);
+                IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(DataHandler.instance.Load("emote.dat"), spriteName, context.Player.EmoticonPoint, context.Player.Depth);
                 indexedColorGraphic.OnAnimationComplete += this.OnAnimationComplete;
                 context.Pipeline.Add(indexedColorGraphic);
                 this.context = context;
@@ -50,8 +46,6 @@ namespace Rufini.Actions.Types
                 Wait = (this.isBlocking ? ScriptExecutor.WaitType.Event : ScriptExecutor.WaitType.None)
             };
         }
-
-        // Token: 0x0600071C RID: 1820 RVA: 0x0002D748 File Offset: 0x0002B948
         private void OnAnimationComplete(AnimatedRenderable graphic)
         {
             this.context.Pipeline.Remove(graphic);
@@ -62,8 +56,6 @@ namespace Rufini.Actions.Types
                 this.context.Executor.Continue();
             }
         }
-
-        // Token: 0x04000931 RID: 2353
         private static readonly Dictionary<int, string> EMOTE_TYPE_SUBSPRITE_MAP = new Dictionary<int, string>
         {
             {
@@ -95,11 +87,7 @@ namespace Rufini.Actions.Types
                 "music"
             }
         };
-
-        // Token: 0x04000932 RID: 2354
         private ExecutionContext context;
-
-        // Token: 0x04000933 RID: 2355
         private bool isBlocking;
     }
 }

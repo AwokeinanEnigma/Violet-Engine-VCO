@@ -49,7 +49,7 @@ namespace VCO.Battle.UI
             int num3 = 0;
             for (int j = 0; j < this.numbers.Length; j++)
             {
-                this.numbers[j] = new IndexedColorGraphic(TotalDamageNumber.YELLOW_RESOURCE, "numbers", default(Vector2f), 32767)
+                this.numbers[j] = new IndexedColorGraphic(DataHandler.instance.Load("numberset2.dat"), "numbers", default(Vector2f), 32767)
                 {
                     Frame = Digits.Get(number, this.numbers.Length - j),
                     Visible = false
@@ -103,7 +103,7 @@ namespace VCO.Battle.UI
                         return;
                     }
                     this.timer = 0;
-                    this.translation = default(Vector2f);
+                    this.translation = default;
                     this.state = TotalDamageNumber.State.Hanging;
                     return;
                 }
@@ -187,8 +187,6 @@ namespace VCO.Battle.UI
         private const float TOP_Y_BOUND = 12f;
 
         private const float BOTTOM_Y_BOUND = 115f;
-
-        private static readonly string YELLOW_RESOURCE = Paths.GRAPHICS + "numberset2.dat";
 
         private static readonly Vector2f UP_OFFSET = new Vector2f(0f, -32f);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Violet.Audio.fmod;
 
 namespace Violet.Audio
@@ -136,7 +137,7 @@ namespace Violet.Audio
 
         public void SetBGM(string name)
         {
-            Debug.LogD($"REQUESTING BGM: {name}");
+            Debug.LogDebug($"REQUESTING BGM: {name}");
             VioletSound bgm = this.Use(name, AudioType.Stream);
             this.SetBGM(bgm);
         }
@@ -152,7 +153,8 @@ namespace Violet.Audio
 
         public abstract void SetSpeakerMode(AudioMode mode);
 
-        public abstract VioletSound Use(string filename, AudioType type);
+        public abstract VioletSound Use(string filename, AudioType type, [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0);
 
         public abstract void Unuse(VioletSound sound);
 

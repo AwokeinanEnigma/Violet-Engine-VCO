@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Violet.Audio.Stub
 {
@@ -17,7 +18,8 @@ namespace Violet.Audio.Stub
         {
         }
 
-        public override VioletSound Use(string filename, AudioType type)
+        public override VioletSound Use(string filename, AudioType type, string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0)
         {
             return new StubSound(type, 0U, 0U, 0, 0f, 0f);
         }

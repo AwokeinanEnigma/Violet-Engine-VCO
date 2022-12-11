@@ -1,6 +1,7 @@
 ﻿using FMOD;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Violet.Audio.fmod
@@ -33,7 +34,7 @@ namespace Violet.Audio.fmod
                 if ((caps & CAPS.HARDWARE_EMULATED) == CAPS.HARDWARE)
                 {
                     RESULT result2 = this.system.setDSPBufferSize(1024U, 10);
-                    Debug.LogW("Audio hardware acceleration is turned off. Audio performance may be degraded.");
+                    Debug.LogWarning("Audio hardware acceleration is turned off. Audio performance may be degraded.");
                     FmodAudioManager.ERRCHECK(result2);
                 }
                 StringBuilder name = new StringBuilder(256);
@@ -41,12 +42,12 @@ namespace Violet.Audio.fmod
                 result1 = this.system.getDriverInfo(0, name, 256, ref guid);
                 FmodAudioManager.ERRCHECK(result1);
                 string str = name.ToString();
-                Debug.LogI($"Audio driver name: {str}");
+                Debug.LogInfo($"Audio driver name: {str}");
                 if (str.Contains("SigmaTel"))
                 {
                     result1 = this.system.setSoftwareFormat(48000, SOUND_FORMAT.PCMFLOAT, 0, 0, DSP_RESAMPLER.LINEAR);
                     FmodAudioManager.ERRCHECK(result1);
-                    Debug.LogD("Sigmatel card detected; format changed to PCM floating point.");
+                    Debug.LogDebug("Sigmatel card detected; format changed to PCM floating point.");
                 }
             }
             this.InitFmodSystem();
@@ -54,7 +55,7 @@ namespace Violet.Audio.fmod
             {
                 FmodAudioManager.ERRCHECK(this.system.setSpeakerMode(SPEAKERMODE.STEREO));
                 this.InitFmodSystem();
-                Debug.LogW("Selected speaker mode is not supported, defaulting to stereo.");
+                Debug.LogWarning("Selected speaker mode is not supported, defaulting to stereo.");
             }
             this.callbacks = new Dictionary<int, CHANNEL_CALLBACK>();
         }
@@ -82,14 +83,15 @@ namespace Violet.Audio.fmod
             int num = (int)this.system.update();
         }
 
-        public override VioletSound Use(string filename, AudioType type)
+        public override VioletSound Use(string filename, AudioType type, [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0)
         {
             int hashCode = filename.GetHashCode();
             FmodSound fmodSound;
             //Console.WriteLine(string.Format("AUDIO - {0} - LINE: {1} - METHOD - {2}", filename, i, member));
             if (!this.sounds.ContainsKey(hashCode))
             {
-                fmodSound = type != AudioType.Stream ? FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume) : FmodAudioLoader.Instance.LoadStreamSound(ref this.system, filename, 0, this.musicVolume);
+                fmodSound = FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume);
                 this.instances.Add(hashCode, 1);
                 this.sounds.Add(hashCode, fmodSound);
             }

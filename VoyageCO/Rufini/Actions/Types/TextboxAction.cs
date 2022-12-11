@@ -45,6 +45,7 @@ namespace Rufini.Actions.Types
             this.context.TextBox.OnTextboxComplete += this.ContinueAfterTextbox;
             this.context.TextBox.Reset(value2, context.Nametag, value3, value4);
             this.context.TextBox.Show();
+            
             this.context.Player.MovementLocked = true;
             this.context.Player.InputLocked = true;
             if (this.context.ActiveNPC != null)

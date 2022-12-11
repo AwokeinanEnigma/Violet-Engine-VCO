@@ -50,13 +50,13 @@ namespace VCO.Scenes
             //	Console.WriteLine($"MUSIC - { music } // ENEMY - {enemyCombatant.Enemy}");
             ComboSet combos = ComboLoader.Load(music);
 
-            AudioManager.Instance.SetBGM(Paths.BGM_BATTLE + $"{music}.wav");
+            AudioManager.Instance.SetBGM(DataHandler.instance.Load( $"{music}.wav"));
             this.comboControl = new ComboController(combos, party);
-            this.uiController = new BattleInterfaceController(this.pipeline, this.actorManager, this.combatantController, this.letterboxing);
+            this.uiController = new BattleInterfaceController(pipeline, this.actorManager, this.combatantController, this.letterboxing);
             // Console.WriteLine("init btc");
             this.controller = new BattleController(this.uiController, this.combatantController, this.comboControl);
             // Console.WriteLine("init bc");
-            this.background = new BattleBackground(Paths.GRAPHICS + $"BBG/xml/{enemyCombatant.Enemy.BackgroundName}.xml");
+            this.background = new BattleBackground(DataHandler.instance.Load($"{enemyCombatant.Enemy.BackgroundName}.xml"));
             // Console.WriteLine("init bbg");
             this.GenerateIntroMessage(factionCombatants2.Length, factionCombatants.Length, playerCombatant.Character, playerCombatant2.Character, enemyCombatant.Enemy);
             uiController.controller = controller;

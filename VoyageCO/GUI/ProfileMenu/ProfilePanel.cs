@@ -1,6 +1,7 @@
 ﻿using Rufini.Strings;
 using SFML.System;
 using System;
+using System.IO;
 using VCO.Data;
 using Violet.Graphics;
 using Violet.GUI;
@@ -37,7 +38,7 @@ namespace VCO.GUI.ProfileMenu
                 num += 4 + (int)graphic.Size.X;
                 base.Add(graphic);
             }
-            string[] array = MapLoader.LoadTitle(Paths.MAPS + profile.MapName);
+            string[] array = MapLoader.LoadTitle(Path.Combine("Data" + Path.DirectorySeparatorChar, "Maps", "") + Path.DirectorySeparatorChar + profile.MapName);
             TextRegion control = new TextRegion(new Vector2f(128f, -3f), 0, Fonts.Main, array[0]);
             base.Add(control);
             TextRegion control2 = new TextRegion(new Vector2f(128f, 12f), 0, Fonts.Main, array[1]);

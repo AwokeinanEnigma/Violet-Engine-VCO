@@ -23,7 +23,7 @@ namespace VCO.Battle.Background
             // Console.WriteLine("3");
             for (int i = 0; i < array.Length; i++)
             {
-                array[i].File = Paths.GRAPHICS + "BBG/" + Path.GetFileName(array[i].File);
+                array[i].File = DataHandler.instance.Load(Path.GetFileName(array[i].File));
             }
             //   Console.WriteLine("4");
             this.Initialize(array);

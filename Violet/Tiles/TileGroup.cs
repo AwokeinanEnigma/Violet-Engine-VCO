@@ -102,6 +102,7 @@ namespace Violet.Tiles
         {
             Transform identity = Transform.Identity;
             identity.Translate(this.position - this.origin);
+
             this.renderState.Transform = identity;
         }
 
@@ -109,8 +110,10 @@ namespace Violet.Tiles
         {
             Vector2f vector2f = location - this.position + this.origin;
             uint num = (uint)(vector2f.X / 8f + vector2f.Y / 8f * (this.size.X / 8f));
+            
             Vertex vertex = this.vertices[(int)((UIntPtr)(num * 4U))];
             Vector2f texCoords = vertex.TexCoords;
+
             return (int)(texCoords.X / 8f + texCoords.Y / 8f * (this.tileset.Image.Size.X / 8U));
         }
 
@@ -125,21 +128,23 @@ namespace Violet.Tiles
             this.animations = new TileGroup.TileAnimation[definitions.Count];
             foreach (SpriteDefinition spriteDefinition in definitions)
             {
-                int num = -1;
-                int.TryParse(spriteDefinition.Name, out num);
-                if (num >= 0)
+                int animationIndex = -1;
+                int.TryParse(spriteDefinition.Name, out animationIndex);
+                if (animationIndex >= 0)
                 {
                     if (spriteDefinition.Data != null && spriteDefinition.Data.Length > 0)
                     {
                         int[] data = spriteDefinition.Data;
                         float speed = spriteDefinition.Speeds[0];
-                        this.animations[num].Tiles = data;
-                        this.animations[num].VertIndexes = new List<int>();
-                        this.animations[num].Speed = speed;
+                        
+                        this.animations[animationIndex].Tiles = data;
+                        this.animations[animationIndex].VertIndexes = new List<int>();
+
+                        this.animations[animationIndex].Speed = speed;
                     }
                     else
                     {
-                        Debug.LogW($"Tried to load tile animation data for animation {num}, but there was no tile data.");
+                        Debug.LogWarning($"Tried to load tile animation data for animation {animationIndex}, but there was no tile data.");
                     }
                 }
             }
@@ -149,18 +154,21 @@ namespace Violet.Tiles
         {
             if (tile.AnimationId > 0)
             {
-                int num = tile.AnimationId - 1;
-                this.animations[num].VertIndexes.Add(index);
+                int animationId = tile.AnimationId - 1;
+                this.animations[animationId].VertIndexes.Add(index);
             }
         }
 
         private unsafe void CreateVertexArray(IList<Tile> tiles)
         {
             this.vertices = new Vertex[tiles.Count * 4];
+            
             uint tileX = 0U;
             uint tileY = 0U;
+
             Vector2f v = default(Vector2f);
             Vector2f v2 = default(Vector2f);
+
             fixed (Vertex* ptr = this.vertices)
             {
                 for (int i = 0; i < tiles.Count; i++)
@@ -169,45 +177,63 @@ namespace Violet.Tiles
                     Tile tile = tiles[i];
                     float x = tile.Position.X;
                     float y = tile.Position.Y;
+
                     ptr2->Position.X = x;
                     ptr2->Position.Y = y;
+
                     ptr2[1].Position.X = x + 8f;
                     ptr2[1].Position.Y = y;
+
                     ptr2[2].Position.X = x + 8f;
                     ptr2[2].Position.Y = y + 8f;
+
                     ptr2[3].Position.X = x;
                     ptr2[3].Position.Y = y + 8f;
+
                     this.IDToTexCoords(tile.ID, out tileX, out tileY);
+
                     if (!tile.FlipHorizontal && !tile.FlipVertical)
                     {
+
                         ptr2->TexCoords.X = tileX;
                         ptr2->TexCoords.Y = tileY;
+
                         ptr2[1].TexCoords.X = tileX + 8U;
                         ptr2[1].TexCoords.Y = tileY;
+
                         ptr2[2].TexCoords.X = tileX + 8U;
                         ptr2[2].TexCoords.Y = tileY + 8U;
+
                         ptr2[3].TexCoords.X = tileX;
                         ptr2[3].TexCoords.Y = tileY + 8U;
+
                     }
                     else if (tile.FlipHorizontal && !tile.FlipVertical)
                     {
                         ptr2->TexCoords.X = tileX + 8U;
                         ptr2->TexCoords.Y = tileY;
+
                         ptr2[1].TexCoords.X = tileX;
                         ptr2[1].TexCoords.Y = tileY;
+
                         ptr2[2].TexCoords.X = tileX;
                         ptr2[2].TexCoords.Y = tileY + 8U;
+
                         ptr2[3].TexCoords.X = tileX + 8U;
                         ptr2[3].TexCoords.Y = tileY + 8U;
+
                     }
                     else if (!tile.FlipHorizontal && tile.FlipVertical)
                     {
                         ptr2->TexCoords.X = tileX;
                         ptr2->TexCoords.Y = tileY + 8U;
+
                         ptr2[1].TexCoords.X = tileX + 8U;
                         ptr2[1].TexCoords.Y = tileY + 8U;
+
                         ptr2[2].TexCoords.X = tileX + 8U;
                         ptr2[2].TexCoords.Y = tileY;
+
                         ptr2[3].TexCoords.X = tileX;
                         ptr2[3].TexCoords.Y = tileY;
                     }
@@ -215,17 +241,22 @@ namespace Violet.Tiles
                     {
                         ptr2->TexCoords.X = tileX + 8U;
                         ptr2->TexCoords.Y = tileY + 8U;
+
                         ptr2[1].TexCoords.X = tileX;
                         ptr2[1].TexCoords.Y = tileY + 8U;
+
                         ptr2[2].TexCoords.X = tileX;
                         ptr2[2].TexCoords.Y = tileY;
+
                         ptr2[3].TexCoords.X = tileX + 8U;
                         ptr2[3].TexCoords.Y = tileY;
                     }
                     v.X = Math.Min(v.X, ptr2->Position.X);
                     v.Y = Math.Min(v.Y, ptr2->Position.Y);
+
                     v2.X = Math.Max(v2.X, ptr2[2].Position.X - v.X);
                     v2.Y = Math.Max(v2.Y, ptr2[2].Position.Y - v.Y);
+
                     this.AddVertIndex(tile, i * 4);
                 }
             }
@@ -241,21 +272,27 @@ namespace Violet.Tiles
             for (int i = 0; i < this.animations.Length; i++)
             {
                 TileGroup.TileAnimation tileAnimation = this.animations[i];
+                
                 float speed = Engine.Frame * tileAnimation.Speed;
                 uint tileID = (uint)tileAnimation.Tiles[(int)speed % tileAnimation.Tiles.Length];
                 this.IDToTexCoords(tileID - 1U, out uint tileX, out uint tileY);
+
                 fixed (Vertex* ptr = this.vertices)
                 {
                     for (int j = 0; j < tileAnimation.VertIndexes.Count; j++)
                     {
                         int vertexIndex = tileAnimation.VertIndexes[j];
                         Vertex* ptr2 = ptr + vertexIndex;
+
                         ptr2->TexCoords.X = tileX;
                         ptr2->TexCoords.Y = tileY;
+
                         ptr2[1].TexCoords.X = tileX + 8U;
                         ptr2[1].TexCoords.Y = tileY;
+
                         ptr2[2].TexCoords.X = tileX + 8U;
                         ptr2[2].TexCoords.Y = tileY + 8U;
+
                         ptr2[3].TexCoords.X = tileX;
                         ptr2[3].TexCoords.Y = tileY + 8U;
                     }
@@ -271,6 +308,7 @@ namespace Violet.Tiles
             TileGroup.TILE_GROUP_SHADER.SetUniform("palSize", this.tileset.PaletteSize);
             TileGroup.TILE_GROUP_SHADER.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(Color.White));
             TileGroup.TILE_GROUP_SHADER.SetUniform("blendMode", 1f);
+
             this.UpdateAnimations();
             target.Draw(this.vertices, PrimitiveType.Quads, this.renderState);
         }

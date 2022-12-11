@@ -60,7 +60,7 @@ namespace Violet.Scenes
         }
 
         /// <summary>
-        /// Are we displaying a scene?
+        /// Are we not displaying a scene?
         /// </summary>
         public bool IsEmpty
         {
@@ -71,7 +71,7 @@ namespace Violet.Scenes
         }
 
         /// <summary>
-        /// Are we drawing the previous scene scenes at once?
+        /// Are we drawing two scenes at once?
         /// </summary>
         public bool CompositeMode
         {
@@ -180,8 +180,11 @@ namespace Violet.Scenes
 
         private void SetupTransition()
         {
+            // reset transition
             this.transition.Reset();
+            // set our state
             this.state = State.Transition;
+            // disable input
             InputManager.Instance.Enabled = false;
         }
 

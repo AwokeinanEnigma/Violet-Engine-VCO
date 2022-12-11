@@ -86,10 +86,8 @@ namespace VCO.GUI
                 }
                 this.animationDone = true;
                 this.progress = this.targetProgress;
-                if (this.OnAnimationComplete != null)
-                {
-                    this.OnAnimationComplete(this);
-                }
+
+                this.OnAnimationComplete?.Invoke(this);
             }
         }
 

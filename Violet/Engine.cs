@@ -61,7 +61,6 @@ namespace Violet
 
         /// <summary>
         /// Multiply this by the SCREEN_WIDTH and SCREEN_HEIGHT.
-        /// I.
         /// </summary>
         public static uint ScreenScale
         {
@@ -75,6 +74,7 @@ namespace Violet
                 switchScreenMode = true;
             }
         }
+
 
         /// <summary>
         /// Are we fullscreen?
@@ -92,6 +92,9 @@ namespace Violet
             }
         }
 
+        /// <summary>
+        /// How much FPS are we running at?
+        /// </summary>
         public static float FPS
         {
             get
@@ -100,6 +103,9 @@ namespace Violet
             }
         }
 
+        /// <summary>
+        /// Out of ten, what frame are we on?
+        /// </summary>
         public static long Frame
         {
             get
@@ -108,8 +114,14 @@ namespace Violet
             }
         }
 
+        /// <summary>
+        /// If nothing can be rendered, what color should be rendered in place? Think of out of bound maps.
+        /// </summary>
         public static SFML.Graphics.Color ClearColor { get; set; }
 
+        /// <summary>
+        /// In seconds, how long has the game been running for?
+        /// </summary>
         public static int SessionTime
         {
             get
@@ -120,20 +132,20 @@ namespace Violet
         #endregion
 
 
-        public const string CAPTION = "Voyage Carpe Omnia";
 
-        private const decimal REQUIRED_OGL_VERSION = 2.1m;
 
-        private static uint frameBufferScale = 2U;
+        private static uint frameBufferScale;
         private static RenderWindow window;
         private static RenderTexture frameBuffer;
         private static RenderStates frameBufferState;
-        private static VertexArray frameBufferVertArray;
+        private static VertexArray frameBufferVertArray;  
         private static Random rand;
         private static FontData defaultFont;
         private static Text debugText;
         private static bool quit;
 
+
+        #region Active game fields
         private static float fps;
         private static float fpsAverage;
         private static long frameIndex;
@@ -146,6 +158,7 @@ namespace Violet
         private static float screenAngle = 0f;
         public static bool debugDisplay;
         private static Stopwatch frameStopwatch;
+        #endregion
 
         #region Full screen
         // Are we fullscreen?
@@ -156,95 +169,244 @@ namespace Violet
         #endregion
 
         #region  Screen Info
-        // Width of the screen in pixels
-        public const uint SCREEN_WIDTH = 320U;
 
-        // Height of the screen in pixels
-        public const uint SCREEN_HEIGHT = 180U;
-        public const uint HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
-        public const uint HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
-        private const int CURSOR_TIMEOUT = 90;
-        private const int ICON_SIZE = 32;
-        private const int DOUBLE_CLICK_TIME = 20;
-        public static readonly Vector2f SCREEN_SIZE = new Vector2f(320f, 180f);
-        public static readonly Vector2f HALF_SCREEN_SIZE = SCREEN_SIZE / 2f;
+        /// <summary>
+        /// Width of the screen in pixels
+        /// </summary>
+        public static uint SCREEN_WIDTH { get { return screen_width; } }
 
-        public const int TARGET_FRAMERATE = 60;
+        /// <summary>
+        /// Height of the screen in pixels
+        /// </summary>        
+        public static uint SCREEN_HEIGHT { get { return screen_height; } }
+
+        public static Vector2f SCREEN_SIZE;
+
+        /// <summary>
+        /// This is the SCREEN_SIZE divided by two.
+        /// </summary>
+        public static Vector2f HALF_SCREEN_SIZE;
         #endregion
 
-        public const decimal REQUIRED_OPENGL_VERSION = 2.1m;
+        #region Game Data
+        /// <summary>
+        /// What version of OpenGL is required to run the game?
+        /// </summary>
+        private static uint required_opengl_version;
+
+        /// <summary>
+        /// Width of the screen in pixels
+        /// </summary>
+        private static uint screen_width;
+
+        /// <summary>
+        /// Height of the screen in pixels
+        /// </summary>        
+        private static uint screen_height;
+
+        /// <summary>
+        /// If an icon is set, what's the size of the icon?
+        /// </summary>
+        private static uint icon_size;
+
+        /// <summary>
+        /// Treat this as you
+        /// </summary>
+        private static uint target_framerate;
+
+        /// <summary>
+        /// Data to change specific aspects of the engine such as the resolution and target frame rate.
+        /// </summary>
+        public struct EngineInitializationData {
+            /// <summary>
+            /// Width of the screen in pixels
+            /// </summary>
+            public uint screen_width;
+
+            /// <summary>
+            /// Height of the screen in pixels
+            /// </summary>        
+            public uint screen_height;
+
+            /// <summary>
+            /// What's the size of the game's icon?
+            /// </summary>
+            public uint icon_size;
+
+            /// <summary>
+            /// What frame rate *should* the game be running at?
+            /// </summary>
+            public uint target_framerate;
+
+            /// <summary>
+            /// OpenGL version required to run the game. Usually is 2.1 unless you're doing something special.
+            /// </summary>
+            public uint required_opengl_version;
+
+            /// <summary>
+            /// When the game starts, should it start in full screen?
+            /// </summary>
+            public bool start_fullscreen;
+
+            /// <summary>
+            /// Should the game start in Vsync?
+            /// </summary>
+            public bool start_vsync;
+
+            /// <summary>
+            /// Base frame buffer scale
+            /// </summary>
+            public uint base_frame_buffer_scale;
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the current OpenGl version
         /// </summary>
         /// <returns>Returns the OpenGL version as a decimal</returns>
-        public static decimal OpenGLVersion()
+        public static uint OpenGLVersion()
         {
-            return 3;//decimal.Parse($"{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            // todo:
+            // this causes some weird pinvoke exception
+            // not sure why but ok?
+            // Debug.LogDebug($"Running OpenGL version major {window.Settings.MajorVersion} minor {window.Settings.MinorVersion}");
+            
+            return 3;//  decimal.Parse($"{}.{window.Settings.MinorVersion}");
         }
 
         /// <summary>
-        /// Initalizes the engine
+        /// Initalizes the engine using EngineInitializationData 
         /// </summary>
-        /// <param name="args">Parameters that the game was initialized with.</param>
-        public static void Initialize(string[] args)
+        /// <param name="data">Data the game needs to function, like screen width and height, maximum framerate, and other such things.</param>
+        public static void Initialize(EngineInitializationData data)
         {
-            // UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
+            void PullFromInitializationData() {
+                screen_width = data.screen_width;
+                screen_height = data.screen_height;
+                icon_size = data.icon_size;
+                target_framerate = data.target_framerate;
+                required_opengl_version = data.required_opengl_version;
+                frameBufferScale = data.base_frame_buffer_scale;
 
-            frameStopwatch = Stopwatch.StartNew();
-            startTicks = DateTime.Now.Ticks;
-
-            bool vsync = false;
-            bool goFullscreen = true;
-
-            void SetScreenMode()
-            {
-                for (int i = 0; i < args.Length; i++)
-                {
-                    string a;
-                    if ((a = args[i]) != null)
-                    {
-                        if (!(a == "-fullscreen"))
-                        {
-                            if (!(a == "-vsync"))
-                            {
-                                if (a == "-scale")
-                                {
-                                    if (uint.TryParse(args[++i], out uint screenScale))
-                                    {
-                                        ScreenScale = screenScale;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                vsync = true;
-                            }
-                        }
-                        else
-                        {
-                            goFullscreen = true;
-                        }
-                    }
-                }
+                SCREEN_SIZE = new Vector2f(screen_width, screen_height);
+                HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
             }
             void SetFrameBuffer()
             {
-                frameBuffer = new RenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
+                frameBuffer = new RenderTexture(screen_width, screen_height);
                 frameBufferState = new RenderStates(BlendMode.Alpha, Transform.Identity, frameBuffer.Texture, null);
                 frameBufferVertArray = new VertexArray(PrimitiveType.Quads, 4U);
             }
             void SetFrameBuffArray()
             {
 
-                frameBufferVertArray[0U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(0f, 0f));
-                frameBufferVertArray[1U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, -HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, 0f));
-                frameBufferVertArray[2U] = new Vertex(new Vector2f(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
-                frameBufferVertArray[3U] = new Vertex(new Vector2f(-HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT), new Vector2f(0f, SCREEN_HEIGHT));
+                frameBufferVertArray[0U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(0f, 0f));
+                frameBufferVertArray[1U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, 0f));
+                frameBufferVertArray[2U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, screen_height));
+                frameBufferVertArray[3U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(0f, screen_height));
             }
 
+            frameStopwatch = Stopwatch.StartNew();
+            startTicks = DateTime.Now.Ticks;
 
-            SetScreenMode();
+            PullFromInitializationData();
+            SetFrameBuffer();
+
+            // set these to the initialization data.
+            bool vsync = data.start_vsync;
+            bool goFullscreen = data.start_fullscreen;
+
+            SetWindow(goFullscreen, vsync);
+            InputManager.Instance.ButtonPressed += OnButtonPressed;
+
+            SetFrameBuffArray();
+
+            rand = new Random();
+            defaultFont = new FontData();
+            debugText = new Text(string.Empty, defaultFont.Font, defaultFont.Size);
+            debugText.FillColor = SFML.Graphics.Color.Blue;
+            //debugText.FillColor.
+            ClearColor = SFML.Graphics.Color.Black;
+
+
+            Debug.Initialize();
+
+            // for now, register empty
+            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+            DataHandler.Initialize();
+
+            Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
+
+            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+            decimal openGlV = OpenGLVersion();
+            if (openGlV < required_opengl_version)
+            {
+                string message = $"OpenGL version {required_opengl_version} or higher is required. This system has version {openGlV}.";
+                throw new InvalidOperationException(message);
+            }
+            //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
+            fpsString = new StringBuilder(32);
+            SetCursorTimer(90);
+            Running = true;
+        }
+
+        /// <summary>
+        /// Initalizes the engine, and loads the necessary EngineInitializationData from enginedata.ini
+        /// </summary>
+        public static void Initialize()
+        {
+            void SetFrameBuffer()
+            {
+                frameBuffer = new RenderTexture(screen_width, screen_height);
+                frameBufferState = new RenderStates(BlendMode.Alpha, Transform.Identity, frameBuffer.Texture, null);
+                frameBufferVertArray = new VertexArray(PrimitiveType.Quads, 4U);
+            }
+            void SetFrameBuffArray()
+            {
+
+                frameBufferVertArray[0U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(0f, 0f));
+                frameBufferVertArray[1U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, -HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, 0f));
+                frameBufferVertArray[2U] = new Vertex(new Vector2f(Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(screen_width, screen_height));
+                frameBufferVertArray[3U] = new Vertex(new Vector2f(-Engine.HALF_SCREEN_SIZE.X, HALF_SCREEN_SIZE.Y), new Vector2f(0f, screen_height));
+            }
+
+            frameStopwatch = Stopwatch.StartNew();
+            startTicks = DateTime.Now.Ticks;
+
+            Debug.Initialize();
+
+            Debug.LogEngine("Loading from enginedata.ini");
+
+
+            // create new inifile
+            IniFile ini = new IniFile();
+
+            //load enginedata.ini
+            ini.Load("Data" + Path.DirectorySeparatorChar + "enginedata.ini");
+
+            void PullFromEngineDataIniFile()
+            {
+                //set a buncha values
+                screen_width = ini["enginedata"]["screen_width"].ToUInt();
+                screen_height = ini["enginedata"]["screen_height"].ToUInt();
+                icon_size = ini["enginedata"]["icon_size"].ToUInt();
+                target_framerate = ini["enginedata"]["target_framerate"].ToUInt();
+                required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt();
+                frameBufferScale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt();
+
+                // i could just use a get set for these but i'm lazy.
+                SCREEN_SIZE = new Vector2f(screen_width, screen_height);
+                HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
+            }
+
+            PullFromEngineDataIniFile();
+
+            // before we set these fields using the args, set them to the initialization data.
+            bool vsync = ini["enginedata"]["start_vsync"].ToBool();
+            bool goFullscreen = ini["enginedata"]["start_fullscreen"].ToBool();
+
             SetFrameBuffer();
 
             SetWindow(goFullscreen, vsync);
@@ -258,18 +420,18 @@ namespace Violet
             debugText.FillColor = SFML.Graphics.Color.Blue;
             ClearColor = SFML.Graphics.Color.Black;
 
-            Debug.Initialize();
-
             // for now, register empty
-            LuaManager.Initialize(Paths.DATA_LUA);
-            Script.DefaultOptions.DebugPrint = s => Debug.LogL(s);
+            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+            DataHandler.Initialize();
+
+            Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
 
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();
-            if (openGlV < REQUIRED_OPENGL_VERSION)
+            if (openGlV < required_opengl_version)
             {
-                string message = $"OpenGL version {REQUIRED_OPENGL_VERSION} or higher is required. This system has version {openGlV}.";
+                string message = $"OpenGL version {required_opengl_version} or higher is required. This system has version {openGlV}.";
                 throw new InvalidOperationException(message);
             }
             //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
@@ -311,21 +473,21 @@ namespace Violet
                 style = Styles.Fullscreen;
                 desktopMode = VideoMode.DesktopMode;
 
-                float fullScreenMin = Math.Min(desktopMode.Width / SCREEN_WIDTH, desktopMode.Height / SCREEN_HEIGHT);
-                float num4 = (desktopMode.Width - SCREEN_WIDTH * fullScreenMin) / 2f;
-                float num5 = (desktopMode.Height - SCREEN_HEIGHT * fullScreenMin) / 2f;
+                float fullScreenMin = Math.Min(desktopMode.Width / screen_width, desktopMode.Height / screen_height);
+                float num4 = (desktopMode.Width - screen_width * fullScreenMin) / 2f;
+                float num5 = (desktopMode.Height - screen_height * fullScreenMin) / 2f;
 
-                int width = (int)(HALF_SCREEN_WIDTH * fullScreenMin);
-                int height = (int)(HALF_SCREEN_HEIGHT * fullScreenMin);
+                int width = (int)(HALF_SCREEN_SIZE.X * fullScreenMin);
+                int height = (int)(HALF_SCREEN_SIZE.Y * fullScreenMin);
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
             }
             else
             {
 
-                int halfWidthScale = (int)(HALF_SCREEN_WIDTH * ScreenScale);
-                int halfHeightScale = (int)(HALF_SCREEN_HEIGHT * ScreenScale);
+                int halfWidthScale = (int)(HALF_SCREEN_SIZE.X * ScreenScale);
+                int halfHeightScale = (int)(HALF_SCREEN_SIZE.Y * ScreenScale);
                 style = Styles.Close;
-                desktopMode = new VideoMode(SCREEN_WIDTH * frameBufferScale, SCREEN_HEIGHT * frameBufferScale);
+                desktopMode = new VideoMode(screen_width * frameBufferScale, screen_height * frameBufferScale);
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);
             }
 
@@ -339,13 +501,12 @@ namespace Violet
 
             if (vsync || goFullscreen)
             {
-                window.SetFramerateLimit(TARGET_FRAMERATE);
-
-                //window.SetVerticalSyncEnabled(true);
+                //window.SetFramerateLimit(target_framerate);
+                window.SetVerticalSyncEnabled(true);
             }
             else
             {
-                window.SetFramerateLimit(TARGET_FRAMERATE);
+                window.SetFramerateLimit(target_framerate);
 
             }
 
@@ -375,6 +536,7 @@ namespace Violet
         {
             if (!showCursor)
             {
+                
                 showCursor = true;
                 window.SetMouseCursorVisible(showCursor);
             }
@@ -392,7 +554,7 @@ namespace Violet
             SFML.Graphics.Image image3 = frameBuffer.Texture.CopyToImage();
             string text = string.Format("screenshot{0}.png", Directory.GetFiles("./", "screenshot*.png").Length);
             image3.SaveToFile(text);
-            Debug.LogI("Screenshot saved as \"{0}\"", text);
+            Debug.LogInfo("Screenshot saved as \"{0}\"", text);
         }
 
         public static unsafe void TakeScreenshot()
@@ -413,7 +575,7 @@ namespace Violet
                 Bitmap image2 = new Bitmap((int)image.Size.X, (int)image.Size.Y, (int)(4U * image.Size.X), PixelFormat.Format32bppArgb, scan);
                 System.Windows.Forms.Clipboard.SetImage(image2);
             }
-            Debug.LogI("Screenshot copied to clipboard");
+            Debug.LogInfo("Screenshot copied to clipboard");
         }
 
         public static void OnButtonPressed(InputManager sender, Button b)
@@ -430,6 +592,7 @@ namespace Violet
                     isFullscreen = !isFullscreen;
                     return;
                 case Button.Tilde:
+                    Debug.Log("Hey!");
                     debugDisplay = !debugDisplay;
                     return;
                 case Button.F1:
@@ -444,7 +607,7 @@ namespace Violet
                     return;
                 case Button.F5:
                     frameBufferScale = frameBufferScale % 5U + 1U;
-                    Debug.LogI($"frame buffer scale is {frameBufferScale}");
+                    Debug.LogInfo($"frame buffer scale is {frameBufferScale}");
                     switchScreenMode = true;
                     return;
                 case Button.F8:
@@ -479,6 +642,7 @@ namespace Violet
             ViewManager.Instance.UseView();
         }
 
+
         public static void Update()
         {
             frameStopwatch.Restart();
@@ -493,6 +657,8 @@ namespace Violet
                 window.SetMouseCursorVisible(showCursor);
                 cursorTimer = long.MaxValue;
             }
+
+            
 
             // This is wrapped in a try catch statement to detect errors and such.
             try
@@ -525,7 +691,17 @@ namespace Violet
                 SceneManager.Instance.Transition = new InstantTransition();
                 SceneManager.Instance.Push(new ErrorScene(ex));
             }
+          
             ViewManager.Instance.UseDefault();
+
+
+        }
+
+        public static void Render() {
+
+
+
+
             if (debugDisplay)
             {
                 if (frameIndex % 10L == 0L)
@@ -541,15 +717,20 @@ namespace Violet
                 }
                 frameBuffer.Draw(debugText);
             }
+
             frameBuffer.Display();
             window.Clear(SFML.Graphics.Color.Black);
             window.Draw(frameBufferVertArray, frameBufferState);
             window.Display();
+
+
+
             Running = (!SceneManager.Instance.IsEmpty && !quit);
             frameStopwatch.Stop();
             fps = 1f / frameStopwatch.ElapsedTicks * Stopwatch.Frequency;
             fpsAverage = (fpsAverage + fps) / 2f;
             frameIndex += 1L;
+
         }
         public static double megabytesUsed;
         public static void SetWindowIcon(string file)
@@ -557,7 +738,7 @@ namespace Violet
             if (File.Exists(file))
             {
                 iconFile = new IconFile(file);
-                window.SetIcon(32U, 32U, iconFile.GetBytesForSize(32));
+                window.SetIcon(icon_size, icon_size, iconFile.GetBytesForSize(32));
             }
         }
     }

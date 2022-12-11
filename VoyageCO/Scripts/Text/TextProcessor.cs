@@ -37,78 +37,97 @@ namespace VCO.Scripts.Text
             List<string> stringList = new List<string>();
             Dictionary<int, bool> dictionary = new Dictionary<int, bool>();
             List<ITextCommand> commands = new List<ITextCommand>();
+
             StringBuilder stringBuilder = new StringBuilder(text ?? "").Replace("\r", "");
             MatchCollection matchCollection = Regex.Matches(stringBuilder.ToString(), "\\[([a-zA-Z][a-zA-Z0-9]*):?(\\b[^\\]]*)\\](.*?)\\[\\/\\1\\]");
-            int num1 = 0;
+ 
+            int matchIndex = 0;
+
             foreach (Match match in matchCollection)
             {
-                string str1 = match.Groups[1].Value;
-                string str2 = match.Groups[2].Value;
-                string str3 = match.Groups[3].Value;
+                string preMatch = match.Groups[1].Value;
+                string midMatch = match.Groups[2].Value;
+                string postMatch = match.Groups[3].Value;
+                
                 stringBuilder = stringBuilder.Remove(match.Index, match.Length);
-                stringBuilder = stringBuilder.Insert(match.Index, str3);
+                stringBuilder = stringBuilder.Insert(match.Index, postMatch);
             }
             foreach (Match match in Regex.Matches(stringBuilder.ToString(), "\\[([a-zA-Z][a-zA-Z0-9]*):?(\\b[^\\]]*)\\]"))
             {
-                string str = match.Groups[1].Value;
-                string s = match.Groups[2].Value;
-                string[] sourceArray = s.Split(',');
-                for (int index = 0; index < sourceArray.Length; ++index)
+                string firstMatch = match.Groups[1].Value;
+                string secondMatch = match.Groups[2].Value;
+                
+                string[] sourceArray = secondMatch.Split(',');
+                
+                for (int index = 0; index < sourceArray.Length; ++index) { 
                     sourceArray[index] = sourceArray[index].Trim();
-                int num2 = match.Index - num1;
-                TextProcessor.OffsetCommandPositions(commands, num2, match.Length);
-                stringBuilder = stringBuilder.Remove(num2, match.Length);
-                num1 += match.Length;
-                switch (str)
+                }
+
+                int beforeMatchIndex = match.Index - matchIndex;
+                
+                TextProcessor.OffsetCommandPositions(commands, beforeMatchIndex, match.Length);
+                stringBuilder = stringBuilder.Remove(beforeMatchIndex, match.Length);
+
+                matchIndex += match.Length;
+                
+                switch (firstMatch)
                 {
+                    // pause 
                     case "p":
-                        int result1;
-                        int.TryParse(s, out result1);
-                        commands.Add(new TextPause(num2, result1));
+                        int pauseCommandDuration;
+                        int.TryParse(secondMatch, out pauseCommandDuration);
+                        commands.Add(new TextPause(beforeMatchIndex, pauseCommandDuration));
                         continue;
+
+                    // character name
                     case "cn":
                         CharacterType result2;
-                        Enum.TryParse<CharacterType>(s, out result2);
+                        Enum.TryParse<CharacterType>(secondMatch, out result2);
                         string name1 = CharacterNames.GetName(result2);
-                        stringBuilder = stringBuilder.Insert(num2, name1);
-                        num1 -= name1.Length;
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, name1);
+                        matchIndex -= name1.Length;
                         continue;
+
+                    // text trigger
                     case "t":
-                        int result3;
-                        int.TryParse(sourceArray[0], out result3);
+                        int triggerResult;
+                        int.TryParse(sourceArray[0], out triggerResult);
                         string[] strArray = new string[sourceArray.Length - 1];
                         Array.Copy(sourceArray, 1, strArray, 0, strArray.Length);
-                        commands.Add(new TextTrigger(num2, result3, strArray));
+                        commands.Add(new TextTrigger(beforeMatchIndex, triggerResult, strArray));
                         continue;
+
+                    // oddity character names
+                    // todo: remove later
                     case "travis":
-                        string name2 = CharacterNames.GetName(CharacterType.Travis);
-                        stringBuilder = stringBuilder.Insert(num2, name2);
-                        num1 -= name2.Length;
+                        string travis = CharacterNames.GetName(CharacterType.Travis);
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, travis);
+                        matchIndex -= travis.Length;
                         continue;
                     case "floyd":
-                        string name3 = CharacterNames.GetName(CharacterType.Floyd);
-                        stringBuilder = stringBuilder.Insert(num2, name3);
-                        num1 -= name3.Length;
+                        string floyd = CharacterNames.GetName(CharacterType.Floyd);
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, floyd);
+                        matchIndex -= floyd.Length;
                         continue;
                     case "meryl":
-                        string name4 = CharacterNames.GetName(CharacterType.Meryl);
-                        stringBuilder = stringBuilder.Insert(num2, name4);
-                        num1 -= name4.Length;
+                        string meryl = CharacterNames.GetName(CharacterType.Meryl);
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, meryl);
+                        matchIndex -= meryl.Length;
                         continue;
                     case "leo":
                         string name5 = CharacterNames.GetName(CharacterType.Leo);
-                        stringBuilder = stringBuilder.Insert(num2, name5);
-                        num1 -= name5.Length;
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, name5);
+                        matchIndex -= name5.Length;
                         continue;
                     case "zack":
                         string name6 = CharacterNames.GetName(CharacterType.Zack);
-                        stringBuilder = stringBuilder.Insert(num2, name6);
-                        num1 -= name6.Length;
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, name6);
+                        matchIndex -= name6.Length;
                         continue;
                     case "renee":
                         string name7 = CharacterNames.GetName(CharacterType.Renee);
-                        stringBuilder = stringBuilder.Insert(num2, name7);
-                        num1 -= name7.Length;
+                        stringBuilder = stringBuilder.Insert(beforeMatchIndex, name7);
+                        matchIndex -= name7.Length;
                         continue;
                     default:
                         continue;

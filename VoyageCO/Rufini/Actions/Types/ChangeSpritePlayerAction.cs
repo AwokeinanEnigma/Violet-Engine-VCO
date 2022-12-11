@@ -31,7 +31,7 @@ namespace Rufini.Actions.Types
             string value2 = base.GetValue<string>("sub");
             if (context.Player != null && value.Length > 0)
             {
-                string text = Paths.GRAPHICS + value + ".dat";
+                string text = DataHandler.instance.Load(value + ".dat");
                 if (File.Exists(text))
                 {
                     context.Player.ChangeSprite(text, value2);

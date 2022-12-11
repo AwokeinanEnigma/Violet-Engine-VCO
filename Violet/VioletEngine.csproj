@@ -46,7 +46,7 @@
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\AudioMode.cs" />
     <Compile Include="Audio\AudioType.cs" />
-    <Compile Include="Audio\CarbineSound.cs" />
+    <Compile Include="Audio\VioletSound.cs" />
     <Compile Include="Audio\fmod\FmodAudioLoader.cs" />
     <Compile Include="Audio\fmod\FmodAudioManager.cs" />
     <Compile Include="Audio\fmod\FmodException.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Flags\FlagManager.cs" />
     <Compile Include="Flags\ValueManager.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Graphics\AnimatedRenderable.cs" />
     <Compile Include="Graphics\ColorBlendMode.cs" />
     <Compile Include="Graphics\FullColorTexture.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Scenes\Transitions\ITransition.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileGroup.cs" />
+    <Compile Include="Utility\Data.cs" />
+    <Compile Include="Utility\IniParser.cs" />
     <Compile Include="Utility\Paths.cs" />
     <Compile Include="Utility\Debug.cs" />
     <Compile Include="Utility\ColorHelper.cs" />

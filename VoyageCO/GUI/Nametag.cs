@@ -24,12 +24,12 @@ namespace VCO.GUI
             this.position = position;
             this.depth = depth;
             this.nameText = new TextRegion(this.position + Nametag.TEXT_POSITION, this.depth + 1, Fonts.Main, nameString);
-            this.left = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "left", this.position, this.depth);
-            this.center = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "center", this.left.Position + new Vector2f(this.left.Size.X, 0f), this.depth)
+            this.left = new IndexedColorGraphic(DataHandler.instance.Load("nametag.dat"), "left", this.position, this.depth);
+            this.center = new IndexedColorGraphic(DataHandler.instance.Load("nametag.dat"), "center", this.left.Position + new Vector2f(this.left.Size.X, 0f), this.depth)
             {
                 Scale = new Vector2f(this.nameText.Size.X + 2f, 1f)
             };
-            this.right = new IndexedColorGraphic(Nametag.RESOURCE_NAME, "right", this.center.Position + new Vector2f(this.nameText.Size.X + 2f, 0f), this.depth);
+            this.right = new IndexedColorGraphic(DataHandler.instance.Load("nametag.dat"), "right", this.center.Position + new Vector2f(this.nameText.Size.X + 2f, 0f), this.depth);
             this.nameText.Color = Color.Black;
             this.CalculateSize();
         }
@@ -83,8 +83,6 @@ namespace VCO.GUI
         private const string RIGHT_SPRITE_NAME = "right";
 
         private const int MARGIN = 2;
-
-        private static readonly string RESOURCE_NAME = Paths.GRAPHICS + "nametag.dat";
 
         private static readonly Vector2f TEXT_POSITION = new Vector2f(5f, 1f);
 

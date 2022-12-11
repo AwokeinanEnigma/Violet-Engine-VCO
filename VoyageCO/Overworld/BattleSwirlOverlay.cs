@@ -17,14 +17,14 @@ namespace VCO.Overworld
             this.depth = depth;
             string file = BattleSwirlOverlay.RESOURCES[style];
             this.textures = TextureManager.Instance.UseMultipart(file);
-            this.gradMap = TextureManager.Instance.UseUnprocessed(Paths.BATTLE_SWIRL + "gradmap.png");
+            this.gradMap = TextureManager.Instance.UseUnprocessed(DataHandler.instance.Load("gradmap.png"));
             Random random = new Random(5551247);
 
             int widthRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
             int heightRandom = (Engine.Random.Next(100) >= 50) ? -1 : 1;
 
-            int width = widthRandom * (int)Engine.HALF_SCREEN_WIDTH;
-            int height = heightRandom * (int)Engine.HALF_SCREEN_HEIGHT;
+            int width = widthRandom * (int)Engine.HALF_SCREEN_SIZE.X;
+            int height = heightRandom * (int)Engine.HALF_SCREEN_SIZE.Y;
 
             this.layers = new VertexArray[this.textures.Length - 1];
             this.delta = new float[this.layers.Length];
@@ -131,19 +131,19 @@ namespace VCO.Overworld
         {
             {
                 BattleSwirlOverlay.Style.Blue,
-                Paths.BATTLE_SWIRL + "green.sdat"
+              DataHandler.instance.Load( "green.sdat")
             },
             {
                 BattleSwirlOverlay.Style.Green,
-                Paths.BATTLE_SWIRL + "green.sdat"
+              DataHandler.instance.Load( "green.sdat")
             },
             {
                 BattleSwirlOverlay.Style.Red,
-                Paths.BATTLE_SWIRL + "green.sdat"
+                DataHandler.instance.Load("green.sdat")
             },
             {
                 BattleSwirlOverlay.Style.Boss,
-                Paths.BATTLE_SWIRL + "boss.sdat"
+              DataHandler.instance.Load( "boss.sdat")
             }
         };
 

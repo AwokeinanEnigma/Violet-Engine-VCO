@@ -42,23 +42,25 @@ namespace VCO.GUI
             this.pipeline.Add(this.bottomLetterbox);
             this.typewriterBox = new TypewriterBox(pipeline, new Vector2f(vector2f.X + TextBox.TEXT_POSITION.X, vector2f.Y + TextBox.TEXT_POSITION.Y), TextBox.TEXT_SIZE, 2147450880, Button.A, true, new TextBlock(new List<TextLine>()));
             this.window = new WindowBox(FlagManager.Instance[4] ? new WindowStyle("Data/Graphics/window3.dat", true) : Settings.WindowStyle,
-                Settings.WindowFlavor,
+                Settings.WindowFlavor, // palatte
+                // position
                 new Vector2f(vector2f.X + TextBox.BOX_POSITION.X,
                     vector2f.Y + TextBox.BOX_POSITION.Y),
+                // size
                 TextBox.BOX_SIZE,
                 2147450879)
             {
                 Visible = false
             };
             this.pipeline.Add(this.window);
-            this.advanceArrow = new IndexedColorGraphic(Paths.GRAPHICS + "realcursor.dat", "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
+            this.advanceArrow = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "down", new Vector2f(vector2f.X + TextBox.BUTTON_POSITION.X, vector2f.Y + TextBox.BUTTON_POSITION.Y), 2147450880)
             {
                 Visible = false
             };
             this.pipeline.Add(this.advanceArrow);
-            this.nametag = new Nametag(string.Empty, new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
+            this.nametag = new Nametag("Corpse", new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
             {
-                Visible = false
+                Visible = false,
             };
             this.pipeline.Add(this.nametag);
             this.visible = false;
@@ -146,6 +148,7 @@ namespace VCO.GUI
             this.typewriterDone = false;
             if (namestring != null && namestring.Length > 0)
             {
+
                 this.nametag.Name = namestring;
                 this.nametagVisible = true;
             }
@@ -298,9 +301,9 @@ namespace VCO.GUI
 
         public const int DEPTH = 2147450880;
 
-        protected static Vector2f BOX_POSITION = new Vector2f(16f, 120f);
+        protected static Vector2f BOX_POSITION = new Vector2f(0f, 120f);
 
-        protected static Vector2f BOX_SIZE = new Vector2f(231f, 56f);
+        protected static Vector2f BOX_SIZE = new Vector2f(320, 56f);
 
         protected static Vector2f TEXT_POSITION = new Vector2f(TextBox.BOX_POSITION.X + 10f, TextBox.BOX_POSITION.Y + 8f);
 

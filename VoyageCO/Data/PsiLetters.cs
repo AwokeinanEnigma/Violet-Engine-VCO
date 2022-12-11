@@ -9,13 +9,6 @@ namespace VCO.Data
             AUXLetters.letters.TryGetValue(level, out char result);
             return result;
         }
-        /*	private static readonly string[] AUX_LEVEL_STRINGS = new string[]
-{
-"α",
-"β",
-"γ",
-"Ω"
-};*/
         private static readonly Dictionary<int, char> letters = new Dictionary<int, char>
         {
             {

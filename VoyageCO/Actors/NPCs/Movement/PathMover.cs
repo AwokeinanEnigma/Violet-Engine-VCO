@@ -73,10 +73,7 @@ namespace VCO.Actors.NPCs.Movement
                     else
                     {
                         this.incr = -this.incr;
-                        if (this.OnPathComplete != null)
-                        {
-                            this.OnPathComplete();
-                        }
+                        this.OnPathComplete?.Invoke();
                     }
                 }
                 this.nodeIndex += this.incr;

@@ -9,7 +9,7 @@ namespace VCO.Scripts
     {
         public static RufiniScript? Load(string name)
         {
-            NbtFile nbtFile = new NbtFile(ScriptLoader.SCRIPT_FILE);
+            NbtFile nbtFile = new NbtFile(DataHandler.instance.Load("script.dat"));
             NbtCompound rootTag = nbtFile.RootTag;
             NbtTag nbtTag = rootTag.Get<NbtTag>(name);
             ICollection<NbtTag> collection = null;
@@ -43,7 +43,5 @@ namespace VCO.Scripts
             }
             return result;
         }
-
-        private static readonly string SCRIPT_FILE = Paths.DATA + "script.dat";
     }
 }

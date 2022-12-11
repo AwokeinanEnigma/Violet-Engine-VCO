@@ -27,6 +27,9 @@ namespace VCO.GUI
             {
                 FillColor = Color.Transparent
             };
+
+
+
             this.background = new ShapeGraphic(this.backgroundShape, ViewManager.Instance.View.Center, Engine.HALF_SCREEN_SIZE, Engine.SCREEN_SIZE, 2147467264);
             this.pipeline.Add(this.background);
             this.font = font;

@@ -103,7 +103,7 @@ namespace VCO.Battle
             for (int j = 0; j < array.Length; j++)
             {
                 Graphic cardGraphic = this.cardBar.GetCardGraphic(j);
-                Graphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(cardGraphic.Position - cardGraphic.Origin + new Vector2f(cardGraphic.Size.X / 2f, 4f)), cardGraphic.Depth + 10)
+                Graphic graphic = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "down", VectorMath.Truncate(cardGraphic.Position - cardGraphic.Origin + new Vector2f(cardGraphic.Size.X / 2f, 4f)), cardGraphic.Depth + 10)
                 {
                     Visible = false
                 };
@@ -131,7 +131,7 @@ namespace VCO.Battle
                         {
                             EnemyCombatant enemyCombatant = (EnemyCombatant)combatant;
                             enemyCombatant.OnStatusEffectChange += this.OnEnemyStatusEffectChange;
-                            IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0)
+                            IndexedColorGraphic indexedColorGraphic = new IndexedColorGraphic(DataHandler.instance.Load($"{enemyCombatant.Enemy.SpriteName}.dat"), "front", default(Vector2f), 0)
                             {
                                 CurrentPalette = uint.MaxValue
                             };
@@ -139,7 +139,7 @@ namespace VCO.Battle
                             this.enemyGraphics.Add(enemyCombatant.ID, indexedColorGraphic);
                             pipeline.Add(indexedColorGraphic);
                             this.enemyIDs.Add(enemyCombatant.ID);
-                            Graphic graphic2 = new IndexedColorGraphic(Paths.GRAPHICS + "cursor.dat", "down", VectorMath.Truncate(indexedColorGraphic.Position - indexedColorGraphic.Origin + new Vector2f(indexedColorGraphic.Size.X / 2f, 4f)), indexedColorGraphic.Depth + 10)
+                            Graphic graphic2 = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "down", VectorMath.Truncate(indexedColorGraphic.Position - indexedColorGraphic.Origin + new Vector2f(indexedColorGraphic.Size.X / 2f, 4f)), indexedColorGraphic.Depth + 10)
                             {
                                 Visible = false
                             };
@@ -160,22 +160,25 @@ namespace VCO.Battle
             this.selectedTargetId = -1;
             this.comboCircle = new ComboAnimator(pipeline, 0);
 
-            this.moveBeepX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-            this.moveBeepY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-            this.selectBeep = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-            this.cancelBeep = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+            this.moveBeepX = AudioManager.Instance.Use(DataHandler.instance.Load("cursorx.wav"), AudioType.Sound);
+            this.moveBeepY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+            this.selectBeep = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
+            this.cancelBeep = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
 
-            this.prePlayerAttack = AudioManager.Instance.Use(Paths.SFX_BATTLE + "prePlayerAttack.wav", AudioType.Sound);
-            this.preEnemyAttack = AudioManager.Instance.Use(Paths.SFX_BATTLE + "preEnemyAttack.wav", AudioType.Sound);
+            this.prePlayerAttack = AudioManager.Instance.Use(DataHandler.instance.Load("prePlayerAttack.wav"), AudioType.Sound);
+            this.preEnemyAttack = AudioManager.Instance.Use(DataHandler.instance.Load("preEnemyAttack.wav"), AudioType.Sound);
+            Console.WriteLine("combo2");
 
-            this.preAUXSound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "prePSI.wav", AudioType.Sound);
+           // this.preAUXSound = AudioManager.Instance.Use(DataHandler.instance.Load("prePSI.wav"), AudioType.Sound);
+            Console.WriteLine("combo1");
 
-            this.talkSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "floydTalk.wav", AudioType.Sound);
-            this.enemyDeathSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "enemyDeath.wav", AudioType.Sound);
-            this.smashSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "smaaash.wav", AudioType.Sound);
-            this.comboHitA = AudioManager.Instance.Use(Paths.SFX_BATTLE + "hitA.wav", AudioType.Sound);
-            this.comboHitB = AudioManager.Instance.Use(Paths.SFX_BATTLE + "hitB.wav", AudioType.Sound);
-            this.comboSuccess = AudioManager.Instance.Use(Paths.SFX_BATTLE + "Combo16.wav", AudioType.Sound);
+            Console.WriteLine("combo3");
+            this.talkSound = AudioManager.Instance.Use(DataHandler.instance.Load("floydTalk.wav"), AudioType.Sound);
+            this.enemyDeathSound = AudioManager.Instance.Use(DataHandler.instance.Load("enemyDeath.wav"), AudioType.Sound);
+            this.smashSound = AudioManager.Instance.Use(DataHandler.instance.Load("smaaash.wav"), AudioType.Sound);
+            this.comboHitA = AudioManager.Instance.Use(DataHandler.instance.Load("hitA.wav"), AudioType.Sound);
+            this.comboHitB = AudioManager.Instance.Use(DataHandler.instance.Load("hitB.wav"), AudioType.Sound);
+            this.comboSuccess = AudioManager.Instance.Use(DataHandler.instance.Load("Combo16.wav"), AudioType.Sound);
             Console.WriteLine("combo");
 
             this.comboSoundMap = new Dictionary<CharacterType, List<VioletSound>>();
@@ -194,20 +197,20 @@ namespace VCO.Battle
                 for (int l = 0; l < 3; l++)
                 {
                     string str = CharacterComboSounds.Get(array[k], 0, l, 120);
-                    VioletSound item = AudioManager.Instance.Use(Paths.SFX_BATTLE_COMBO + str, AudioType.Sound);
+                    VioletSound item = AudioManager.Instance.Use(DataHandler.instance.Load(str), AudioType.Sound);
                     list.Add(item);
                 }
             }
             this.winSounds = new Dictionary<int, VioletSound>
             {
-                { 0, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win1.wav", AudioType.Stream) },
-                { 1, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win2.wav", AudioType.Stream) },
-                { 2, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win3.wav", AudioType.Stream) },
-                { 3, AudioManager.Instance.Use(Paths.SFX_BATTLE + "win4.wav", AudioType.Stream) }
+                { 0, AudioManager.Instance.Use(DataHandler.instance.Load("win1.wav"), AudioType.Stream) },
+                { 1, AudioManager.Instance.Use(DataHandler.instance.Load("win2.wav"), AudioType.Stream) },
+                { 2, AudioManager.Instance.Use(DataHandler.instance.Load("win3.wav"), AudioType.Stream) },
+                { 3, AudioManager.Instance.Use(DataHandler.instance.Load("win4.wav"), AudioType.Stream) }
             };
 
-            this.groovySound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "Groovy.wav", AudioType.Sound);
-            this.reflectSound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "homerun.wav", AudioType.Sound);
+            this.groovySound = AudioManager.Instance.Use(DataHandler.instance.Load("Groovy.wav"), AudioType.Sound);
+            this.reflectSound = AudioManager.Instance.Use(DataHandler.instance.Load("homerun.wav"), AudioType.Sound);
             this.jingler = new LevelUpJingler(array, true);
             this.graphicModifiers = new List<IGraphicModifier>();
             this.damageNumbers = new List<DamageNumber>();
@@ -1277,8 +1280,6 @@ namespace VCO.Battle
                 this.OnInteractionComplete(this.selectionState);
             }
         }
-
-        // Token: 0x0600046B RID: 1131 RVA: 0x0001D458 File Offset: 0x0001B658
         private void CompleteMenuRun()
         {
             if (this.OnInteractionComplete != null)
@@ -1398,7 +1399,7 @@ namespace VCO.Battle
         {
             EnemyCombatant enemyCombatant = (EnemyCombatant)this.combatantController[id];
             this.enemyIDs.Add(id);
-            new IndexedColorGraphic(Paths.GRAPHICS_ENEMIES + $"{enemyCombatant.Enemy.SpriteName}.dat", "front", default(Vector2f), 0);
+            new IndexedColorGraphic(DataHandler.instance.Load($"{enemyCombatant.Enemy.SpriteName}.dat"), "front", default(Vector2f), 0);
             this.AlignEnemyGraphics();
         }
 
@@ -1435,13 +1436,6 @@ namespace VCO.Battle
 
             // incredibly roundabout way of doing this, instead of just stopping the HP from going below 0 in the statset struct
             // also doesn't work! it causes immortality!
-            /*if (playerCombatant.Stats.HP < 0) {
-				StatSet newstat = playerCombatant.Stats;
-				newstat.HP = 0;
-				playerCombatant.SetStats(newstat);
-				
-			
-			}*/
 
             if (playerCombatant.Stats.HP <= 0)
             {
@@ -1591,207 +1585,75 @@ namespace VCO.Battle
         }
 
         private const int TOP_LETTERBOX_HEIGHT = 14;
-
-        // Token: 0x04000622 RID: 1570
         private const int BOTTOM_LETTERBOX_HEIGHT = 35;
-
-        // Token: 0x04000623 RID: 1571
         private const float LETTERBOX_SPEED_FACTOR = 10f;
-
-        // Token: 0x04000624 RID: 1572
         private const int ENEMY_SPACING = 10;
-
-        // Token: 0x04000625 RID: 1573
         private const int ENEMY_DEPTH = 0;
-
-        // Token: 0x04000626 RID: 1574
         private const int ENEMY_TRANSLATE_FRAMES = 10;
-
-        // Token: 0x04000627 RID: 1575
         private const int ENEMY_DEATH_FRAMES = 40;
-
-        // Token: 0x04000628 RID: 1576
         public const int ENEMY_MIDLINE = 78;
-
-        // Token: 0x04000629 RID: 1577
         public const int ENEMY_OFFSET = 12;
-
-        // Token: 0x0400062A RID: 1578
         private bool disposed;
-
-        // Token: 0x0400062B RID: 1579
         public RenderPipeline pipeline;
-
-
-        // Token: 0x0400062C RID: 1580
         private readonly ActorManager actorManager;
-
-        // Token: 0x0400062D RID: 1581
         private readonly CombatantController combatantController;
-
-        // Token: 0x0400062E RID: 1582
         private readonly Shape topLetterbox;
-
-        // Token: 0x0400062F RID: 1583
         private readonly Shape bottomLetterbox;
-
-        // Token: 0x04000630 RID: 1584
         private float topLetterboxY;
-
-        // Token: 0x04000631 RID: 1585
         private float bottomLetterboxY;
-
-        // Token: 0x04000632 RID: 1586
         private float topLetterboxTargetY;
-
-        // Token: 0x04000633 RID: 1587
         private float bottomLetterboxTargetY;
-
-        // Token: 0x04000634 RID: 1588
         private readonly ButtonBar buttonBar;
-
-        // Token: 0x04000635 RID: 1589
         private readonly SectionedAUXBox AUXMenu;
-
-        // Token: 0x04000636 RID: 1590
         private readonly CardBar cardBar;
-
-        // Token: 0x04000637 RID: 1591
         private readonly Dictionary<int, IndexedColorGraphic> enemyGraphics;
-
-        // Token: 0x04000638 RID: 1592
         private readonly BattleTextbox textbox;
-
-        // Token: 0x04000639 RID: 1593
         private readonly ScreenDimmer dimmer;
-
-        // Token: 0x0400063A RID: 1594
         private readonly ComboAnimator comboCircle;
-
-        // Token: 0x0400063B RID: 1595
         private int selectedTargetId;
-
-        // Token: 0x0400063C RID: 1596
         private int enemySelectIndex;
-
-        // Token: 0x0400063D RID: 1597
         private int partySelectIndex;
-
-        // Token: 0x0400063E RID: 1598
         private readonly List<int> enemyIDs;
-
-        // Token: 0x0400063F RID: 1599
         private readonly List<int> partyIDs;
-
-        // Token: 0x04000640 RID: 1600
         public List<IGraphicModifier> graphicModifiers;
-
-
-
-        // Token: 0x04000641 RID: 1601
         private readonly List<AUXAnimator> AUXAnimators;
-
-        // Token: 0x04000642 RID: 1602
         private BattleInterfaceController.State state;
-
-        // Token: 0x04000643 RID: 1603
         private SelectionState selectionState;
-
-        // Token: 0x04000644 RID: 1604
         private Groovy groovy;
-
-        // Token: 0x04000645 RID: 1605
         private readonly VioletSound moveBeepX;
-
-        // Token: 0x04000646 RID: 1606
         private readonly VioletSound moveBeepY;
-
-        // Token: 0x04000647 RID: 1607
         private readonly VioletSound selectBeep;
-
-        // Token: 0x04000648 RID: 1608
         private readonly VioletSound cancelBeep;
-
-        // Token: 0x04000649 RID: 1609
         private readonly VioletSound prePlayerAttack;
-
-        // Token: 0x0400064A RID: 1610
         private readonly VioletSound preEnemyAttack;
-
-        // Token: 0x0400064B RID: 1611
         private readonly VioletSound preAUXSound;
-
-        // Token: 0x0400064C RID: 1612
         private readonly VioletSound talkSound;
-
-        // Token: 0x0400064D RID: 1613
         private readonly VioletSound enemyDeathSound;
-
-        // Token: 0x0400064E RID: 1614
         private readonly VioletSound smashSound;
-
-        // Token: 0x0400064F RID: 1615
         private readonly Dictionary<CharacterType, List<VioletSound>> comboSoundMap;
-
-        // Token: 0x04000650 RID: 1616
         private readonly VioletSound comboHitA;
-
-        // Token: 0x04000651 RID: 1617
         private readonly VioletSound comboHitB;
-
-        // Token: 0x04000652 RID: 1618
         private VioletSound hitSound;
-
-        // Token: 0x04000653 RID: 1619
         private readonly VioletSound comboSuccess;
-
-        // Token: 0x04000654 RID: 1620
         private readonly VioletSound groovySound;
-
-        // Token: 0x04000655 RID: 1621
         private readonly VioletSound reflectSound;
-
-        // Token: 0x04000656 RID: 1622
         private readonly Dictionary<int, VioletSound> winSounds;
-
-        // Token: 0x04000657 RID: 1623
         private YouWon youWon;
-
-        // Token: 0x04000658 RID: 1624
         private readonly LevelUpJingler jingler;
-
-        // Token: 0x04000659 RID: 1625
         private readonly List<DamageNumber> damageNumbers;
-
-        // Token: 0x0400065A RID: 1626
         private readonly Dictionary<Graphic, Graphic> selectionMarkers;
-
-        // Token: 0x0400065B RID: 1627
         private bool textboxHideFlag;
-
-        // Token: 0x0400065C RID: 1628
         private bool isUndoAllowed;
-
-        // Token: 0x0400065D RID: 1629
         private int activeCharacter;
-
-        // Token: 0x020000C7 RID: 199
         private enum State
         {
-            // Token: 0x04000666 RID: 1638
             Waiting,
-            // Token: 0x04000667 RID: 1639
             TopLevelSelection,
-            // Token: 0x04000668 RID: 1640
             AUXTypeSelection,
             AUXAttackSelection,
-            // Token: 0x04000669 RID: 1641
             SpecialSelection,
-            // Token: 0x0400066A RID: 1642
             ItemSelection,
-            // Token: 0x0400066B RID: 1643
             EnemySelection,
-            // Token: 0x0400066C RID: 1644
             AllySelection
         }
 

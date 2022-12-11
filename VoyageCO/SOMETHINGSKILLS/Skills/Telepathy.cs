@@ -43,36 +43,6 @@ namespace VCO.SOMETHING
         }
         internal override void Animate(PlayerCombatant combantant, BattleInterfaceController interfaceController, PlayerAUXAction action, Combatant[] targets, int level)
         {
-            /*
-            if (!darkenedFlag)
-            {
-                DarkenScreen(new Color(new Color(0, 0, 0, 128)), 0);
-            }
-            if (this.screenDarkenShape != null && !this.darkenedFlag)
-            {
-                if (Math.Abs((int)(this.targetAlpha - this.screenDarkenShape.Shape.FillColor.A)) > 1)
-                {
-                    this.UpdateDarkenColor();
-                }
-                else
-                {
-                    Color fillColor = this.screenDarkenShape.Shape.FillColor;
-                    fillColor.A = this.targetAlpha;
-                    this.screenDarkenShape.Shape.FillColor = fillColor;
-                    if (this.targetAlpha == 0)
-                    {
-                        foreach (Graphic graphic4 in this.targetGraphics)
-                        {
-                            if (this.depthMemory.ContainsKey(graphic4))
-                            {
-                                graphic4.Depth = this.depthMemory[graphic4];
-                            }
-                        }
-                    }
-                 //   this.animatingCount--;
-                    this.darkenedFlag = true;
-                }
-            }*/
             action.state = PlayerAUXAction.State.DamageNumbers;
         }
 

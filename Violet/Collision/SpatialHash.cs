@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Violet.Collision
 {
+    /// <summary>
+    /// Spatial hashing class for handling collision.
+    /// </summary>
     internal class SpatialHash
     {
         internal const int CELL_SIZE = 256;

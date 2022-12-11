@@ -9,7 +9,7 @@ namespace VCO.GUI.OverworldMenu
     {
         public MainMenu() : base(ViewManager.Instance.FinalTopLeft + MainMenu.PANEL_POSITION, MainMenu.PANEL_SIZE, 0)
         {
-            this.mainList = new ScrollingList(new Vector2f(8f, 0f), 1, MainMenu.MAIN_ITEMS, MainMenu.MAIN_ITEMS.Length, 14f, MainMenu.PANEL_SIZE.X - 14f, MainMenu.CURSOR_PATH);
+            this.mainList = new ScrollingList(new Vector2f(8f, 0f), 1, MainMenu.MAIN_ITEMS, MainMenu.MAIN_ITEMS.Length, 14f, MainMenu.PANEL_SIZE.X - 14f, DataHandler.instance.Load("cursor.dat"));
             base.Add(this.mainList);
         }
 
@@ -51,8 +51,6 @@ namespace VCO.GUI.OverworldMenu
         }
 
         public const int PANEL_DEPTH = 0;
-
-        private static readonly string CURSOR_PATH = Paths.GRAPHICS + "cursor.dat";
 
         public static readonly Vector2f PANEL_POSITION = new Vector2f(4f, 4f);
 

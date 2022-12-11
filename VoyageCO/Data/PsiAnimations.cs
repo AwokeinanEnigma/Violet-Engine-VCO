@@ -19,8 +19,8 @@ namespace VCO.Data
                 new AUXElement
                 {
                     Timestamp = 0,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "freeze_a.sdat", default(Vector2f), 0.5f, 32767),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkFreezeA.wav", AudioType.Sound),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("freeze_a.sdat"), default(Vector2f), 0.5f, 32767),
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("pkFreezeA.wav"), AudioType.Sound),
                     LockToTargetPosition = true,
                     PositionIndex = 0,
                     ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
@@ -44,8 +44,8 @@ namespace VCO.Data
 
         private static AUXElementList GenerateBeamAlpha()
         {
-            MultipartAnimation animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767);
-            MultipartAnimation multipartAnimation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam1.sdat", default(Vector2f), 0.5f, 32767)
+            MultipartAnimation animation = new MultipartAnimation(DataHandler.instance.Load("beam1.sdat"), default(Vector2f), 0.5f, 32767);
+            MultipartAnimation multipartAnimation = new MultipartAnimation(DataHandler.instance.Load("beam1.sdat"), default(Vector2f), 0.5f, 32767)
             {
                 Scale = new Vector2f(-1f, 1f)
             };
@@ -54,9 +54,9 @@ namespace VCO.Data
                 new AUXElement
                 {
                     Timestamp = 0,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam2.sdat", new Vector2f(160f, 90f), 0.3f, 32767),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("beam2.sdat"), new Vector2f(160f, 90f), 0.3f, 32767),
                     ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128)),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkBeamA.wav", AudioType.Sound)
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("pkBeamA.wav"), AudioType.Sound)
                 },
                 new AUXElement
                 {
@@ -88,7 +88,7 @@ namespace VCO.Data
                 list.Add(new AUXElement
                 {
                     Timestamp = 80 + i * 5,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("beam3.sdat"), default(Vector2f), 0.5f, 32767),
                     Offset = new Vector2f(i * -8, 0f),
                     LockToTargetPosition = true,
                     PositionIndex = 0
@@ -96,7 +96,7 @@ namespace VCO.Data
                 list.Add(new AUXElement
                 {
                     Timestamp = 80 + i * 5,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "beam3.sdat", default(Vector2f), 0.5f, 32767),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("beam3.sdat"), default(Vector2f), 0.5f, 32767),
                     Offset = new Vector2f(i * 8, 0f),
                     LockToTargetPosition = true,
                     PositionIndex = 0
@@ -118,8 +118,8 @@ namespace VCO.Data
                 new AUXElement
                 {
                     Timestamp = 0,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet_reflect.sdat", position, 0.5f, 32767),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "rocketReflect.wav", AudioType.Sound),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("comet_reflect.sdat"), position, 0.5f, 32767),
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("rocketReflect.wav"), AudioType.Sound),
                     CardSpringMode = BattleCard.SpringMode.BounceUp,
                     CardSpringAmplitude = new Vector2f(0f, 4f),
                     CardSpringSpeed = new Vector2f(0f, 0.2f),
@@ -136,8 +136,8 @@ namespace VCO.Data
                 new AUXElement
                 {
                     Timestamp = 0,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet.sdat", position, 0.5f, 32767),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "rocket.wav", AudioType.Sound)
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("comet.sdat"), position, 0.5f, 32767),
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("rocket.wav"), AudioType.Sound)
                 }
             };
         }
@@ -152,7 +152,7 @@ namespace VCO.Data
                     Timestamp = startTimestamp,
                     ScreenDarkenColor = new Color?(Color.Cyan),
                     ScreenDarkenDepth = new int?(0),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE + "explosion.wav", AudioType.Sound)
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("explosion.wav"), AudioType.Sound)
                 }
             };
             int num = 98;
@@ -177,7 +177,7 @@ namespace VCO.Data
                     list.Add(new AUXElement
                     {
                         Timestamp = startTimestamp + num6,
-                        Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "comet_boom.sdat", vector2f, 0.4f, 32767)
+                        Animation = new MultipartAnimation(DataHandler.instance.Load("comet_boom.sdat"), vector2f, 0.4f, 32767)
                     });
                 }
             }
@@ -205,8 +205,8 @@ namespace VCO.Data
                 new AUXElement
                 {
                     Timestamp = 0,
-                    Animation = new MultipartAnimation(Paths.AUX_GRAPHICS + "fire_a.sdat", new Vector2f(160f, 90f), 0.4f, 32767),
-                    Sound = AudioManager.Instance.Use(Paths.SFX_BATTLE_AUX + "pkFireA.wav", AudioType.Sound),
+                    Animation = new MultipartAnimation(DataHandler.instance.Load("fire_a.sdat"), new Vector2f(160f, 90f), 0.4f, 32767),
+                    Sound = AudioManager.Instance.Use(DataHandler.instance.Load("pkFireA.wav"), AudioType.Sound),
                     ScreenDarkenColor = new Color?(new Color(0, 0, 0, 128))
                 },
                 new AUXElement

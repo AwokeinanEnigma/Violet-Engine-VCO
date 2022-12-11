@@ -9,7 +9,7 @@ namespace VCO.Battle.UI
         public YouWon(RenderPipeline pipeline)
         {
             this.pipeline = pipeline;
-            this.youWon = new IndexedColorGraphic(Paths.GRAPHICS + "youwon.dat", "youwon", YouWon.POSITION, 2147450980);
+            this.youWon = new IndexedColorGraphic(DataHandler.instance.Load("youwon.dat"), "youwon", YouWon.POSITION, 2147450980);
             this.pipeline.Add(this.youWon);
             this.frameCount = (this.youWon.Texture as IndexedTexture).PaletteCount - 1U;
         }

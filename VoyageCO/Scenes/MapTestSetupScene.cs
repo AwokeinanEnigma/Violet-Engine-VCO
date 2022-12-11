@@ -20,7 +20,7 @@ namespace VCO.Scenes
     {
         public MapTestSetupScene()
         {
-            string[] files = Directory.GetFiles(Paths.MAPS);
+            string[] files = Directory.GetFiles(Path.Combine("Data" + Path.DirectorySeparatorChar, "Maps", "") + Path.DirectorySeparatorChar);
             this.mapItems = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
             {
@@ -35,13 +35,13 @@ namespace VCO.Scenes
                 "Start",
                 "Back"
             };
-            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "realcursor.dat")
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, DataHandler.instance.Load("realcursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
             this.pipeline.Add(this.optionList);
             this.focusedList = this.optionList;
-            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
@@ -56,7 +56,7 @@ namespace VCO.Scenes
                 CharacterType.Travis
             };
             this.ResetCharacterGraphics();
-            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
@@ -68,7 +68,7 @@ namespace VCO.Scenes
                 string.Format("Start at night: {0}", FlagManager.Instance[1]),
                 "Back"
             };
-            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, Paths.GRAPHICS + "realcursor.dat")
+            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
@@ -76,10 +76,10 @@ namespace VCO.Scenes
             this.settingsList.Hide();
             this.titleText = new TextRegion(new Vector2f(4f, 4f), 0, Fonts.Title, "Map Test Setup");
             this.pipeline.Add(this.titleText);
-            this.sfxCursorX = AudioManager.Instance.Use(Paths.SFX_MENU + "cursorx.wav", AudioType.Sound);
-            this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-            this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-            this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+            this.sfxCursorX = AudioManager.Instance.Use(DataHandler.instance.Load("cursorx.wav"), AudioType.Sound);
+            this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+            this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
+            this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
             FlagManager.Instance.Reset();
             ValueManager.Instance.Reset();
         }
@@ -260,7 +260,7 @@ namespace VCO.Scenes
             base.Focus();
             ViewManager.Instance.Center = new Vector2f(160f, 90f);
             Engine.ClearColor = Color.Black;
-            AudioManager.Instance.SetBGM(Paths.BGM_OVERWORLD + "test.mp3");
+            AudioManager.Instance.SetBGM(DataHandler.instance.Load("test.mp3"));
             AudioManager.Instance.BGM.Play();
             InputManager.Instance.AxisPressed += this.AxisPressed;
             InputManager.Instance.ButtonPressed += this.ButtonPressed;

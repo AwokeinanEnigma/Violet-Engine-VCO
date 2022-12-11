@@ -6,18 +6,27 @@ using Violet.Utility;
 
 namespace VCO.Battle.UI.Modifiers
 {
-    // Token: 0x02000020 RID: 32
     internal class GraphicShielder : IGraphicModifier, IDisposable
     {
-        // Token: 0x17000010 RID: 16
-        // (get) Token: 0x0600006B RID: 107 RVA: 0x00004B3F File Offset: 0x00002D3F
         public bool Done => this.isDone;
-
-        // Token: 0x17000011 RID: 17
-        // (get) Token: 0x0600006C RID: 108 RVA: 0x00004B47 File Offset: 0x00002D47
         public Graphic Graphic => this.graphic;
 
-        // Token: 0x0600006D RID: 109 RVA: 0x00004B50 File Offset: 0x00002D50
+        private bool disposed;
+        
+        private bool isDone;
+        
+        private readonly Graphic graphic;
+        
+        private readonly RenderPipeline pipeline;
+        
+        private readonly AnimatedRenderable[] shieldAnims;
+        
+        private int timerIndex;
+        
+        private bool nextAnim;
+
+        private int animIndex;
+
         public GraphicShielder(RenderPipeline pipeline, Graphic graphic)
         {
             this.pipeline = pipeline;
@@ -25,7 +34,7 @@ namespace VCO.Battle.UI.Modifiers
             this.shieldAnims = new AnimatedRenderable[GraphicShielder.SHIELD_POINTS.Length];
             for (int i = 0; i < this.shieldAnims.Length; i++)
             {
-                this.shieldAnims[i] = new IndexedColorGraphic(Paths.AUX_GRAPHICS + "shield.dat", "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10)
+                this.shieldAnims[i] = new IndexedColorGraphic(DataHandler.instance.Load("shield.dat"), "bubble", this.graphic.Position + GraphicShielder.SHIELD_POINTS[i], this.graphic.Depth + 10)
                 {
                     Visible = false,
                     SpeedModifier = 0f
@@ -39,14 +48,10 @@ namespace VCO.Battle.UI.Modifiers
             this.animIndex = 0;
             this.isDone = false;
         }
-
-        // Token: 0x0600006E RID: 110 RVA: 0x00004C74 File Offset: 0x00002E74
         ~GraphicShielder()
         {
             this.Dispose(false);
         }
-
-        // Token: 0x0600006F RID: 111 RVA: 0x00004CA4 File Offset: 0x00002EA4
         public void Update()
         {
             if (!this.isDone && this.nextAnim)
@@ -64,8 +69,6 @@ namespace VCO.Battle.UI.Modifiers
                 this.isDone = true;
             }
         }
-
-        // Token: 0x06000070 RID: 112 RVA: 0x00004D42 File Offset: 0x00002F42
         private void OnTimerEnd(int timerIndex)
         {
             if (this.timerIndex == timerIndex)
@@ -73,23 +76,17 @@ namespace VCO.Battle.UI.Modifiers
                 this.nextAnim = true;
             }
         }
-
-        // Token: 0x06000071 RID: 113 RVA: 0x00004D54 File Offset: 0x00002F54
         private void OnAnimationComplete(AnimatedRenderable anim)
         {
             anim.Visible = false;
             anim.OnAnimationComplete -= this.OnAnimationComplete;
             this.pipeline.Remove(anim);
         }
-
-        // Token: 0x06000072 RID: 114 RVA: 0x00004D7B File Offset: 0x00002F7B
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        // Token: 0x06000073 RID: 115 RVA: 0x00004D8C File Offset: 0x00002F8C
         protected void Dispose(bool disposing)
         {
             if (!this.disposed)
@@ -104,11 +101,7 @@ namespace VCO.Battle.UI.Modifiers
                 this.disposed = true;
             }
         }
-
-        // Token: 0x0400012D RID: 301
         private const int SHIELD_WAIT_FRAMES = 6;
-
-        // Token: 0x0400012E RID: 302
         private static readonly Vector2f[] SHIELD_POINTS = new Vector2f[]
         {
             new Vector2f(16f, 12f),
@@ -116,29 +109,5 @@ namespace VCO.Battle.UI.Modifiers
             new Vector2f(16f, 35f),
             new Vector2f(45f, 20f)
         };
-
-        // Token: 0x0400012F RID: 303
-        private bool disposed;
-
-        // Token: 0x04000130 RID: 304
-        private bool isDone;
-
-        // Token: 0x04000131 RID: 305
-        private readonly Graphic graphic;
-
-        // Token: 0x04000132 RID: 306
-        private readonly RenderPipeline pipeline;
-
-        // Token: 0x04000133 RID: 307
-        private readonly AnimatedRenderable[] shieldAnims;
-
-        // Token: 0x04000134 RID: 308
-        private int timerIndex;
-
-        // Token: 0x04000135 RID: 309
-        private bool nextAnim;
-
-        // Token: 0x04000136 RID: 310
-        private int animIndex;
     }
 }

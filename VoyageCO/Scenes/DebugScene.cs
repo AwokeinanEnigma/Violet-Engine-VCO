@@ -48,7 +48,7 @@ namespace VCO.Scenes
                     "Quit"
                 };
             }
-            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, Paths.GRAPHICS + "cursor.dat")
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = false,
                 UseHighlightTextColor = false,
@@ -56,7 +56,7 @@ namespace VCO.Scenes
                 ShowCursor = true
             };
             this.pipeline.Add(this.optionList);
-            this.titleImage = new IndexedColorGraphic(Paths.GRAPHICS_PARTYMEMBERS + "travis.dat", "Walk East", new Vector2f(160f, 44f), 100);
+            this.titleImage = new IndexedColorGraphic(DataHandler.instance.Load("travis.dat"), "Walk East", new Vector2f(160f, 44f), 100);
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             this.versionText = new TextRegion(new Vector2f(160, 90f), 0, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
             {
@@ -72,9 +72,9 @@ namespace VCO.Scenes
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
             this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
-            this.sfxCursorY = AudioManager.Instance.Use(Paths.SFX_MENU + "cursory.wav", AudioType.Sound);
-            this.sfxConfirm = AudioManager.Instance.Use(Paths.SFX_MENU + "confirm.wav", AudioType.Sound);
-            this.sfxCancel = AudioManager.Instance.Use(Paths.SFX_MENU + "cancel.wav", AudioType.Sound);
+            this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
+            this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
+            this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
         }
 
         private void AxisPressed(InputManager sender, Vector2f axis)
@@ -109,17 +109,9 @@ namespace VCO.Scenes
                     {
                         case Button.One:
                             goto IL_46;
-                        /*case Button.Two:
-							SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-							SceneManager.Instance.Push(new TextTestScene());
-							return;*/
                         case Button.Three:
-                            SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-                            SceneManager.Instance.Push(new AUXTestScene());
                             return;
                         case Button.Four:
-                            SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);
-                            SceneManager.Instance.Push(new SaveScene(SaveScene.Location.Belring, SaveFileManager.Instance.CurrentProfile));
                             return;
                         case Button.Five:
                             SceneManager.Instance.Transition = new ColorFadeTransition(0.25f, Color.Black);

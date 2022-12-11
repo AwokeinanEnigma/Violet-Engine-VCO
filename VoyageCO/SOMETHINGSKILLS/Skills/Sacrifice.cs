@@ -59,7 +59,7 @@ namespace VCO.SOMETHING
 
 
             }
-            IndexedColorGraphic graphic = new IndexedColorGraphic(Paths.GRAPHICS + thing, "spark", interfaceController.GetEnemyGraphic((targets[0] as EnemyCombatant).ID).Position, 579600);
+            IndexedColorGraphic graphic = new IndexedColorGraphic(DataHandler.instance.Load(thing), "spark", interfaceController.GetEnemyGraphic((targets[0] as EnemyCombatant).ID).Position, 579600);
 
             interfaceController.pipeline.Add(graphic);
             graphic.OnAnimationComplete += Graphic_OnAnimationComplete;
