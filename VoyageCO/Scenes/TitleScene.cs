@@ -69,6 +69,17 @@ namespace VCO.Scenes
             this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title.xml"), 10);
             pipeline.Add(background);
             this.titleImage = new IndexedColorGraphic(DataHandler.instance.Load("logo.dat"), "title", new Vector2f(160f, 90), 1000);
+
+            ConvexShape shpae = new ConvexShape();
+            shpae.SetPointCount(3);
+            shpae.SetPoint(0, new Vector2f(1, 2));
+            shpae.SetPoint(1, new Vector2f(25, 166));
+            shpae.SetPoint(2, new Vector2f(23, 73));
+            ShapeGraphic graphic = new ShapeGraphic(shpae, new Vector2f(0,0), new Vector2f(160, 90), new Vector2f(10, 10), 9999);
+            graphic.FillColor = Color.Blue;
+            graphic.OutlineColor = Color.Red;
+            pipeline.Add(graphic);
+
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             this.versionText = new TextRegion(new Vector2f(2f, 164f), 101, Fonts.Main, string.Format("{0}.{1} {2} {3} {4}", new object[]
             {

@@ -46,7 +46,7 @@
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\AudioMode.cs" />
     <Compile Include="Audio\AudioType.cs" />
-    <Compile Include="Audio\CarbineSound.cs" />
+    <Compile Include="Audio\VioletSound.cs" />
     <Compile Include="Audio\fmod\FmodAudioLoader.cs" />
     <Compile Include="Audio\fmod\FmodAudioManager.cs" />
     <Compile Include="Audio\fmod\FmodException.cs" />

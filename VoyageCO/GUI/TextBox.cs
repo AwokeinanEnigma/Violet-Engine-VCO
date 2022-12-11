@@ -56,9 +56,9 @@ namespace VCO.GUI
                 Visible = false
             };
             this.pipeline.Add(this.advanceArrow);
-            this.nametag = new Nametag(string.Empty, new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
+            this.nametag = new Nametag("Corpse", new Vector2f(vector2f.X + TextBox.NAMETAG_POSITION.X, vector2f.Y + TextBox.NAMETAG_POSITION.Y), 2147450880)
             {
-                Visible = false
+                Visible = false,
             };
             this.pipeline.Add(this.nametag);
             this.visible = false;
@@ -146,6 +146,7 @@ namespace VCO.GUI
             this.typewriterDone = false;
             if (namestring != null && namestring.Length > 0)
             {
+
                 this.nametag.Name = namestring;
                 this.nametagVisible = true;
             }

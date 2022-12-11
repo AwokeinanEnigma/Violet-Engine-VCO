@@ -57,16 +57,18 @@ namespace VCO
             }
             catch (Exception value)
             {
-                SceneManager.Instance.AbortTransition();
-                SceneManager.Instance.Clear();
-                SceneManager.Instance.Transition = new IrisTransition(3f);
-                SceneManager.Instance.Push(new ErrorScene(value));
 
                 StreamWriter streamWriter = new StreamWriter("error.log", true);
                 streamWriter.WriteLine("At {0}:", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff"));
                 streamWriter.WriteLine(value);
                 streamWriter.WriteLine();
                 streamWriter.Close();
+                
+                SceneManager.Instance.AbortTransition();
+                SceneManager.Instance.Clear();
+                SceneManager.Instance.Transition = new IrisTransition(3f);
+                SceneManager.Instance.Push(new ErrorScene(value));
+
             }
         }
     }

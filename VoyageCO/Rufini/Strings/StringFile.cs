@@ -22,7 +22,7 @@ namespace Rufini.Strings
 
         private StringFile()
         {
-            this.filename = Path.Combine(Path.Combine("Data" + Path.DirectorySeparatorChar, "Text", "") + Path.DirectorySeparatorChar, Settings.Locale, Settings.Locale + ".dat");
+            this.filename = DataHandler.instance.Load("en_US.dat");
             Console.WriteLine(filename);
             this.Reload();
         }

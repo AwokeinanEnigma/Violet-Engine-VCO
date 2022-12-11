@@ -11,7 +11,7 @@ namespace VCO.AUX
         public static AUXManager Instance
         {
             get
-            {
+            {   
                 if (AUXManager.instance == null)
                 {
                     AUXManager.instance = new AUXManager();
@@ -22,20 +22,15 @@ namespace VCO.AUX
 
         private AUXManager()
         {
-            NbtFile nbtFile = new NbtFile(DataHandler.instance.Load("psi.dat"));
-            NbtCompound rootTag = nbtFile.RootTag;
+
             this.offensive = this.InitializeAUXList<OffenseAUX>();
             this.defensive = this.InitializeAUXList<DefensiveAUX>();
             this.assistive = this.InitializeAUXList<AssistiveAUX>();
             this.other = this.InitializeAUXList<OtherAUX>();
-            this.LoadOffenseAUX(rootTag.Get<NbtCompound>("offense"));
-            Console.WriteLine("it loaded??");
-            this.LoadDefenseAUX(rootTag.Get<NbtCompound>("defense"));
-            Console.WriteLine("it loaded??");
-            this.LoadAssistAUX(rootTag.Get<NbtCompound>("assist"));
-            Console.WriteLine("it loaded??");
-            this.LoadOtherAUX(rootTag.Get<NbtCompound>("other"));
-            Console.WriteLine("it loaded??");
+            this.LoadOffenseAUX();
+            this.LoadDefenseAUX();
+            this.LoadAssistAUX();
+            this.LoadOtherAUX();
         }
 
         private Dictionary<CharacterType, List<T>> InitializeAUXList<T>() where T : IAUX
@@ -87,10 +82,8 @@ namespace VCO.AUX
             }
         }
 
-        private void LoadOffenseAUX(NbtCompound offenseTag)
+        private void LoadOffenseAUX()
         {
-            if (offenseTag != null)
-            {
 
                 Console.WriteLine("huh1");
                 //OffenseAUX AUX = new OffenseAUX(new SOMETHING.Debug());
@@ -104,25 +97,23 @@ namespace VCO.AUX
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX2, new List<string>() { "sean", "travis", "leo" });
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX3, new List<string>() { "sean", "travis", "leo" });
                 this.AddAUXToCharacters<OffenseAUX>(this.offensive, AUX4, new List<string>() { "sean", "travis", "leo" });
-            }
+            
             Console.WriteLine("Could not load OffenseAUX. Is the offense tag present?");
         }
 
-        private void LoadDefenseAUX(NbtCompound defenseTag)
+        private void LoadDefenseAUX()
         {
-            if (defenseTag != null)
-            {
+
                 Console.WriteLine("huh1");
                 //OffenseAUX AUX = new OffenseAUX(new SOMETHING.Debug());
                 //Console.WriteLine($"Offensive8 AUX: {AUX.aux.QualifiedName} " + Environment.NewLine);
-            }
+            
             Console.WriteLine("Could not load DefenseAUX. Is the defense tag present?");
         }
 
-        private void LoadAssistAUX(NbtCompound assistTag)
+        private void LoadAssistAUX()
         {
-            if (assistTag != null)
-            {
+
                 AssistiveAUX AUX3 = new AssistiveAUX(new SOMETHING.LifeUp());
                 Console.WriteLine($"Assistive AUX: {AUX3.aux.QualifiedName} " + Environment.NewLine);
                 this.AddAUXToCharacters<AssistiveAUX>(this.assistive, AUX3, new List<string>() { "travis" });
@@ -130,11 +121,11 @@ namespace VCO.AUX
                 AssistiveAUX AUX2 = new AssistiveAUX(new SOMETHING.Telepathy());
                 Console.WriteLine($"Assistive AUX: {AUX2.aux.QualifiedName} " + Environment.NewLine);
                 this.AddAUXToCharacters<AssistiveAUX>(this.assistive, AUX2, new List<string>() { "travis", "sean", "leo" });
-            }
+            
             Console.WriteLine("Could not load AssistAUX. Is the assist tag present?");
         }
 
-        private void LoadOtherAUX(NbtCompound otherTag)
+        private void LoadOtherAUX()
         {
             Console.WriteLine("huh1");
             OtherAUX AUX = new OtherAUX(new SOMETHING.Debug());
@@ -142,9 +133,7 @@ namespace VCO.AUX
             //this.AddAUXToCharacters<OtherAUX>(this.other, AUX, new List<string>() { "travis", "Sean", "leo" });
             this.AddAUXToCharacters<OtherAUX>(this.other, AUX1, new List<string>() { "travis", "sean", "leo" });
             Console.WriteLine($"OtherAUX AUX: {AUX.aux.QualifiedName} " + Environment.NewLine);
-            if (otherTag != null)
-            {
-            }
+
             Console.WriteLine("Could not load OtherAUX. Is the other tag present?");
         }
 
