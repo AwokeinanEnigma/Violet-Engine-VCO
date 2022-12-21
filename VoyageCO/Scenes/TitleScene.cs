@@ -266,8 +266,10 @@ namespace VCO.Scenes
             base.Focus();
             ViewManager.Instance.Center = new Vector2f(160f, 90f);
             Engine.ClearColor = Color.Black;
-            //AudioManager.Instance.SetBGM(Paths.AUDIO + "test.mp3");
-            //AudioManager.Instance.BGM.Play();
+
+            AudioManager.Instance.SetBGM(DataHandler.instance.Load("test.mp3"));
+            AudioManager.Instance.BGM.Play();
+
             InputManager.Instance.AxisPressed += this.AxisPressed;
             InputManager.Instance.ButtonPressed += this.ButtonPressed;
         }

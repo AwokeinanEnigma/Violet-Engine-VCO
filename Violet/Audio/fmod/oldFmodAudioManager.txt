@@ -1,0 +1,26 @@
+            int key1 = 0;
+            VioletSound VioletSound = null;
+            foreach (KeyValuePair<int, VioletSound> sound1 in this.sounds)
+            {
+                key1 = sound1.Key;
+                VioletSound = sound1.Value;
+                if (VioletSound == sound)
+                {
+                    Dictionary<int, int> instances;
+                    int key2;
+                    (instances = this.instances)[key2 = key1] = instances[key2] - 1;
+                    break;
+                }
+            }
+            if (VioletSound == null || this.instances[key1] > 0)
+            {
+                return;
+            }
+
+            //Console.WriteLine("Cleaning up audio");
+            this.instances.Remove(key1);
+            this.sounds.Remove(key1);
+            VioletSound.Dispose();
+			
+			
+			

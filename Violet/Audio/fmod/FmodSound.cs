@@ -19,13 +19,13 @@ namespace Violet.Audio.fmod
                     return 0;
                 }
 
-                FmodAudioManager.ERRCHECK(this.channel.getPosition(ref this.position, TIMEUNIT.MS));
+                FmodAudioManager.ERRCHECKCHANNEL(this.channel.getPosition(ref this.position, TIMEUNIT.MS));
                 return this.position;
             }
             set
             {
                 this.position = value;
-                FmodAudioManager.ERRCHECK(this.channel.setPosition(this.position, TIMEUNIT.MS));
+                FmodAudioManager.ERRCHECKCHANNEL(this.channel.setPosition(this.position, TIMEUNIT.MS));
             }
         }
 
@@ -39,7 +39,7 @@ namespace Violet.Audio.fmod
                 }
 
                 bool paused = false;
-                FmodAudioManager.ERRCHECK(this.channel.getPaused(ref paused));
+                FmodAudioManager.ERRCHECKCHANNEL(this.channel.getPaused(ref paused));
                 return paused;
             }
         }
@@ -55,7 +55,7 @@ namespace Violet.Audio.fmod
                     return;
                 }
 
-                FmodAudioManager.ERRCHECK(this.channel.setVolume(this.volume));
+                FmodAudioManager.ERRCHECKCHANNEL(this.channel.setVolume(this.volume));
             }
         }
 
@@ -64,10 +64,10 @@ namespace Violet.Audio.fmod
             get
             {
                 int loopcount = 0;
-                FmodAudioManager.ERRCHECK(this.sound.getLoopCount(ref loopcount));
+                FmodAudioManager.ERRCHECKSOUND(this.sound.getLoopCount(ref loopcount));
                 return loopcount;
             }
-            set => FmodAudioManager.ERRCHECK(this.sound.setLoopCount(value));
+            set => FmodAudioManager.ERRCHECKSOUND(this.sound.setLoopCount(value));
         }
 
         public FmodSound(
@@ -85,16 +85,16 @@ namespace Violet.Audio.fmod
             switch (this.type)
             {
                 case AudioType.Sound:
-                    FmodAudioManager.ERRCHECK(system.createSound(filename, MODE.LOOP_NORMAL | MODE._2D | MODE.SOFTWARE, ref this.sound));
-                    FmodAudioManager.ERRCHECK(this.sound.setLoopCount(0));
+                    FmodAudioManager.ERRCHECKSYSTEM(system.createSound(filename, MODE.LOOP_NORMAL | MODE._2D | MODE.SOFTWARE, ref this.sound));
+                    FmodAudioManager.ERRCHECKSOUND(this.sound.setLoopCount(0));
                     break;
                 case AudioType.Stream:
-                    FmodAudioManager.ERRCHECK(system.createSound(filename, MODE.LOOP_NORMAL | MODE._2D | MODE.SOFTWARE | MODE.CREATESTREAM, ref this.sound));
+                    FmodAudioManager.ERRCHECKSYSTEM(system.createSound(filename, MODE.LOOP_NORMAL | MODE._2D | MODE.SOFTWARE | MODE.CREATESTREAM, ref this.sound));
                     this.LoopCount = -1;
                     break;
                 case AudioType.Sound3d:
-                    FmodAudioManager.ERRCHECK(system.createSound(filename, MODE.LOOP_NORMAL | MODE._3D | MODE.SOFTWARE, ref this.sound));
-                    FmodAudioManager.ERRCHECK(this.sound.setLoopCount(0));
+                    FmodAudioManager.ERRCHECKSYSTEM(system.createSound(filename, MODE.LOOP_NORMAL | MODE._3D | MODE.SOFTWARE, ref this.sound));
+                    FmodAudioManager.ERRCHECKSOUND(this.sound.setLoopCount(0));
                     break;
             }
         }
@@ -112,20 +112,25 @@ namespace Violet.Audio.fmod
                 return;
             }
 
-            FmodAudioManager.ERRCHECK(this.system.playSound(CHANNELINDEX.FREE, this.sound, true, ref this.channel));
+            FmodAudioManager.ERRCHECKCHANNEL(this.system.playSound(CHANNELINDEX.FREE, this.sound, true, ref this.channel));
             CHANNEL_CALLBACK callback = (CHANNEL_CALLBACK)Delegate.CreateDelegate(typeof(CHANNEL_CALLBACK), this, "ChannelCallback");
+            
             this.callbackIndex = ((FmodAudioManager)AudioManager.Instance).AddCallback(callback);
-            FmodAudioManager.ERRCHECK(this.channel.setCallback(callback));
-            FmodAudioManager.ERRCHECK(this.channel.setVolume(this.volume));
+            
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setCallback(callback));
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setVolume(this.volume));
+           
             float frequency = 0.0f;
-            FmodAudioManager.ERRCHECK(this.channel.getFrequency(ref frequency));
-            FmodAudioManager.ERRCHECK(this.channel.setFrequency(frequency * this.pitch));
+           
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.getFrequency(ref frequency));
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setFrequency(frequency * this.pitch));
+           
             if (this.loopEnd > this.loopBegin)
             {
-                FmodAudioManager.ERRCHECK(this.channel.setLoopPoints(this.loopBegin, TIMEUNIT.MS, this.loopEnd, TIMEUNIT.MS));
+                FmodAudioManager.ERRCHECKCHANNEL(this.channel.setLoopPoints(this.loopBegin, TIMEUNIT.MS, this.loopEnd, TIMEUNIT.MS));
             }
 
-            FmodAudioManager.ERRCHECK(this.channel.setPaused(false));
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setPaused(false));
         }
 
         private RESULT ChannelCallback(
@@ -153,7 +158,7 @@ namespace Violet.Audio.fmod
                 return;
             }
 
-            FmodAudioManager.ERRCHECK(this.channel.setPaused(true));
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setPaused(true));
         }
 
         public override void Resume()
@@ -163,7 +168,7 @@ namespace Violet.Audio.fmod
                 return;
             }
 
-            FmodAudioManager.ERRCHECK(this.channel.setPaused(false));
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.setPaused(false));
         }
 
         public override void Stop()
@@ -180,7 +185,7 @@ namespace Violet.Audio.fmod
                 return;
             }
 
-            FmodAudioManager.ERRCHECK(this.channel.stop());
+            FmodAudioManager.ERRCHECKCHANNEL(this.channel.stop());
             this.channel = null;
         }
 
@@ -189,7 +194,7 @@ namespace Violet.Audio.fmod
             if (!this.disposed)
             {
                 int num = disposing ? 1 : 0;
-                FmodAudioManager.ERRCHECK(this.sound.release());
+                FmodAudioManager.ERRCHECKSOUND(this.sound.release());
                 ((FmodAudioManager)AudioManager.Instance).RemoveCallback(this.callbackIndex);
             }
             this.disposed = true;
