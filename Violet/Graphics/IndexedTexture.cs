@@ -70,6 +70,7 @@ namespace Violet.Graphics
             this.totalPals = (uint)palettes.Length;
             this.palSize = (uint)palettes[0].Length;
             uint num = (uint)(image.Length / (int)width);
+
             Color[] array = new Color[this.palSize * this.totalPals];
             for (uint num2 = 0U; num2 < this.totalPals; num2 += 1U)
             {
@@ -80,24 +81,24 @@ namespace Violet.Graphics
                     num3 += 1U;
                 }
             }
-            Color[] array2 = new Color[width * num];
-            uint num4 = 0U;
-            while (num4 < (ulong)image.Length)
+            Color[] uncoloredPixels = new Color[width * num];
+            uint pixels = 0U;
+            while (pixels < (ulong)image.Length)
             {
-                array2[(int)((UIntPtr)num4)].A = byte.MaxValue;
-                array2[(int)((UIntPtr)num4)].R = image[(int)((UIntPtr)num4)];
-                array2[(int)((UIntPtr)num4)].G = image[(int)((UIntPtr)num4)];
-                array2[(int)((UIntPtr)num4)].B = image[(int)((UIntPtr)num4)];
-                num4 += 1U;
+                uncoloredPixels[(int)((UIntPtr)pixels)].A = byte.MaxValue;
+                uncoloredPixels[(int)((UIntPtr)pixels)].R = image[(int)((UIntPtr)pixels)];
+                uncoloredPixels[(int)((UIntPtr)pixels)].G = image[(int)((UIntPtr)pixels)];
+                uncoloredPixels[(int)((UIntPtr)pixels)].B = image[(int)((UIntPtr)pixels)];
+                pixels += 1U;
             }
             this.paletteTex = new Texture(this.palSize, this.totalPals);
             this.imageTex = new Texture(width, num);
             fixed (Color* ptr = array)
             {
-                byte* pixels = (byte*)ptr;
-                IndexedTexture.sfTexture_updateFromPixels(this.paletteTex.CPointer, pixels, this.palSize, this.totalPals, 0U, 0U);
+                byte* b_pixels = (byte*)ptr;
+                IndexedTexture.sfTexture_updateFromPixels(this.paletteTex.CPointer, b_pixels, this.palSize, this.totalPals, 0U, 0U);
             }
-            fixed (Color* ptr2 = array2)
+            fixed (Color* ptr2 = uncoloredPixels)
             {
                 byte* pixels2 = (byte*)ptr2;
                 IndexedTexture.sfTexture_updateFromPixels(this.imageTex.CPointer, pixels2, width, num, 0U, 0U);
@@ -142,20 +143,20 @@ namespace Violet.Graphics
             uint x = this.imageTex.Size.X;
             uint y = this.imageTex.Size.Y;
             Image image = new Image(x, y);
-            Image image2 = this.imageTex.CopyToImage();
-            Image image3 = this.paletteTex.CopyToImage();
+            Image indexedImage = this.imageTex.CopyToImage();
+            Image paletteImage = this.paletteTex.CopyToImage();
             for (uint num = 0U; num < y; num += 1U)
             {
                 for (uint num2 = 0U; num2 < x; num2 += 1U)
                 {
-                    uint x2 = (uint)(image2.GetPixel(num2, num).R / 255.0 * this.palSize);
-                    Color pixel = image3.GetPixel(x2, this.currentPal);
+                    uint x2 = (uint)(indexedImage.GetPixel(num2, num).R / 255.0 * this.palSize);
+                    Color pixel = paletteImage.GetPixel(x2, this.currentPal);
                     image.SetPixel(num2, num, pixel);
                 }
             }
             image.SaveToFile("img.png");
-            image2.SaveToFile("indImg.png");
-            image3.SaveToFile("palImg.png");
+            indexedImage.SaveToFile("indImg.png");
+            paletteImage.SaveToFile("palImg.png");
             return new FullColorTexture(image);
         }
 

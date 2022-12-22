@@ -59,8 +59,6 @@ namespace Violet.Input
             }
         }
 
-        public Vector2f MousePosition = new Vector2f(0,0);
-
         private InputManager()
         {
             this.currentState = new Dictionary<Button, bool>();
@@ -82,12 +80,6 @@ namespace Violet.Input
             window.JoystickDisconnected += this.JoystickDisconnected;
             window.KeyPressed += this.KeyPressed;
             window.KeyReleased += this.KeyReleased;
-            window.MouseMoved += Window_MouseMoved;
-        }
-
-        private void Window_MouseMoved(object sender, MouseMoveEventArgs e)
-        {
-            MousePosition += new Vector2f(e.X, e.Y);
         }
 
         public void DetachFromWindow(Window window)
@@ -99,7 +91,6 @@ namespace Violet.Input
             window.JoystickDisconnected -= this.JoystickDisconnected;
             window.KeyPressed -= this.KeyPressed;
             window.KeyReleased -= this.KeyReleased;
-            window.MouseMoved -= Window_MouseMoved;
         }
 
         private void KeyPressed(object sender, KeyEventArgs e)
@@ -148,6 +139,7 @@ namespace Violet.Input
             }
         }
 
+
         private void KeyReleased(object sender, KeyEventArgs e)
         {
             if (this.keyMap.ContainsKey(e.Code))
@@ -160,29 +152,29 @@ namespace Violet.Input
                 this.currentState[button] = false;
                 return;
             }
-            bool flag = false;
+            bool released = false;
             switch (e.Code)
             {
                 case Keyboard.Key.Left:
                     this.leftPress = false;
-                    flag = true;
+                    released = true;
                     break;
                 case Keyboard.Key.Right:
                     this.rightPress = false;
-                    flag = true;
+                    released = true;
                     break;
                 case Keyboard.Key.Up:
                     this.upPress = false;
-                    flag = true;
+                    released = true;
                     break;
                 case Keyboard.Key.Down:
                     this.downPress = false;
-                    flag = true;
+                    released = true;
                     break;
             }
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
             this.yKeyAxis = (this.upPress ? -1f : 0f) + (this.downPress ? 1f : 0f);
-            if (this.enabled && flag && this.AxisReleased != null)
+            if (this.enabled && released && this.AxisReleased != null)
             {
                 this.AxisReleased(this, this.Axis);
             }
@@ -280,6 +272,19 @@ namespace Violet.Input
             {
                 this.ButtonReleased(this, button);
             }
+        }
+
+        public static Vector2f GetMousePosition() {
+            // This is stupid, let me explain:
+            // We want a pixel location of where the mouse is relative to the game's window
+            // Here's the problem: The scale of the screen
+            if (Engine.Fullscreen) {
+                VideoMode desktopMode;
+                desktopMode = VideoMode.DesktopMode;
+                float fullScreenMin = Math.Min(desktopMode.Width / Engine.SCREEN_WIDTH, desktopMode.Height / Engine.SCREEN_HEIGHT);
+                return (Vector2f)Mouse.GetPosition(Engine.Window) / fullScreenMin;
+            }
+            return (Vector2f)Mouse.GetPosition(Engine.Window) / Engine.ScreenScale;
         }
 
         private const float DEAD_ZONE = 0.5f;

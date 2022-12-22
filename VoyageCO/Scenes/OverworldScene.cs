@@ -318,6 +318,24 @@ namespace VCO.Scenes
                 if (b == Button.F6)
                 {
                     rainOverlay = new RainOverlay();
+
+                    // PartyManager.Instance.Clear();
+                    //		PartyManager.Instance.Add(CharacterType.Travis);
+                    //		PartyManager.Instance.Add(CharacterType.Zack);
+                    //		PartyManager.Instance.Add(CharacterType.Floyd);
+                    // PartyManager.Instance.Add(CharacterType.Meryl);
+                    //		PartyManager.Instance.Add(CharacterType.Leo);
+                    //Demiurge Filament
+                    EnemyData dat = EnemyFile.Instance.GetEnemyData("Demiurge Filament");
+                    EnemyData dat2 = EnemyFile.Instance.GetEnemyData("Infested Legs");
+                    EnemyData[] data = new EnemyData[3]
+                    {
+                                    dat, dat, dat2
+                    };
+
+                    BattleScene scenea = new BattleScene(data, true);
+                    SceneManager.Instance.Transition = new IrisTransition(3);
+                    SceneManager.Instance.Push(scenea);
                 }
 
                 if (b == Button.A)

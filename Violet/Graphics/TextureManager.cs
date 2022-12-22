@@ -50,16 +50,17 @@ namespace Violet.Graphics
         private IndexedTexture LoadFromNbtTag(NbtCompound root)
         {
             // this code is all dave/carbine code therefore i wil not look at it!
-            NbtTag nbtTag = root.Get("pal");
-            IEnumerable<NbtTag> enumerable = (nbtTag is NbtList) ? ((NbtList)nbtTag) : ((NbtCompound)nbtTag).Tags;
+            NbtTag paletteTag = root.Get("pal");
+            IEnumerable<NbtTag> palettes = (paletteTag is NbtList) ? ((NbtList)paletteTag) : ((NbtCompound)paletteTag).Tags;
+
             uint intValue = (uint)root.Get<NbtInt>("w").IntValue;
             byte[] byteArrayValue = root.Get<NbtByteArray>("img").ByteArrayValue;
             List<int[]> list = new List<int[]>();
-            foreach (NbtTag nbtTag2 in enumerable)
+            foreach (NbtTag palette in palettes)
             {
-                if (nbtTag2.TagType == NbtTagType.IntArray)
+                if (palette.TagType == NbtTagType.IntArray)
                 {
-                    list.Add(((NbtIntArray)nbtTag2).IntArrayValue);
+                    list.Add(((NbtIntArray)palette).IntArrayValue);
                 }
             }
             SpriteDefinition spriteDefinition = null;

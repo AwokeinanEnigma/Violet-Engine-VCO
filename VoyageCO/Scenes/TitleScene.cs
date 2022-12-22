@@ -1,6 +1,7 @@
 ﻿using Rufini.Strings;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using System;
 using System.IO;
 using System.Reflection;
@@ -24,6 +25,7 @@ namespace VCO.Scenes
     internal class TitleScene : StandardScene
     {
         public BattleBackgroundRenderable background;
+        private IndexedColorGraphic cursorTest;
         public TitleScene()
         {
             Fonts.LoadFonts(Settings.Locale);
@@ -92,8 +94,11 @@ namespace VCO.Scenes
             {
                 Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128)
             };
+            cursorTest = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "up", new Vector2f(0, 0), 9999999);
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
+            this.pipeline.Add(this.cursorTest);
+
 
             //		this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
             this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
@@ -284,6 +289,9 @@ namespace VCO.Scenes
         public override void Update()
         {
             base.Update();
+            var pos = InputManager.GetMousePosition();
+            cursorTest.Position = (Vector2f)pos + new Vector2f(0,-2); // , integerPos / Engine.ScreenScale, ; // (Vector2f)Engine.Window.MapCoordsToPixel(integerPos);
+            Debug.Log($"Mouse's position is {pos}");
             //this.mod.Update();
         }
 

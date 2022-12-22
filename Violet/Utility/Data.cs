@@ -71,14 +71,14 @@ public class DataHandler
             return;
         }
         fileNamesToPaths.Add(fileName, path);
-        Debug.LogInfo($"Processed data file '{Path.GetFileName(path)}'");
+        //Debug.LogInfo($"Processed data file '{Path.GetFileName(path)}'");
     }
 
     public string Load(string file)
     {
        fileNamesToPaths.TryGetValue(file, out string val);
         if (string.IsNullOrEmpty(val)) {
-            Debug.LogEngine($"Can't find! {file}");
+            Debug.LogEngine($"Can't find file '{file}'!");
             return null;
         }
         return val;

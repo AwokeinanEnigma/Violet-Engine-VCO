@@ -29,7 +29,7 @@ namespace VCO
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
-            Scene newScene = new TitleScene();
+            Scene newScene = new DebugScene(); // TitleScene();
             EnemyFile.Load();
 
             // this is totally and utterly fucking worthless

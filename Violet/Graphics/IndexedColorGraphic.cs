@@ -95,6 +95,29 @@ namespace Violet.Graphics
             this.Visible = true;
         }
 
+        public IndexedColorGraphic(string resource, string spriteName, Vector2f position, int depth, uint palette)
+        {
+            // time = new Clock();
+            // time.Restart();
+            this.texture = TextureManager.Instance.Use(resource);
+            this.sprite = new Sprite(this.texture.Image);
+            this.Position = position;
+            this.sprite.Position = this.Position;
+            this.Depth = depth;
+            this.Rotation = 0f;
+            this.scale = new Vector2f(1f, 1f);
+            this.SetSprite(spriteName);
+            currentPalette = palette;
+            ((IndexedTexture)this.texture).CurrentPalette = palette;
+            this.blend = Color.White;
+            //multiply by default
+            this.blendMode = ColorBlendMode.Multiply;
+            this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, IndexedColorGraphic.INDEXED_COLOR_SHADER);
+            this.animationEnabled = true;
+            this.Visible = true;
+        }
+
+
         public void SetSprite(string name)
         {
             this.SetSprite(name, true);

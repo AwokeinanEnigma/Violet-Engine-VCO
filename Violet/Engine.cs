@@ -135,7 +135,7 @@ namespace Violet
 
 
         private static uint frameBufferScale;
-        private static RenderWindow window;
+        public static RenderWindow window;
         private static RenderTexture frameBuffer;
         private static RenderStates frameBufferState;
         private static VertexArray frameBufferVertArray;  
@@ -474,12 +474,12 @@ namespace Violet
                 desktopMode = VideoMode.DesktopMode;
 
                 float fullScreenMin = Math.Min(desktopMode.Width / screen_width, desktopMode.Height / screen_height);
-                float num4 = (desktopMode.Width - screen_width * fullScreenMin) / 2f;
-                float num5 = (desktopMode.Height - screen_height * fullScreenMin) / 2f;
+                float fullscreenWidth = (desktopMode.Width - screen_width * fullScreenMin) / 2f;
+                float fullscreenHeight = (desktopMode.Height - screen_height * fullScreenMin) / 2f;
 
                 int width = (int)(HALF_SCREEN_SIZE.X * fullScreenMin);
                 int height = (int)(HALF_SCREEN_SIZE.Y * fullScreenMin);
-                frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, num4 + width, -sin, cos * fullScreenMin, num5 + height, 0f, 0f, 1f);
+                frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, fullscreenWidth + width, -sin, cos * fullScreenMin, fullscreenHeight + height, 0f, 0f, 1f);
             }
             else
             {
