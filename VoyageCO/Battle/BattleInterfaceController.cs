@@ -646,7 +646,7 @@ namespace VCO.Battle
                 this.pipeline.Update(graphic2);
                 //int onTheY = ;
                 //this.card.Position.Y - this.card.Origin.Y + (float)((int)(Engine.Random.NextDouble() * (double)this.card.TextureRect.Height))
-                int val = DictionaryExtensions.KeyByValue<int, IndexedColorGraphic>(enemyGraphics, (IndexedColorGraphic)graphic);
+                int val = enemyGraphics.KeyByValue((IndexedColorGraphic)graphic);
                 IEnumerable<Combatant> combatboy = combatantController.GetFactionCombatants(BattleFaction.EnemyTeam).Where(x => x.ID == val);
                 EnemyCombatant enemyCombatant = (EnemyCombatant)combatboy.FirstOrDefault();
                 string enemyName = enemyCombatant.Enemy.PlayerFriendlyName;

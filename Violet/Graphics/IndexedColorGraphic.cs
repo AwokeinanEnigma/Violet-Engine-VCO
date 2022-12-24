@@ -1,11 +1,16 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using Violet.Utility;
+using static Violet.Graphics.SpriteDefinition;
 
 namespace Violet.Graphics
 {
     public class IndexedColorGraphic : Graphic
     {
+        #region Properties
+        /// <summary>
+        /// The current palette this IndexedColorGraphic is using.
+        /// </summary>
         public uint CurrentPalette
         {
             get
@@ -22,6 +27,9 @@ namespace Violet.Graphics
             }
         }
 
+        /// <summary>
+        /// The color to overlay the texture with.
+        /// </summary>
         public override Color Color
         {
             get
@@ -34,6 +42,9 @@ namespace Violet.Graphics
             }
         }
 
+        /// <summary>
+        /// The mode to use when blending the texture with the color.
+        /// </summary>
         public ColorBlendMode ColorBlendMode
         {
             get
@@ -46,6 +57,9 @@ namespace Violet.Graphics
             }
         }
 
+        /// <summary>
+        /// Self explanatory. The last palette used. 
+        /// </summary>
         public uint PreviousPalette
         {
             get
@@ -54,6 +68,9 @@ namespace Violet.Graphics
             }
         }
 
+        /// <summary>
+        /// The render states this IndexedColorGraphic is using.
+        /// </summary>
         public RenderStates RenderStates
         {
             get
@@ -62,6 +79,9 @@ namespace Violet.Graphics
             }
         }
 
+        /// <summary>
+        /// Can this graphic be animated?
+        /// </summary>
         public bool AnimationEnabled
         {
             get
@@ -73,11 +93,49 @@ namespace Violet.Graphics
                 this.animationEnabled = value;
             }
         }
+        #endregion
 
+        #region Fields
+        private static readonly int[] MODE_ONE_FRAMES = new int[] {
+            0,
+            1,
+            0,
+            2
+        };
+
+        // shaaaaaaaaaaaaader!
+        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+
+        private RenderStates renderStates;
+
+        // fliped stuff
+        private bool flipX;
+        private bool flipY;
+
+        // palette stuff
+        private uint previousPalette;
+        private uint currentPalette;
+
+        // color stuff
+        private Color blend;
+        private ColorBlendMode blendMode;
+
+        // it's all stuff
+        // animation stuff
+        private AnimationMode mode;
+        private float betaFrame;
+        private bool animationEnabled; 
+        #endregion
+
+        /// <summary>
+        /// Creates a new IndexedColorGraphic.
+        /// </summary>
+        /// <param name="resource">The name of the sprite file.</param>
+        /// <param name="spriteName">The sprite to initialize the IndexedColorGraphic with. This will be the starting sprite it uses.</param>
+        /// <param name="position">Where the sprite is located.</param>
+        /// <param name="depth">The depth of the sprite.</param>
         public IndexedColorGraphic(string resource, string spriteName, Vector2f position, int depth)
         {
-            // time = new Clock();
-            // time.Restart();
             this.texture = TextureManager.Instance.Use(resource);
             this.sprite = new Sprite(this.texture.Image);
             this.Position = position;
@@ -95,11 +153,16 @@ namespace Violet.Graphics
             this.Visible = true;
         }
 
-        public IndexedColorGraphic(string resource, string spriteName, Vector2f position, int depth, uint palette)
+        /// <summary>
+        /// Creates a new IndexedColorGraphic.
+        /// </summary>
+        /// <param name="texture">The texture to use with the IndexedColorGraphic.</param>
+        /// <param name="spriteName">The sprite to initialize the IndexedColorGraphic with. This will be the starting sprite it uses.</param>
+        /// <param name="position">Where the sprite is located.</param>
+        /// <param name="depth">The depth of the sprite.</param>
+        public IndexedColorGraphic(IndexedTexture texture, string spriteName, Vector2f position, int depth)
         {
-            // time = new Clock();
-            // time.Restart();
-            this.texture = TextureManager.Instance.Use(resource);
+            this.texture = texture;
             this.sprite = new Sprite(this.texture.Image);
             this.Position = position;
             this.sprite.Position = this.Position;
@@ -107,13 +170,48 @@ namespace Violet.Graphics
             this.Rotation = 0f;
             this.scale = new Vector2f(1f, 1f);
             this.SetSprite(spriteName);
-            currentPalette = palette;
-            ((IndexedTexture)this.texture).CurrentPalette = palette;
+            ((IndexedTexture)this.texture).CurrentPalette = this.currentPalette;
             this.blend = Color.White;
             //multiply by default
             this.blendMode = ColorBlendMode.Multiply;
             this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, IndexedColorGraphic.INDEXED_COLOR_SHADER);
             this.animationEnabled = true;
+            this.Visible = true;
+        }
+
+        /// <summary>
+        /// Creates a new IndexedColorGraphic.
+        /// </summary>
+        /// <param name="resource">The name of the sprite file.</param>
+        /// <param name="spriteName">The sprite to initialize the IndexedColorGraphic with. This will be the starting sprite it uses.</param>
+        /// <param name="position">Where the sprite is located.</param>
+        /// <param name="depth">The depth of the sprite.</param>
+        /// <param name="palette">The palette to initialize the IndexedColorGraphic with. This will be the starting palette it uses.</param>
+        public IndexedColorGraphic(string resource, string spriteName, Vector2f position, int depth, uint palette)
+        {
+            this.texture = TextureManager.Instance.Use(resource);
+            this.sprite = new Sprite(this.texture.Image);
+
+            this.Position = position;
+            this.sprite.Position = this.Position;
+
+            this.Depth = depth;
+
+            this.Rotation = 0f;
+
+            this.scale = new Vector2f(1f, 1f);
+
+            this.SetSprite(spriteName);
+
+            currentPalette = palette;
+            ((IndexedTexture)this.texture).CurrentPalette = palette;
+
+            this.blend = Color.White;
+            //multiply by default
+            this.blendMode = ColorBlendMode.Multiply;
+            this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, IndexedColorGraphic.INDEXED_COLOR_SHADER);
+            this.animationEnabled = true;
+
             this.Visible = true;
         }
 
@@ -130,19 +228,25 @@ namespace Violet.Graphics
             {
                 spriteDefinition = ((IndexedTexture)this.texture).GetDefaultSpriteDefinition();
             }
+          
             this.sprite.Origin = spriteDefinition.Origin;
             this.Origin = spriteDefinition.Origin;
+          
             this.sprite.TextureRect = new IntRect(spriteDefinition.Coords.X, spriteDefinition.Coords.Y, spriteDefinition.Bounds.X, spriteDefinition.Bounds.Y);
             this.startTextureRect = this.sprite.TextureRect;
             this.Size = new Vector2f(sprite.TextureRect.Width, sprite.TextureRect.Height);
+         
             this.flipX = spriteDefinition.FlipX;
             this.flipY = spriteDefinition.FlipY;
+           
             this.finalScale.X = (this.flipX ? (-this.scale.X) : this.scale.X);
             this.finalScale.Y = (this.flipY ? (-this.scale.Y) : this.scale.Y);
+          
             this.sprite.Scale = this.finalScale;
             base.Frames = spriteDefinition.Frames;
             base.Speeds = spriteDefinition.Speeds;
             this.mode = spriteDefinition.Mode;
+          
             if (reset)
             {
                 this.frame = 0f;
@@ -159,16 +263,19 @@ namespace Violet.Graphics
         protected override void IncrementFrame()
         {
             float frameSpeed = base.GetFrameSpeed();
+           
             switch (this.mode)
             {
-                case 0:
+                case AnimationMode.Continous:
                     this.frame = (this.frame + frameSpeed) % Frames;
                     break;
-                case 1:
+
+                case AnimationMode.ZeroTwoOneThree:
                     this.betaFrame = (this.betaFrame + frameSpeed) % 4f;
                     this.frame = IndexedColorGraphic.MODE_ONE_FRAMES[(int)this.betaFrame];
                     break;
             }
+
             this.speedIndex = (int)this.frame % this.speeds.Length;
         }
 
@@ -190,6 +297,7 @@ namespace Violet.Graphics
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("image", this.texture.Image);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palette", ((IndexedTexture)this.texture).Palette);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palIndex", ((IndexedTexture)this.texture).CurrentPaletteFloat);
+                //Debug.Log($"Current palette is {currentPalette}. Texture's palette is {((IndexedTexture)this.texture).CurrentPalette}. Float palette is {((IndexedTexture)this.texture).CurrentPaletteFloat} & the palette max is {((IndexedTexture)this.texture).PaletteCount}. {(float)CurrentPalette/ (float)((IndexedTexture)this.texture).PaletteCount} ");
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("palSize", ((IndexedTexture)this.texture).PaletteSize);
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(this.blend));
                 IndexedColorGraphic.INDEXED_COLOR_SHADER.SetUniform("blendMode", (float)this.blendMode);
@@ -211,35 +319,5 @@ namespace Violet.Graphics
             int hashCode = sprite.GetHashCode();
             return ((IndexedTexture)this.texture).GetSpriteDefinition(hashCode);
         }
-
-        private static readonly int[] MODE_ONE_FRAMES = new int[]
-        {
-            0,
-            1,
-            0,
-            2
-        };
-
-        private static readonly Shader INDEXED_COLOR_SHADER = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
-
-        private RenderStates renderStates;
-
-        private ColorBlendMode blendMode;
-
-        private bool flipX;
-
-        private bool flipY;
-
-        private int mode;
-
-        private float betaFrame;
-
-        private uint previousPalette;
-
-        private uint currentPalette;
-
-        private Color blend;
-
-        private bool animationEnabled;
     }
 }

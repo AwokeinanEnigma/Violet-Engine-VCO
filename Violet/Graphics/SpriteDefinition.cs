@@ -3,10 +3,34 @@
 namespace Violet.Graphics
 {
     /// <summary>
-    /// A class containing 
+    /// A class containing data associated with a sprite.
     /// </summary>
     public class SpriteDefinition
     {
+        /// <summary>
+        /// Has options for different modes of animation.
+        /// </summary>
+        public enum AnimationMode
+        {
+            
+            Invalid = -1,
+            
+            /// <summary>
+            /// Makes the animation go in order. Ex. 0 -> 1 -> 2 
+            /// </summary>
+            Continous = 0,
+
+            /// <summary>
+            /// Makes the animation go 0-2-1-3.
+            /// </summary>
+            ZeroTwoOneThree = 1,
+        
+            /// <summary>
+            /// The max amount of options in this enum.
+            /// </summary>
+            Maximum
+        }
+
         /// <summary>
         /// The name of the sprite
         /// </summary>
@@ -42,15 +66,17 @@ namespace Violet.Graphics
         /// <summary>
         /// What mode this sprite definition is in
         /// </summary>
-        public int Mode { get; private set; }
+        public AnimationMode Mode { get; private set; }
         /// <summary>
         /// Additional data
         /// </summary>
         public int[] Data { get; private set; }
+
+
         /// <summary>
         /// Creates a new sprite definition
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">The name of the Sprite Definition</param>
         /// <param name="coords"></param>
         /// <param name="bounds"></param>
         /// <param name="origin"></param>
@@ -59,7 +85,7 @@ namespace Violet.Graphics
         /// <param name="flipX"></param>
         /// <param name="flipY"></param>
         /// <param name="mode"></param>
-        /// <param name="data"></param>
+        /// <param name="data">Extra data</param>
         public SpriteDefinition(string name, Vector2i coords, Vector2i bounds, Vector2f origin, int frames, float[] speeds, bool flipX, bool flipY, int mode, int[] data)
         {
             this.Name = name;
@@ -70,7 +96,7 @@ namespace Violet.Graphics
             this.Speeds = speeds;
             this.FlipX = flipX;
             this.FlipY = flipY;
-            this.Mode = mode;
+            this.Mode = (AnimationMode)mode;
             this.Data = data;
         }
     }

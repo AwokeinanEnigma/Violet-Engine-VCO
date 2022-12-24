@@ -132,10 +132,15 @@ namespace Violet
         #endregion
 
 
-
+        /// <summary>
+        /// You may wonder: Why isn't this apart of EngineInitializationData?
+        /// The answer is that it doesn't make sense for it to be there
+        /// Therefore, it's here. Set it before you initialize the engine.
+        /// </summary>
+        public static string WindowName;
 
         private static uint frameBufferScale;
-        public static RenderWindow window;
+        private static RenderWindow window;
         private static RenderTexture frameBuffer;
         private static RenderStates frameBufferState;
         private static VertexArray frameBufferVertArray;  
@@ -215,6 +220,16 @@ namespace Violet
         private static uint target_framerate;
 
         /// <summary>
+        /// Should the engine initialize the Data Handler?
+        /// </summary>
+        private static bool initialize_datahandler;
+
+        /// <summary>
+        /// Should the engine initialize the Lua Handler?
+        /// </summary>
+        private static bool initialize_luahandler;
+
+        /// <summary>
         /// Data to change specific aspects of the engine such as the resolution and target frame rate.
         /// </summary>
         public struct EngineInitializationData {
@@ -257,6 +272,16 @@ namespace Violet
             /// Base frame buffer scale
             /// </summary>
             public uint base_frame_buffer_scale;
+
+            /// <summary>
+            /// Should the engine initialize the Data Handler?
+            /// </summary>
+            public bool initialize_datahandler;
+
+            /// <summary>
+            /// Should the engine initialize the Lua Handler?
+            /// </summary>
+            public bool initialize_luahandler;
         }
 
         #endregion
@@ -276,7 +301,7 @@ namespace Violet
         }
 
         /// <summary>
-        /// Initalizes the engine using EngineInitializationData 
+        /// initializes the engine using EngineInitializationData 
         /// </summary>
         /// <param name="data">Data the game needs to function, like screen width and height, maximum framerate, and other such things.</param>
         public static void Initialize(EngineInitializationData data)
@@ -288,6 +313,9 @@ namespace Violet
                 target_framerate = data.target_framerate;
                 required_opengl_version = data.required_opengl_version;
                 frameBufferScale = data.base_frame_buffer_scale;
+
+                initialize_datahandler = data.initialize_datahandler;
+                initialize_luahandler = data.initialize_luahandler;
 
                 SCREEN_SIZE = new Vector2f(screen_width, screen_height);
                 HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
@@ -332,13 +360,20 @@ namespace Violet
 
             Debug.Initialize();
 
-            // for now, register empty
-            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
-            DataHandler.Initialize();
+            if (initialize_luahandler)
+            {
+                // for now, register empty
+                LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+                Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
+                LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+            }
+            if (initialize_datahandler)
+            {
+                DataHandler.Initialize();
+            }
 
-            Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
+            
 
-            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < required_opengl_version)
@@ -348,12 +383,11 @@ namespace Violet
             }
             //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
-            SetCursorTimer(90);
             Running = true;
         }
 
         /// <summary>
-        /// Initalizes the engine, and loads the necessary EngineInitializationData from enginedata.ini
+        /// initializes the engine, and loads the necessary EngineInitializationData from enginedata.ini
         /// </summary>
         public static void Initialize()
         {
@@ -396,6 +430,9 @@ namespace Violet
                 required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt();
                 frameBufferScale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt();
 
+                initialize_datahandler = ini["enginedata"]["initialize_datahandler"].ToBool();
+                initialize_luahandler = ini["enginedata"]["initialize_luahandler"].ToBool();
+
                 // i could just use a get set for these but i'm lazy.
                 SCREEN_SIZE = new Vector2f(screen_width, screen_height);
                 HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
@@ -420,13 +457,18 @@ namespace Violet
             debugText.FillColor = SFML.Graphics.Color.Blue;
             ClearColor = SFML.Graphics.Color.Black;
 
-            // for now, register empty
-            LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
-            DataHandler.Initialize();
-
-            Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
-
-            LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+            if (initialize_luahandler)
+            {
+                // for now, register empty
+                // for now, register empty
+                LuaManager.Initialize(Path.Combine("Data", "Content", "LUAScripts") + Path.DirectorySeparatorChar);
+                Script.DefaultOptions.DebugPrint = s => Debug.LogLua(s);
+                LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
+            }
+            if (initialize_datahandler)
+            {
+                DataHandler.Initialize();
+            }
 
             decimal openGlV = OpenGLVersion();
             if (openGlV < required_opengl_version)
@@ -436,7 +478,6 @@ namespace Violet
             }
             //Debug.LogD($"OpenGL v{window.Settings.MajorVersion}.{window.Settings.MinorVersion}");
             fpsString = new StringBuilder(32);
-            SetCursorTimer(90);
             Running = true;
         }
 
@@ -444,10 +485,7 @@ namespace Violet
         {
             startTicks = DateTime.Now.Ticks;
         }
-        private static void SetCursorTimer(int duration)
-        {
-            cursorTimer = frameIndex + duration;
-        }
+
         private static void SetWindow(bool goFullscreen, bool vsync)
         {
             // Kill our current window so we can create a new one
@@ -455,7 +493,6 @@ namespace Violet
             {
                 // Dettach everything from the current window
                 window.Closed -= OnWindowClose;
-                window.MouseMoved -= MouseMoved;
                 InputManager.Instance.DetachFromWindow(window);
 
                 // Kill it!
@@ -492,10 +529,8 @@ namespace Violet
             }
 
 
-            window = new RenderWindow(desktopMode, "Voyage: Carpe Omnia", style);
+            window = new RenderWindow(desktopMode, WindowName, style);
             window.Closed += OnWindowClose;
-            window.MouseMoved += MouseMoved;
-            window.MouseButtonPressed += MouseButtonPressed;
             InputManager.Instance.AttachToWindow(window);
             window.SetMouseCursorVisible(!goFullscreen);
 
@@ -515,33 +550,7 @@ namespace Violet
                 window.SetIcon(32U, 32U, iconFile.GetBytesForSize(32));
             }
         }
-        private static void MouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            if (e.Button == Mouse.Button.Left)
-            {
-                showCursor = true;
-                window.SetMouseCursorVisible(showCursor);
-                SetCursorTimer(90);
-                if (frameIndex < clickFrame + 20L)
-                {
-                    switchScreenMode = true;
-                    isFullscreen = !isFullscreen;
-                    clickFrame = long.MinValue;
-                    return;
-                }
-                clickFrame = frameIndex;
-            }
-        }
-        private static void MouseMoved(object sender, MouseMoveEventArgs e)
-        {
-            if (!showCursor)
-            {
-                
-                showCursor = true;
-                window.SetMouseCursorVisible(showCursor);
-            }
-            SetCursorTimer(90);
-        }
+
         public static void OnWindowClose(object sender, EventArgs e)
         {
             RenderWindow renderWindow = (RenderWindow)sender;

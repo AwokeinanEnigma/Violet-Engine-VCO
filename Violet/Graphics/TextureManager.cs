@@ -64,48 +64,65 @@ namespace Violet.Graphics
                 }
             }
             SpriteDefinition spriteDefinition = null;
-            Dictionary<int, SpriteDefinition> dictionary = new Dictionary<int, SpriteDefinition>();
-            NbtCompound nbtCompound = root.Get<NbtCompound>("spr");
-            if (nbtCompound != null)
+            Dictionary<int, SpriteDefinition> spriteDefinitions = new Dictionary<int, SpriteDefinition>();
+
+            NbtCompound allSprites = root.Get<NbtCompound>("spr");
+            if (allSprites != null)
             {
-                foreach (NbtTag nbtTag3 in nbtCompound.Tags)
+                foreach (NbtTag potentialSprite in allSprites.Tags)
                 {
-                    if (nbtTag3 is NbtCompound)
+                    if (potentialSprite is NbtCompound)
                     {
-                        NbtCompound nbtCompound2 = (NbtCompound)nbtTag3;
-                        string text = nbtCompound2.Name.ToLowerInvariant();
-                        int[] array = nbtCompound2.TryGet<NbtIntArray>("crd", out NbtIntArray nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        int[] array2 = nbtCompound2.TryGet<NbtIntArray>("bnd", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        int[] org = nbtCompound2.TryGet<NbtIntArray>("org", out nbtIntArray) ? nbtIntArray.IntArrayValue : new int[2];
-                        byte[] opt = nbtCompound2.TryGet<NbtByteArray>("opt", out NbtByteArray nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
-                        IList<NbtTag> spd = nbtCompound2.Get<NbtList>("spd");
-                        int frames = nbtCompound2.TryGet<NbtInt>("frm", out NbtInt nbtInt) ? nbtInt.IntValue : 1;
-                        NbtIntArray nbtIntArray2 = nbtCompound2.Get<NbtIntArray>("d");
-                        int[] data = (nbtIntArray2 == null) ? null : nbtIntArray2.IntArrayValue;
-                        Vector2i coords = new Vector2i(array[0], array[1]);
-                        Vector2i bounds = new Vector2i(array2[0], array2[1]);
-                        Vector2f origin = new Vector2f(org[0], org[1]);
-                        bool flipX = opt[0] == 1;
-                        bool flipY = opt[1] == 1;
-                        int mode = opt[2];
-                        float[] array5 = (spd != null) ? new float[spd.Count] : new float[0];
-                        for (int i = 0; i < array5.Length; i++)
+                        NbtCompound spriteCompound = (NbtCompound)potentialSprite;
+                        string text = spriteCompound.Name.ToLowerInvariant();
+
+                        NbtIntArray dummyIntArray;
+                        int[] coordinatesArray = spriteCompound.TryGet<NbtIntArray>("crd", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
+                        int[] boundsArray = spriteCompound.TryGet<NbtIntArray>("bnd", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
+                        int[] originArray = spriteCompound.TryGet<NbtIntArray>("org", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
+                   
+                        byte[] optionsArray = spriteCompound.TryGet<NbtByteArray>("opt", out NbtByteArray nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
+                      
+                        IList<NbtTag> speedSet = spriteCompound.Get<NbtList>("spd");
+                        int frames = spriteCompound.TryGet<NbtInt>("frm", out NbtInt nbtInt) ? nbtInt.IntValue : 1;
+
+                        // this is only found on tilesets put through VEMC
+                        NbtIntArray dataArray = spriteCompound.Get<NbtIntArray>("d");
+                        int[] data = (dataArray == null) ? null : dataArray.IntArrayValue;
+                       
+                        Vector2i coords = new Vector2i(coordinatesArray[0], coordinatesArray[1]);
+                        Vector2i bounds = new Vector2i(boundsArray[0], boundsArray[1]);
+                        Vector2f origin = new Vector2f(originArray[0], originArray[1]);
+
+                        // options are encoded as arrays
+                        // you can guess the values from here but i'll elaborate
+
+                        // 0 - flip the sprite horizontally
+                        // 1 - flip the sprite vertically 
+                        // 2 - animation mode
+
+                        bool flipX = optionsArray[0] == 1;
+                        bool flipY = optionsArray[1] == 1;
+                        int mode = optionsArray[2];
+
+                        float[] speeds = (speedSet != null) ? new float[speedSet.Count] : new float[0];
+                        for (int i = 0; i < speeds.Length; i++)
                         {
-                            NbtTag nbtTag4 = spd[i];
-                            array5[i] = nbtTag4.FloatValue;
+                            NbtTag nbtTag4 = speedSet[i];
+                            speeds[i] = nbtTag4.FloatValue;
                         }
-                        SpriteDefinition spriteDefinition2 = new SpriteDefinition(text, coords, bounds, origin, frames, array5, flipX, flipY, mode, data);
+                        SpriteDefinition spriteDefinition2 = new SpriteDefinition(text, coords, bounds, origin, frames, speeds, flipX, flipY, mode, data);
                         if (spriteDefinition == null)
                         {
                             spriteDefinition = spriteDefinition2;
                         }
 
                         int key = text.GetHashCode();
-                        dictionary.Add(key, spriteDefinition2);
+                        spriteDefinitions.Add(key, spriteDefinition2);
                     }
                 }
             }
-            return new IndexedTexture(intValue, list.ToArray(), byteArrayValue, dictionary, spriteDefinition);
+            return new IndexedTexture(intValue, list.ToArray(), byteArrayValue, spriteDefinitions, spriteDefinition);
         }
 
 

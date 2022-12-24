@@ -274,10 +274,26 @@ namespace Violet.Input
             }
         }
 
-        public static Vector2f GetMousePosition() {
+        public static void SetMousePosition(Vector2f position)
+        {
             // This is stupid, let me explain:
             // We want a pixel location of where the mouse is relative to the game's window
             // Here's the problem: The scale of the screen
+            float scaleFactor = Engine.ScreenScale;
+            if (Engine.Fullscreen)
+            {
+                VideoMode desktopMode;
+                desktopMode = VideoMode.DesktopMode;
+                scaleFactor = Math.Min(desktopMode.Width / Engine.SCREEN_WIDTH, desktopMode.Height / Engine.SCREEN_HEIGHT);
+            }
+            Mouse.SetPosition((Vector2i)(position * scaleFactor));// * scaleFactor;
+        }
+
+        public static Vector2f GetMousePosition() {
+            // had a really long winded thing written but i'll shorten it
+            // the mouse position is not relative to the game's window
+            // what is (69, 69) in game space is not the same in monitor space
+            // this function is translating monitor space to window space.
             if (Engine.Fullscreen) {
                 VideoMode desktopMode;
                 desktopMode = VideoMode.DesktopMode;

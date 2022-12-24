@@ -23,13 +23,13 @@ namespace VCO
         [STAThread]
         private static void Main(string[] args)
         {
-
+            WindowName = "Voyage: Carpe Omnia";
             // goes directly to Engine.Initalize
             Initialize();
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
-            Scene newScene = new DebugScene(); // TitleScene();
+            Scene newScene = new ArtScene(); // TitleScene();
             EnemyFile.Load();
 
             // this is totally and utterly fucking worthless
