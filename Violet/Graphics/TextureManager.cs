@@ -237,13 +237,15 @@ namespace Violet.Graphics
         public FullColorTexture UseFramebuffer()
         {
             int hashCode = Engine.Frame.GetHashCode();
+            
             RenderStates states = new RenderStates(BlendMode.Alpha, Transform.Identity, Engine.FrameBuffer.Texture, null);
             VertexArray vertexArray = new VertexArray(PrimitiveType.Quads, 4U);
-            vertexArray[0U] = new Vertex(new Vector2f(0f, 0f), new Vector2f(0f, 180f));
-            vertexArray[1U] = new Vertex(new Vector2f(320f, 0f), new Vector2f(320f, 180f));
-            vertexArray[2U] = new Vertex(new Vector2f(320f, 180f), new Vector2f(320f, 0f));
-            vertexArray[3U] = new Vertex(new Vector2f(0f, 180f), new Vector2f(0f, 0f));
-            RenderTexture renderTexture = new RenderTexture(320U, 180U);
+            vertexArray[0U] = new Vertex(new Vector2f(0f, 0f), new Vector2f(0f, Engine.SCREEN_HEIGHT));
+            vertexArray[1U] = new Vertex(new Vector2f(Engine.SCREEN_WIDTH, 0f), Engine.SCREEN_SIZE);
+            vertexArray[2U] = new Vertex(Engine.SCREEN_SIZE, new Vector2f(Engine.SCREEN_WIDTH, 0f));
+            vertexArray[3U] = new Vertex(new Vector2f(0f, Engine.SCREEN_HEIGHT), new Vector2f(0f, 0f));
+
+            RenderTexture renderTexture = new RenderTexture(Engine.SCREEN_WIDTH, Engine.SCREEN_HEIGHT);
             renderTexture.Clear(Color.Black);
             renderTexture.Draw(vertexArray, states);
             Texture tex = new Texture(renderTexture.Texture);
@@ -285,7 +287,6 @@ namespace Violet.Graphics
 
         public void Purge()
         {
-            Debug.LogInfo($"textures before is {textures.Count} ");
             List<int> list = new List<int>();
             foreach (KeyValuePair<int, IVioletTexture> keyValuePair in this.textures)
             {
@@ -303,7 +304,6 @@ namespace Violet.Graphics
                 this.instances.Remove(key2);
                 this.textures.Remove(key2);
             }
-            Debug.LogInfo($"textures length is {textures.Count} ");
         }
 
         public void DumpEveryLoadedTexture()

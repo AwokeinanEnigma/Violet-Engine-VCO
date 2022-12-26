@@ -130,9 +130,9 @@ namespace VCO.Scenes
             if (this.bgmVolumeList.SelectedIndex < OptionsScene.BGM_MENU.Length - 1)
             {
                 this.sfxConfirm.Play();
-                AudioManager.Instance.MusicVolume = (10 - this.bgmVolumeList.SelectedIndex) / 10f;
-                Settings.MusicVolume = AudioManager.Instance.MusicVolume;
-                this.GoBackToMainList();
+                Settings.MusicVolume = (10 - this.bgmVolumeList.SelectedIndex) / 10f;
+                AudioManager.Instance.MusicVolume = Settings.MusicVolume;
+                //this.GoBackToMainList();
                 return;
             }
             this.DoCancel();
@@ -145,7 +145,7 @@ namespace VCO.Scenes
                 this.sfxConfirm.Play();
                 AudioManager.Instance.EffectsVolume = (10 - this.sfxVolumeList.SelectedIndex) / 10f;
                 Settings.EffectsVolume = AudioManager.Instance.EffectsVolume;
-                this.GoBackToMainList();
+                //this.GoBackToMainList();
                 return;
             }
             this.DoCancel();

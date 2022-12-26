@@ -176,7 +176,7 @@ namespace VCO.Scenes
                     case 3:
                         if (this.selectedCharacters.Count > 0)
                         {
-                            AudioManager.Instance.FadeOut(AudioManager.Instance.BGM, 1500U);
+                            AudioManager.Instance.FadeOut(AudioManager.Instance.BGM, 5500U);
                             PartyManager.Instance.Clear();
                             PartyManager.Instance.AddAll(this.selectedCharacters);
                             SceneManager.Instance.Transition = new ColorFadeTransition(0.5f, Color.Black);

@@ -96,7 +96,7 @@ namespace VCO.Scenes
 
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
-
+          
 
             //		this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
             this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
@@ -271,6 +271,7 @@ namespace VCO.Scenes
             Engine.ClearColor = Color.Black;
 
             AudioManager.Instance.SetBGM(DataHandler.instance.Load("test.mp3"));
+            Debug.Log($"ADMV {AudioManager.Instance.BGM.Volume} vs SMV: {Settings.MusicVolume}");
             AudioManager.Instance.BGM.Play();
 
             InputManager.Instance.AxisPressed += this.AxisPressed;

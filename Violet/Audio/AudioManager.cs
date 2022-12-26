@@ -40,6 +40,7 @@ namespace Violet.Audio
             }
             set
             {
+                Debug.Log("Setting music volume.");
                 this.musicVolume = value;
                 this.UpdateSoundVolume();
             }
@@ -108,6 +109,7 @@ namespace Violet.Audio
 
         private void Fade(VioletSound sound, uint duration, float volume, bool stopOnEnd)
         {
+            Debug.Log("created fader");
             AudioManager.Fader item = new AudioManager.Fader
             {
                 sound = sound,
@@ -127,7 +129,9 @@ namespace Violet.Audio
 
         public void FadeOut(VioletSound sound, uint duration)
         {
+
             this.Fade(sound, duration, 0f, true);
+            
         }
 
         public void FadeIn(VioletSound sound, uint duration)
@@ -141,6 +145,8 @@ namespace Violet.Audio
             Debug.LogDebug($"Setting BGM: {name}");
 
             VioletSound bgm = this.Use(name, AudioType.Stream);
+            bgm.Volume = musicVolume;
+            Debug.Log($"{bgm.Volume} & {musicVolume}");
             this.SetBGM(bgm);
         }
 
