@@ -98,7 +98,7 @@ namespace Violet.Audio.fmod
         }
 
         public override VioletSound Use(string filename, AudioType type, 
-            [CallerFilePath] string callerFilePath = "",
+        [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
         {
             int hashCode = filename.GetHashCode();
@@ -107,7 +107,7 @@ namespace Violet.Audio.fmod
 
             if (!this.sounds.ContainsKey(hashCode))
             {
-                fmodSound = FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume);
+                fmodSound = FmodAudioLoader.Instance.LoadSound(ref this.system, filename, 0, this.effectsVolume, type);
                 this.instances.Add(hashCode, 1);
                 this.sounds.Add(hashCode, fmodSound);
             }

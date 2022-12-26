@@ -7,6 +7,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class IrisOverlayAction : RufiniAction
     {
+        public override string Code => "IRIS";
         public IrisOverlayAction()
         {
             this.paramList = new List<ActionParam>

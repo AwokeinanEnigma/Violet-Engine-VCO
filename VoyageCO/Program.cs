@@ -7,6 +7,7 @@ using VCO.Data;
 using VCO.Data.Enemies;
 using VCO.Scenes;
 using VCO.Scenes.Transitions;
+using VCO.Scripts;
 using Violet;
 using Violet.Audio;
 using Violet.Lua;
@@ -29,8 +30,10 @@ namespace VCO
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
-            Scene newScene = new ArtScene(); // TitleScene();
+            Scene newScene = new TitleScene();
             EnemyFile.Load();
+            
+           // Test._Test();
 
             // this is totally and utterly fucking worthless
             //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
@@ -38,6 +41,7 @@ namespace VCO
             UserData.RegisterType<EventArgs>();
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
+            new RufiniActionCatalog();
 
             //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
 

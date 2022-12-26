@@ -67,10 +67,11 @@ namespace VCO.Scripts
             RufiniAction rufiniAction = null;
             if (type != null)
             {
-                ActionFactory.actions.TryGetValue(type, out Type type2);
-                if (type2 != null)
+                rufiniAction = RufiniActionCatalog.StaticGet(type);
+                rufiniAction = (RufiniAction)Activator.CreateInstance(rufiniAction.GetType());
+                
+                if (rufiniAction != null)
                 {
-                    rufiniAction = (RufiniAction)Activator.CreateInstance(type2);
                     NbtCompound nbtCompound = tag.Get<NbtCompound>("params");
                     if (nbtCompound != null)
                     {
@@ -134,11 +135,13 @@ namespace VCO.Scripts
                                     }
                                 }
                             }
+
                         }
                     }
                 }
             }
             return rufiniAction;
+
         }
 
         private const string TYPE_TAG = "_typ";

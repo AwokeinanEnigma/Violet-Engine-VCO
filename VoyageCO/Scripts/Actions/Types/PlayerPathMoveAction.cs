@@ -8,6 +8,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class PlayerPathMoveAction : RufiniAction
     {
+        public override string Code => "PPMV";
         public PlayerPathMoveAction()
         {
             this.paramList = new List<ActionParam>

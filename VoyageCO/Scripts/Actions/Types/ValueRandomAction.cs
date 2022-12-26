@@ -6,6 +6,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class ValueRandomAction : RufiniAction
     {
+        public override string Code => "VLRA";
         public ValueRandomAction()
         {
             this.paramList = new List<ActionParam>

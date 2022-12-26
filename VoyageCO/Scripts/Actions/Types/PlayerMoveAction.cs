@@ -8,8 +8,10 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class PlayerMoveAction : RufiniAction
     {
+        public override string Code => "PMOV";
         public PlayerMoveAction()
         {
+            Console.WriteLine("125");
             this.paramList = new List<ActionParam>
             {
                 new ActionParam

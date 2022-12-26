@@ -5,7 +5,10 @@ namespace VCO.Scripts.Actions
 {
     internal abstract class RufiniAction
     {
+
         public List<ActionParam> Params => this.paramList;
+
+        public abstract string Code { get; }
 
         public RufiniAction()
         {

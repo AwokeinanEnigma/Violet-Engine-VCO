@@ -6,6 +6,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class SetTilesetPaletteAction : RufiniAction
     {
+        public override string Code => "STSP";
         public SetTilesetPaletteAction()
         {
             this.paramList = new List<ActionParam>

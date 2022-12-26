@@ -75,6 +75,7 @@ namespace Violet.Audio
         {
             foreach (VioletSound VioletSound in this.sounds.Values)
             {
+                Debug.Log($"sound: {VioletSound} and type is {VioletSound.AudioType}");
                 VioletSound.Volume = ((VioletSound.AudioType == AudioType.Stream) ? this.musicVolume : this.effectsVolume);
             }
         }
@@ -137,7 +138,8 @@ namespace Violet.Audio
 
         public void SetBGM(string name)
         {
-            Debug.LogDebug($"REQUESTING BGM: {name}");
+            Debug.LogDebug($"Setting BGM: {name}");
+
             VioletSound bgm = this.Use(name, AudioType.Stream);
             this.SetBGM(bgm);
         }

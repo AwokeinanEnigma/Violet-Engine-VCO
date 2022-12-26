@@ -7,7 +7,8 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class TelepathyEndAction : RufiniAction
     {
-        public TelepathyEndAction()
+		public override string Code => "TEEA";
+		public TelepathyEndAction()
         {
             this.paramList = new List<ActionParam>();
         }

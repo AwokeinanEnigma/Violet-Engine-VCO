@@ -81,6 +81,7 @@ namespace Violet.Audio.fmod
           : base(type, loopBegin, loopEnd, loopCount, volume, 1f)
         {
             this.system = system;
+            this.name = filename;
             this.sound = new Sound();
             switch (this.type)
             {

@@ -101,6 +101,7 @@ namespace Violet.Audio
             this.loopCount = loopCount;
             this.volume = volume;
             this.pitch = pitch;
+            Debug.Log($"type is {type}");
             this.type = soundType;
         }
 
@@ -148,6 +149,8 @@ namespace Violet.Audio
         protected AudioType type;
 
         protected bool disposed;
+
+        public string name;
 
         public delegate void OnCompleteHandler(VioletSound sender);
     }

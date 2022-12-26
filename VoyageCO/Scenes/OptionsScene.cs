@@ -19,6 +19,7 @@ namespace VCO.Scenes
             this.sfxCursorY = AudioManager.Instance.Use(DataHandler.instance.Load("cursory.wav"), AudioType.Sound);
             this.sfxConfirm = AudioManager.Instance.Use(DataHandler.instance.Load("confirm.wav"), AudioType.Sound);
             this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
+
             this.titleText = new TextRegion(new Vector2f(4f, 4f), 0, Fonts.Title, "Global Options");
             this.pipeline.Add(this.titleText);
             this.mainList = new ScrollingList(OptionsScene.MENU_POSITION, 0, OptionsScene.MAIN_MENU, 8, 16f, 80f, OptionsScene.CURSOR_FILE);

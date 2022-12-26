@@ -4,6 +4,7 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Violet.Collision;
 using Violet.Utility;
@@ -37,29 +38,35 @@ namespace Violet.Maps
             //Debug.Log("Starting loading");
             LoadHeader(map, rootTag);
             //Debug.Log("Loaded header");
-            await LoadBGM(map, rootTag);
+
+
+
+
+
+            LoadBGM(map, rootTag);
             //Debug.Log("Loaded BGM");
-            await LoadSFX(map, rootTag);
+            LoadSFX(map, rootTag);
             //Debug.Log("Loaded SFX");
-            await LoadDoors(map, rootTag);
+            LoadDoors(map, rootTag);
             //Debug.Log("Loaded doors");
-            await LoadTriggers(map, rootTag);
+            LoadTriggers(map, rootTag);
             //Debug.Log("Loaded triggers");
-            await LoadNPCs(map, rootTag);
+            LoadNPCs(map, rootTag);
             //Debug.Log("Loaded NPCs");
-            await LoadNPCPaths(map, rootTag);
+            LoadNPCPaths(map, rootTag);
             //Debug.Log("Loaded NPC paths");
-            await LoadNPCAreas(map, rootTag);
+            LoadNPCAreas(map, rootTag);
             //Debug.Log("Loaded NPC Areas");
-            //await LoadCrowds(map, rootTag);
+            LoadCrowds(map, rootTag);
             //Debug.Log("Loaded crowds");
-            await LoadSpawns(map, rootTag);
-            //Debug.Log("Loaded loaded spawns");
-            await LoadCollisions(map, rootTag);
+            LoadSpawns(map, rootTag);
+            //Debug.Log("Loaded Loaded spawns");
+            LoadCollisions(map, rootTag);
             //  Debug.Log("Loaded collisions");
-            await LoadTileGroups(map, rootTag);
+            LoadTileGroups(map, rootTag);
             // Debug.Log("Loaded groups");
-            await LoadParallax(map, rootTag);
+            LoadParallax(map, rootTag);
+
             Debug.LogDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
             return map;
         }
@@ -146,12 +153,12 @@ namespace Violet.Maps
         // my code is perfect
         #pragma warning disable 
 
-        private static async Task<bool> LoadBGM(Map map, NbtCompound mapTag)
+        private static void LoadBGM(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("audbgm");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return ;
             }
 
             if (nbtTag != null)
@@ -172,15 +179,15 @@ namespace Violet.Maps
                     });
                 }
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadSFX(Map map, NbtCompound mapTag)
+        private static void LoadSFX(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("audsfx");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -197,15 +204,15 @@ namespace Violet.Maps
                     Interval = nbtCompound.Get<NbtShort>("interval").Value
                 });
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadDoors(Map map, NbtCompound mapTag)
+        private static void LoadDoors(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("doors");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -224,15 +231,15 @@ namespace Violet.Maps
                 portal.DirectionTo = nbtByte != null ? nbtByte.Value : -1;
                 map.Portals.Add(portal);
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadTriggers(Map map, NbtCompound mapTag)
+        private static void LoadTriggers(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("triggers");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -252,15 +259,15 @@ namespace Violet.Maps
                 }
                 map.Triggers.Add(trigger);
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadNPCs(Map map, NbtCompound mapTag)
+        private static void LoadNPCs(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("npcs");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound npcCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -341,15 +348,15 @@ namespace Violet.Maps
                 }
                 map.NPCs.Add(npc);
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadNPCPaths(Map map, NbtCompound mapTag)
+        private static void LoadNPCPaths(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("paths");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -367,15 +374,15 @@ namespace Violet.Maps
                 path.Points = vector2fList;
                 map.Paths.Add(path);
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadNPCAreas(Map map, NbtCompound mapTag)
+        private static void LoadNPCAreas(Map map, NbtCompound mapTag)
         {
             NbtTag areaTag = mapTag.Get("areas");
             if (!(areaTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound areaCompound in (IEnumerable<NbtTag>)areaTag)
@@ -389,19 +396,19 @@ namespace Violet.Maps
                 area.Rectangle = new IntRect(left, top, width, height);
                 map.Areas.Add(area);
             }
-            return true;
+
         }
 
         private static void LoadCrowds(Map map, NbtCompound mapTag)
         {
         }
 
-        private static async Task<bool> LoadSpawns(Map map, NbtCompound mapTag)
+        private static void LoadSpawns(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("spawns");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -426,15 +433,15 @@ namespace Violet.Maps
                 }
                 map.Spawns.Add(enemySpawn);
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadCollisions(Map map, NbtCompound mapTag)
+        private static void LoadCollisions(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("mesh");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtList nbtList in (IEnumerable<NbtTag>)nbtTag)
@@ -449,7 +456,7 @@ namespace Violet.Maps
                 Mesh mesh = new Mesh(points);
                 map.Mesh.Add(mesh);
             }
-            return true;
+
         }
 
         private static void LoadTileAnimations(Map map, NbtCompound mapTag)
@@ -478,12 +485,12 @@ namespace Violet.Maps
             }
         }
 
-        private static async Task<bool> LoadTileGroups(Map map, NbtCompound mapTag)
+        private static void LoadTileGroups(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag1 = mapTag.Get("tiles");
             if (!(nbtTag1 is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtTag nbtTag2 in (IEnumerable<NbtTag>)nbtTag1)
@@ -512,15 +519,15 @@ namespace Violet.Maps
                     map.Groups.Add(group);
                 }
             }
-            return true;
+
         }
 
-        private static async Task<bool> LoadParallax(Map map, NbtCompound mapTag)
+        private static void LoadParallax(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("parallax");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return false;
+                return;
             }
 
             foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
@@ -541,7 +548,7 @@ namespace Violet.Maps
                 };
                 map.Parallaxes.Add(parallax);
             }
-            return true;
+
         }
     }
 }

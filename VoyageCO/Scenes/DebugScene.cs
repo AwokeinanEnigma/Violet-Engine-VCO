@@ -17,11 +17,21 @@ namespace VCO
         private uint layer;
         private TextRegion text;
 
+        private readonly IndexedColorGraphic block;
+        private readonly IndexedColorGraphic buzz;
+
         public ArtScene()
         {
             FontData data = new FontData();
             this.spraypaintIcon = new IndexedColorGraphic(DataHandler.instance.Load("spraypaint.dat"), "default", new Vector2f(160f, 44f), int.MaxValue);
+            this.buzz = new IndexedColorGraphic(DataHandler.instance.Load("FungalWizard.dat"), "front", new Vector2f(180f, 44f), 100);
+            this.block = new IndexedColorGraphic(DataHandler.instance.Load("block.dat"), "default", new Vector2f(buzz.Position.X - buzz.Origin.X - 2, 44f), int.MaxValue, 2);
+
             this.pipeline.Add(this.spraypaintIcon);
+            this.pipeline.Add(this.block);
+            this.pipeline.Add(this.buzz);
+            clock.Restart();
+
             text = new TextRegion(new Vector2f(5, 0), int.MaxValue, data, $"Palette: {palette}          ");
             pipeline.Add(text);
             layer = 0;
@@ -40,6 +50,7 @@ namespace VCO
             Engine.ClearColor = Color.Black;
         }
 
+        public bool canMove;
 
         private void Instance_ButtonPressed(InputManager sender, Button b)
         {
@@ -52,6 +63,9 @@ namespace VCO
                         break;
                     case Button.Two:
                         palette++;
+                        break;
+                    case Button.Tilde:
+                        canMove = true;
                         break;
                 }
                 //spraypaintIcon.CurrentPalette = palette;
@@ -67,10 +81,20 @@ namespace VCO
             }
         }
 
+        Clock clock = new Clock();
+
         public override void Update()
         {
             base.Update();
             spraypaintIcon.Position = InputManager.GetMousePosition();
+
+            float elapsedTime = clock.ElapsedTime.AsSeconds();
+            if (elapsedTime >= 0.1f && canMove)
+            {
+                block.Position += new Vector2f(1, 0);
+                clock.Restart();
+            }
+            // Check if the sprite has moved off the width of the background image
 
 
             if (Mouse.IsButtonPressed(Mouse.Button.Left) && Engine.Window.HasFocus())

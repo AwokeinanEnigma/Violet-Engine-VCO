@@ -27,10 +27,11 @@
           ref FMOD.System system,
           string name,
           int loopCount,
-          float volume)
+          float volume,
+          AudioType type)
         {
             string filename = name;
-            return new FmodSound(ref system, filename, AudioType.Sound, 0U, 0U, loopCount, volume);
+            return new FmodSound(ref system, filename, type, 0U, 0U, loopCount, volume);
         }
     }
 }

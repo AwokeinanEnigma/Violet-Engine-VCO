@@ -25,7 +25,6 @@ namespace VCO.Scenes
     internal class TitleScene : StandardScene
     {
         public BattleBackgroundRenderable background;
-        private IndexedColorGraphic cursorTest;
         public TitleScene()
         {
             Fonts.LoadFonts(Settings.Locale);
@@ -77,7 +76,7 @@ namespace VCO.Scenes
             shpae.SetPoint(0, new Vector2f(1, 2));
             shpae.SetPoint(1, new Vector2f(25, 166));
             shpae.SetPoint(2, new Vector2f(23, 73));
-            ShapeGraphic graphic = new ShapeGraphic(shpae, new Vector2f(0,0), new Vector2f(160, 90), new Vector2f(10, 10), 9999);
+            ShapeGraphic graphic = new ShapeGraphic(shpae, new Vector2f(160, 90), new Vector2f(160, 90), new Vector2f(10, 10), 9999);
             graphic.FillColor = Color.Blue;
             graphic.OutlineColor = Color.Red;
             pipeline.Add(graphic);
@@ -94,10 +93,9 @@ namespace VCO.Scenes
             {
                 Color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, 128)
             };
-            cursorTest = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "up", new Vector2f(0, 0), 9999999);
+
             this.pipeline.Add(this.titleImage);
             this.pipeline.Add(this.versionText);
-            this.pipeline.Add(this.cursorTest);
 
 
             //		this.mod = new GraphicTranslator(this.titleImage, new Vector2f(160f, 36f), 30);
@@ -289,10 +287,7 @@ namespace VCO.Scenes
         public override void Update()
         {
             base.Update();
-            var pos = InputManager.GetMousePosition();
-            cursorTest.Position = (Vector2f)pos + new Vector2f(0,-2); // , integerPos / Engine.ScreenScale, ; // (Vector2f)Engine.Window.MapCoordsToPixel(integerPos);
-            Debug.Log($"Mouse's position is {pos}");
-            //this.mod.Update();
+ 
         }
 
         protected override void Dispose(bool disposing)

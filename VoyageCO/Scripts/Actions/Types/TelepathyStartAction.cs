@@ -8,6 +8,8 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class TelepathyStartAction : RufiniAction
     {
+        public override string Code => "TESA";
+
         public TelepathyStartAction()
         {
             this.paramList = new List<ActionParam>();

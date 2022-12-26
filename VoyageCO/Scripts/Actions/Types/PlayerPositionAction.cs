@@ -6,6 +6,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class PlayerPositionAction : RufiniAction
     {
+        public override string Code => "MVPL";
         public PlayerPositionAction()
         {
             this.paramList = new List<ActionParam>

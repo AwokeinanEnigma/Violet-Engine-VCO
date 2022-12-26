@@ -10,6 +10,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class GoToMapAction : RufiniAction
     {
+        public override string Code => "GOMP";
         public GoToMapAction()
         {
             this.paramList = new List<ActionParam>

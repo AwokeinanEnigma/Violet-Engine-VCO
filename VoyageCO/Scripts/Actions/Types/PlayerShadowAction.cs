@@ -4,6 +4,7 @@ namespace VCO.Scripts.Actions.Types
 {
     internal class PlayerShadowAction : RufiniAction
     {
+        public override string Code => "TSPL";
         public PlayerShadowAction()
         {
             this.paramList = new List<ActionParam>
