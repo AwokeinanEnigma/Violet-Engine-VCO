@@ -52,7 +52,7 @@ namespace VCO
             try
             {
                 SceneManager.Instance.Push(newScene);
-                while (Engine.Running)
+                while (Running)
                 {
                         Update();
                         Render();
