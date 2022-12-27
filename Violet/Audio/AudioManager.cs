@@ -40,7 +40,6 @@ namespace Violet.Audio
             }
             set
             {
-                Debug.Log("Setting music volume.");
                 this.musicVolume = value;
                 this.UpdateSoundVolume();
             }
@@ -76,7 +75,6 @@ namespace Violet.Audio
         {
             foreach (VioletSound VioletSound in this.sounds.Values)
             {
-                Debug.Log($"sound: {VioletSound} and type is {VioletSound.AudioType}");
                 VioletSound.Volume = ((VioletSound.AudioType == AudioType.Stream) ? this.musicVolume : this.effectsVolume);
             }
         }
@@ -109,7 +107,6 @@ namespace Violet.Audio
 
         private void Fade(VioletSound sound, uint duration, float volume, bool stopOnEnd)
         {
-            Debug.Log("created fader");
             AudioManager.Fader item = new AudioManager.Fader
             {
                 sound = sound,

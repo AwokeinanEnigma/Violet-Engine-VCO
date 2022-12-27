@@ -147,7 +147,6 @@ namespace Violet.Audio.fmod
                 return;
             }
 
-            //Console.WriteLine("Cleaning up audio");
             this.instances.Remove(key);
             this.sounds.Remove(key);
             memorySound.Dispose();
