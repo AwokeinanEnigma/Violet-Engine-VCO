@@ -230,6 +230,12 @@ namespace Violet
         private static bool initialize_luahandler;
 
         /// <summary>
+        /// If true, the engine will force vertical sync.
+        /// </summary>
+        private static bool force_vsync;
+
+
+        /// <summary>
         /// Data to change specific aspects of the engine such as the resolution and target frame rate.
         /// </summary>
         public struct EngineInitializationData {
@@ -282,6 +288,11 @@ namespace Violet
             /// Should the engine initialize the Lua Handler?
             /// </summary>
             public bool initialize_luahandler;
+
+            /// <summary>
+            /// If true, the engine will force vertical sync.
+            /// </summary>
+            public bool force_vsync;
         }
 
         #endregion
@@ -313,6 +324,7 @@ namespace Violet
                 target_framerate = data.target_framerate;
                 required_opengl_version = data.required_opengl_version;
                 frameBufferScale = data.base_frame_buffer_scale;
+                force_vsync = data.force_vsync;
 
                 initialize_datahandler = data.initialize_datahandler;
                 initialize_luahandler = data.initialize_luahandler;
@@ -432,6 +444,7 @@ namespace Violet
 
                 initialize_datahandler = ini["enginedata"]["initialize_datahandler"].ToBool();
                 initialize_luahandler = ini["enginedata"]["initialize_luahandler"].ToBool();
+                force_vsync = ini["enginedata"]["force_vsync"].ToBool();
 
                 // i could just use a get set for these but i'm lazy.
                 SCREEN_SIZE = new Vector2f(screen_width, screen_height);
@@ -516,6 +529,7 @@ namespace Violet
 
                 int width = (int)(HALF_SCREEN_SIZE.X * fullScreenMin);
                 int height = (int)(HALF_SCREEN_SIZE.Y * fullScreenMin);
+
                 frameBufferState.Transform = new Transform(cos * fullScreenMin, sin, fullscreenWidth + width, -sin, cos * fullScreenMin, fullscreenHeight + height, 0f, 0f, 1f);
             }
             else
@@ -530,14 +544,16 @@ namespace Violet
 
 
             window = new RenderWindow(desktopMode, WindowName, style);
+            
             window.Closed += OnWindowClose;
             InputManager.Instance.AttachToWindow(window);
             window.SetMouseCursorVisible(!goFullscreen);
 
-            if (vsync || goFullscreen)
+            if (vsync || goFullscreen || force_vsync)
             {
                 //window.SetFramerateLimit(target_framerate);
                 window.SetVerticalSyncEnabled(true);
+                //   
             }
             else
             {
@@ -657,7 +673,7 @@ namespace Violet
             frameStopwatch.Restart();
             if (switchScreenMode)
             {
-                SetWindow(isFullscreen, false);
+                SetWindow(isFullscreen, true);
                 switchScreenMode = false;
             }
             if (frameIndex > cursorTimer)
@@ -683,7 +699,6 @@ namespace Violet
 
                 // OpenGL shit, we have to clear our frame buffer before we can draw to it
                 frameBuffer.Clear(ClearColor);
-
                 //Finally, draw our scene.
                 SceneManager.Instance.Draw();
             }

@@ -67,7 +67,20 @@ namespace VCO.Scenes
             };
             optionList.Depth = 1100;
             this.pipeline.Add(this.optionList);
-            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load($"title.xml"), 10);
+
+            string title = "title.xml";
+            int random = Engine.Random.Next(1, 3);
+            switch (random) {
+                case 2:
+                    title = "title_blue.xml";
+                    break;
+                case 3:
+                    title = "title_green.xml";
+                    break;
+
+            }
+
+            this.background = new BattleBackgroundRenderable(DataHandler.instance.Load(title), 10);
             pipeline.Add(background);
             this.titleImage = new IndexedColorGraphic(DataHandler.instance.Load("logo.dat"), "title", new Vector2f(160f, 90), 1000);
 

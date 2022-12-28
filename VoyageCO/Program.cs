@@ -1,6 +1,7 @@
 ﻿using MoonSharp.Interpreter;
 using SFML.System;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using VCO.Data;
@@ -19,6 +20,13 @@ namespace VCO
 {
     internal class Program
     {
+        private static float sixty_fps = 1.0f / 60.0f;
+        private static float thirty_fps = 1.0f / 30.0f;
+        private static float onehundredtwenty_fps = 1.0f / 120.0f;
+
+        private static float frameTime;
+        private static float lastFrameTime;
+        private static Stopwatch frameTimer;
 
 
         [STAThread]
@@ -31,9 +39,10 @@ namespace VCO
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
             Scene newScene = new TitleScene();
+            //ArtScene();
             EnemyFile.Load();
-            
-           // Test._Test();
+
+            // Test._Test();
 
             // this is totally and utterly fucking worthless
             //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
@@ -49,15 +58,71 @@ namespace VCO
 
 
 
+            Clock timer = new Clock();
+            timer.Restart();
+
+            const int MAX_FRAMESKIP = 5;
+
+            float time, lastTime;
+            time = timer.ElapsedTime.AsSeconds();
+            lastTime = time;
+
+            float delta = 1.0f;
+            float maxDelta = 0.25f; //0.25f
+            float acc = 0;
+            float stepTime = sixty_fps;
+            int loops;
+            float alpha = 0.0f;
+
+
             try
             {
                 SceneManager.Instance.Push(newScene);
+
                 while (Running)
                 {
+                    time = timer.ElapsedTime.AsSeconds();
+                    delta = time - lastTime;
+                    lastTime = time;
+
+                    //m_MainWindow.DispatchEvents();
+
+                    //m_DeltaTime = m_Timer.GetDeltaTime();
+                    //m_FPS = 1.0f / m_DeltaTime;
+
+                    if (delta > maxDelta)
+                        delta = maxDelta;
+
+
+                    acc += delta;
+
+                    loops = 0;
+                    while (acc >= stepTime)
+                    {
                         Update();
                         Render();
 
+                        acc -= stepTime;
+
+                        loops++;
+
+                        if (loops >= MAX_FRAMESKIP)
+                        {
+                            acc = 0.0f;
+                            break;
+                        }
+
+                    }
+
+                    /*if (_timeSinceLastUpdate > _timePerFrame)
+                                      {
+                                          _timeSinceLastUpdate -= _timePerFrame;
+
+                                      }*/
                 }
+
+
+
             }
             catch (Exception value)
             {
