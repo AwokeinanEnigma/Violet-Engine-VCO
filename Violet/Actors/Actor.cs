@@ -14,17 +14,17 @@ namespace Violet.Actors
         protected bool disposed;
 
         /// <summary>
-        ///     The protected position of the actor
+        ///     The position of the actor
         /// </summary>
         protected Vector2f position;
 
         /// <summary>
-        ///     The protected velocity of the actor
+        ///     The  velocity of the actor
         /// </summary>
         protected Vector2f velocity;
 
         /// <summary>
-        ///     The protected z Offset of the actor
+        ///     The z Offset of the actor
         /// </summary>
         protected float zOffset;
 

@@ -5,30 +5,51 @@ using System.Collections.Generic;
 
 namespace Violet.Input
 {
+    /// <summary>
+    /// Handles input.
+    /// </summary>
     public class InputManager
     {
+        /// <summary>
+        /// The acting instance of the Input Manager.
+        /// </summary>
         public static InputManager Instance
         {
             get
             {
-                if (InputManager.instance == null)
+                if (instance == null)
                 {
-                    InputManager.instance = new InputManager();
+                    instance = new InputManager();
                 }
-                return InputManager.instance;
+                return instance;
             }
         }
+        private static InputManager instance;
 
-        public event InputManager.ButtonPressedHandler ButtonPressed;
 
-        public event EventHandler OnButtonPressed;
+        /// <summary>
+        /// Invoked when a button is pressed. Example: Pressing the X key. Provides the key that was pressed.
+        /// </summary>
+        public event ButtonPressedHandler ButtonPressed;
 
-        public event InputManager.ButtonReleasedHandler ButtonReleased;
+        /// <summary>
+        /// Invoked when a button is released. i.e: Taking your finger off of the X key.
+        /// </summary>
+        public event ButtonReleasedHandler ButtonReleased;
 
-        public event InputManager.AxisPressedHandler AxisPressed;
+        /// <summary>
+        /// Invoked when a stick on a controller is pressed. 
+        /// </summary>
+        public event AxisPressedHandler AxisPressed;
 
-        public event InputManager.AxisReleasedHandler AxisReleased;
+        /// <summary>
+        /// Invoked when a stick on a controller is released. 
+        /// </summary>
+        public event AxisReleasedHandler AxisReleased;
 
+        /// <summary>
+        /// Allows you to look up whether or not a button is pressed.
+        /// </summary>
         public Dictionary<Button, bool> State
         {
             get
@@ -37,6 +58,9 @@ namespace Violet.Input
             }
         }
 
+        /// <summary>
+        /// If true, the Input Manager is receiving inputs and invoking events. If false, it isn't.
+        /// </summary>
         public bool Enabled
         {
             get
@@ -48,6 +72,7 @@ namespace Violet.Input
                 this.enabled = value;
             }
         }
+        private bool enabled;
 
         public Vector2f Axis
         {
@@ -58,6 +83,33 @@ namespace Violet.Input
                 return new Vector2f(x, y);
             }
         }
+
+        #region Controller bools
+        private float xAxis;
+        private float yAxis;
+        private float xKeyAxis;
+        private float yKeyAxis;
+
+        private bool axisZero;
+        private bool axisZeroLast;
+        #endregion
+
+        #region Keyboard bools
+        private bool leftPress;
+        private bool rightPress;
+        private bool upPress;
+        private bool downPress;
+        #endregion
+
+        #region Delegates for the events.
+        public delegate void ButtonPressedHandler(InputManager sender, Button b);
+
+        public delegate void ButtonReleasedHandler(InputManager sender, Button b);
+
+        public delegate void AxisPressedHandler(InputManager sender, Vector2f axis);
+
+        public delegate void AxisReleasedHandler(InputManager sender, Vector2f axis);
+        #endregion
 
         private InputManager()
         {
@@ -70,6 +122,12 @@ namespace Violet.Input
             this.enabled = true;
         }
 
+        #region Window
+
+        /// <summary>
+        /// Attaches the Input Manager to a window. This is where it'll get the inputs from.
+        /// </summary>
+        /// <param name="window">The window to receive inputs from.</param>
         public void AttachToWindow(Window window)
         {
             window.SetKeyRepeatEnabled(false);
@@ -82,6 +140,10 @@ namespace Violet.Input
             window.KeyReleased += this.KeyReleased;
         }
 
+        /// <summary>
+        /// Detaches the Input Manager from a window. This means that it will not receive any inputs until it is attached to another window.
+        /// </summary>
+        /// <param name="window">The window to detach from.</param>
         public void DetachFromWindow(Window window)
         {
             window.JoystickButtonPressed -= this.JoystickButtonPressed;
@@ -93,52 +155,53 @@ namespace Violet.Input
             window.KeyReleased -= this.KeyReleased;
         }
 
+        #endregion
+
+        #region Keyboard
         private void KeyPressed(object sender, KeyEventArgs e)
         {
             if (this.keyMap.ContainsKey(e.Code))
             {
                 Button button = this.keyMap[e.Code];
-                if (this.enabled && !this.currentState[button] && this.ButtonPressed != null)
+                if (this.enabled && !this.currentState[button])
                 {
-                    this.ButtonPressed(this, button);
-
-                    // nullable! 
-                    OnButtonPressed?.Invoke(this, EventArgs.Empty);
+                    // i love nullable!
+                    ButtonPressed?.Invoke(this, button);
                 }
                 this.currentState[button] = true;
                 return;
             }
-            bool flag = false;
+
+            bool keyDown = false;
 
             switch (e.Code)
             {
                 case Keyboard.Key.Left:
                     this.leftPress = true;
-                    flag = true;
+                    keyDown = true;
                     break;
                 case Keyboard.Key.Right:
                     this.rightPress = true;
-                    flag = true;
+                    keyDown = true;
                     break;
                 case Keyboard.Key.Up:
                     this.upPress = true;
-                    flag = true;
+                    keyDown = true;
                     break;
                 case Keyboard.Key.Down:
                     this.downPress = true;
-                    flag = true;
+                    keyDown = true;
                     break;
             }
 
             //      this.xKeyAxis
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
             this.yKeyAxis = (this.upPress ? -1f : 0f) + (this.downPress ? 1f : 0f);
-            if (this.enabled && flag && this.AxisPressed != null)
+            if (this.enabled && keyDown)
             {
-                this.AxisPressed(this, this.Axis);
+                AxisPressed?.Invoke(this, this.Axis);
             }
         }
-
 
         private void KeyReleased(object sender, KeyEventArgs e)
         {
@@ -152,7 +215,9 @@ namespace Violet.Input
                 this.currentState[button] = false;
                 return;
             }
+
             bool released = false;
+
             switch (e.Code)
             {
                 case Keyboard.Key.Left:
@@ -174,12 +239,15 @@ namespace Violet.Input
             }
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
             this.yKeyAxis = (this.upPress ? -1f : 0f) + (this.downPress ? 1f : 0f);
-            if (this.enabled && released && this.AxisReleased != null)
+            if (this.enabled && released)
             {
-                this.AxisReleased(this, this.Axis);
+                AxisReleased?.Invoke(this, this.Axis);
             }
         }
+        #endregion
 
+        private const float dead_zone = 0.5f;
+        #region Controller
         private void JoystickMoved(object sender, JoystickMoveEventArgs e)
         {
             Joystick.Axis axis = e.Axis;
@@ -187,22 +255,22 @@ namespace Violet.Input
             {
                 case Joystick.Axis.X:
                     this.xAxis = Math.Max(-1f, Math.Min(1f, e.Position / 70f));
-                    if (this.xAxis > 0f && this.xAxis < 0.5f)
+                    if (this.xAxis > 0f && this.xAxis < dead_zone)
                     {
                         this.xAxis = 0f;
                     }
-                    if (this.xAxis < 0f && this.xAxis > -0.5f)
+                    if (this.xAxis < 0f && this.xAxis > -dead_zone)
                     {
                         this.xAxis = 0f;
                     }
                     break;
                 case Joystick.Axis.Y:
                     this.yAxis = Math.Max(-1f, Math.Min(1f, e.Position / 70f));
-                    if (this.yAxis > 0f && this.yAxis < 0.5f)
+                    if (this.yAxis > 0f && this.yAxis < dead_zone)
                     {
                         this.yAxis = 0f;
                     }
-                    if (this.yAxis < 0f && this.yAxis > -0.5f)
+                    if (this.yAxis < 0f && this.yAxis > -dead_zone)
                     {
                         this.yAxis = 0f;
                     }
@@ -221,16 +289,19 @@ namespace Violet.Input
             }
             this.axisZeroLast = this.axisZero;
             this.axisZero = (this.xAxis == 0f && this.yAxis == 0f);
-            bool flag = this.axisZeroLast && !this.axisZero;
-            if (this.enabled && flag && this.AxisPressed != null)
+
+            bool axisPressed = this.axisZeroLast && !this.axisZero;
+            
+            if (this.enabled && axisPressed)
             {
-                this.AxisPressed(this, this.Axis);
+                AxisPressed?.Invoke(this, this.Axis);
                 return;
             }
-            bool flag2 = !this.axisZeroLast && this.axisZero;
-            if (this.enabled && flag2 && this.AxisReleased != null)
+
+            bool axisReleased = !this.axisZeroLast && this.axisZero;
+            if (this.enabled && axisReleased)
             {
-                this.AxisReleased(this, this.Axis);
+                AxisReleased?.Invoke(this, this.Axis);
             }
         }
 
@@ -243,7 +314,8 @@ namespace Violet.Input
 
         private void JoystickDisconnected(object sender, JoystickConnectEventArgs e)
         {
-            Debug.LogInfo($"Gamepad {e.JoystickId} disconnected");
+            Joystick.Identification identification = Joystick.GetIdentification(e.JoystickId);
+            Debug.LogInfo($"Gamepad {e.JoystickId} disconnected: {identification.Name} ({identification.VendorId}, {identification.ProductId})");
         }
 
         private void JoystickButtonPressed(object sender, JoystickButtonEventArgs e)
@@ -254,9 +326,9 @@ namespace Violet.Input
             }
             Button button = this.joyMap[e.Button];
             this.currentState[button] = true;
-            if (this.enabled && this.ButtonPressed != null)
+            if (this.enabled)
             {
-                this.ButtonPressed(this, button);
+                ButtonPressed?.Invoke(this, button);
             }
         }
 
@@ -268,12 +340,18 @@ namespace Violet.Input
             }
             Button button = this.joyMap[e.Button];
             this.currentState[button] = false;
-            if (this.enabled && this.ButtonReleased != null)
+            if (this.enabled )
             {
-                this.ButtonReleased(this, button);
+                ButtonReleased?.Invoke(this, button);
             }
-        }
+            }
+        #endregion
 
+        #region Mouse helpers
+        /// <summary>
+        /// Sets the position of the mouse relative to the game window.
+        /// </summary>
+        /// <param name="position">The position to set the mouse to.</param>
         public static void SetMousePosition(Vector2f position)
         {
             // This is stupid, let me explain:
@@ -289,6 +367,10 @@ namespace Violet.Input
             Mouse.SetPosition((Vector2i)(position * scaleFactor));// * scaleFactor;
         }
 
+        /// <summary>
+        /// Gets the position of the mouse relative to the game window.
+        /// </summary>
+        /// <returns>The position of the mouse relative to the game window.</returns>
         public static Vector2f GetMousePosition() {
             // had a really long winded thing written but i'll shorten it
             // the mouse position is not relative to the game's window
@@ -302,10 +384,9 @@ namespace Violet.Input
             }
             return (Vector2f)Mouse.GetPosition(Engine.Window) / Engine.ScreenScale;
         }
+        #endregion
 
-        private const float DEAD_ZONE = 0.5f;
 
-        private static InputManager instance;
 
         private Dictionary<Keyboard.Key, Button> keyMap = new Dictionary<Keyboard.Key, Button>
         {
@@ -480,35 +561,5 @@ namespace Violet.Input
         };
 
         private Dictionary<Button, bool> currentState;
-
-        private float xAxis;
-
-        private float yAxis;
-
-        private float xKeyAxis;
-
-        private float yKeyAxis;
-
-        private bool axisZero;
-
-        private bool axisZeroLast;
-
-        private bool enabled;
-
-        private bool leftPress;
-
-        private bool rightPress;
-
-        private bool upPress;
-
-        private bool downPress;
-
-        public delegate void ButtonPressedHandler(InputManager sender, Button b);
-
-        public delegate void ButtonReleasedHandler(InputManager sender, Button b);
-
-        public delegate void AxisPressedHandler(InputManager sender, Vector2f axis);
-
-        public delegate void AxisReleasedHandler(InputManager sender, Vector2f axis);
     }
 }

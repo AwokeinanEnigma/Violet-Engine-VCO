@@ -21,12 +21,7 @@ namespace VCO
     internal class Program
     {
         private static float sixty_fps = 1.0f / 60.0f;
-        private static float thirty_fps = 1.0f / 30.0f;
-        private static float onehundredtwenty_fps = 1.0f / 120.0f;
-
-        private static float frameTime;
-        private static float lastFrameTime;
-        private static Stopwatch frameTimer;
+        private static float technically_sixty_fps = 1.0f / 61.0f;
 
 
         [STAThread]
@@ -42,19 +37,10 @@ namespace VCO
             //ArtScene();
             EnemyFile.Load();
 
-            // Test._Test();
-
-            // this is totally and utterly fucking worthless
-            //UserData.RegisterAssembly(Assembly.GetExecutingAssembly(), true);
-
             UserData.RegisterType<EventArgs>();
             LuaManager.instance.RegisterAssembly(Assembly.GetExecutingAssembly());
 
             new RufiniActionCatalog();
-
-            //   UserData.RegisterType<OverworldScene>(InteropAccessMode.Default);
-
-            //Debug.DumpLogs();
 
 
 
@@ -70,9 +56,8 @@ namespace VCO
             float delta = 1.0f;
             float maxDelta = 0.25f; //0.25f
             float acc = 0;
-            float stepTime = sixty_fps;
+            float stepTime = technically_sixty_fps;
             int loops;
-            float alpha = 0.0f;
 
 
             try
@@ -85,40 +70,43 @@ namespace VCO
                     delta = time - lastTime;
                     lastTime = time;
 
-                    //m_MainWindow.DispatchEvents();
-
-                    //m_DeltaTime = m_Timer.GetDeltaTime();
-                    //m_FPS = 1.0f / m_DeltaTime;
-
                     if (delta > maxDelta)
+                    {
+                        Violet.Debug.Log($", deltaTime is {delta}, lastTime is {lastTime}");
                         delta = maxDelta;
-
+                    }
 
                     acc += delta;
-
                     loops = 0;
-                    while (acc >= stepTime)
+                    
+                    while (acc >= technically_sixty_fps)
                     {
-                        Update();
-                        Render();
-
-                        acc -= stepTime;
-
-                        loops++;
-
                         if (loops >= MAX_FRAMESKIP)
                         {
+                            /*
+                             * Here's possible causes as to why this would be triggered:
+                             *
+                             * The user tabbed in and back out of the game. SFML gets weird when you lose focus.
+                             * The game is taking a frame or two to load something
+                             * An error has occurred
+                             * The user's computer cannot keep up with the game
+                             * 
+                            */
+
+                            Violet.Debug.LogWarning($"Resyncing, accumulator is {acc}, and loop count is {loops}. See comments above this line in Program.cs for more info, Enigma.");
                             acc = 0.0f;
                             break;
                         }
+                        
+                        Update();
+                        Render();
+
+                        acc -= sixty_fps;
+
+                        loops++;
+
 
                     }
-
-                    /*if (_timeSinceLastUpdate > _timePerFrame)
-                                      {
-                                          _timeSinceLastUpdate -= _timePerFrame;
-
-                                      }*/
                 }
 
 

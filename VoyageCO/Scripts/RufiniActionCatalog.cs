@@ -21,6 +21,11 @@ namespace VCO.Scripts
             return instance.Get(name);
         }
 
+        public static T2 StaticGetInt(int index)
+        {
+            return instance.GetInt(index);
+        }
+
         public InstancedCatalog()
         {
             if (instance != null) throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" was instantiated twice!");
@@ -43,6 +48,8 @@ namespace VCO.Scripts
         protected abstract void CollectEntries();
 
         public abstract T Get(string name);
+
+        public abstract T GetInt(int index);
     }
 
 
@@ -54,7 +61,6 @@ namespace VCO.Scripts
 
         protected override void CollectEntries()
         {
-            Debug.Log("1");
             actions = new List<RufiniAction>();
 
             IEnumerable<Type> rufiniActions = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(RufiniAction)));
@@ -63,7 +69,7 @@ namespace VCO.Scripts
             {
                 // Don't initialize the action yet, we'll have stuff do that on it's own.
                 // This just serves as a thing to hold the types.
-                RufiniAction item = (RufiniAction)FormatterServices.GetUninitializedObject(rufini );
+                RufiniAction item = (RufiniAction)FormatterServices.GetUninitializedObject( rufini );
 
                 if (lastAction != null && item.Code == lastAction.Code) {
                     Debug.LogWarning($"Duplicate RufiniAction codes, {item.Code}. Original: {lastAction.GetType().Name} -> Duplicate {item.GetType().Name}");
@@ -86,6 +92,11 @@ namespace VCO.Scripts
                 return null;
             }
             return action;
+        }
+
+        public override RufiniAction GetInt(int index)
+        {
+            throw new NotImplementedException("You're not supposed to be using this method.");
         }
     }
 }

@@ -234,11 +234,34 @@ namespace Violet
         /// </summary>
         private static bool force_vsync;
 
+        /// <summary>
+        /// If true, the engine will start in debug mode and allow debug features to be used.
+        /// </summary>
+        public static bool debug;
 
         /// <summary>
         /// Data to change specific aspects of the engine such as the resolution and target frame rate.
         /// </summary>
         public struct EngineInitializationData {
+
+            public EngineInitializationData(IniFile ini) {
+                screen_width = ini["enginedata"]["screen_width"].ToUInt();
+                screen_height = ini["enginedata"]["screen_height"].ToUInt();
+                icon_size = ini["enginedata"]["icon_size"].ToUInt();
+                target_framerate = ini["enginedata"]["target_framerate"].ToUInt();
+                required_opengl_version = ini["enginedata"]["required_opengl_version"].ToUInt();
+                frameBufferScale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt();
+
+                initialize_datahandler = ini["enginedata"]["initialize_datahandler"].ToBool();
+                initialize_luahandler = ini["enginedata"]["initialize_luahandler"].ToBool();
+                force_vsync = ini["enginedata"]["force_vsync"].ToBool();
+
+                debug = ini["enginedata"]["start_debug"].ToBool();
+                start_vsync = ini["enginedata"]["start_vsync"].ToBool();
+                start_fullscreen = ini["enginedata"]["start_fullscreen"].ToBool();
+                base_frame_buffer_scale = ini["enginedata"]["base_frame_buffer_scale"].ToUInt();
+            }
+
             /// <summary>
             /// Width of the screen in pixels
             /// </summary>
@@ -293,6 +316,11 @@ namespace Violet
             /// If true, the engine will force vertical sync.
             /// </summary>
             public bool force_vsync;
+
+            /// <summary>
+            /// If true, the engine will start in debug mode and allow debug features to be used.
+            /// </summary>
+            public bool debug;
         }
 
         #endregion
@@ -329,6 +357,8 @@ namespace Violet
                 initialize_datahandler = data.initialize_datahandler;
                 initialize_luahandler = data.initialize_luahandler;
 
+                debug = data.debug;
+
                 SCREEN_SIZE = new Vector2f(screen_width, screen_height);
                 HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
             }
@@ -358,8 +388,10 @@ namespace Violet
             bool goFullscreen = data.start_fullscreen;
 
             SetWindow(goFullscreen, vsync);
-            InputManager.Instance.ButtonPressed += OnButtonPressed;
-
+            if (debug)
+            {
+                InputManager.Instance.ButtonPressed += OnButtonPressed;
+            }
             SetFrameBuffArray();
 
             rand = new Random();
@@ -446,6 +478,8 @@ namespace Violet
                 initialize_luahandler = ini["enginedata"]["initialize_luahandler"].ToBool();
                 force_vsync = ini["enginedata"]["force_vsync"].ToBool();
 
+                debug = ini["enginedata"]["start_debug"].ToBool();
+
                 // i could just use a get set for these but i'm lazy.
                 SCREEN_SIZE = new Vector2f(screen_width, screen_height);
                 HALF_SCREEN_SIZE = new Vector2f(screen_width / 2, screen_height / 2);
@@ -460,7 +494,10 @@ namespace Violet
             SetFrameBuffer();
 
             SetWindow(goFullscreen, vsync);
-            InputManager.Instance.ButtonPressed += OnButtonPressed;
+            if (debug)
+            {
+                InputManager.Instance.ButtonPressed += OnButtonPressed;
+            }
 
             SetFrameBuffArray();
 
@@ -539,6 +576,7 @@ namespace Violet
                 int halfHeightScale = (int)(HALF_SCREEN_SIZE.Y * ScreenScale);
                 style = Styles.Close;
                 desktopMode = new VideoMode(screen_width * frameBufferScale, screen_height * frameBufferScale);
+
                 frameBufferState.Transform = new Transform(cos * frameBufferScale, sin * frameBufferScale, halfWidthScale, -sin * frameBufferScale, cos * frameBufferScale, halfHeightScale, 0f, 0f, 1f);
             }
 
@@ -549,7 +587,7 @@ namespace Violet
             InputManager.Instance.AttachToWindow(window);
             window.SetMouseCursorVisible(!goFullscreen);
 
-            if (vsync || goFullscreen || force_vsync)
+            if (vsync || force_vsync)
             {
                 //window.SetFramerateLimit(target_framerate);
                 window.SetVerticalSyncEnabled(true);
@@ -605,6 +643,7 @@ namespace Violet
 
         public static void OnButtonPressed(InputManager sender, Button b)
         {
+          
             switch (b)
             {
                 case Button.Escape:
