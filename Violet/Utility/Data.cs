@@ -55,6 +55,11 @@ public class DataHandler
         }
     }
 
+    public void Refresh()
+    {
+        fileNamesToPaths = new Dictionary<string, string>();
+        ProcessDirectory("Data" + Path.DirectorySeparatorChar);
+    }
 
     private void ProcessFile(string path)
     {

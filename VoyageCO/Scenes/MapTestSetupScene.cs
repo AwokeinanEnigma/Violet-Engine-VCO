@@ -82,6 +82,7 @@ namespace VCO.Scenes
             this.sfxCancel = AudioManager.Instance.Use(DataHandler.instance.Load("cancel.wav"), AudioType.Sound);
             FlagManager.Instance.Reset();
             ValueManager.Instance.Reset();
+            DataHandler.instance.Refresh();
         }
 
         private void ResetCharacterGraphics()
