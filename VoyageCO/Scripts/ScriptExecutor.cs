@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using VCO.Actors.NPCs;
 using VCO.Scripts.Actions;
+using Violet;
 using Violet.Input;
 
 namespace VCO.Scripts
@@ -11,18 +12,14 @@ namespace VCO.Scripts
 	{
 		public bool Running
 		{
-			get
-			{
-				return this.running;
-			}
+			get => running;
+
 		}
 
 		public int ProgramCounter
 		{
-			get
-			{
-				return this.programCounter;
-			}
+			get => programCounter;
+			
 		}
 
 		public ScriptExecutor(ExecutionContext context)
@@ -54,8 +51,7 @@ namespace VCO.Scripts
 				this.pushedScript = true;
 				return;
 			}
-			string message = string.Format("Script Executor stack cannot exceed {0} levels.", 32);
-			throw new StackOverflowException(message);
+			throw new StackOverflowException("Script Executor stack cannot exceed 32 levels.");
 		}
 
 		public void SetCheckedNPC(NPC npc)
@@ -79,44 +75,52 @@ namespace VCO.Scripts
 		public void Continue()
 		{
 			this.waitMode = ScriptExecutor.WaitType.None;
-			Console.WriteLine("EX: {0} Continued", this.programCounter);
+			Debug.Log($"EX: {this.programCounter} Continued");
 		}
 
 		public void JumpToElseOrEndIf()
 		{
 			if (this.script != null)
 			{
-				RufiniScript value = this.script.Value;
-				int num = value.Actions.Length;
-				int num2 = 0;
-				for (int i = this.programCounter; i < num; i++)
+				RufiniScript script = this.script.Value;
+
+				int actionsAmount = script.Actions.Length;
+				int controlIndex = 0;
+				
+				for (int i = this.programCounter; i < actionsAmount; i++)
 				{
-					RufiniAction rufiniAction = value.Actions[i];
+					RufiniAction rufiniAction = script.Actions[i];
+					Debug.Log($"index {rufiniAction} and int is {i} control is {controlIndex} ");
 					if (rufiniAction is IfFlagAction || rufiniAction is IfValueAction || rufiniAction is IfReturnAction)
 					{
-						num2++;
+						Debug.Log($"found if action at {i}, control is {controlIndex}");
+						controlIndex++;
 					}
 					else if (rufiniAction is EndIfAction)
 					{
-						num2--;
-						if (num2 == 0)
+						controlIndex--;
+						Debug.Log($"found end if action at {i}, control is {controlIndex}");
+						if (controlIndex == 0)
 						{
+							Debug.Log($"control index is zero, resetting in end if block");
 							this.programCounter = i;
 							return;
 						}
 					}
 					else if (rufiniAction is ElseAction)
 					{
+						Debug.Log($"found else action at {i}, control is {controlIndex}");
 						if (i == this.programCounter)
 						{
-							num2++;
+							controlIndex++;
 						}
-						else if (num2 - 1 == 0)
+						else if (controlIndex - 1 == 0)
 						{
 							this.programCounter = i;
 							return;
 						}
 					}
+
 				}
 			}
 		}
@@ -135,7 +139,7 @@ namespace VCO.Scripts
 			}
 			else
 			{
-				Console.WriteLine("EX: End of execution");
+				Debug.Log("EX: End of execution");
 				result = false;
 				if (this.context.Player != null)
 				{
@@ -172,19 +176,19 @@ namespace VCO.Scripts
 								this.programCounter = 0;
 							}
 							RufiniAction rufiniAction = this.actions[this.programCounter];
-							Console.WriteLine("EX: {0} Execute {1}", this.programCounter, rufiniAction.GetType().Name);
+							Debug.Log($"EX: {this.programCounter} Execute {rufiniAction.GetType().Name}");
 							this.waitMode = rufiniAction.Execute(this.context).Wait;
 							if (this.waitMode != ScriptExecutor.WaitType.None)
 							{
 								this.pausedInstruction = this.programCounter + 1;
-								Console.WriteLine("EX: {0} Paused (Next: {1})", this.programCounter, this.pausedInstruction);
+							//	Debug.Log($"EX: {this.programCounter} Paused (Next: {this.pausedInstruction})");
 								break;
 							}
 							this.programCounter++;
 						}
 						if (this.waitMode == ScriptExecutor.WaitType.None && this.programCounter >= this.actions.Length)
 						{
-							Console.WriteLine("EX: End of script; popping");
+						//	Debug.Log("EX: End of script; popping");
 							flag = this.PopScript();
 						}
 					}

@@ -8,6 +8,7 @@ namespace Rufini.Actions.Types
     internal class IfFlagAction : RufiniAction
     {
         public override string Code => "IFFL";
+        public bool satisfied;
         public IfFlagAction()
         {
             this.paramList = new List<ActionParam>
@@ -33,6 +34,10 @@ namespace Rufini.Actions.Types
             if (value2 != flag)
             {
                 context.Executor.JumpToElseOrEndIf();
+                satisfied = false;
+            }
+            else {
+                satisfied = true;
             }
             return default(ActionReturnContext);
         }

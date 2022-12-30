@@ -6,7 +6,7 @@ namespace Rufini.Actions.Types
 {
     internal class ChangeSubspritePlayerAction : RufiniAction
     {
-        public override string Code => "QSTN";
+        public override string Code => "CSSP";
         public ChangeSubspritePlayerAction()
         {
             this.paramList = new List<ActionParam>

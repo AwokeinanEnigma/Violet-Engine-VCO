@@ -157,7 +157,6 @@ namespace Violet
         private static long startTicks;
         private static long cursorTimer;
         private static bool showCursor;
-        private static long clickFrame = long.MinValue;
         private static IconFile iconFile;
         private static StringBuilder fpsString;
         private static float screenAngle = 0f;

@@ -35,13 +35,13 @@ namespace VCO.Scenes
                 "Start",
                 "Back"
             };
-            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, DataHandler.instance.Load("realcursor.dat"))
+            this.optionList = new ScrollingList(new Vector2f(32f, 80f), 0, items, 5, 16f, 80f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
             this.pipeline.Add(this.optionList);
             this.focusedList = this.optionList;
-            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
+            this.mapList = new ScrollingList(new Vector2f(32f, 80f), 0, this.mapItems, 5, 16f, 256f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
@@ -56,7 +56,7 @@ namespace VCO.Scenes
                 CharacterType.Travis
             };
             this.ResetCharacterGraphics();
-            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
+            this.charactersList = new ScrollingList(new Vector2f(32f, 80f), 0, array, 5, 16f, 256f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = false
             };
@@ -68,7 +68,7 @@ namespace VCO.Scenes
                 string.Format("Start at night: {0}", FlagManager.Instance[1]),
                 "Back"
             };
-            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, DataHandler.instance.Load("realcursor.dat"))
+            this.settingsList = new ScrollingList(new Vector2f(32f, 80f), 0, items2, 5, 16f, 256f, DataHandler.instance.Load("cursor.dat"))
             {
                 ShowSelectionRectangle = false
             };

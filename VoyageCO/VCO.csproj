@@ -120,6 +120,7 @@
     <Compile Include="Battle\EnemyAI\FrooguAI.cs" />
     <Compile Include="GUI\OverworldTextBox.cs" />
     <Compile Include="Scripts\RufiniActionCatalog.cs" />
+    <Compile Include="Scripts\Rufini\Actions\Types\EndElseAction.cs" />
     <Compile Include="Scripts\Rufini\Actions\Types\WaitSecondsAction.cs" />
     <Compile Include="Scripts\Rufini\Actions\Types\SetInputControlAction.cs" />
     <Compile Include="Scenes\DebugScene.cs" />

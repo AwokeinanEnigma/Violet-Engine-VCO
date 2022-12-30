@@ -25,10 +25,13 @@ namespace VCO.GUI.Text.Printables
 			}
 		}
 
-		public QuestionPrintable(FontData font, float width, string[] options)
+		private Typewriter writer;
+
+		public QuestionPrintable(FontData font, float width, string[] options, Typewriter writer)
 		{
+			this.writer = writer;
 			this.size = new Vector2f(width, (float)font.LineHeight);
-			this.isRemovable = true;
+			this.isRemovable = false;
 			this.texts = new TextRegion[options.Length];
 			for (int i = 0; i < this.texts.Length; i++)
 			{
@@ -90,7 +93,7 @@ namespace VCO.GUI.Text.Printables
 				}
 				else
 				{
-					this.texts[i].Color = Color.White;
+					this.texts[i].Color = Color.Black;
 				}
 			}
 		}
@@ -135,6 +138,7 @@ namespace VCO.GUI.Text.Printables
 		private void selectSound_OnComplete(VioletSound sender)
 		{
 			this.isDone = true;
+
 			sender.OnComplete -= this.selectSound_OnComplete;
 		}
 
@@ -166,12 +170,12 @@ namespace VCO.GUI.Text.Printables
 			{
 				if (disposing)
 				{
-					this.selectRect.Dispose();
-					this.cursor.Dispose();
-					for (int i = 0; i < this.texts.Length; i++)
+					//this.selectRect.Dispose();
+					//this.cursor.Dispose();
+					/*for (int i = 0; i < this.texts.Length; i++)
 					{
 						this.texts[i].Dispose();
-					}
+					}*/
 				}
 				AudioManager.Instance.Unuse(this.moveSound);
 				AudioManager.Instance.Unuse(this.selectSound);

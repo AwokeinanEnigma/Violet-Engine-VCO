@@ -66,7 +66,7 @@ namespace VCO.GUI.NamingMenu
                 }
                 num++;
             }
-            this.cursor = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", VectorMath.ZERO_VECTOR, 1);
+            this.cursor = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "right", VectorMath.ZERO_VECTOR, 1);
             base.Add(this.cursor);
             this.UpdateCursorPosition();
             this.CreateButtons();

@@ -79,7 +79,7 @@ namespace VCO.Scenes
                 this.panelList.Add(item);
             }
             this.pipeline.AddAll<MenuPanel>(this.panelList);
-            this.cursorGraphic = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", new Vector2f(24f, 32 + 57 * this.selectedIndex), 100);
+            this.cursorGraphic = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "right", new Vector2f(24f, 32 + 57 * this.selectedIndex), 100);
             this.pipeline.Add(this.cursorGraphic);
         }
 

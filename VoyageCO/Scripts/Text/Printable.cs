@@ -4,26 +4,22 @@ namespace VCO.GUI.Text.Printables
 {
     internal abstract class Printable : Renderable
 	{
+		protected bool isDone;
 		public bool Complete
 		{
-			get
-			{
-				return this.isDone;
-			}
+			get => this.isDone;
+			 
 		}
 
+		protected bool isRemovable;
 		public bool Removable
 		{
-			get
-			{
-				return this.isRemovable;
-			}
+			get => this.isRemovable;
+			
 		}
 
 		public abstract void Update();
 
-		protected bool isDone;
 
-		protected bool isRemovable;
 	}
 }

@@ -290,7 +290,7 @@ namespace VCO.Scenes
 
         private static readonly Vector2f MENU_POSITION = new Vector2f(32f, 32f);
 
-        private static readonly string CURSOR_FILE = DataHandler.instance.Load("realcursor.dat");
+        private static readonly string CURSOR_FILE = DataHandler.instance.Load("cursor.dat");
 
         private ScrollingList focusedList;
 

@@ -1,6 +1,7 @@
 ﻿using MoonSharp.Interpreter;
 using SFML.System;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -11,6 +12,7 @@ using VCO.Scenes.Transitions;
 using VCO.Scripts;
 using Violet;
 using Violet.Audio;
+using Violet.Input;
 using Violet.Lua;
 using Violet.Scenes;
 using Violet.Utility;
@@ -20,16 +22,35 @@ namespace VCO
 {
     internal class Program
     {
-        private static float sixty_fps = 1.0f / 60.0f;
-        private static float technically_sixty_fps = 1.0f / 61.0f;
+        private static float _sixty_fps = 1.0f / 60.0f;
+        private static float _technically_sixty_fps = 1.0f / 61.0f;
 
+        private static float _deltaTime = 1;
+        private static int _frameLoops = 0;
+        private static float _maxDeltaTime = 0.25f;
+        private static float _accumulator = 0;
+
+        private static Clock frameTimer;
+
+        private static List<string> _funnyWindowNames = new List<string>()
+        {
+            "Go the distance!",
+            "What a voyage!",
+            "For blood.",
+            "Second flood.",
+            "Potential Incarnate",
+            "???",
+            "Rène Edition",
+            "It's Rène, not Renee!",
+            "How long did it take to build the Ark?",
+        };
 
         [STAThread]
         private static void Main(string[] args)
         {
-            WindowName = "Voyage: Carpe Omnia";
+            WindowName = $"Voyage: Carpe Omnia - {_funnyWindowNames[new Random().Next(0,_funnyWindowNames.Count)]}";
             // goes directly to Engine.Initalize
-            Initialize();
+                Initialize();
 
             AudioManager.Instance.MusicVolume = Settings.MusicVolume;
             AudioManager.Instance.EffectsVolume = Settings.EffectsVolume;
@@ -42,23 +63,14 @@ namespace VCO
 
             new RufiniActionCatalog();
 
-
-
-            Clock timer = new Clock();
-            timer.Restart();
+            frameTimer = new Clock();
+            frameTimer.Restart();
 
             const int MAX_FRAMESKIP = 5;
 
             float time, lastTime;
-            time = timer.ElapsedTime.AsSeconds();
+            time = frameTimer.ElapsedTime.AsSeconds();
             lastTime = time;
-
-            float delta = 1.0f;
-            float maxDelta = 0.25f; //0.25f
-            float acc = 0;
-            float stepTime = technically_sixty_fps;
-            int loops;
-
 
             try
             {
@@ -66,22 +78,22 @@ namespace VCO
 
                 while (Running)
                 {
-                    time = timer.ElapsedTime.AsSeconds();
-                    delta = time - lastTime;
+                    time = frameTimer.ElapsedTime.AsSeconds();
+                    _deltaTime = time - lastTime;
                     lastTime = time;
 
-                    if (delta > maxDelta)
+                    if (_deltaTime > _maxDeltaTime)
                     {
-                        Violet.Debug.Log($", deltaTime is {delta}, lastTime is {lastTime}");
-                        delta = maxDelta;
+                        Violet.Debug.Log($"Passed the threshold for max deltaTime, deltaTime is {_deltaTime}, lastTime is {lastTime}");
+                        _deltaTime = _maxDeltaTime;
                     }
 
-                    acc += delta;
-                    loops = 0;
+                    _accumulator += _deltaTime;
+                    _frameLoops = 0;
                     
-                    while (acc >= technically_sixty_fps)
+                    while (_accumulator >= _technically_sixty_fps)
                     {
-                        if (loops >= MAX_FRAMESKIP)
+                        if (_frameLoops >= MAX_FRAMESKIP)
                         {
                             /*
                              * Here's possible causes as to why this would be triggered:
@@ -93,17 +105,17 @@ namespace VCO
                              * 
                             */
 
-                            Violet.Debug.LogWarning($"Resyncing, accumulator is {acc}, and loop count is {loops}. See comments above this line in Program.cs for more info, Enigma.");
-                            acc = 0.0f;
+                            Violet.Debug.LogWarning($"Resyncing, accumulator is {_accumulator}, and loop count is {_frameLoops}. See comments above this line in Program.cs for more info, Enigma.");
+                            _accumulator = 0.0f;
                             break;
                         }
                         
                         Update();
                         Render();
 
-                        acc -= sixty_fps;
+                        _accumulator -= _sixty_fps;
 
-                        loops++;
+                        _frameLoops++;
 
 
                     }

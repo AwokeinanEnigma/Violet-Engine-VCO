@@ -10,10 +10,7 @@ namespace Violet.GUI
 	{
 		public override Vector2f Position
 		{
-			get
-			{
-				return this.position;
-			}
+			get => this.position;
 			set
 			{
 				this.position = value;
@@ -23,10 +20,8 @@ namespace Violet.GUI
 
 		public string Text
 		{
-			get
-			{
-				return this.text;
-			}
+			get => this.text;
+
 			set
 			{
 				this.text = value;
@@ -36,10 +31,7 @@ namespace Violet.GUI
 
 		public int Index
 		{
-			get
-			{
-				return this.index;
-			}
+			get => this.index;
 			set
 			{
 				this.index = value;
@@ -49,24 +41,18 @@ namespace Violet.GUI
 
 		public int Length
 		{
-			get
-			{
-				return this.length;
-			}
+			get => this.length;
 			set
 			{
-				int num = this.length;
+				int currentLength = this.length;
 				this.length = value;
-				this.dirtyText = (this.length != num);
+				this.dirtyText = (this.length != currentLength);
 			}
 		}
 
 		public Color Color
 		{
-			get
-			{
-				return this.drawText.FillColor;
-			}
+			get => this.drawText.FillColor;
 			set
 			{
 				this.drawText.FillColor = value;
@@ -76,15 +62,25 @@ namespace Violet.GUI
 
 		public FontData FontData
 		{
-			get
-			{
-				return this.font;
-			}
+			get => this.font;
+
 		}
 
-		public TextRegion(Vector2f position, int depth, FontData font, string text) : this(position, depth, font, (text != null) ? text : string.Empty, 0, (text != null) ? text.Length : 0)
-		{
-		}
+		private RenderStates renderStates;
+		private Text drawText;
+
+		private string text;
+		private int index;
+		private int length;
+
+		private bool dirtyText;
+
+		private bool dirtyColor;
+
+		private FontData font;
+
+
+		public TextRegion(Vector2f position, int depth, FontData font, string text) : this(position, depth, font, (text != null) ? text : string.Empty, 0, (text != null) ? text.Length : 0) {}
 
 		public TextRegion(Vector2f position, int depth, FontData font, string text, int index, int length)
 		{
@@ -99,7 +95,7 @@ namespace Violet.GUI
 			this.UpdateText(index, length);
 			this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), null , EmbeddedResources.GetStream("Violet.Resources.text.frag"));
 			this.shader.SetParameter("color", this.drawText.Color);
-			this.shader.SetParameter("threshold", font.AlphaThreshold);
+			this.shader.SetUniform("threshold", font.AlphaThreshold);
 			this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
 		}
 
@@ -149,20 +145,6 @@ namespace Violet.GUI
 
 		private Shader shader;
 
-		private RenderStates renderStates;
 
-		private Text drawText;
-
-		private string text;
-
-		private int index;
-
-		private int length;
-
-		private bool dirtyText;
-
-		private bool dirtyColor;
-
-		private FontData font;
 	}
 }

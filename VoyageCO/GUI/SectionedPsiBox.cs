@@ -75,8 +75,8 @@ namespace VCO.GUI
 
 
             this.separator = new ShapeGraphic(rectangleShape2, new Vector2f(102.399994f, lineHeight - 8f), default(Vector2f), rectangleShape2.Size, 32767);
-            this.cursor = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", default(Vector2f), 32767);
-            this.nucursor = new IndexedColorGraphic(DataHandler.instance.Load("realcursor.dat"), "right", default(Vector2f), 32767);
+            this.cursor = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "right", default(Vector2f), 32767);
+            this.nucursor = new IndexedColorGraphic(DataHandler.instance.Load("cursor.dat"), "right", default(Vector2f), 32767);
             this.states = new RenderStates(BlendMode.Alpha);
             //pipeline.Add(cursor);
         }

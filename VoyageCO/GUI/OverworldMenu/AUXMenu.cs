@@ -56,7 +56,7 @@ namespace VCO.GUI.OverworldMenu
             }
             Array.Resize<IndexedColorGraphic>(ref this.tabs, num2);
             Array.Resize<TextRegion>(ref this.tabLabels, num2);
-            this.AUXTypeList = new ScrollingList(new Vector2f(8f, 0f), 0, AUXMenu.AUX_TYPE_STRINGS, 4, 14f, 50f, DataHandler.instance.Load("realcursor.dat"));
+            this.AUXTypeList = new ScrollingList(new Vector2f(8f, 0f), 0, AUXMenu.AUX_TYPE_STRINGS, 4, 14f, 50f, DataHandler.instance.Load("cursor.dat"));
             base.Add(this.AUXTypeList);
             this.selectedList = this.AUXTypeList;
             this.SetupAUXList();
@@ -296,7 +296,7 @@ namespace VCO.GUI.OverworldMenu
                         }
                     }
                 }
-                this.AUXList = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, AUXMenu.PANEL_SIZE.X * 0.66f - 2f, DataHandler.instance.Load("realcursor.dat"))
+                this.AUXList = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 8f, 0f), 1, array2, 5, 14f, AUXMenu.PANEL_SIZE.X * 0.66f - 2f, DataHandler.instance.Load("cursor.dat"))
                 {
                     ShowSelectionRectangle = false,
                     ShowCursor = false,
@@ -305,7 +305,7 @@ namespace VCO.GUI.OverworldMenu
                 base.Add(this.AUXList);
                 for (int m = 0; m < this.levelList.Length; m++)
                 {
-                    this.levelList[m] = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 80f + 16 * m, 0f), 1, array3[m], 5, 14f, 1f, DataHandler.instance.Load("realcursor.dat"))
+                    this.levelList[m] = new ScrollingList(new Vector2f(AUXMenu.PANEL_SIZE.X * 0.33f + 80f + 16 * m, 0f), 1, array3[m], 5, 14f, 1f, DataHandler.instance.Load("cursor.dat"))
                     {
                         ShowSelectionRectangle = false,
                         ShowCursor = (m == 0),

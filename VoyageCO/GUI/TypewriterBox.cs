@@ -8,6 +8,7 @@ using VCO.Data;
 using VCO.GUI.Text.Printables;
 using SFML.Graphics;
 using SFML.System;
+using Violet;
 
 namespace VCO.GUI.Text
 {
@@ -79,7 +80,7 @@ namespace VCO.GUI.Text
 			float num2 = 0f;
 			for (int j = 0; j < this.bullets.Length; j++)
 			{
-				this.bullets[j] = new IndexedColorGraphic(DataHandler.instance.Load( "bullet.dat"), "bullet", this.position - this.origin + new Vector2f(0f, (float)(this.fontData.LineHeight * j + this.fontData.LineHeight / 2)), 0);
+				this.bullets[j] = new IndexedColorGraphic(DataHandler.instance.Load("bullet.dat"), "bullet", this.position - this.origin + new Vector2f(0f, (float)(this.fontData.LineHeight * j + this.fontData.LineHeight / 2)), 0);
 				this.bullets[j].Visible = false;
 				num2 = Math.Max(num2, this.bullets[j].Size.X);
 			}
@@ -267,7 +268,7 @@ namespace VCO.GUI.Text
 
 		public void PrintQuestion(string[] options)
 		{
-			QuestionPrintable printable = new QuestionPrintable(this.fontData, this.size.X, options);
+			QuestionPrintable printable = new QuestionPrintable(this.fontData, this.size.X, options, this);
 			if (this.lines[this.currentLine].Count > 0)
 			{
 				this.PrintNewLine();

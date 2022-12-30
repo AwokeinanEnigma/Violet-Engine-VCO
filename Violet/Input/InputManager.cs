@@ -52,27 +52,28 @@ namespace Violet.Input
         /// </summary>
         public Dictionary<Button, bool> State
         {
-            get
-            {
-                return this.currentState;
-            }
+            get => this.currentState;
         }
+
+        /// <summary>
+        /// Returns the identification info of the controller that is currently connected.
+        /// </summary>
+        public Joystick.Identification ControllerIdentification
+        {
+            get => currentControllerIdentification;
+        }
+        private Joystick.Identification currentControllerIdentification;
 
         /// <summary>
         /// If true, the Input Manager is receiving inputs and invoking events. If false, it isn't.
         /// </summary>
         public bool Enabled
         {
-            get
-            {
-                return this.enabled;
-            }
-            set
-            {
-                this.enabled = value;
-            }
+            get => this.enabled;
+            set => this.enabled = value;
         }
         private bool enabled;
+
 
         public Vector2f Axis
         {
@@ -84,7 +85,7 @@ namespace Violet.Input
             }
         }
 
-        #region Controller bools
+        #region Controller Fields
         private float xAxis;
         private float yAxis;
         private float xKeyAxis;
@@ -92,9 +93,10 @@ namespace Violet.Input
 
         private bool axisZero;
         private bool axisZeroLast;
+
         #endregion
 
-        #region Keyboard bools
+        #region Keyboard Fields
         private bool leftPress;
         private bool rightPress;
         private bool upPress;
@@ -110,6 +112,22 @@ namespace Violet.Input
 
         public delegate void AxisReleasedHandler(InputManager sender, Vector2f axis);
         #endregion
+
+        private Keyboard.Key upKey = Keyboard.Key.Up;
+        private Keyboard.Key downKey = Keyboard.Key.Down;
+        private Keyboard.Key leftKey = Keyboard.Key.Left;
+        private Keyboard.Key rightKey = Keyboard.Key.Right;
+
+        public void SetMovementKeys(Keyboard.Key up, Keyboard.Key down, Keyboard.Key left, Keyboard.Key right) {
+            this.upKey = up;
+            this.downKey = down;
+            this.leftKey = left;
+            this.rightKey = right;
+        }
+
+        public void SetKeymap(Dictionary<Keyboard.Key, Button> newKeyMap) {
+            this.keyMap = newKeyMap;
+        }
 
         private InputManager()
         {
@@ -174,7 +192,31 @@ namespace Violet.Input
 
             bool keyDown = false;
 
-            switch (e.Code)
+
+            if (e.Code == leftKey)
+            {
+                this.leftPress = true;
+                keyDown = true;
+            }
+            if (e.Code == rightKey)
+            {
+                this.rightPress = true;
+                keyDown = true;
+
+            }
+            if (e.Code == upKey)
+            {
+                this.upPress = true;
+                keyDown = true;
+            }
+            if (e.Code == downKey)
+            {
+                this.downPress = true;
+                keyDown = true;
+            }
+            
+            // old implementation
+            /*switch (e.Code)
             {
                 case Keyboard.Key.Left:
                     this.leftPress = true;
@@ -192,7 +234,7 @@ namespace Violet.Input
                     this.downPress = true;
                     keyDown = true;
                     break;
-            }
+            }*/
 
             //      this.xKeyAxis
             this.xKeyAxis = (this.leftPress ? -1f : 0f) + (this.rightPress ? 1f : 0f);
@@ -308,14 +350,14 @@ namespace Violet.Input
         private void JoystickConnected(object sender, JoystickConnectEventArgs e)
         {
             Joystick.Update();
-            Joystick.Identification identification = Joystick.GetIdentification(e.JoystickId);
-            Debug.LogInfo($"Gamepad {e.JoystickId} connected: {identification.Name} ({identification.VendorId}, {identification.ProductId})");
+            this.currentControllerIdentification = Joystick.GetIdentification(e.JoystickId);
+            Debug.LogInfo($"Gamepad {e.JoystickId} connected: {currentControllerIdentification.Name} ({currentControllerIdentification.VendorId}, {currentControllerIdentification.ProductId})");
         }
 
         private void JoystickDisconnected(object sender, JoystickConnectEventArgs e)
         {
-            Joystick.Identification identification = Joystick.GetIdentification(e.JoystickId);
-            Debug.LogInfo($"Gamepad {e.JoystickId} disconnected: {identification.Name} ({identification.VendorId}, {identification.ProductId})");
+            Debug.LogInfo($"Gamepad {e.JoystickId} disconnected: {currentControllerIdentification.Name} ({currentControllerIdentification.VendorId}, {currentControllerIdentification.ProductId})");
+            currentControllerIdentification = default;
         }
 
         private void JoystickButtonPressed(object sender, JoystickButtonEventArgs e)

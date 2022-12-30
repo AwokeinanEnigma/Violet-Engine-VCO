@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Violet.Lua
 {
     /// <summary>
-    /// Handles all 
+    /// Handles all lua scripts.
     /// </summary>
     public class LuaManager
     {
