@@ -386,7 +386,7 @@ namespace VCO.Scenes
             this.textbox = new OverworldTextBox();
             this.pipeline.Add(this.textbox);
 
-            Map map =  MapLoader.Load(DataHandler.instance.Load(this.mapName), string.Empty).Result;
+            Map map = MapLoader.Load(DataHandler.instance.Load(this.mapName), string.Empty); 
             if (this.initialPosition == VectorMath.ZERO_VECTOR)
             {
                 this.initialPosition = new Vector2f(map.Head.Width / 2, map.Head.Height / 2);

@@ -24,7 +24,7 @@ namespace Violet.Maps
             return path;
         }
 
-        public static async Task<Map> Load(string mapFile, string graphicsDirectory)
+        public static Map Load(string mapFile, string graphicsDirectory)
         {
             string str = MapLoader.FixPath(mapFile);
             if (!File.Exists(str))
@@ -68,6 +68,7 @@ namespace Violet.Maps
             LoadParallax(map, rootTag);
 
             Debug.LogDebug($"Loaded map data in {(DateTime.Now.Ticks - ticks) / 10000L}ms");
+
             return map;
         }
 
@@ -379,21 +380,34 @@ namespace Violet.Maps
 
         private static void LoadNPCAreas(Map map, NbtCompound mapTag)
         {
+            // Get the "areas" tag from the map tag
             NbtTag areaTag = mapTag.Get("areas");
+
+            // Check if the tag is not a collection of tags
             if (!(areaTag is ICollection<NbtTag>))
             {
                 return;
             }
 
+            // Iterate through each area compound tag in the "areas" tag
             foreach (NbtCompound areaCompound in (IEnumerable<NbtTag>)areaTag)
             {
+                // Create a new area object
                 Map.Area area = new Map.Area();
+
+                // Set the name of the area
                 area.Name = areaCompound.Get<NbtString>("name").Value;
+
+                // Get the position and size of the area
                 int left = areaCompound.Get<NbtInt>("x").Value;
                 int top = areaCompound.Get<NbtInt>("y").Value;
                 int width = areaCompound.Get<NbtInt>("w").Value;
                 int height = areaCompound.Get<NbtInt>("h").Value;
+
+                // Set the rectangle of the area
                 area.Rectangle = new IntRect(left, top, width, height);
+
+                // Add the area to the map's list of areas
                 map.Areas.Add(area);
             }
 
@@ -405,30 +419,46 @@ namespace Violet.Maps
 
         private static void LoadSpawns(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag = mapTag.Get("spawns");
-            if (!(nbtTag is ICollection<NbtTag>))
+            NbtTag enemySpawnTag = mapTag.Get("spawns");
+
+            // Check that `enemySpawnTag` is a collection of tags
+            if (!(enemySpawnTag is ICollection<NbtTag>))
             {
                 return;
             }
 
-            foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
+            // Iterate over each enemy spawn tag
+            foreach (NbtCompound enemySpawnCompound in (IEnumerable<NbtTag>)enemySpawnTag)
             {
+                // Create a new enemy spawn object
                 Map.EnemySpawn enemySpawn = new Map.EnemySpawn();
-                enemySpawn.X = nbtCompound.Get<NbtInt>("x").Value;
-                enemySpawn.Y = nbtCompound.Get<NbtInt>("y").Value;
-                enemySpawn.Width = nbtCompound.Get<NbtInt>("w").Value;
-                enemySpawn.Height = nbtCompound.Get<NbtInt>("h").Value;
+
+                // Set the position and size of the enemy spawn
+                enemySpawn.X = enemySpawnCompound.Get<NbtInt>("x").Value;
+                enemySpawn.Y = enemySpawnCompound.Get<NbtInt>("y").Value;
+                enemySpawn.Width = enemySpawnCompound.Get<NbtInt>("w").Value;
+                enemySpawn.Height = enemySpawnCompound.Get<NbtInt>("h").Value;
+
+                // Initialize the list of enemies for the enemy spawn
                 enemySpawn.Enemies = new List<Map.Enemy>();
-                NbtList nbtList1 = nbtCompound.Get<NbtList>("enids");
-                NbtList nbtList2 = nbtCompound.Get<NbtList>("enfreqs");
-                for (int tagIndex = 0; tagIndex < nbtList1.Count; ++tagIndex)
+
+                NbtList enemyIds = enemySpawnCompound.Get<NbtList>("enids");
+                NbtList enemyFrequencies = enemySpawnCompound.Get<NbtList>("enfreqs");
+                
+                // Go through each enemy ID
+                for (int tagIndex = 0; tagIndex < enemyIds.Count; ++tagIndex)
                 {
-                    NbtString nbtShort = nbtList1.Get<NbtString>(tagIndex);
-                    NbtByte nbtByte = nbtList2.Get<NbtByte>(tagIndex);
+                    // Get the name of the enemy
+                    NbtString enemyName = enemyIds.Get<NbtString>(tagIndex);
+
+                    // Get the frequency of the enemy
+                    NbtByte enemyfrequency = enemyIds.Get<NbtByte>(tagIndex);
+
+                    // Create new enemy with name and frequency
                     enemySpawn.Enemies.Add(new Map.Enemy()
                     {
-                        EnemyName = nbtShort.Value,
-                        Chance = nbtByte.ByteValue
+                        EnemyName = enemyName.Value,
+                        Chance = enemyfrequency.ByteValue
                     });
                 }
                 map.Spawns.Add(enemySpawn);
@@ -438,117 +468,122 @@ namespace Violet.Maps
 
         private static void LoadCollisions(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag = mapTag.Get("mesh");
-            if (!(nbtTag is ICollection<NbtTag>))
+            // Check if the mapTag has a "mesh" property
+            NbtTag meshTag = mapTag.Get("mesh");
+
+            // Return if the meshTag is not a collection
+            if (!(meshTag is ICollection<NbtTag>))
             {
                 return;
             }
 
-            foreach (NbtList nbtList in (IEnumerable<NbtTag>)nbtTag)
+            // Iterate through each mesh list in the collection
+            foreach (NbtList meshList in (IEnumerable<NbtTag>)meshTag)
             {
+                // Create a list of points
                 List<Vector2f> points = new List<Vector2f>();
-                for (int tagIndex = 0; tagIndex < nbtList.Count; tagIndex += 2)
+
+                // Iterate through every two tags in the mesh list
+                for (int tagIndex = 0; tagIndex < meshList.Count; tagIndex += 2)
                 {
-                    int x = nbtList.Get<NbtInt>(tagIndex).Value;
-                    int y = nbtList.Get<NbtInt>(tagIndex + 1).Value;
+                    // Get the x and y values as integers
+                    int x = meshList.Get<NbtInt>(tagIndex).Value;
+                    int y = meshList.Get<NbtInt>(tagIndex + 1).Value;
+
+                    // Add a new Vector2f with the x and y values to the points list
                     points.Add(new Vector2f(x, y));
                 }
+                // Create new mesh with points
                 Mesh mesh = new Mesh(points);
                 map.Mesh.Add(mesh);
-            }
-
-        }
-
-        private static void LoadTileAnimations(Map map, NbtCompound mapTag)
-        {
-            NbtTag nbtTag = mapTag.Get("anim");
-            if (!(nbtTag is ICollection<NbtTag>))
-            {
-                return;
-            }
-
-            foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
-            {
-                NbtInt nbtInt = nbtCompound.Get<NbtInt>("tid");
-                if (nbtInt != null)
-                {
-                    Map.TileAnimation tileAnimation = new Map.TileAnimation()
-                    {
-                        Id = nbtCompound.Get<NbtInt>("id").Value,
-                        Frames = nbtCompound.Get<NbtInt>("fc").Value,
-                        SkipVert = nbtCompound.Get<NbtInt>("vs").Value,
-                        SkipHoriz = nbtCompound.Get<NbtInt>("hs").Value,
-                        Speed = nbtCompound.Get<NbtFloat>("fs").Value
-                    };
-                    map.TileAnimationProperties.Add(nbtInt.Value, tileAnimation);
-                }
             }
         }
 
         private static void LoadTileGroups(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag1 = mapTag.Get("tiles");
-            if (!(nbtTag1 is ICollection<NbtTag>))
+            // Check if the mapTag has a "tiles" property
+            NbtTag tilesTag = mapTag.Get("tiles");
+
+            // Return if the tilesTag is not a collection
+            if (!(tilesTag is ICollection<NbtTag>))
             {
                 return;
             }
 
-            foreach (NbtTag nbtTag2 in (IEnumerable<NbtTag>)nbtTag1)
+            // Iterate through each tile compound in the tilesTag collection
+            foreach (NbtTag tileTag in (IEnumerable<NbtTag>)tilesTag)
             {
-                if (nbtTag2 is NbtCompound)
+                // Check if the tileTag is a compound
+                if (tileTag is NbtCompound tileCompound)
                 {
-                    // grab tiles
-                    NbtCompound nbtCompound = (NbtCompound)nbtTag2;
-                    int num1 = nbtCompound.Get<NbtInt>("depth").Value;
-                    int num2 = nbtCompound.Get<NbtInt>("x").Value;
-                    int num3 = nbtCompound.Get<NbtInt>("y").Value;
-                    int num4 = nbtCompound.Get<NbtInt>("w").Value;
+                    // Get the values from the tile compound
+                    int depth = tileCompound.Get<NbtInt>("depth").Value;
+                    int x = tileCompound.Get<NbtInt>("x").Value;
+                    int y = tileCompound.Get<NbtInt>("y").Value;
+                    int width = tileCompound.Get<NbtInt>("w").Value;
 
-                    byte[] src = nbtCompound.Get<NbtByteArray>("tiles").Value;
+                    // Get the tiles as a byte array and convert it to a ushort array
+                    byte[] src = tileCompound.Get<NbtByteArray>("tiles").Value;
                     ushort[] dst = new ushort[src.Length / 2];
                     Buffer.BlockCopy(src, 0, dst, 0, src.Length);
+
+                    // Create a new Group object with the values
                     Map.Group group = new Map.Group()
                     {
-                        Depth = num1,
-                        X = num2,
-                        Y = num3,
-                        Width = num4,
-                        Height = dst.Length / 2 / num4,
+                        Depth = depth,
+                        X = x,
+                        Y = y,
+                        Width = width,
+                        Height = dst.Length / 2 / width,
                         Tiles = dst
                     };
+
+                    // Add the Group object to the map's Groups list
                     map.Groups.Add(group);
                 }
             }
-
         }
 
         private static void LoadParallax(Map map, NbtCompound mapTag)
         {
-            NbtTag nbtTag = mapTag.Get("parallax");
-            if (!(nbtTag is ICollection<NbtTag>))
+            // Check if the mapTag has a "parallax" property
+            NbtTag parallaxTag = mapTag.Get("parallax");
+
+            // Return if the parallaxTag is not a collection
+            if (!(parallaxTag is ICollection<NbtTag>))
             {
                 return;
             }
 
-            foreach (NbtCompound nbtCompound in (IEnumerable<NbtTag>)nbtTag)
+            // Iterate through each parallax compound in the parallaxTag collection
+            foreach (NbtCompound parallaxCompound in (IEnumerable<NbtTag>)parallaxTag)
             {
-                string stringValue = nbtCompound.Get<NbtString>("spr").StringValue;
-                float floatValue1 = nbtCompound.Get<NbtFloat>("vx").FloatValue;
-                float floatValue2 = nbtCompound.Get<NbtFloat>("vy").FloatValue;
-                float floatValue3 = nbtCompound.Get<NbtFloat>("x").FloatValue;
-                float floatValue4 = nbtCompound.Get<NbtFloat>("y").FloatValue;
-                float floatValue5 = nbtCompound.Get<NbtFloat>("w").FloatValue;
-                float floatValue6 = nbtCompound.Get<NbtFloat>("h").FloatValue;
+                // Get the values from the parallax compound
+                string sprite = parallaxCompound.Get<NbtString>("spr").StringValue;
+                int shader = parallaxCompound.Get<NbtInt>("shdrmde").IntValue;
+
+                float vectorX = parallaxCompound.Get<NbtFloat>("vx").FloatValue;
+                float vectorY = parallaxCompound.Get<NbtFloat>("vy").FloatValue;
+
+                float x = parallaxCompound.Get<NbtFloat>("x").FloatValue;
+                float y = parallaxCompound.Get<NbtFloat>("y").FloatValue;
+
+                float width = parallaxCompound.Get<NbtFloat>("w").FloatValue;
+                float height = parallaxCompound.Get<NbtFloat>("h").FloatValue;
+
+                // Create a new Parallax object with the values
                 Map.Parallax parallax = new Map.Parallax()
                 {
-                    Sprite = stringValue,
-                    Vector = new Vector2f(floatValue1, floatValue2),
-                    Area = new IntRect((int)floatValue3, (int)floatValue4, (int)floatValue5, (int)floatValue6),
-                    Depth = short.MinValue
+                    Sprite = sprite,
+                    Vector = new Vector2f(vectorX, vectorY),
+                    Area = new IntRect((int)x, (int)y, (int)width, (int)height),
+                    Depth = short.MinValue,
+                    ShaderMode = shader,
                 };
+
+                // Add the Parallax object to the map's Parallaxes list
                 map.Parallaxes.Add(parallax);
             }
-
         }
     }
 }

@@ -27,14 +27,9 @@ namespace Violet.Graphics
             this.texture = TextureManager.Instance.Use(resource);
             int x = (int)this.texture.Image.Size.X;
             int y = (int)this.texture.Image.Size.Y;
-            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
-            this.shader.SetUniform("image", this.texture.Image);
-            this.shader.SetUniform("palette", this.texture.Palette);
-            this.shader.SetUniform("palIndex", 0f);
-            this.shader.SetUniform("palSize", this.texture.PaletteSize);
-            this.shader.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(Color.White));
-            this.shader.SetUniform("blendMode", 1f);
-            this.states = new RenderStates(BlendMode.Alpha, Transform.Identity, this.texture.Image, this.shader);
+            
+            SetShader();
+
             float num = area.Width / (float)x;
             float num2 = area.Height / (float)y;
             this.xRepeatCount = (int)Math.Ceiling(num) + (xRepeat ? 1 : 0);
@@ -54,6 +49,18 @@ namespace Violet.Graphics
             this.origin = new Vector2f(0f, 0f);
         }
 
+        protected virtual void SetShader()
+        {
+            this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.pal.vert"), null, EmbeddedResources.GetStream("Violet.Resources.pal.frag"));
+            this.shader.SetUniform("image", this.texture.Image);
+            this.shader.SetUniform("palette", this.texture.Palette);
+            this.shader.SetUniform("palIndex", 0f);
+            this.shader.SetUniform("palSize", this.texture.PaletteSize);
+            this.shader.SetUniform("blend", new SFML.Graphics.Glsl.Vec4(Color.White));
+            this.shader.SetUniform("blendMode", 1f);
+            this.states = new RenderStates(BlendMode.Alpha, Transform.Identity, this.texture.Image, this.shader);
+        }
+
         public override void Draw(RenderTarget target)
         {
             for (int i = 0; i < this.yRepeatCount; i++)
@@ -67,7 +74,7 @@ namespace Violet.Graphics
             }
         }
 
-        private void Wrap(Sprite sprite)
+        protected void Wrap(Sprite sprite)
         {
             if (sprite.Position.X < area.Left)
             {
@@ -106,24 +113,24 @@ namespace Violet.Graphics
             this.disposed = true;
         }
 
-        private IntRect area;
+        protected IntRect area;
 
         protected int xRepeatCount;
 
         protected int yRepeatCount;
 
-        private bool xRepeat;
+        protected bool xRepeat;
 
-        private bool yRepeat;
+        protected bool yRepeat;
 
-        private Vector2f velocity;
+        protected Vector2f velocity;
 
         protected IndexedTexture texture;
 
         protected Sprite[,] sprites;
 
-        private Shader shader;
+        protected Shader shader;
 
-        private RenderStates states;
+        protected RenderStates states;
     }
 }

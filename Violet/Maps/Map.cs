@@ -351,6 +351,8 @@ namespace Violet.Maps
             public IntRect Area;
 
             public int Depth;
+
+            public int ShaderMode;
         }
     }
 }

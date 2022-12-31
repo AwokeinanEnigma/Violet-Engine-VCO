@@ -89,7 +89,7 @@ namespace VCO.Overworld
             foreach (Map.Parallax parallax in map.Parallaxes)
             {
                 string sprite = DataHandler.instance.Load(parallax.Sprite + ".dat");
-                ParallaxBackground item = new ParallaxBackground(sprite, parallax.Vector, parallax.Area, parallax.Depth);
+                ParallaxBackground item = new ParallaxBackground(sprite, parallax.Vector, parallax.Area, parallax.Depth, parallax.ShaderMode);
                 list.Add(item);
             }
             return list;

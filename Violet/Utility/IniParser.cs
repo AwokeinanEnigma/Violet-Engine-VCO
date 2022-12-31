@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Violet.Utility
 {
     /// <summary>
-    /// TAKEN FROM https://github.com/Enichan/Ini/blob/master/Ini.cs
+    /// TAKEN FROM https://github.com/Enichan/Ini/blob/master/Ini.cs 
     /// Special thanks to Enichan.
     /// </summary>
     public struct IniValue
