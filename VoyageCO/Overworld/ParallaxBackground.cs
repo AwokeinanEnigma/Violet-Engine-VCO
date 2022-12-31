@@ -25,7 +25,7 @@ namespace VCO.Overworld
 
         public ParallaxBackground(string sprite, Vector2f vector, IntRect area, int depth, int shaderMode) : base(sprite, area, true, true, VectorMath.ZERO_VECTOR, depth)
         {
-            this.mode = (ParallaxShaderMode. shaderMode);
+            this.mode = (ParallaxShaderMode)shaderMode;
 
             this.vector = vector;
             this.areaPoint = new Vector2f(area.Left, area.Top);

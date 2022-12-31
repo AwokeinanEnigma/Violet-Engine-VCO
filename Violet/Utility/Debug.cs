@@ -61,7 +61,7 @@ namespace Violet
         /// <param name="message">The message to display.</param>
         /// <param name="callerFilePath">Ignore this.</param>
         /// <param name="callerLineNumber">Ignore this.</param>
-        public static void LogEngine(
+        internal static void LogEngine(
         object message,
         [CallerFilePath] string callerFilePath = "",
         [CallerLineNumber] int callerLineNumber = 0)
