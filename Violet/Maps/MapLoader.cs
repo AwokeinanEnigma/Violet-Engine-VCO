@@ -152,14 +152,14 @@ namespace Violet.Maps
         }
 
         // my code is perfect
-        #pragma warning disable 
+#pragma warning disable
 
         private static void LoadBGM(Map map, NbtCompound mapTag)
         {
             NbtTag nbtTag = mapTag.Get("audbgm");
             if (!(nbtTag is ICollection<NbtTag>))
             {
-                return ;
+                return;
             }
 
             if (nbtTag != null)
@@ -444,7 +444,7 @@ namespace Violet.Maps
 
                 NbtList enemyIds = enemySpawnCompound.Get<NbtList>("enids");
                 NbtList enemyFrequencies = enemySpawnCompound.Get<NbtList>("enfreqs");
-                
+
                 // Go through each enemy ID
                 for (int tagIndex = 0; tagIndex < enemyIds.Count; ++tagIndex)
                 {
@@ -546,6 +546,7 @@ namespace Violet.Maps
 
         private static void LoadParallax(Map map, NbtCompound mapTag)
         {
+
             // Check if the mapTag has a "parallax" property
             NbtTag parallaxTag = mapTag.Get("parallax");
 
@@ -580,10 +581,10 @@ namespace Violet.Maps
                     Depth = short.MinValue,
                     ShaderMode = shader,
                 };
-
-                // Add the Parallax object to the map's Parallaxes list
                 map.Parallaxes.Add(parallax);
             }
+            // Add the Parallax object to the map's Parallaxes list
         }
+
     }
 }
