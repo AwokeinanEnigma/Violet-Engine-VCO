@@ -1,4 +1,5 @@
 ﻿using MoonSharp.Interpreter;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace VCO
     internal class Program
     {
         private static float _sixty_fps = 1.0f / 60.0f;
-        private static float _technically_sixty_fps = 1.0f / 61.0f;
+        private static float _technically_sixty_fps = 1.0f / 59.0f;
 
         private static float _deltaTime = 1;
         private static int _frameLoops = 0;
@@ -31,6 +32,9 @@ namespace VCO
         private static float _accumulator = 0;
 
         private static Clock frameTimer;
+
+        private static Text deltaText;
+
 
         private static List<string> _funnyWindowNames = new List<string>()
         {
@@ -72,6 +76,12 @@ namespace VCO
             time = frameTimer.ElapsedTime.AsSeconds();
             lastTime = time;
 
+            deltaText = new Text("aaa", DefaultFont.Font, DefaultFont.Size);
+            deltaText.FillColor = SFML.Graphics.Color.Red;
+            deltaText.Position = new Vector2f(deltaText.Position.X, 150);
+            //debugText.FillColor.
+            ClearColor = SFML.Graphics.Color.Black;
+
             try
             {
                 SceneManager.Instance.Push(newScene);
@@ -82,15 +92,22 @@ namespace VCO
                     _deltaTime = time - lastTime;
                     lastTime = time;
 
+
                     if (_deltaTime > _maxDeltaTime)
                     {
-                        Violet.Debug.Log($"Passed the threshold for max deltaTime, deltaTime is {_deltaTime}, lastTime is {lastTime}");
+                        Violet.Debug.LogWarning($"Passed the threshold for max deltaTime, deltaTime is {_deltaTime}, lastTime is {lastTime}");
                         _deltaTime = _maxDeltaTime;
                     }
 
+                    //_deltaTime = 0.01666666666F;
+
                     _accumulator += _deltaTime;
+                    deltaText.DisplayedString = $"d {_deltaTime}" + Environment.NewLine + 
+                        $"a {_accumulator}";
                     _frameLoops = 0;
-                    
+
+
+
                     while (_accumulator >= _technically_sixty_fps)
                     {
                         if (_frameLoops >= MAX_FRAMESKIP)
@@ -109,14 +126,20 @@ namespace VCO
                             _accumulator = 0.0f;
                             break;
                         }
-                        
+
+   
                         Update();
+                        if (debugDisplay)
+                        {
+                            FrameBuffer.Draw(deltaText);
+                        }
                         Render();
+
+
 
                         _accumulator -= _sixty_fps;
 
                         _frameLoops++;
-
 
                     }
                 }

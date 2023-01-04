@@ -591,6 +591,7 @@ namespace Violet
                 //window.SetFramerateLimit(target_framerate);
                 window.SetVerticalSyncEnabled(true);
                 //   
+                //window.SetFramerateLimit(target_framerate);
             }
             else
             {

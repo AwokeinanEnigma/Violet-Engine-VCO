@@ -94,7 +94,7 @@ namespace Violet.GUI
 			this.drawText.Position = new Vector2f(position.X + (float)this.font.XCompensation, position.Y + (float)this.font.YCompensation);
 			this.UpdateText(index, length);
 			this.shader = new Shader(EmbeddedResources.GetStream("Violet.Resources.text.vert"), null , EmbeddedResources.GetStream("Violet.Resources.text.frag"));
-			this.shader.SetParameter("color", this.drawText.Color);
+			this.shader.SetUniform("color",  new SFML.Graphics.Glsl.Vec4( this.drawText.FillColor ));
 			this.shader.SetUniform("threshold", font.AlphaThreshold);
 			this.renderStates = new RenderStates(BlendMode.Alpha, Transform.Identity, null, this.shader);
 		}
