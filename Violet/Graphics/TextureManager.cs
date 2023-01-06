@@ -19,7 +19,7 @@ namespace Violet.Graphics
         {
             get
             {
-                return TextureManager.instance;
+                return instance;
             }
         }
 
@@ -108,17 +108,17 @@ namespace Violet.Graphics
                         float[] speeds = (speedSet != null) ? new float[speedSet.Count] : new float[0];
                         for (int i = 0; i < speeds.Length; i++)
                         {
-                            NbtTag nbtTag4 = speedSet[i];
-                            speeds[i] = nbtTag4.FloatValue;
+                            NbtTag speedValue = speedSet[i];
+                            speeds[i] = speedValue.FloatValue;
                         }
-                        SpriteDefinition spriteDefinition2 = new SpriteDefinition(text, coords, bounds, origin, frames, speeds, flipX, flipY, mode, data);
+                        SpriteDefinition newSpriteDefinition = new SpriteDefinition(text, coords, bounds, origin, frames, speeds, flipX, flipY, mode, data);
                         if (spriteDefinition == null)
                         {
-                            spriteDefinition = spriteDefinition2;
+                            spriteDefinition = newSpriteDefinition;
                         }
 
                         int key = text.GetHashCode();
-                        spriteDefinitions.Add(key, spriteDefinition2);
+                        spriteDefinitions.Add(key, newSpriteDefinition);
                     }
                 }
             }

@@ -38,6 +38,7 @@ namespace Violet.Scenes
         /// </summary>
         public virtual void Focus()
         {
+            Debug.Log("focus");
         }
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace Violet.Scenes
         /// </summary>
         public virtual void Unfocus()
         {
+            Debug.Log("unfocus");
         }
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace Violet.Scenes
         /// </summary>
         public virtual void Unload()
         {
+            Debug.Log("mortis");
         }
 
         /// <summary>

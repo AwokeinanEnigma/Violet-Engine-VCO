@@ -35,38 +35,47 @@ namespace Violet.Graphics
         /// The name of the sprite
         /// </summary>
         public string Name { get; private set; }
+        
         /// <summary>
         /// The coords of the sprite
         /// </summary>
         public Vector2i Coords { get; private set; }
+        
         /// <summary>
         /// The bounds of the sprite
         /// </summary>
         public Vector2i Bounds { get; private set; }
+        
         /// <summary>
         /// The origin of the sprite
         /// </summary>
         public Vector2f Origin { get; private set; }
+        
         /// <summary>
         /// How many frames this sprite definition has
         /// </summary>
         public int Frames { get; private set; }
+        
         /// <summary>
         /// The speeds of the animations within the sprite definitions
         /// </summary>
         public float[] Speeds { get; private set; }
+        
         /// <summary>
         /// Should we flip this sprite horizontally?
         /// </summary>
         public bool FlipX { get; private set; }
+        
         /// <summary>
         /// Should we flip this sprite vertically
         /// </summary>
         public bool FlipY { get; private set; }
+        
         /// <summary>
         /// What mode this sprite definition is in
         /// </summary>
         public AnimationMode Mode { get; private set; }
+        
         /// <summary>
         /// Additional data
         /// </summary>
@@ -77,7 +86,7 @@ namespace Violet.Graphics
         /// Creates a new sprite definition
         /// </summary>
         /// <param name="name">The name of the Sprite Definition</param>
-        /// <param name="coords"></param>
+        /// <param name="coords">The coordinates of the sprite definition relat</param>
         /// <param name="bounds"></param>
         /// <param name="origin"></param>
         /// <param name="frames"></param>

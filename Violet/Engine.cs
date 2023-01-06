@@ -581,7 +581,7 @@ namespace Violet
 
 
             window = new RenderWindow(desktopMode, WindowName, style);
-            
+
             window.Closed += OnWindowClose;
             InputManager.Instance.AttachToWindow(window);
             window.SetMouseCursorVisible(!goFullscreen);
@@ -722,7 +722,7 @@ namespace Violet
                 cursorTimer = long.MaxValue;
             }
 
-            
+
 
             // This is wrapped in a try catch statement to detect errors and such.
             try
@@ -754,13 +754,14 @@ namespace Violet
                 SceneManager.Instance.Transition = new InstantTransition();
                 SceneManager.Instance.Push(new ErrorScene(ex));
             }
-          
+
             ViewManager.Instance.UseDefault();
 
 
         }
 
-        public static void Render() {
+        public static void Render()
+        {
 
 
 

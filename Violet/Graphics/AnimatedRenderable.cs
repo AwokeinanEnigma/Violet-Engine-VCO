@@ -73,6 +73,7 @@ namespace Violet.Graphics
         {
             OnAnimationComplete?.Invoke(this);
         }
+
         protected int frames;
         protected float frame;
         protected float speedIndex;

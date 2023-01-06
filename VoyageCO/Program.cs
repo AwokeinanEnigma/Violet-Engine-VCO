@@ -102,7 +102,7 @@ namespace VCO
                     //_deltaTime = 0.01666666666F;
 
                     _accumulator += _deltaTime;
-                    deltaText.DisplayedString = $"d {_deltaTime}" + Environment.NewLine + 
+                    deltaText.DisplayedString = $"d {_deltaTime}" + Environment.NewLine +
                         $"a {_accumulator}";
                     _frameLoops = 0;
 
@@ -127,7 +127,7 @@ namespace VCO
                             break;
                         }
 
-   
+
                         Update();
                         if (debugDisplay)
                         {
