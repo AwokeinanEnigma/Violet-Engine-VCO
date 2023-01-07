@@ -106,6 +106,7 @@ namespace Violet.Graphics
                 uncoloredPixels[pixels].R = image[pixels];
                 uncoloredPixels[pixels].G = image[pixels];
                 uncoloredPixels[pixels].B = image[pixels];
+                Debug.Log($"r{image[pixels]}b{image[pixels]}c{image[pixels]}");
                 pixels++;
             }
             this.paletteTex = new Texture(this.palSize, this.totalPals);

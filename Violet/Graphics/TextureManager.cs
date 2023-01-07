@@ -80,16 +80,16 @@ namespace Violet.Graphics
                         int[] coordinatesArray = spriteCompound.TryGet<NbtIntArray>("crd", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
                         int[] boundsArray = spriteCompound.TryGet<NbtIntArray>("bnd", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
                         int[] originArray = spriteCompound.TryGet<NbtIntArray>("org", out dummyIntArray) ? dummyIntArray.IntArrayValue : new int[2];
-                   
+
                         byte[] optionsArray = spriteCompound.TryGet<NbtByteArray>("opt", out NbtByteArray nbtByteArray) ? nbtByteArray.ByteArrayValue : new byte[3];
-                      
+
                         IList<NbtTag> speedSet = spriteCompound.Get<NbtList>("spd");
                         int frames = spriteCompound.TryGet<NbtInt>("frm", out NbtInt nbtInt) ? nbtInt.IntValue : 1;
 
                         // this is only found on tilesets put through VEMC
                         NbtIntArray dataArray = spriteCompound.Get<NbtIntArray>("d");
                         int[] data = (dataArray == null) ? null : dataArray.IntArrayValue;
-                       
+
                         Vector2i coords = new Vector2i(coordinatesArray[0], coordinatesArray[1]);
                         Vector2i bounds = new Vector2i(boundsArray[0], boundsArray[1]);
                         Vector2f origin = new Vector2f(originArray[0], originArray[1]);
